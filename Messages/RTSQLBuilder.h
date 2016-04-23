@@ -1,0 +1,22 @@
+//
+//  RTSQLBuilder.h
+//  ReTxt
+//
+//  Created by Kevin Wooten on 7/14/14.
+//  Copyright (c) 2014 reTXT Labs, LLC. All rights reserved.
+//
+
+@import Foundation;
+
+
+@interface RTSQLBuilder : NSObject
+
+@property (nonatomic, strong) NSString *selectFields;
+@property (nonatomic, readonly) NSDictionary *parameters;
+
+-(instancetype) initWithRootClass:(NSString *)rootClassName tableNames:(NSDictionary *)tableNames;
+
+-(NSString *) processPredicate:(NSPredicate *)predicate sortedBy:(NSArray *)sortDescriptors offset:(NSUInteger)offset limit:(NSUInteger)limit;
+
+@end
+
