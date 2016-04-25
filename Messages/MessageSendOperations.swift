@@ -10,12 +10,13 @@ import Foundation
 import Operations
 import Thrift
 
+
 /*
   Message send meta-operation
 
   Group operation that handles all different stages of sending messages.
 */
-@objc public class MessageSendBaseOperation: MessageAPIGroupOperation, MessageContext, MessageResolveContext, MessageTransmitContext {
+class MessageSendBaseOperation: MessageAPIGroupOperation, MessageContext, MessageResolveContext, MessageTransmitContext {
   
   let message : RTMessage
   var recipientInformation : [String: RTUserInfo]?
@@ -27,7 +28,7 @@ import Thrift
     return message.chat.activeRecipients
   }
   
-  init(message: RTMessage, api: RTMessageAPI) {
+  init(message: RTMessage, api: MessageAPI) {
     
     self.message = message
     
@@ -38,7 +39,7 @@ import Thrift
         startHandler: { op in
           
           if (message.status != .Sending) {
-            api.messageDAO.updateMessage(message, withStatus: .Sending)
+            try! api.messageDAO.updateMessage(message, withStatus: .Sending)
           }
           
         },
@@ -47,7 +48,7 @@ import Thrift
           
           if !errors.isEmpty {
             
-            api.messageDAO.updateMessage(message, withStatus: api.networkUnavailable ? .Unsent : .Failed)
+            try! api.messageDAO.updateMessage(message, withStatus: api.networkAvailable ? .Failed : .Unsent)
             
           }
           
@@ -56,7 +57,7 @@ import Thrift
     )
   }
   
-  public override func childOperation(operation: NSOperation, didFinishWithErrors errors: [NSError]) {
+  override func childOperation(operation: NSOperation, didFinishWithErrors errors: [NSError]) {
     
     if errors.isEmpty {
       return
@@ -76,21 +77,21 @@ import Thrift
   the send of a message. Includes retrying the operations
   that require network access.
 */
-@objc public class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
+class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
   
   
   var metaData : NSDictionary?
   var key : NSData?
   
   
-  public required override init(message: RTMessage, api: RTMessageAPI) {
+  internal required override init(message: RTMessage, api: MessageAPI) {
     
     super.init(message: message, api: api)
     
     addCondition(RequireAuthorization(api: api))
 
     let failures : [String: Int?] = [
-      RTAPIErrorDomain: Int(RTAPIError.AuthenticationError.rawValue)
+      "MessageAPIErrorDomain": MessageAPIError.AuthenticationError.rawValue  //FIXME not sure this works with new errors
     ]
     
     // Resolve operation
@@ -148,9 +149,9 @@ import Thrift
   off to the background transfer service and need to be recreated
   because of app shutdown during transfer
 */
-@objc public class MessageSendResurrectedOperation: MessageSendBaseOperation {
+class MessageSendResurrectedOperation: MessageSendBaseOperation {
   
-  required public init(msgPack: RTMsgPack, task: NSURLSessionUploadTask, api: RTMessageAPI) throws {
+  required init(msgPack: RTMsgPack, task: NSURLSessionUploadTask, api: MessageAPI) throws {
     
     super.init(message: try api.messageDAO.fetchMessageWithId(msgPack.id)!, api: api)
     

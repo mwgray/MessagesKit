@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2257EBB9F7232D27B84A4C42 /* Pods_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */; };
 		7D3612C08EF94D04AB417062 /* Pods_Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D9A54E82B3CA539F58B595 /* Pods_Messages.framework */; };
+		812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */; };
 		AA05D21A1CC827A20051039E /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2181CC827A20051039E /* NSObject+Utils.h */; };
 		AA05D21B1CC827A20051039E /* NSObject+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2191CC827A20051039E /* NSObject+Utils.m */; };
 		AA05D2201CC829810051039E /* NSObject+Properties.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D21C1CC829810051039E /* NSObject+Properties.h */; };
@@ -32,21 +34,21 @@
 		AA05D2581CC94C5D0051039E /* DataReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2571CC94C5D0051039E /* DataReference.swift */; };
 		AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D25B1CCABCB00051039E /* CGSize+Utils.m */; };
 		AA05D25E1CCABCB00051039E /* CGSize+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D25C1CCABCB00051039E /* CGSize+Utils.h */; };
-		AA490DA81CCAEFAC0010FC17 /* RTMessageAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B11CC163B400F1A3B0 /* RTMessageAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA490DAB1CCAF0500010FC17 /* RTPersistentCache.h in Headers */ = {isa = PBXBuildFile; fileRef = AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA490DA81CCAEFAC0010FC17 /* RTMessageAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B11CC163B400F1A3B0 /* RTMessageAPI.h */; };
+		AA490DAB1CCAF0500010FC17 /* RTPersistentCache.h in Headers */ = {isa = PBXBuildFile; fileRef = AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */; };
 		AA490DAC1CCAF0500010FC17 /* RTPersistentCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AA490DAA1CCAF0500010FC17 /* RTPersistentCache.m */; };
 		AA490DAD1CCAF1970010FC17 /* RTAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* RTAPIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* RTUserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* RTUserStatusInfo.m */; };
 		AA490DAF1CCAF1A80010FC17 /* RTWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BC1CC163B400F1A3B0 /* RTWebSocket.m */; };
 		AA490DB01CCAF1AD0010FC17 /* RTCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BE1CC163B400F1A3B0 /* RTCredentials.m */; };
-		AA490DB11CCAF1B10010FC17 /* NSURLSessionConfiguration+RTMessageAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BF1CC163B400F1A3B0 /* NSURLSessionConfiguration+RTMessageAPI.h */; };
+		AA490DB11CCAF1B10010FC17 /* NSURLSessionConfiguration+RTMessageAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BF1CC163B400F1A3B0 /* NSURLSessionConfiguration+RTMessageAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA490DB21CCAF1B50010FC17 /* NSURLSessionConfiguration+RTMessageAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917C01CC163B400F1A3B0 /* NSURLSessionConfiguration+RTMessageAPI.m */; };
 		AA490DB31CCAF1B90010FC17 /* RTURLSessionSSLValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917C21CC163B400F1A3B0 /* RTURLSessionSSLValidator.m */; };
 		AA490DB41CCAF1C80010FC17 /* RTURLSessionSSLValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917C11CC163B400F1A3B0 /* RTURLSessionSSLValidator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA490DB51CCAF1CC0010FC17 /* BackgroundSessionOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9917C31CC163B400F1A3B0 /* BackgroundSessionOperations.swift */; };
-		AA490DB61CCAF1CF0010FC17 /* RTHTTPSessionTransportFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917C41CC163B400F1A3B0 /* RTHTTPSessionTransportFactory.h */; };
+		AA490DB61CCAF1CF0010FC17 /* RTHTTPSessionTransportFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917C41CC163B400F1A3B0 /* RTHTTPSessionTransportFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA490DB71CCAF1D30010FC17 /* RTHTTPSessionTransportFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917C51CC163B400F1A3B0 /* RTHTTPSessionTransportFactory.m */; };
-		AA490DB81CCAF57B0010FC17 /* RTMessageAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B21CC163B400F1A3B0 /* RTMessageAPI+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA490DB81CCAF57B0010FC17 /* RTMessageAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B21CC163B400F1A3B0 /* RTMessageAPI+Internal.h */; };
 		AA490DB91CCAF59E0010FC17 /* MessageContexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9917E01CC163CD00F1A3B0 /* MessageContexts.swift */; };
 		AA490DBA1CCAF59E0010FC17 /* MessageOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9917E11CC163CD00F1A3B0 /* MessageOperations.swift */; };
 		AA490DBB1CCAF59E0010FC17 /* MessageSendOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9917E21CC163CD00F1A3B0 /* MessageSendOperations.swift */; };
@@ -72,9 +74,24 @@
 		AA490DCF1CCAF59E0010FC17 /* UpdateAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9917F61CC163CD00F1A3B0 /* UpdateAccessToken.swift */; };
 		AA490DD01CCAF5A30010FC17 /* RequireAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA99180F1CC163DF00F1A3B0 /* RequireAuthorization.swift */; };
 		AA490DD11CCAF5A30010FC17 /* RequireAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918101CC163DF00F1A3B0 /* RequireAccessToken.swift */; };
-		AA490DD21CCAF8360010FC17 /* RTMessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850581CC2BB040034C46D /* RTMessageAPI.swift */; };
-		AA490DD31CCB14D80010FC17 /* RTMessageAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B31CC163B400F1A3B0 /* RTMessageAPI.m */; };
-		AA5850121CC1C0360034C46D /* NSData+Random.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850101CC1C0360034C46D /* NSData+Random.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */; };
+		AA4FCFFA1CCC3C3800C0DE2A /* ResendUnsentMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */; };
+		AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */; };
+		AA4FD0411CCCA78100C0DE2A /* FMResultSet+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */; };
+		AA4FD0431CCCADF300C0DE2A /* DataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0421CCCADF300C0DE2A /* DataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4FD0461CCCAF0F00C0DE2A /* BlobDataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4FD0471CCCAF0F00C0DE2A /* BlobDataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */; };
+		AA4FD04A1CCCAF8C00C0DE2A /* MemoryDataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4FD04B1CCCAF8C00C0DE2A /* MemoryDataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */; };
+		AA4FD04E1CCCAF9D00C0DE2A /* FileDataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4FD04F1CCCAF9D00C0DE2A /* FileDataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */; };
+		AA4FD0521CCD350F00C0DE2A /* DataReferences.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0501CCD350F00C0DE2A /* DataReferences.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4FD0531CCD350F00C0DE2A /* DataReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0511CCD350F00C0DE2A /* DataReferences.m */; };
+		AA4FD0551CCD4E9000C0DE2A /* MessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0541CCD4E9000C0DE2A /* MessageAPI.swift */; };
+		AA4FD0571CCD8AFC00C0DE2A /* SendReceiptOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0561CCD8AFC00C0DE2A /* SendReceiptOperation.swift */; };
+		AA4FD05A1CCD918500C0DE2A /* MessageAPI+Compat.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4FD05B1CCD918500C0DE2A /* MessageAPI+Compat.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */; };
+		AA5850121CC1C0360034C46D /* NSData+Random.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850101CC1C0360034C46D /* NSData+Random.h */; };
 		AA5850131CC1C0360034C46D /* NSData+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850111CC1C0360034C46D /* NSData+Random.m */; };
 		AA5850181CC1C4510034C46D /* NSArray+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850141CC1C4510034C46D /* NSArray+Utils.h */; };
 		AA5850191CC1C4510034C46D /* NSArray+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850151CC1C4510034C46D /* NSArray+Utils.m */; };
@@ -91,7 +108,7 @@
 		AA58502F1CC1DF260034C46D /* NSURL+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58502D1CC1DF260034C46D /* NSURL+Utils.m */; };
 		AA5850321CC1DFCE0034C46D /* NSDate+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850301CC1DFCE0034C46D /* NSDate+Utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA5850331CC1DFCE0034C46D /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850311CC1DFCE0034C46D /* NSDate+Utils.m */; };
-		AA5850361CC1E12B0034C46D /* RTReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850341CC1E12B0034C46D /* RTReachability.h */; };
+		AA5850361CC1E12B0034C46D /* RTReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850341CC1E12B0034C46D /* RTReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA58503E1CC1E1A20034C46D /* NSData+Encoding.h in Headers */ = {isa = PBXBuildFile; fileRef = AA58503C1CC1E1A20034C46D /* NSData+Encoding.h */; };
 		AA58503F1CC1E1A20034C46D /* NSData+Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = AA58503D1CC1E1A20034C46D /* NSData+Encoding.m */; };
 		AA5850421CC1E1B10034C46D /* NSData+CommonDigest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850401CC1E1B10034C46D /* NSData+CommonDigest.h */; };
@@ -102,6 +119,7 @@
 		AA58504B1CC1F18A0034C46D /* RTWeakReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850491CC1F18A0034C46D /* RTWeakReference.m */; };
 		AA5850531CC22E800034C46D /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850521CC22E800034C46D /* GCD.swift */; };
 		AA5850571CC2B2030034C46D /* PersistentCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */; };
+		AA5920211CCDFA0C007B7D0D /* DataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5920201CCDFA0C007B7D0D /* DataReference.m */; };
 		AA61CD931CCB36B30029B5F2 /* RTSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD911CCB36B30029B5F2 /* RTSettings.h */; };
 		AA61CD941CCB36B30029B5F2 /* RTSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD921CCB36B30029B5F2 /* RTSettings.m */; };
 		AA61CD951CCB376B0029B5F2 /* RTReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850351CC1E12B0034C46D /* RTReachability.m */; };
@@ -145,7 +163,6 @@
 		AAB481F41CCADEC400EBFC5E /* RTMsgSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918941CC1645700F1A3B0 /* RTMsgSigner.swift */; };
 		AAB481F51CCADEC400EBFC5E /* RTAsymmetricKeyPairGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918961CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.m */; };
 		AAB481F61CCADEC400EBFC5E /* RTX509Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918981CC1645700F1A3B0 /* RTX509Utils.m */; };
-		AAB481F71CCADEC400EBFC5E /* MsgSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFDFB341CC5669700066707 /* MsgSigner.swift */; };
 		AADCA40D1CCB4FF100607C05 /* Migrations in Resources */ = {isa = PBXBuildFile; fileRef = AADCA40C1CCB4FF100607C05 /* Migrations */; };
 		AADCA40F1CCB501900607C05 /* Certificates in Resources */ = {isa = PBXBuildFile; fileRef = AADCA40E1CCB501900607C05 /* Certificates */; };
 		AADCA41B1CCBE67100607C05 /* empty.pem in Resources */ = {isa = PBXBuildFile; fileRef = AADCA4131CCBE67100607C05 /* empty.pem */; };
@@ -213,13 +230,11 @@
 		AAFDFB7C1CC5FF0200066707 /* RTMessages+Exts.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B01CC163B400F1A3B0 /* RTMessages+Exts.m */; };
 		AAFDFB7D1CC5FF0E00066707 /* RTServerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B71CC163B400F1A3B0 /* RTServerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB7E1CC5FF0E00066707 /* RTServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B81CC163B400F1A3B0 /* RTServerAPI.m */; };
-		AAFDFB7F1CC5FF1700066707 /* RTAPIError.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B51CC163B400F1A3B0 /* RTAPIError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAFDFB7F1CC5FF1700066707 /* RTAPIError.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B51CC163B400F1A3B0 /* RTAPIError.h */; };
 		AAFDFB801CC5FF2200066707 /* RTUserStatusInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B91CC163B400F1A3B0 /* RTUserStatusInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB811CC5FF2200066707 /* RTWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BB1CC163B400F1A3B0 /* RTWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB821CC5FF2200066707 /* RTCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BD1CC163B400F1A3B0 /* RTCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB831CC6022200066707 /* PersistentCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850501CC1F4FE0034C46D /* PersistentCache.swift */; };
-		AB5B0EB5534ED4D87066AC78 /* Pods_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */; };
-		C66ECBB436ADAEFBBC765BF3 /* Pods_Messages_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,7 +248,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3BD3AA68AA00FD1897F47B58 /* Pods-Messages-MessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.release.xcconfig"; sourceTree = "<group>"; };
+		464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.release.xcconfig"; sourceTree = "<group>"; };
 		477CD8044D99DDC7BFD842DD /* Pods-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesTests/Pods-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messages_MessagesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636D81C99BF283C3D64954EA /* Pods-Messages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages.release.xcconfig"; path = "Pods/Target Support Files/Pods-Messages/Pods-Messages.release.xcconfig"; sourceTree = "<group>"; };
@@ -268,6 +283,22 @@
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGSize+Utils.h"; sourceTree = "<group>"; };
 		AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTPersistentCache.h; sourceTree = "<group>"; };
 		AA490DAA1CCAF0500010FC17 /* RTPersistentCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPersistentCache.m; sourceTree = "<group>"; };
+		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectWebsocket.swift; sourceTree = "<group>"; };
+		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResendUnsentMessages.swift; sourceTree = "<group>"; };
+		AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMResultSet+Utils.swift"; sourceTree = "<group>"; };
+		AA4FD0421CCCADF300C0DE2A /* DataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReference.h; sourceTree = "<group>"; };
+		AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlobDataReference.h; sourceTree = "<group>"; };
+		AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlobDataReference.m; sourceTree = "<group>"; };
+		AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryDataReference.h; sourceTree = "<group>"; };
+		AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryDataReference.m; sourceTree = "<group>"; };
+		AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDataReference.h; sourceTree = "<group>"; };
+		AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDataReference.m; sourceTree = "<group>"; };
+		AA4FD0501CCD350F00C0DE2A /* DataReferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReferences.h; sourceTree = "<group>"; };
+		AA4FD0511CCD350F00C0DE2A /* DataReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataReferences.m; sourceTree = "<group>"; };
+		AA4FD0541CCD4E9000C0DE2A /* MessageAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
+		AA4FD0561CCD8AFC00C0DE2A /* SendReceiptOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendReceiptOperation.swift; sourceTree = "<group>"; };
+		AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MessageAPI+Compat.h"; sourceTree = "<group>"; };
+		AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MessageAPI+Compat.m"; sourceTree = "<group>"; };
 		AA5850101CC1C0360034C46D /* NSData+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Random.h"; sourceTree = "<group>"; };
 		AA5850111CC1C0360034C46D /* NSData+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Random.m"; sourceTree = "<group>"; };
 		AA5850141CC1C4510034C46D /* NSArray+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utils.h"; sourceTree = "<group>"; };
@@ -299,6 +330,7 @@
 		AA5850521CC22E800034C46D /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
 		AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentCacheTests.swift; sourceTree = "<group>"; };
 		AA5850581CC2BB040034C46D /* RTMessageAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMessageAPI.swift; sourceTree = "<group>"; };
+		AA5920201CCDFA0C007B7D0D /* DataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataReference.m; sourceTree = "<group>"; };
 		AA61CD911CCB36B30029B5F2 /* RTSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSettings.h; sourceTree = "<group>"; };
 		AA61CD921CCB36B30029B5F2 /* RTSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSettings.m; sourceTree = "<group>"; };
 		AA61CD961CCB37930029B5F2 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -311,7 +343,6 @@
 		AA9917B11CC163B400F1A3B0 /* RTMessageAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTMessageAPI.h; sourceTree = "<group>"; };
 		AA9917B21CC163B400F1A3B0 /* RTMessageAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTMessageAPI+Internal.h"; sourceTree = "<group>"; };
 		AA9917B31CC163B400F1A3B0 /* RTMessageAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMessageAPI.m; sourceTree = "<group>"; };
-		AA9917B41CC163B400F1A3B0 /* MessageAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
 		AA9917B51CC163B400F1A3B0 /* RTAPIError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAPIError.h; sourceTree = "<group>"; };
 		AA9917B61CC163B400F1A3B0 /* RTAPIError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAPIError.m; sourceTree = "<group>"; };
 		AA9917B71CC163B400F1A3B0 /* RTServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTServerAPI.h; sourceTree = "<group>"; };
@@ -462,9 +493,8 @@
 		AADCA41A1CCBE67100607C05 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		AADCA4231CCBEB6300607C05 /* NSBundle+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Utils.h"; sourceTree = "<group>"; };
 		AADCA4241CCBEB6300607C05 /* NSBundle+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Utils.m"; sourceTree = "<group>"; };
-		AAFDFB341CC5669700066707 /* MsgSigner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MsgSigner.swift; sourceTree = "<group>"; };
-		C63F3E1F3E41EAF9B8C1D716 /* Pods-Messages-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -481,8 +511,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9C1C7A1CC028190070FB59 /* Messages.framework in Frameworks */,
-				AB5B0EB5534ED4D87066AC78 /* Pods_MessagesTests.framework in Frameworks */,
-				C66ECBB436ADAEFBBC765BF3 /* Pods_Messages_MessagesTests.framework in Frameworks */,
+				2257EBB9F7232D27B84A4C42 /* Pods_MessagesTests.framework in Frameworks */,
+				812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,8 +539,8 @@
 				636D81C99BF283C3D64954EA /* Pods-Messages.release.xcconfig */,
 				477CD8044D99DDC7BFD842DD /* Pods-MessagesTests.debug.xcconfig */,
 				97493CACC5E3E4221450C2C4 /* Pods-MessagesTests.release.xcconfig */,
-				C63F3E1F3E41EAF9B8C1D716 /* Pods-Messages-MessagesTests.debug.xcconfig */,
-				3BD3AA68AA00FD1897F47B58 /* Pods-Messages-MessagesTests.release.xcconfig */,
+				D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */,
+				464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -522,6 +552,7 @@
 				AA05D25C1CCABCB00051039E /* CGSize+Utils.h */,
 				AA05D22D1CC84CA70051039E /* FMResultSet+Utils.h */,
 				AA05D22E1CC84CA70051039E /* FMResultSet+Utils.m */,
+				AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */,
 				AA5850141CC1C4510034C46D /* NSArray+Utils.h */,
 				AA5850151CC1C4510034C46D /* NSArray+Utils.m */,
 				AA5850101CC1C0360034C46D /* NSData+Random.h */,
@@ -601,8 +632,10 @@
 				AA9917F21CC163CD00F1A3B0 /* FetchWaitingOperation.swift */,
 				AA9917F31CC163CD00F1A3B0 /* RequestAuthorizationOperation.swift */,
 				AA9917F41CC163CD00F1A3B0 /* AuthorizeDeviceOperation.swift */,
-				AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */,
 				AA9917F61CC163CD00F1A3B0 /* UpdateAccessToken.swift */,
+				AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */,
+				AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */,
+				AA4FD0561CCD8AFC00C0DE2A /* SendReceiptOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -700,7 +733,6 @@
 				AA9918961CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.m */,
 				AA9918971CC1645700F1A3B0 /* RTX509Utils.h */,
 				AA9918981CC1645700F1A3B0 /* RTX509Utils.m */,
-				AAFDFB341CC5669700066707 /* MsgSigner.swift */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -734,11 +766,24 @@
 			isa = PBXGroup;
 			children = (
 				AA05D2471CC937C00051039E /* Messages.h */,
+				AA4FD0421CCCADF300C0DE2A /* DataReference.h */,
+				AA5920201CCDFA0C007B7D0D /* DataReference.m */,
+				AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */,
+				AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */,
+				AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */,
+				AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */,
+				AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */,
+				AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */,
+				AA4FD0501CCD350F00C0DE2A /* DataReferences.h */,
+				AA4FD0511CCD350F00C0DE2A /* DataReferences.m */,
 				AA05D2571CC94C5D0051039E /* DataReference.swift */,
 				AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */,
 				AA490DAA1CCAF0500010FC17 /* RTPersistentCache.m */,
 				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
-				AA9917B41CC163B400F1A3B0 /* MessageAPI.swift */,
+				AA4FD0541CCD4E9000C0DE2A /* MessageAPI.swift */,
+				AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */,
+				AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */,
+				AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */,
 				AA9917B11CC163B400F1A3B0 /* RTMessageAPI.h */,
 				AA9917B21CC163B400F1A3B0 /* RTMessageAPI+Internal.h */,
 				AA9917B31CC163B400F1A3B0 /* RTMessageAPI.m */,
@@ -853,9 +898,12 @@
 				AAB481D71CCAD81000EBFC5E /* RTMsgSigner.h in Headers */,
 				AAFDFB5F1CC5FDA200066707 /* RTVideoMessage.h in Headers */,
 				AAFDFB731CC5FDA200066707 /* RTSQLBuilder.h in Headers */,
+				AA4FD04A1CCCAF8C00C0DE2A /* MemoryDataReference.h in Headers */,
 				AA490DB41CCAF1C80010FC17 /* RTURLSessionSSLValidator.h in Headers */,
 				AA05D2481CC937C00051039E /* Messages.h in Headers */,
+				AA4FD0461CCCAF0F00C0DE2A /* BlobDataReference.h in Headers */,
 				AAB481D21CCAD81000EBFC5E /* RTOpenSSLCertificate.h in Headers */,
+				AA4FD0521CCD350F00C0DE2A /* DataReferences.h in Headers */,
 				AA05D21A1CC827A20051039E /* NSObject+Utils.h in Headers */,
 				AAFDFB461CC5FDA200066707 /* RTDAO.h in Headers */,
 				AA490DB81CCAF57B0010FC17 /* RTMessageAPI+Internal.h in Headers */,
@@ -876,6 +924,7 @@
 				AAFDFB5D1CC5FDA200066707 /* RTAudioMessage.h in Headers */,
 				AA05D2421CC8572A0051039E /* UIFont+Utils.h in Headers */,
 				AA490DAB1CCAF0500010FC17 /* RTPersistentCache.h in Headers */,
+				AA4FD04E1CCCAF9D00C0DE2A /* FileDataReference.h in Headers */,
 				AA05D2221CC829810051039E /* NSString+PropertyKVC.h in Headers */,
 				AAB481D31CCAD81000EBFC5E /* RTOpenSSLCertificateSet.h in Headers */,
 				AAFDFB801CC5FF2200066707 /* RTUserStatusInfo.h in Headers */,
@@ -890,6 +939,8 @@
 				AAFDFB691CC5FDA200066707 /* RTExitMessage.h in Headers */,
 				AAB481D81CCAD81000EBFC5E /* RTX509Utils.h in Headers */,
 				AA5850321CC1DFCE0034C46D /* NSDate+Utils.h in Headers */,
+				AA4FD05A1CCD918500C0DE2A /* MessageAPI+Compat.h in Headers */,
+				AA4FD0431CCCADF300C0DE2A /* DataReference.h in Headers */,
 				AAFDFB711CC5FDA200066707 /* RTGroupChat.h in Headers */,
 				AA61CD931CCB36B30029B5F2 /* RTSettings.h in Headers */,
 				AA490DB61CCAF1CF0010FC17 /* RTHTTPSessionTransportFactory.h in Headers */,
@@ -957,6 +1008,7 @@
 				TargetAttributes = {
 					AA9C1C6E1CC028190070FB59 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 7J5T2VZQJW;
 					};
 					AA9C1C781CC028190070FB59 = {
 						CreatedOnToolsVersion = 7.3;
@@ -1104,10 +1156,10 @@
 				AAFDFB741CC5FDA200066707 /* RTSQLBuilder.m in Sources */,
 				AAFDFB541CC5FDA200066707 /* RTModel.m in Sources */,
 				AAFDFB451CC5FDA200066707 /* RTFetchedResultsController.m in Sources */,
-				AA490DD21CCAF8360010FC17 /* RTMessageAPI.swift in Sources */,
 				AA05D2341CC84D1C0051039E /* NSMutableDictionary+Utils.m in Sources */,
 				AA490DBB1CCAF59E0010FC17 /* MessageSendOperations.swift in Sources */,
 				AA490DC81CCAF59E0010FC17 /* MessageProcessOperation.swift in Sources */,
+				AA5920211CCDFA0C007B7D0D /* DataReference.m in Sources */,
 				AAFDFB781CC5FDA200066707 /* RTRecipient.m in Sources */,
 				AA05D21B1CC827A20051039E /* NSObject+Utils.m in Sources */,
 				AA490DCE1CCAF59E0010FC17 /* MessageAPIError.swift in Sources */,
@@ -1120,6 +1172,7 @@
 				AA5850431CC1E1B10034C46D /* NSData+CommonDigest.m in Sources */,
 				AA5850471CC1E1DF0034C46D /* NSError+Utils.m in Sources */,
 				AA490DC11CCAF59E0010FC17 /* MessageBuildSystemOperation.swift in Sources */,
+				AA4FD0471CCCAF0F00C0DE2A /* BlobDataReference.m in Sources */,
 				AAB481F11CCADEC400EBFC5E /* RTOpenSSLCertificationRequest.m in Sources */,
 				AA58502F1CC1DF260034C46D /* NSURL+Utils.m in Sources */,
 				AAB481EF1CCADEC400EBFC5E /* RTOpenSSLCertificateSet.m in Sources */,
@@ -1135,6 +1188,7 @@
 				AA5850191CC1C4510034C46D /* NSArray+Utils.m in Sources */,
 				AA05D22C1CC840B30051039E /* NSMutableArray+Utils.m in Sources */,
 				AAB481EC1CCADEC400EBFC5E /* RTOpenSSLKeyPair.m in Sources */,
+				AA4FCFFA1CCC3C3800C0DE2A /* ResendUnsentMessages.swift in Sources */,
 				AA490DC51CCAF59E0010FC17 /* MessageRecvOperation.swift in Sources */,
 				AAFDFB621CC5FDA200066707 /* RTLocationMessage.m in Sources */,
 				AAFDFB481CC5FDA200066707 /* RTDAO.m in Sources */,
@@ -1152,23 +1206,26 @@
 				AA61CD951CCB376B0029B5F2 /* RTReachability.m in Sources */,
 				AA5850131CC1C0360034C46D /* NSData+Random.m in Sources */,
 				AA490DCA1CCAF59E0010FC17 /* MessageDeliveredOperation.swift in Sources */,
+				AA4FD05B1CCD918500C0DE2A /* MessageAPI+Compat.m in Sources */,
 				AADCA4261CCBEB6300607C05 /* NSBundle+Utils.m in Sources */,
 				AA490DB91CCAF59E0010FC17 /* MessageContexts.swift in Sources */,
 				AAFDFB6A1CC5FDA200066707 /* RTExitMessage.m in Sources */,
+				AA4FD0571CCD8AFC00C0DE2A /* SendReceiptOperation.swift in Sources */,
 				AA490DC41CCAF59E0010FC17 /* MessageFinishOperation.swift in Sources */,
 				AAFDFB6E1CC5FDA200066707 /* RTChat.m in Sources */,
+				AA4FD0531CCD350F00C0DE2A /* DataReferences.m in Sources */,
 				AAB481F41CCADEC400EBFC5E /* RTMsgSigner.swift in Sources */,
-				AAB481F71CCADEC400EBFC5E /* MsgSigner.swift in Sources */,
 				AAFDFB761CC5FDA200066707 /* RTDBCodeMigrations.m in Sources */,
 				AA490DBC1CCAF59E0010FC17 /* MessageSendDirectOperation.swift in Sources */,
 				AAFDFB701CC5FDA200066707 /* RTUserChat.m in Sources */,
 				AAFDFB4E1CC5FDA200066707 /* RTNotificationDAO.m in Sources */,
 				AA05D2211CC829810051039E /* NSObject+Properties.m in Sources */,
 				AAFDFB5E1CC5FDA200066707 /* RTAudioMessage.m in Sources */,
+				AA4FD04B1CCCAF8C00C0DE2A /* MemoryDataReference.m in Sources */,
 				AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */,
 				AA490DB51CCAF1CC0010FC17 /* BackgroundSessionOperations.swift in Sources */,
 				AA61CD991CCB37930029B5F2 /* Reachability.m in Sources */,
-				AA490DD31CCB14D80010FC17 /* RTMessageAPI.m in Sources */,
+				AA4FD0551CCD4E9000C0DE2A /* MessageAPI.swift in Sources */,
 				AAFDFB641CC5FDA200066707 /* RTContactMessage.m in Sources */,
 				AAFDFB661CC5FDA200066707 /* RTConferenceMessage.m in Sources */,
 				AA61CD941CCB36B30029B5F2 /* RTSettings.m in Sources */,
@@ -1179,11 +1236,13 @@
 				AAFDFB6C1CC5FDA200066707 /* RTNotification.m in Sources */,
 				AA490DCC1CCAF59E0010FC17 /* RequestAuthorizationOperation.swift in Sources */,
 				AAFDFB5C1CC5FDA200066707 /* RTImageMessage.m in Sources */,
+				AA4FD04F1CCCAF9D00C0DE2A /* FileDataReference.m in Sources */,
 				AAFDFB601CC5FDA200066707 /* RTVideoMessage.m in Sources */,
 				AA05D2581CC94C5D0051039E /* DataReference.swift in Sources */,
 				AAFDFB581CC5FDA200066707 /* RTMessage.m in Sources */,
 				AAFDFB681CC5FDA200066707 /* RTEnterMessage.m in Sources */,
 				AA5850201CC1CAE40034C46D /* TBase+Utils.m in Sources */,
+				AA4FD0411CCCA78100C0DE2A /* FMResultSet+Utils.swift in Sources */,
 				AA490DCB1CCAF59E0010FC17 /* FetchWaitingOperation.swift in Sources */,
 				AA58504B1CC1F18A0034C46D /* RTWeakReference.m in Sources */,
 				AA490DAD1CCAF1970010FC17 /* RTAPIError.m in Sources */,
@@ -1200,6 +1259,7 @@
 				AAB481CE1CCAC51C00EBFC5E /* RTDAO.swift in Sources */,
 				AA61CD9B1CCB3D2B0029B5F2 /* Promise+Utils.swift in Sources */,
 				AAFDFB7A1CC5FF0200066707 /* RTMessages.m in Sources */,
+				AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocket.swift in Sources */,
 				AAFDFB7C1CC5FF0200066707 /* RTMessages+Exts.m in Sources */,
 				AA05D23F1CC856830051039E /* NSString+Utils.m in Sources */,
 			);
@@ -1214,6 +1274,7 @@
 				AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */,
 				AA9918C41CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m in Sources */,
 				AA9918C81CC1659100F1A3B0 /* RTNotificationTests.m in Sources */,
+				AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */,
 				AA9918C21CC1659100F1A3B0 /* RTChatTests.m in Sources */,
 				AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */,
 				AAB481DC1CCADC8F00EBFC5E /* TestClient.swift in Sources */,
@@ -1331,10 +1392,12 @@
 			baseConfigurationReference = 85D6AF6122D004DF2B8078C8 /* Pods-Messages.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Thrift",
@@ -1347,6 +1410,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.Messages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Messages";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1356,10 +1420,12 @@
 			baseConfigurationReference = 636D81C99BF283C3D64954EA /* Pods-Messages.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Thrift",
@@ -1372,18 +1438,21 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.Messages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Messages";
 			};
 			name = Release;
 		};
 		AA9C1C871CC028190070FB59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C63F3E1F3E41EAF9B8C1D716 /* Pods-Messages-MessagesTests.debug.xcconfig */;
+			baseConfigurationReference = D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MessagesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MessagesTests/MessagesTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1391,13 +1460,15 @@
 		};
 		AA9C1C881CC028190070FB59 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3BD3AA68AA00FD1897F47B58 /* Pods-Messages-MessagesTests.release.xcconfig */;
+			baseConfigurationReference = 464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MessagesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MessagesTests/MessagesTests-Bridging-Header.h";
 			};
 			name = Release;

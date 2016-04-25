@@ -167,84 +167,111 @@
 }
 
 
--(int) viewAllMessagesForChat:(RTChat *)chat before:(NSDate *)sent
+-(BOOL) viewAllMessagesForChat:(RTChat *)chat before:(NSDate *)sent error:(NSError **)error
 {
+  __block BOOL valid = NO;
   __block NSArray *updated;
   __block int count =0;
 
   [self.dbManager.pool inTransaction:^(FMDatabase *db, BOOL *rollback) {
 
-    FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ? AND sender <> ? AND status < ? AND sent <= ?",
-                              chat.dbId, chat.localAlias, @(RTMessageStatusViewed), sent];
+    FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ? AND sender <> ? AND status < ? AND sent <= ?"
+                                  valuesArray:@[chat.dbId, chat.localAlias, @(RTMessageStatusViewed), sent]
+                                        error:error];
+    if (!resultSet) {
+      *rollback = YES;
+      return;
+    }
 
-    updated = [self loadAll:resultSet error:nil]; //FIXME error handling
-
+    updated = [self loadAll:resultSet error:error];
     [resultSet close];
+    
+    if (!updated) {
+      *rollback = YES;
+      return;
+    }
 
     NSDate *now = [NSDate date];
 
-    if ([db executeUpdate:@"UPDATE message SET status = ?, statusTimestamp = ? WHERE chat = ? AND sender <> ? AND status < ? AND sent <= ?",
-         @(RTMessageStatusViewed), now, chat.dbId, chat.localAlias, @(RTMessageStatusViewed), sent])
-    {
-      count = db.changes;
-
-      for (RTMessage *up in updated) {
-        up.status = RTMessageStatusViewed;
-        up.statusTimestamp = now;
-      }
-
+    valid = [db executeUpdate:@"UPDATE message SET status = ?, statusTimestamp = ? WHERE chat = ? AND sender <> ? AND status < ? AND sent <= ?"
+                  valuesArray:@[@(RTMessageStatusViewed), now, chat.dbId, chat.localAlias, @(RTMessageStatusViewed), sent]
+                        error:error];
+    if (!valid) {
+      *rollback = YES;
+      return;
     }
+    
+    count = db.changes;
 
+    for (RTMessage *up in updated) {
+      up.status = RTMessageStatusViewed;
+      up.statusTimestamp = now;
+    }
+    
   }];
-
+  
   if (count && updated) {
     [self updatedAll:updated];
   }
 
-  return count;
+  return valid;
 }
 
--(int) readAllMessagesForChat:(RTChat *)chat
+-(BOOL) readAllMessagesForChat:(RTChat *)chat error:(NSError **)error
 {
+  __block BOOL valid = NO;
   __block NSArray *updated;
   __block int count =0;
 
   [self.dbManager.pool inTransaction:^(FMDatabase *db, BOOL *rollback) {
 
-    FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ? AND flags & ?",
-                              chat.dbId, @(RTMessageFlagUnread)];
-
-    updated = [self loadAll:resultSet error:nil]; //FIXME error handling
-
+    FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ? AND flags & ?"
+                                  valuesArray:@[chat.dbId, @(RTMessageFlagUnread)]
+                                        error:error];
+    if (!resultSet) {
+      *rollback = YES;
+      return;
+    }
+    
+    updated = [self loadAll:resultSet error:error];
     [resultSet close];
-
-    if ([db executeUpdate:@"UPDATE message SET flags = flags & ? WHERE chat = ? AND flags & ?",
-         @(~RTMessageFlagUnread), chat.dbId, @(RTMessageFlagUnread)])
-    {
-      count = db.changes;
-
-      for (RTMessage *msg in updated) {
-        msg.unreadFlag = NO;
-      }
-
+    
+    if (!updated) {
+      *rollback = YES;
+      return;
     }
 
+    valid = [db executeUpdate:@"UPDATE message SET flags = flags & ? WHERE chat = ? AND flags & ?"
+                  valuesArray:@[@(~RTMessageFlagUnread), chat.dbId, @(RTMessageFlagUnread)]
+                        error:error];
+    if (!valid) {
+      *rollback = YES;
+      return;
+    }
+    
+    count = db.changes;
+    
+    for (RTMessage *msg in updated) {
+      msg.unreadFlag = NO;
+    }
+    
   }];
 
   if (count && updated) {
     [self updatedAll:updated];
   }
 
-  return count;
+  return valid;
 }
 
--(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status
+-(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status error:(NSError **)error
 {
-  return [self updateMessage:message withStatus:status timestamp:[NSDate date]];
+  return [self updateMessage:message withStatus:status timestamp:[NSDate date] error:error];
 }
 
--(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status timestamp:(NSDate *)timestamp
+-(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status timestamp:(NSDate *)timestamp error:(NSError **)error
 {
+  __block BOOL valid = NO;
   __block BOOL updated = NO;
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
@@ -252,13 +279,14 @@
     message.status = status;
     message.statusTimestamp = timestamp;
 
-    if ([db executeUpdate:@"UPDATE message SET status = ?, statusTimestamp = ? WHERE id = ?",
-         @(status), timestamp, message.dbId])
-    {
-
-      updated = db.changes > 0;
+    valid = [db executeUpdate:@"UPDATE message SET status = ?, statusTimestamp = ? WHERE id = ?"
+                  valuesArray:@[@(status), timestamp, message.dbId]
+                        error:error];
+    if (!valid) {
+      return;
     }
-
+    
+    updated = db.changes > 0;
   }];
 
   if (updated) {
@@ -268,23 +296,26 @@
     [self updated:message];
   }
 
-  return updated;
+  return valid;
 }
 
--(BOOL) updateMessage:(RTMessage *)message withSent:(NSDate *)sent
+-(BOOL) updateMessage:(RTMessage *)message withSent:(NSDate *)sent error:(NSError **)error
 {
+  __block BOOL valid = NO;
   __block BOOL updated = NO;
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
     message.sent = sent;
 
-    if ([db executeUpdate:@"UPDATE message SET sent = ? WHERE id = ?",
-         sent, message.dbId])
-    {
-      updated = db.changes > 0;
+    valid = [db executeUpdate:@"UPDATE message SET sent = ? WHERE id = ?"
+                  valuesArray:@[sent, message.dbId]
+                        error:error];
+    if(!valid) {
+      return;
     }
-
+    
+    updated = db.changes > 0;
   }];
 
   if (updated) {
@@ -294,24 +325,26 @@
     [self updated:message];
   }
 
-  return updated;
+  return valid;
 }
 
--(BOOL) updateMessage:(RTMessage *)message withFlags:(int64_t)flags
+-(BOOL) updateMessage:(RTMessage *)message withFlags:(int64_t)flags error:(NSError **)error
 {
+  __block BOOL valid = NO;
   __block BOOL updated = NO;
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
     message.flags = flags;
 
-    if ([db executeUpdate:@"UPDATE message SET flags = ? WHERE id = ?",
-         @(flags), message.dbId])
-    {
-
-      updated = db.changes > 0;
+    valid = [db executeUpdate:@"UPDATE message SET flags = ? WHERE id = ?"
+                  valuesArray:@[@(flags), message.dbId]
+                        error:error];
+    if (!valid) {
+      return;
     }
 
+    updated = db.changes > 0;
   }];
 
   if (updated) {
@@ -321,7 +354,7 @@
     [self updated:message];
   }
 
-  return updated;
+  return valid;
 }
 
 -(BOOL) deleteAllMessagesForChat:(RTChat *)chat error:(NSError **)error

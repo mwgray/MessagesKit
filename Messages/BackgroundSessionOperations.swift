@@ -9,6 +9,7 @@
 import Foundation
 import Security
 import Operations
+import CocoaLumberjack
 
 
 public protocol BackgroundSessionOperation {
@@ -61,7 +62,7 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
   
   let sslValidator : RTURLSessionSSLValidator
   
-  weak var api : RTMessageAPI?
+  weak var api : MessageAPI?
   
   let dao : RTMessageDAO
   
@@ -70,7 +71,7 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
   var operations = [Int: BackgroundSessionOperation]()
   
   
-  public init(trustedCertificates: [AnyObject], api: RTMessageAPI, dao: RTMessageDAO, queue: OperationQueue) {
+  public init(trustedCertificates: [AnyObject], api: MessageAPI, dao: RTMessageDAO, queue: OperationQueue) {
     self.sslValidator = RTURLSessionSSLValidator(trustedCertificates: trustedCertificates)
     self.api = api
     self.dao = dao
@@ -101,24 +102,21 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
             do {
               
               if let msgInfoHeader = request.allHTTPHeaderFields?[RTMsgInfoHTTPHeader],
-                let msgPack = try TBaseUtils.deserialize(RTMsgPack(), fromBase64String: msgInfoHeader) as? RTMsgPack {
-                  
+                let msgPack = try TBaseUtils.deserialize(RTMsgPack(), fromBase64String: msgInfoHeader) as? RTMsgPack,
+                let api = self.api {
+                
                   backgroundTransferringMessageIds.append(msgPack.id)
                   
-                  self.queue.addOperation(
-                    try MessageSendResurrectedOperation(
-                      msgPack: msgPack,
-                      task: upload,
-                      api: self.api!))
+                  self.queue.addOperation(try MessageSendResurrectedOperation(msgPack: msgPack, task: upload, api: api))
                   
               }
               else {
-                NSLog("BackgroundSessionOperation: Error resurrecting send: missing or invalid header")
+                DDLogError("BackgroundSessionOperation: Error resurrecting send: missing or invalid header")
               }
               
             }
             catch let error {
-              NSLog("BackgroundSessionOperation: Error resurrecting send: \(error)")
+              DDLogError("BackgroundSessionOperation: Error resurrecting send: \(error)")
             }
             
           }

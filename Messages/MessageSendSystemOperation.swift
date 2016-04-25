@@ -28,17 +28,25 @@ import Thrift
   var sentAt : RTTimeStamp?
   
   
-  public init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: RTSystemMsgTarget, api: RTMessageAPI) {
+  public init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: SystemMsgTarget, api: MessageAPI) {
     
-    recipients = Set()
+    var recipients : Set<String>
     
-    if target.contains(.Recipients) {
-      recipients.unionInPlace(target.contains(.Inactive) ? chat.allRecipients : chat.activeRecipients)
+    if target.contains(.ActiveRecipients) && target.contains(.InactiveRecipients) {
+      recipients = chat.allRecipients
+    }
+    else if target.contains(.ActiveRecipients) {
+      recipients = chat.activeRecipients
+    }
+    else {
+      recipients = []
     }
     
     if target.contains(.CC) {
-      recipients.unionInPlace(Set(api.credentials.allAliases))
+      recipients = recipients.union(Set(api.credentials.allAliases))
     }
+    
+    self.recipients = recipients
     
     super.init(api: api)
 

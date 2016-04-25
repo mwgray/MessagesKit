@@ -33,10 +33,10 @@ class MessageTransmitHTTPOperation: Operation {
   
   var task : NSURLSessionUploadTask?
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   
-  init(context: MessageTransmitContext, api: RTMessageAPI) {
+  init(context: MessageTransmitContext, api: MessageAPI) {
     self.context = context
     self.api = api
     
@@ -48,7 +48,7 @@ class MessageTransmitHTTPOperation: Operation {
     addObserver(NetworkObserver())
   }
   
-  convenience init(task: NSURLSessionUploadTask, context: MessageTransmitContext, api: RTMessageAPI) {
+  convenience init(task: NSURLSessionUploadTask, context: MessageTransmitContext, api: MessageAPI) {
     
     self.init(context: context, api: api)
     
@@ -69,7 +69,7 @@ class MessageTransmitHTTPOperation: Operation {
       
       // Wait for task notification from background transfer service
       
-      let backgroundOperations = api.backgroundSession.delegate as! BackgroundSessionOperations
+      let backgroundOperations = api.backgroundURLSession.delegate as! BackgroundSessionOperations
       backgroundOperations.addOperation(self)
       
     }
@@ -118,7 +118,7 @@ class MessageTransmitHTTPOperation: Operation {
     
     // Initiate upload task
     //
-    task = api.backgroundSession.uploadTaskWithRequest(request, fromFile: sendTempRef.URL)
+    task = api.backgroundURLSession.uploadTaskWithRequest(request, fromFile: sendTempRef.URL)
     
     task!.resume()
   }

@@ -46,15 +46,15 @@ typedef NS_ENUM (int32_t, RTMessageType) {
 -(nullable RTMessage *) fetchLastMessageForChat:(RTChat *)chat;
 -(nullable RTMessage *) fetchLatestUnviewedMessageForChat:(RTChat *)chat;
 
--(int) viewAllMessagesForChat:(RTChat *)chat before:(NSDate *)sent;
--(int) readAllMessagesForChat:(RTChat *)chat;
+-(BOOL) viewAllMessagesForChat:(RTChat *)chat before:(NSDate *)sent error:(NSError **)error;
+-(BOOL) readAllMessagesForChat:(RTChat *)chat error:(NSError **)error;
 
 -(int) countOfUnreadMessages;
 
--(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status;
--(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status timestamp:(NSDate *)timestamp;
--(BOOL) updateMessage:(RTMessage *)message withSent:(NSDate *)sent;
--(BOOL) updateMessage:(RTMessage *)message withFlags:(int64_t)flags;
+-(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status error:(NSError **)error;
+-(BOOL) updateMessage:(RTMessage *)message withStatus:(RTMessageStatus)status timestamp:(NSDate *)timestamp error:(NSError **)error;
+-(BOOL) updateMessage:(RTMessage *)message withSent:(NSDate *)sent error:(NSError **)error;
+-(BOOL) updateMessage:(RTMessage *)message withFlags:(int64_t)flags error:(NSError **)error;
 
 -(BOOL) deleteAllMessagesForChat:(RTChat *)chat error:(NSError **)error;
 

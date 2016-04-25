@@ -16,9 +16,9 @@ public struct RequireAuthorization: OperationCondition {
   
   public static let isMutuallyExclusive = false
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
-  init(api: RTMessageAPI) {
+  init(api: MessageAPI) {
     self.api = api
   }
   

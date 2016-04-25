@@ -8,7 +8,6 @@
 
 #import "RTAudioMessage.h"
 
-#import "Messages-Swift.h"
 #import "TBase+Utils.h"
 #import "RTMessageDAO.h"
 #import "NSObject+Utils.h"

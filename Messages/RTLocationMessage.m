@@ -8,7 +8,9 @@
 
 #import "RTLocationMessage.h"
 
-#import "Messages-Swift.h"
+#import "MemoryDataReference.h"
+#import "DataReferences.h"
+
 #import "TBase+Utils.h"
 #import "RTMessageDAO.h"
 #import "NSObject+Utils.h"

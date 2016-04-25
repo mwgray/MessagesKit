@@ -39,6 +39,12 @@ extension RTChatDAO {
     return obj
   }
   
+  public func fetchChatForAlias(alias: String, localAlias: String) throws -> RTChat? {
+    var obj : RTChat?
+    try fetchChatForAlias(alias, localAlias: localAlias, returning: &obj)
+    return obj
+  }
+  
 }
 
 

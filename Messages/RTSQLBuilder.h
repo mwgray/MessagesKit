@@ -16,7 +16,7 @@
 
 -(instancetype) initWithRootClass:(NSString *)rootClassName tableNames:(NSDictionary *)tableNames;
 
--(NSString *) processPredicate:(NSPredicate *)predicate sortedBy:(NSArray *)sortDescriptors offset:(NSUInteger)offset limit:(NSUInteger)limit;
+-(NSString *) processPredicate:(NSPredicate *)predicate sortedBy:(NSArray<NSSortDescriptor *> *)sortDescriptors offset:(NSUInteger)offset limit:(NSUInteger)limit;
 
 @end
 

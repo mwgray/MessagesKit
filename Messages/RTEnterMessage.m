@@ -8,8 +8,8 @@
 
 #import "RTEnterMessage.h"
 
-#import "Messages-Swift.h"
 #import "RTMessageDAO.h"
+#import "MemoryDataReference.h"
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 

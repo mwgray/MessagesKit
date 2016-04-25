@@ -7,6 +7,7 @@
 //
 
 #import "RTMessage.h"
+#import "DataReference.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

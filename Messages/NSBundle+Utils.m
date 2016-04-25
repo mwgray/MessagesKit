@@ -8,14 +8,12 @@
 
 #import "NSBundle+Utils.h"
 
-#import "RTMessageAPI.h"
-
 
 @implementation NSBundle (Utils)
 
 +(instancetype)frameworkBundle
 {
-  return [NSBundle bundleForClass:RTMessageAPI.class];
+  return [NSBundle bundleWithIdentifier:@"com.retxt.Messages"];
 }
 
 @end

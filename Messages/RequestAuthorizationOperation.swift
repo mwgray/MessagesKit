@@ -23,7 +23,7 @@ public class RequestAuthorizationOperation: MessageAPIOperation {
   let signer : RTMsgSigner
   
   
-  public init(alias: String, deviceId: RTId, deviceName: String, api: RTMessageAPI) {
+  public init(alias: String, deviceId: RTId, deviceName: String, api: MessageAPI) {
 
     self.alias = alias
     self.deviceId = deviceId
@@ -46,9 +46,9 @@ public class RequestAuthorizationOperation: MessageAPIOperation {
 
       // Request up-to-date user information for ourself
       
-      api.invalidateUserWithAlias(alias);
+      api.invalidateUserInfoWithAlias(alias);
       
-      guard let userInfo = try api.resolveUserWithAlias(alias) else {
+      guard let userInfo = try api.resolveUserInfoWithAlias(alias) else {
         throw MessageAPIError.RequiredUserUnknown
       }
       

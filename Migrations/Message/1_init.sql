@@ -59,3 +59,13 @@ CREATE TABLE notification (
 );
 
 CREATE INDEX notification_chat_idx ON notification (chatId);
+
+
+
+DROP TABLE IF EXISTS blob;
+
+CREATE TABLE blob (
+  id integer PRIMARY KEY,
+  data blob,
+  refs integer
+);

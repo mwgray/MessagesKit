@@ -60,6 +60,7 @@
     _totalSentFieldIdx = [tableInfo findField:@"totalSent"];
     _customTitleFieldIdx = [tableInfo findField:@"customTitle"];
     _membersFieldIdx = [tableInfo findField:@"members"];
+    _activeMembersFieldIdx = [tableInfo findField:@"activeMembers"];
     _draftFieldIdx = [tableInfo findField:@"draft"];
 
     //FIXME
@@ -88,108 +89,125 @@
   return [id data];
 }
 
--(RTChat *) fetchChatForAlias:(NSString *)alias localAlias:(NSString *)localAlias
+-(BOOL) fetchChatForAlias:(NSString *)alias localAlias:(NSString *)localAlias returning:(RTChat *__autoreleasing  _Nullable * _Nonnull)chat error:(NSError * _Nullable __autoreleasing * _Nullable)error
 {
-  __block id res;
+  __block BOOL valid = NO;
 
   [self.dbManager.pool inReadableDatabase:^(FMDatabase *db) {
 
-    FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM chat WHERE lower(alias) = ? AND lower(localAlias) = ?",
-                              alias.lowercaseString, localAlias.lowercaseString];
-    if ([resultSet next]) {
-      res = [self load:resultSet error:nil]; //FIXME error handling
+    FMResultSet *resultSet = [db executeQuery:[self.tableInfo.fetchAllSQL stringByAppendingString:@" WHERE lower(alias) = ? AND lower(localAlias) = ?"]
+                                  valuesArray:@[alias.lowercaseString, localAlias.lowercaseString]
+                                        error:error];
+    if (!resultSet) {
+      return;
     }
+    
+    if ([resultSet next]) {      
+      RTChat *found = [self load:resultSet error:error];
+      if (!found) {
+        return;
+      }
+      *chat = found;
+    }
+    
+    valid = YES;
 
     [resultSet close];
   }];
 
-  return res;
+  return valid;
 }
 
--(BOOL) updateChat:(RTChat *)chat withLastMessage:(RTMessage *)message
+-(BOOL) updateChat:(RTChat *)chat withLastMessage:(RTMessage *)message error:(NSError **)error
 {
-  __block BOOL updated;
+  __block BOOL updated = NO;
+  __block int count = 0;
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
     chat.lastMessage = message;
 
-    if ([db executeUpdate:@"UPDATE chat SET lastMessage = ?, totalMessages = ?, totalSent = ?  WHERE id = ?",
-         message.dbId, @(chat.totalMessages), @(chat.totalSent), chat.dbId])
-    {
-      updated = db.changes > 0;
+    if (![db executeUpdate:@"UPDATE chat SET lastMessage = ?, totalMessages = ?, totalSent = ?  WHERE id = ?"
+              valuesArray:@[message.dbId, @(chat.totalMessages), @(chat.totalSent), chat.dbId]
+                     error:error]) {
+      return;
     }
-
+    
+    count = db.changes;
+    updated = YES;
   }];
 
-  if (updated) {
-
+  if (count > 0) {
     [self updated:chat];
   }
 
   return updated;
 }
 
--(BOOL) updateChat:(RTChat *)chat withLastSentMessage:(RTMessage *)message
+-(BOOL) updateChat:(RTChat *)chat withLastSentMessage:(RTMessage *)message error:(NSError **)error
 {
   chat.totalSent += 1;
   chat.totalMessages += 1;
 
-  return [self updateChat:chat withLastMessage:message];
+  return [self updateChat:chat withLastMessage:message error:error];
 }
 
--(BOOL) updateChat:(RTChat *)chat withLastReceivedMessage:(RTMessage *)message
+-(BOOL) updateChat:(RTChat *)chat withLastReceivedMessage:(RTMessage *)message error:(NSError **)error
 {
   chat.totalMessages += 1;
 
-  return [self updateChat:chat withLastMessage:message];
+  return [self updateChat:chat withLastMessage:message error:error];
 }
 
--(BOOL) updateChat:(RTGroupChat *)chat addGroupMember:(NSString *)alias
+-(BOOL) updateChat:(RTGroupChat *)chat addGroupMember:(NSString *)alias error:(NSError **)error
 {
   if ([chat.members containsObject:alias]) {
-    return NO;
+    return YES;
   }
 
   return [self updateChat:chat
               withMembers:[chat.members setByAddingObject:alias]
-            activeMembers:[chat.activeMembers setByAddingObject:alias]];
+            activeMembers:[chat.activeMembers setByAddingObject:alias]
+                    error:error];
 }
 
--(BOOL) updateChat:(RTGroupChat *)chat removeGroupMember:(NSString *)alias
+-(BOOL) updateChat:(RTGroupChat *)chat removeGroupMember:(NSString *)alias error:(NSError **)error
 {
   if (![chat.members containsObject:alias]) {
-    return NO;
+    return YES;
   }
 
   return [self updateChat:chat
               withMembers:chat.members
-            activeMembers:chat.activeMembers.without(alias)];
+            activeMembers:chat.activeMembers.without(alias)
+                    error:error];
 }
 
--(BOOL) updateChat:(RTGroupChat *)chat withMembers:(NSSet *)members activeMembers:(NSSet *)activeMembers
+-(BOOL) updateChat:(RTGroupChat *)chat withMembers:(NSSet *)members activeMembers:(NSSet *)activeMembers error:(NSError **)error
 {
-  __block BOOL updated;
+  __block BOOL valid = NO;
+  __block BOOL updated = NO;
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
     chat.members = members;
     chat.activeMembers = activeMembers;
 
-    if ([db executeUpdate:@"UPDATE chat SET members = ?, activeMembers = ? WHERE id = ?",
-         members.join(@","), activeMembers.join(@","), chat.dbId])
-    {
-      updated = db.changes > 0;
+    valid = [db executeUpdate:@"UPDATE chat SET members = ?, activeMembers = ? WHERE id = ?"
+                  valuesArray:@[members.join(@","), activeMembers.join(@","), chat.dbId]
+                        error:error];
+    if (!valid) {
+      return;
     }
-
+    
+    updated = db.changes > 0;
   }];
-
+  
   if (updated) {
-
     [self updated:chat];
   }
 
-  return updated;
+  return valid;
 }
 
 -(BOOL) deleteObject:(RTModel *)model error:(NSError * _Nullable __autoreleasing * _Nullable)error

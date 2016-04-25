@@ -22,10 +22,10 @@ class MessageFetchHTTPOperation: Operation {
   
   var task : NSURLSessionDownloadTask?
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   
-  init(context: MessageFetchContext, api: RTMessageAPI) {
+  init(context: MessageFetchContext, api: MessageAPI) {
     
     self.context = context
     self.api = api
@@ -38,7 +38,7 @@ class MessageFetchHTTPOperation: Operation {
     addObserver(NetworkObserver())
   }
   
-  convenience init(task: NSURLSessionDownloadTask, context: MessageFetchContext, api: RTMessageAPI) {
+  convenience init(task: NSURLSessionDownloadTask, context: MessageFetchContext, api: MessageAPI) {
     
     self.init(context: context, api: api)
     
@@ -61,7 +61,7 @@ class MessageFetchHTTPOperation: Operation {
     
     // Wait for task notification from background transfer service
     
-    let backgroundOperations = api.backgroundSession.delegate as! BackgroundSessionOperations
+    let backgroundOperations = api.backgroundURLSession.delegate as! BackgroundSessionOperations
     backgroundOperations.addOperation(self)
     
   }
@@ -84,7 +84,7 @@ class MessageFetchHTTPOperation: Operation {
     request.addHTTPBearerAuthorizationWithToken(api.accessToken)
     request.setValue(RTOctetStreamContentType, forHTTPHeaderField: RTAcceptHTTPHeader)
     
-    task = api.backgroundSession.downloadTaskWithRequest(request)
+    task = api.backgroundURLSession.downloadTaskWithRequest(request)
     
     task!.resume()
     
@@ -122,11 +122,7 @@ extension MessageFetchHTTPOperation: BackgroundSessionDownloadOperation {
       
       // Copy data to safe location & store it
       
-      let tempPath = NSTemporaryDirectory().stringByAppendingPathComponent(NSUUID().UUIDString)
-      
-      let data = try FileDataReference.copyFrom(FileDataReference(path: downloadURL.path!), toPath: tempPath)
-        
-      context.encryptedData = data
+      context.encryptedData = try FileDataReference(path: downloadURL.path!).temporaryDuplicate()
       
       finish()
       

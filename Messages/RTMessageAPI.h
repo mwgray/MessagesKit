@@ -69,6 +69,7 @@ extern NSString *RTMessageAPIAccessTokenRefreshed;
 +(AnyPromise *) profileWithAlias:(NSString *)alias password:(NSString *)password;
 
 +(AnyPromise *) signInWithProfile:(RTUserProfile *)profile password:(NSString *)password;
++(AnyPromise *) signInWithProfile:(RTUserProfile *)profile deviceId:(RTId *)deviceId password:(NSString *)password;
 +(AnyPromise *) isDeviceRegistered:(RTUserProfile *)profile;
 
 
@@ -134,6 +135,7 @@ extern NSString *RTMessageAPIAccessTokenRefreshed;
 
 -(BOOL) isChatActive:(RTChat *)chat;
 -(BOOL) isOtherChatActive:(RTChat *)chat;
+
 
 -(void) activateChat:(RTChat *)chat;
 -(void) deactivateChat;

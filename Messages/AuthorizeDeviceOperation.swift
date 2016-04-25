@@ -22,7 +22,7 @@ public class AuthorizeDeviceOperation: MessageAPIOperation {
   
   let pin = String(randomDigitsOfLength: 4)
   
-  public required init(request: RTAuthorizeRequest, api: RTMessageAPI) {
+  public required init(request: RTAuthorizeRequest, api: MessageAPI) {
     
     self.signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
     self.cipher = RTMsgCipher.defaultCipher()
@@ -70,13 +70,13 @@ public class AuthorizeDeviceOperation: MessageAPIOperation {
       
       let encryptedKey = try deviceEncryptionKey.encryptData(key)
       
-      let signature = try signer.signWithId(id, type: RTMessageAPIDirectMessageMsgTypeKeySet, sender: api.credentials.preferredAlias, recipientDevice: request.deviceId, msgKey: encryptedKey)
+      let signature = try signer.signWithId(id, type: MessageAPIDirectMessageMsgTypeKeySet, sender: api.credentials.preferredAlias, recipientDevice: request.deviceId, msgKey: encryptedKey)
       
       // Send message
       
       let envelope = RTDirectEnvelope(recipient: api.credentials.preferredAlias, device: request.deviceId, key: encryptedKey, signature: signature, fingerprint: nil)
       
-      api.userAPI.sendDirect(id, msgType: RTMessageAPIDirectMessageMsgTypeKeySet, msgData: encryptedKeySetData, sender: api.credentials.preferredAlias, envelopes: [envelope], response: {
+      api.userAPI.sendDirect(id, msgType: MessageAPIDirectMessageMsgTypeKeySet, msgData: encryptedKeySetData, sender: api.credentials.preferredAlias, envelopes: [envelope], response: {
         
         self.finish()
         

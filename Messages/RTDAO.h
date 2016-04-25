@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(id) dbIdForId:(id)id;
 
 -(nullable __kindof ObjectType) fetchObjectWithId:(id)id NS_REFINED_FOR_SWIFT;
--(BOOL) fetchObjectWithId:(RTId *)id returning:(ObjectType __nullable *__nonnull)msg error:(NSError **)error;
+-(BOOL) fetchObjectWithId:(id)id returning:(ObjectType __nullable *__nonnull)msg error:(NSError **)error;
 -(NSArray<__kindof ObjectType> *) fetchAllObjectsMatching:(nullable NSString *)where error:(NSError **)error;
 -(NSArray<__kindof ObjectType> *) fetchAllObjectsMatching:(nullable NSString *)where parameters:(nullable NSArray *)parameters error:(NSError **)error;
 -(NSArray<__kindof ObjectType> *) fetchAllObjectsMatching:(nullable NSString *)where parametersNamed:(nullable NSDictionary *)parameters error:(NSError **)error;;

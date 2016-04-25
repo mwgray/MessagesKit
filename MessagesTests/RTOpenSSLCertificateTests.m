@@ -10,6 +10,7 @@
 #import "RTOpenSSLCertificateSet.h"
 #import "RTOpenSSLCertificateValidator.h"
 #import "NSData+Encoding.h"
+#import "NSBundle+Utils.h"
 
 #include <openssl/x509.h>
 
@@ -121,7 +122,7 @@
 
 -(void) testValidationValid
 {
-  NSURL *rootsURL = [[NSBundle bundleForClass:NSClassFromString(@"RTMessageAPI")] URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
+  NSURL *rootsURL = [NSBundle.frameworkBundle URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
   XCTAssertNotNil(rootsURL, @"Unable to locate root certificates");
   
   NSError *error;
@@ -129,7 +130,7 @@
   RTOpenSSLCertificateValidator *validator = [[RTOpenSSLCertificateValidator alloc] initWithRootCertificatesInFile:rootsURL.path error:&error];
   XCTAssertNotNil(validator, @"Error initializing validator: %@", error);
   
-  NSURL *intersURL = [[NSBundle bundleForClass:NSClassFromString(@"RTMessageAPI")] URLForResource:@"inters" withExtension:@"pem" subdirectory:@"Certificates"];
+  NSURL *intersURL = [NSBundle.frameworkBundle URLForResource:@"inters" withExtension:@"pem" subdirectory:@"Certificates"];
   XCTAssertNotNil(intersURL, @"Unable to locate intermediate certificate authorities");
   
   RTOpenSSLCertificateSet *inters = [[RTOpenSSLCertificateSet alloc] initWithPEMEncodedData:[NSData dataWithContentsOfURL:intersURL] error:&error];
@@ -144,7 +145,7 @@
 
 -(void) testValidationInvalid
 {
-  NSURL *rootsURL = [[NSBundle bundleForClass:NSClassFromString(@"RTMessageAPI")] URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
+  NSURL *rootsURL = [NSBundle.frameworkBundle URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
   XCTAssertNotNil(rootsURL, @"Unable to locate root certificates");
   
   NSError *error;
@@ -162,7 +163,7 @@
   BOOL result = [validator validate:_cert chain:inters result:&valid error:&error];
   XCTAssertTrue(result, @"Error validating certificate: %@", error);
   
-  XCTAssertFalse(valid, @"Certificate not valid");
+  XCTAssertFalse(valid, @"Certificate should not be valid");
 }
 
 @end

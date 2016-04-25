@@ -27,7 +27,7 @@ import Operations
   let msgData : NSData?
   
   
-  public required init(sender: String, recipientDevices: [String: RTId], msgId: RTId?, msgType: String, msgData: NSData?, api: RTMessageAPI) {
+  public required init(sender: String, recipientDevices: [String: RTId], msgId: RTId?, msgType: String, msgData: NSData?, api: MessageAPI) {
     self.sender = sender
     self.recipientDevices = recipientDevices
     self.msgId = msgId ?? RTId()
@@ -66,8 +66,8 @@ import Operations
       
       for (recipientAlias, recipientDeviceId) in recipientDevices {
         
-        guard let recipientInfo = try api.resolveUserWithAlias(recipientAlias) else {
-          throw RTAPIErrorFactory.invalidAliasErrorWithAlias(recipientAlias)
+        guard let recipientInfo = try api.resolveUserInfoWithAlias(recipientAlias) else {
+          throw NSError(code: .InvalidRecipientAlias, userInfo: ["alias":recipientAlias])
         }
 
         var encryptedKey : NSData?
@@ -81,7 +81,7 @@ import Operations
             recipientKey = try RTOpenSSLCertificate(DEREncodedData: recipientInfo.encryptionCert, validatedWithTrust: api.certificateTrust).publicKey
           }
           catch {
-            throw RTAPIErrorFactory.invalidCredentialsErrorWithRecipient(recipientAlias)
+            throw NSError(code: .InvalidRecipientCertificate, userInfo: ["alias":recipientAlias])
           }
           
           encryptedKey = try recipientKey.encryptData(key)

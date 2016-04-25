@@ -8,7 +8,6 @@
 
 #import "RTMessageAPI.h"
 
-#import "Messages-Swift.h"
 #import "RTServerAPI.h"
 #import "RTMessages+Exts.h"
 #import "RTFetchedResultsController.h"
@@ -86,8 +85,6 @@ static const int kRTUserInfoCacheTTL = 86400 * 7; // 7 days
 
   RTUserAPIClientAsync *_userAPIClient;
 
-  BOOL _networkUnavailable;
-
   RTDBManager *_dbManager;
 
   RTChatDAO *_chatDAO;
@@ -105,6 +102,8 @@ static const int kRTUserInfoCacheTTL = 86400 * 7; // 7 days
   BOOL _signedOut;
 }
 
+@property (readonly, nonatomic) BOOL networkAvailable;
+
 @property (strong, nonatomic) OperationQueue *queue;
 @property (strong, nonatomic) NSURLSession *backgroundSession;
 
@@ -112,6 +111,9 @@ static const int kRTUserInfoCacheTTL = 86400 * 7; // 7 days
 @property (strong, nonatomic) NSString *accessToken;
 
 @property (strong, nonatomic) RTOpenSSLCertificateTrust *certificateTrust;
+
+-(void) networkBecameAvailable;
+-(void) networkBecameUnavailable;
 
 @end
 
@@ -150,14 +152,14 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
 +(AnyPromise *) profileWithId:(RTId *)userId password:(NSString *)password
 {
-  return [self.publicAPI profileWithId:userId password:password].catch(^(NSError *error) {
+  return [self.publicAPI findProfileWithId:userId password:password].catch(^(NSError *error) {
     return [RTAPIErrorFactory translateError:error];
   });
 }
 
 +(AnyPromise *) profileWithAlias:(NSString *)alias password:(NSString *)password
 {
-  return [self.publicAPI profileWithAlias:alias password:password].catch(^(NSError *error) {
+  return [self.publicAPI findProfileWithAlias:alias password:password].catch(^(NSError *error) {
     return [RTAPIErrorFactory translateError:error];
   });
 }
@@ -266,14 +268,14 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
         
       }
       
-      return [[RTCredentials alloc] initWithRefreshToken:refreshToken
-                                                  userId:profile.id
-                                                deviceId:deviceId
-                                              allAliases:profile.aliases.allObjects
-                                          preferredAlias:[RTMessageAPI selectPreferredAlias:profile.aliases.allObjects]
-                                      encryptionIdentity:encryptionIdentity
-                                         signingIdentity:signingIdentity
-                                              authorized:authorized];
+      return [RTCredentials.alloc initWithRefreshToken:refreshToken
+                                                userId:profile.id
+                                              deviceId:deviceId
+                                            allAliases:profile.aliases.allObjects
+                                        preferredAlias:[RTMessageAPI selectPreferredAlias:profile.aliases.allObjects]
+                                    encryptionIdentity:encryptionIdentity
+                                       signingIdentity:signingIdentity
+                                            authorized:authorized];
       
     }).catch(^(NSError *error) {
 
@@ -367,10 +369,6 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
                            password:password
                            deviceId:deviceInfo.id].thenInBackground(^id (NSData *refreshToken) {
         
-        [userProfile.encryptionCert writeToFile:@"encryption.crt" atomically:YES];
-        
-        NSLog(@"%@", userProfile);
-        
         NSError *error = nil;
         
         // Load validation certificates
@@ -380,9 +378,9 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
         NSURL *intermediatesURL = [bundle URLForResource:@"inters" withExtension:@"pem" subdirectory:@"Certificates"];
         
         RTOpenSSLCertificateTrust * certificateTrust =
-        [[RTOpenSSLCertificateTrust alloc] initWithPEMEncodedRoots:[NSData dataWithContentsOfURL:rootsURL]
-                                                     intermediates:[NSData dataWithContentsOfURL:intermediatesURL]
-                                                             error:&error];
+        [RTOpenSSLCertificateTrust.alloc initWithPEMEncodedRoots:[NSData dataWithContentsOfURL:rootsURL]
+                                                   intermediates:[NSData dataWithContentsOfURL:intermediatesURL]
+                                                           error:&error];
         if (!certificateTrust) {
           return error;
         }
@@ -415,14 +413,14 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
           return error;
         }
         
-        return [[RTCredentials alloc] initWithRefreshToken:refreshToken
-                                                    userId:userProfile.id
-                                                  deviceId:deviceInfo.id
-                                                allAliases:userProfile.aliases.allObjects
-                                            preferredAlias:[RTMessageAPI selectPreferredAlias:userProfile.aliases.allObjects]
-                                        encryptionIdentity:encryptionIdentity
-                                           signingIdentity:signingIdentity
-                                                authorized:YES];
+        return [RTCredentials.alloc initWithRefreshToken:refreshToken
+                                                  userId:userProfile.id
+                                                deviceId:deviceInfo.id
+                                              allAliases:userProfile.aliases.allObjects
+                                          preferredAlias:[RTMessageAPI selectPreferredAlias:userProfile.aliases.allObjects]
+                                      encryptionIdentity:encryptionIdentity
+                                         signingIdentity:signingIdentity
+                                              authorized:YES];
         
       });
 
@@ -519,7 +517,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 +(RTPublicAPIClientAsync *) newPublicAPIClient
 {
   // SSL validator
-  RTURLSessionSSLValidator *validator= [[RTURLSessionSSLValidator alloc] initWithTrustedCertificates:RTServerAPI.pinnedCerts];
+  RTURLSessionSSLValidator *validator= [RTURLSessionSSLValidator.alloc initWithTrustedCertificates:RTServerAPI.pinnedCerts];
 
   NSOperationQueue *sessionQueue = [NSOperationQueue new];
   sessionQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
@@ -537,18 +535,18 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   // Build a client for the new session
 
-  id<TAsyncTransportFactory> transportFactory = [[THTTPSessionTransportFactory alloc] initWithSession:session
-                                                                                                  URL:RTServerAPI.publicURL];
+  id<TAsyncTransportFactory> transportFactory = [THTTPSessionTransportFactory.alloc initWithSession:session
+                                                                                                URL:RTServerAPI.publicURL];
 
-  return [[RTPublicAPIClientAsync alloc] initWithProtocolFactory:protocolFactory
-                                                transportFactory:transportFactory];
+  return [RTPublicAPIClientAsync.alloc initWithProtocolFactory:protocolFactory
+                                              transportFactory:transportFactory];
 }
 
 -(RTUserAPIClientAsync *) newUserAPIClient
 {
   // Build an SSL validator
 
-  RTURLSessionSSLValidator *validator= [[RTURLSessionSSLValidator alloc] initWithTrustedCertificates:RTServerAPI.pinnedCerts];
+  RTURLSessionSSLValidator *validator = [RTURLSessionSSLValidator.alloc initWithTrustedCertificates:RTServerAPI.pinnedCerts];
 
   NSOperationQueue *sessionQueue = [NSOperationQueue new];
   sessionQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
@@ -566,8 +564,8 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   // Build a client for the new session
 
-  RTHTTPSessionTransportFactory *transportFactory = [[RTHTTPSessionTransportFactory alloc] initWithSession:session
-                                                                                                       URL:RTServerAPI.userURL];
+  RTHTTPSessionTransportFactory *transportFactory = [RTHTTPSessionTransportFactory.alloc initWithSession:session
+                                                                                                     URL:RTServerAPI.userURL];
   
   // Add interceptor to add bearer authorization token
   transportFactory.requestInterceptor = ^NSError * (NSMutableURLRequest *request) {
@@ -588,8 +586,8 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
     return nil;
   };
 
-  RTUserAPIClientAsync *client = [[RTUserAPIClientAsync alloc] initWithProtocolFactory:protocolFactory
-                                                                      transportFactory:transportFactory];
+  RTUserAPIClientAsync *client = [RTUserAPIClientAsync.alloc initWithProtocolFactory:protocolFactory
+                                                                    transportFactory:transportFactory];
   
   return client;
 }
@@ -599,7 +597,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   NSMutableURLRequest *connectURLRequest = [NSMutableURLRequest requestWithURL:RTServerAPI.userConnectURL];
   [connectURLRequest addBuildNumber];
 
-  RTWebSocket *webSocket = [[RTWebSocket alloc] init];
+  RTWebSocket *webSocket = [RTWebSocket new];
   webSocket.URLRequest = connectURLRequest;
   webSocket.delegate = self;
   return webSocket;
@@ -607,18 +605,18 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
 +(RTDBManager *) dbManagerWithURL:(NSURL *)dbURL
 {
-  return [[RTDBManager alloc] initWithPath:dbURL.path
-                                      kind:@"Message"
-                                daoClasses:@[[RTChatDAO class], [RTMessageDAO class], [RTNotificationDAO class]]];
+  return [RTDBManager.alloc initWithPath:dbURL.path
+                                    kind:@"Message"
+                              daoClasses:@[[RTChatDAO class], [RTMessageDAO class], [RTNotificationDAO class]]];
 }
 
 +(RTMessageAPI *) APIWithCredentials:(RTCredentials *)credentials
                 documentDirectoryURL:(NSURL *)docDirURL
                                error:(NSError **)error
 {
-  return [[RTMessageAPI alloc] initWithCredentials:credentials
-                              documentDirectoryURL:docDirURL
-                                             error:error];
+  return [RTMessageAPI.alloc initWithCredentials:credentials
+                            documentDirectoryURL:docDirURL
+                                           error:error];
 }
 
 -(instancetype) initWithCredentials:(RTCredentials *)credentials
@@ -627,18 +625,11 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 {
   if ((self = [super init])) {
 
-    __weak RTMessageAPI *weakSelf = self;
-    
-#if defined(RELEASE) && !defined(PUBLIC_BUILD)
-    [[Crashlytics sharedInstance] setUserIdentifier:[credentials.userId UUIDString]];
-    [[Crashlytics sharedInstance] setUserName:[credentials.allAliases description]];
-#endif
+    _queue = [OperationQueue new];
     
     _credentials = credentials;
     _accessToken = nil;
-
-    _queue = [OperationQueue new];
-
+    
     NSString *dbName = [[_credentials.userId UUIDString] stringByAppendingString:@".sqlite"];
     NSURL *dbURL = [docDirURL URLByAppendingPathComponent:dbName];
 
@@ -666,7 +657,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
       __block NSError *error;
       __block RTUserInfo *userInfo;
 
-      [weakSelf.publicAPI findUserWithAlias:userAlias response:^(RTUserInfo *response) {
+      [self.publicAPI findUserWithAlias:userAlias response:^(RTUserInfo *response) {
 
         userInfo = response;
 
@@ -701,7 +692,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
     // Build the background session
 
     BackgroundSessionOperations *backgroundSessionOperations =
-      [[BackgroundSessionOperations alloc] initWithTrustedCertificates:RTServerAPI.pinnedCerts
+      [BackgroundSessionOperations.alloc initWithTrustedCertificates:RTServerAPI.pinnedCerts
                                                                    api:self
                                                                    dao:_messageDAO
                                                                  queue:_queue];
@@ -720,7 +711,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
       [_messageDAO failAllSendingMessagesExcluding:transferringMsgIds];
 
-      [self _initiateResendOfUnsentMessages];
+      [_queue addOperation:[ResendUnsentMessages.alloc initWithApi:self]];
 
     }];
 
@@ -768,10 +759,10 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
 -(void) requestAuthorization
 {
-  [_queue addOperation:[[RequestAuthorizationOperation alloc] initWithAlias:_credentials.preferredAlias
-                                                                   deviceId:_credentials.deviceId
-                                                                 deviceName:UIDevice.currentDevice.name
-                                                                        api:self]];
+  [_queue addOperation:[RequestAuthorizationOperation.alloc initWithAlias:_credentials.preferredAlias
+                                                                 deviceId:_credentials.deviceId
+                                                               deviceName:UIDevice.currentDevice.name
+                                                                      api:self]];
 }
 
 -(AnyPromise *) resetKeys
@@ -948,26 +939,17 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   [self deactivate];
 }
 
--(BOOL) isNetworkUnavailable
-{
-  return _networkUnavailable;
-}
-
 -(void) networkBecameAvailable
 {
-  _networkUnavailable = NO;
+  _networkAvailable = YES;
 
-  [_queue addOperationWithBlock:^{
-
-    [self _initiateResendOfUnsentMessages];
-
-  }];
+  [_queue addOperation:[ResendUnsentMessages.alloc initWithApi:self]];
 
 }
 
 -(void) networkBecameUnavailable
 {
-  _networkUnavailable = YES;
+  _networkAvailable = NO;
 }
 
 -(void) activate
@@ -980,22 +962,23 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   
   if (_credentials.authorized) {
 
-    [_webSocket connect];
-
-    [_queue addOperation:[[FetchWaitingOperation alloc] initWithApi:self]];
-
-    [_queue addOperationWithBlock:^{
-
-      [self _initiateResendOfUnsentMessages];
-
-    }];
+    [_queue addOperation:[ConnectWebSocket.alloc initWithApi:self]];
+    [_queue addOperation:[FetchWaitingOperation.alloc initWithApi:self]];
+    [_queue addOperation:[ResendUnsentMessages.alloc initWithApi:self]];
     
   }
 
   if (_suspendedChatId) {
+    
     [self activateChat:[_chatDAO fetchChatWithId:_suspendedChatId]];
+    
     _suspendedChatId = nil;
   }
+}
+
+-(RTWebSocket *) webSocket
+{
+  return _webSocket;
 }
 
 -(RTMessageDAO *) messageDAO
@@ -1089,12 +1072,21 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
 
-    FetchWaitingOperation *waiting = [[FetchWaitingOperation alloc] initWithApi:self];
+    FetchWaitingOperation *waiting = [FetchWaitingOperation.alloc initWithApi:self];
     waiting.resolver = resolver;
 
     [_queue addOperation:waiting];
 
   }];
+}
+
+-(void) adjustUnreadMessageCountWithDelta:(NSInteger)delta
+{
+  NSInteger unread = [NSUserDefaults.standardUserDefaults integerForKey:@"io.retxt.unread"];
+  unread = MAX(unread + delta, 0);
+  [NSUserDefaults.standardUserDefaults setInteger:unread forKey:@"io.retxt.unread"];
+  
+  UIApplication.sharedApplication.applicationIconBadgeNumber = unread;
 }
 
 -(NSUInteger) updateUnreadMessageCount
@@ -1159,8 +1151,8 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   request.fetchLimit = limit;
   request.fetchBatchSize = 0;
 
-  RTFetchedResultsController *controller = [[RTFetchedResultsController alloc] initWithDBManager:_dbManager
-                                                                                         request:request];
+  RTFetchedResultsController *controller = [RTFetchedResultsController.alloc initWithDBManager:_dbManager
+                                                                                       request:request];
 
   return controller;
 }
@@ -1194,7 +1186,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   [_chatDAO updateChat:message.chat withLastSentMessage:message];
 
-  [_queue addOperation:[[MessageSendOperation alloc] initWithMessage:message api:self]];
+  [_queue addOperation:[MessageSendOperation.alloc initWithMessage:message api:self]];
 
   return YES;
 }
@@ -1229,7 +1221,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
     return NO;
   }
 
-  [_queue addOperation:[[MessageSendOperation alloc] initWithMessage:message api:self]];
+  [_queue addOperation:[MessageSendOperation.alloc initWithMessage:message api:self]];
 
   return YES;
 }
@@ -1242,11 +1234,11 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   }];
 
-  NSOperation *send = [[MessageSendSystemOperation alloc] initWithMsgType:RTMsgTypeClarify
-                                                                     chat:message.chat
-                                                                 metaData:@{@"msgId": message.id.UUIDString}
-                                                                   target:RTSystemMsgTargetAll
-                                                                      api:self];
+  NSOperation *send = [MessageSendSystemOperation.alloc initWithMsgType:RTMsgTypeClarify
+                                                                   chat:message.chat
+                                                               metaData:@{@"msgId": message.id.UUIDString}
+                                                                 target:RTSystemMsgTargetAll
+                                                                    api:self];
   [send addDependency:save];
 
   [_queue addOperations:@[save, send]];
@@ -1278,12 +1270,12 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   if (deleted) {
 
-    [_queue addOperation:[[MessageSendSystemOperation alloc] initWithMsgType:RTMsgTypeDelete
-                                                                        chat:message.chat
-                                                                    metaData:@{@"msgId": message.id.UUIDString,
-                                                                               @"type": @"message"}
-                                                                      target:RTSystemMsgTargetAll
-                                                                         api:self]];
+    [_queue addOperation:[MessageSendSystemOperation.alloc initWithMsgType:RTMsgTypeDelete
+                                                                      chat:message.chat
+                                                                  metaData:@{@"msgId": message.id.UUIDString,
+                                                                             @"type": @"message"}
+                                                                    target:RTSystemMsgTargetAll
+                                                                       api:self]];
 
   }
 
@@ -1314,11 +1306,11 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   if (deleted) {
 
-    [_queue addOperation:[[MessageSendSystemOperation alloc] initWithMsgType:RTMsgTypeDelete
-                                                                        chat:chat
-                                                                    metaData:@{@"type": @"chat"}
-                                                                      target:RTSystemMsgTargetCC
-                                                                         api:self]];
+    [_queue addOperation:[MessageSendSystemOperation.alloc initWithMsgType:RTMsgTypeDelete
+                                                                      chat:chat
+                                                                  metaData:@{@"type": @"chat"}
+                                                                    target:RTSystemMsgTargetCC
+                                                                       api:self]];
 
   }
 
@@ -1329,7 +1321,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
 
-    MessageProcessDirectOperation *op = [[MessageProcessDirectOperation alloc] initWithMsg:msg api:self];
+    MessageProcessDirectOperation *op = [MessageProcessDirectOperation.alloc initWithMsg:msg api:self];
     op.resolver = resolve;
 
     [_queue addOperation:op];
@@ -1345,9 +1337,9 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
 
-    RTMsgHdr *msgHdr = [[RTMsgHdr alloc] initWithId:msgId type:msgType dataLength:msgDataLength];
+    RTMsgHdr *msgHdr = [RTMsgHdr.alloc initWithId:msgId type:msgType dataLength:msgDataLength];
 
-    MessageRecvOperation *recv = [[MessageRecvOperation alloc] initWithMsgHdr:msgHdr api:self];
+    MessageRecvOperation *recv = [MessageRecvOperation.alloc initWithMsgHdr:msgHdr api:self];
     recv.resolver = resolver;
 
     [_queue addOperation:recv];
@@ -1390,8 +1382,8 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   request.fetchLimit = limit;
   request.fetchBatchSize = 0;
 
-  RTFetchedResultsController *controller = [[RTFetchedResultsController alloc] initWithDBManager:_dbManager
-                                                                                         request:request];
+  RTFetchedResultsController *controller = [RTFetchedResultsController.alloc initWithDBManager:_dbManager
+                                                                                       request:request];
 
   return controller;
 }
@@ -1455,7 +1447,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
 -(void) sendGroupStatusWithSender:(NSString *)sender chat:(RTId *)chat members:(NSSet *)members status:(enum RTUserStatus)status
 {
-  RTGroup *group = [[RTGroup alloc] initWithChat:chat members:[members mutableCopy]];
+  RTGroup *group = [RTGroup.alloc initWithChat:chat members:[members mutableCopy]];
 
   [self.userAPI sendGroupStatus:sender
                           group:group
@@ -1474,11 +1466,11 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   if ([_chatDAO updateChat:chat addGroupMember:chat.localAlias]) {
 
-    [_queue addOperation:[[MessageSendSystemOperation alloc] initWithMsgType:RTMsgTypeEnter
-                                                                        chat:chat
-                                                                    metaData:@{@"member": chat.localAlias}
-                                                                      target:RTSystemMsgTargetAll
-                                                                         api:self]];
+    [_queue addOperation:[MessageSendSystemOperation.alloc initWithMsgType:RTMsgTypeEnter
+                                                                      chat:chat
+                                                                  metaData:@{@"member": chat.localAlias}
+                                                                    target:RTSystemMsgTargetAll
+                                                                       api:self]];
 
   }
 
@@ -1492,11 +1484,11 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
   if ([_chatDAO updateChat:chat removeGroupMember:chat.localAlias]) {
 
-    [_queue addOperation:[[MessageSendSystemOperation alloc] initWithMsgType:RTMsgTypeExit
-                                                                        chat:chat
-                                                                    metaData:@{@"member": chat.localAlias}
-                                                                      target:RTSystemMsgTargetAll
-                                                                         api:self]];
+    [_queue addOperation:[MessageSendSystemOperation.alloc initWithMsgType:RTMsgTypeExit
+                                                                      chat:chat
+                                                                  metaData:@{@"member": chat.localAlias}
+                                                                    target:RTSystemMsgTargetAll
+                                                                       api:self]];
 
   }
 
@@ -1518,7 +1510,7 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 
 -(AnyPromise *) addAlias:(NSString *)alias pin:(NSString *)pin
 {
-  RTAuthenticatedAlias *aliasAndPin = [[RTAuthenticatedAlias alloc] initWithName:alias pin:pin];
+  RTAuthenticatedAlias *aliasAndPin = [RTAuthenticatedAlias.alloc initWithName:alias pin:pin];
 
   return [self.userAPI registerAlias:aliasAndPin].thenInBackground(^{
 
@@ -1732,12 +1724,12 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
     return;
   }
 
-  [_queue addOperation:[[MessageSendDirectOperation alloc] initWithSender:sender
-                                                         recipientDevices:recipientDevices
-                                                                    msgId:msgId
-                                                                  msgType:msgType
-                                                                  msgData:msgData
-                                                                      api:self]];
+  [_queue addOperation:[MessageSendDirectOperation.alloc initWithSender:sender
+                                                       recipientDevices:recipientDevices
+                                                                  msgId:msgId
+                                                                msgType:msgType
+                                                                msgData:msgData
+                                                                    api:self]];
 
 }
 
@@ -1769,11 +1761,11 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
     return;
   }
 
-  [_queue addOperation:[[MessageSendSystemOperation alloc] initWithMsgType:RTMsgTypeView
-                                                                      chat:message.chat
-                                                                  metaData:@{@"msgId": message.id.UUIDString}
-                                                                    target:RTSystemMsgTargetAll
-                                                                       api:self]];
+  [_queue addOperation:[MessageSendSystemOperation.alloc initWithMsgType:RTMsgTypeView
+                                                                    chat:message.chat
+                                                                metaData:@{@"msgId": message.id.UUIDString}
+                                                                  target:RTSystemMsgTargetAll
+                                                                     api:self]];
 }
 
 -(void) showNotificationForMessage:(RTMessage *)message
@@ -1896,27 +1888,6 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
   }
 }
 
--(void) _initiateResendOfUnsentMessages
-{
-
-  //FIXME error handling
-  for (RTMessage *message in [_messageDAO fetchUnsentMessagesAndReturnError:nil]) {
-
-    [_queue addOperation:[[MessageSendOperation alloc] initWithMessage:message api:self]];
-
-  }
-
-}
-
--(void) adjustUnreadWithDelta:(NSInteger)delta
-{
-  NSInteger unread = [NSUserDefaults.standardUserDefaults integerForKey:@"io.retxt.unread"];
-  unread = MAX(unread + delta, 0);
-  [NSUserDefaults.standardUserDefaults setInteger:unread forKey:@"io.retxt.unread"];
-
-  UIApplication.sharedApplication.applicationIconBadgeNumber = unread;
-}
-
 -(void) webSocket:(RTWebSocket *)webSocket willConnect:(NSMutableURLRequest *)request
 {
   [request addHTTPBearerAuthorizationWithToken:_accessToken];
@@ -1967,21 +1938,21 @@ RTPublicAPIClientAsync *_s_publicAPIClient;
 {
   DDLogDebug(@"MSG READY: %@", msgHdr);
 
-  [_queue addOperation:[[MessageRecvOperation alloc] initWithMsgHdr:msgHdr api:self]];
+  [_queue addOperation:[MessageRecvOperation.alloc initWithMsgHdr:msgHdr api:self]];
 }
 
 -(void) webSocket:(RTWebSocket *)webSocket didReceiveMsgDelivery:(RTMsg *)msg
 {
   DDLogDebug(@"MSG DELIVERY: %@, %d, %lld", msg.id, (int)msg.type, msg.sent);
 
-  [_queue addOperation:[[MessageRecvOperation alloc] initWithMsg:msg api:self]];
+  [_queue addOperation:[MessageRecvOperation.alloc initWithMsg:msg api:self]];
 }
 
 -(void) webSocket:(RTWebSocket *)webSocket didReceiveMsgDelivered:(RTId *)msgId recipient:(NSString *)recipient
 {
   DDLogDebug(@"MSG DELIVERED: %@, %@", msgId, recipient);
 
-  [_queue addOperation:[[MessageDeliveredOperation alloc] initWithMsgId:msgId api:self]];
+  [_queue addOperation:[MessageDeliveredOperation.alloc initWithMsgId:msgId api:self]];
 }
 
 -(void) webSocket:(RTWebSocket *)webSocket didReceiveMsgDirect:(RTDirectMsg *)msg

@@ -41,13 +41,13 @@ class MessageFinishOperation: Operation {
     
     // Update sent only if the message has never been sent before
     if (messageContext.message.updated == nil) {
-      dao.updateMessage(messageContext.message, withSent:NSDate(millisecondsSince1970: transmitContext.sentAt!))
+      try! dao.updateMessage(messageContext.message, withSent:NSDate(millisecondsSince1970: transmitContext.sentAt!))
     }
     
     // Ensure we don't overwrite "Delivered" or "Viewed"
     // statuses if they were sent very fast
     if (messageContext.message.status.rawValue <= RTMessageStatus.Sent.rawValue) {
-      dao.updateMessage(messageContext.message, withStatus:.Sent);
+      try! dao.updateMessage(messageContext.message, withStatus:.Sent);
     }
     
   }

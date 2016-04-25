@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(BOOL) addExtenstionNamed:(const char *)name withValue:(NSString *)value toRequest:(X509_REQ *)req;
 +(BOOL) addExtenstionNamed:(const char *)name withValue:(NSString *)value toCertificate:(X509 *)cert;
 
-+(nullable X509 *) generateSelfSignedCertificateNamed:(NSDictionary *)name
++(nullable X509 *) generateSelfSignedCertificateNamed:(NSDictionary<NSString *, NSString *> *)name
                                            forKeyPair:(EVP_PKEY *)keyPair
                                              keyUsage:(NSString *)keyUsage
                                                 error:(NSError **)error;

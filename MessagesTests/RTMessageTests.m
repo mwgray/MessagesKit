@@ -6,14 +6,16 @@
 //  Copyright (c) 2014 reTXT Labs, LLC. All rights reserved.
 //
 
-@import Messages;
 @import XCTest;
+@import Messages;
+@import CoreGraphics;
 
 
 @interface RTMessageTests : XCTestCase <RTDBManagerDelegate> {
   RTUserChat *userChat;
 }
 
+@property (strong, nonatomic) NSString *dbPath;
 @property (strong, nonatomic) RTDBManager *dbManager;
 @property (strong, nonatomic) NSMutableSet *inserted;
 @property (strong, nonatomic) NSMutableSet *updated;
@@ -37,11 +39,12 @@
 {
   [super setUp];
 
-  NSString *dbPath = [NSTemporaryDirectory() stringByAppendingString:@"temp.sqlite"];
-  [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
+  self.dbPath = [NSTemporaryDirectory() stringByAppendingString:@"temp.sqlite"];
+  [[NSFileManager defaultManager] removeItemAtPath:self.dbPath error:nil];
 
-  self.dbManager = [[RTDBManager alloc] initWithPath:dbPath kind:@"Message" daoClasses:@[[RTMessageDAO class],
-                                                                                         [RTChatDAO class]]];
+  self.dbManager = [[RTDBManager alloc] initWithPath:self.dbPath kind:@"Message" daoClasses:@[[RTMessageDAO class],
+                                                                                              [RTChatDAO class]]
+                                               error:nil];
   [self.dbManager addDelegatesObject:self];
 
   self.inserted = [NSMutableSet new];
@@ -59,7 +62,9 @@
 -(void) tearDown
 {
   self.dbManager = nil;
-
+  
+  [[NSFileManager defaultManager] removeItemAtPath:self.dbPath error:nil];
+  
   [super tearDown];
 }
 
@@ -90,13 +95,11 @@
 
 -(RTImageMessage *) newImageMessage
 {
-  //id<DataReference> testDataRef = [[FileDataReference alloc] initWithPath:[self pathForResourceNamed:@"test" ofType:@"png"]];
-
   RTImageMessage *msg = [self fill:[RTImageMessage new]];
-  //[msg saveImageFileWithData:testDataRef andExtension:@"png"];
+  msg.data = [[FileDataReference alloc] initWithPath:[self pathForResourceNamed:@"test" ofType:@"png"]];
 
   CGSize size;
-  //msg.thumbnailData = [RTImageMessage generateThumbnailData:testDataRef size:&size];
+  msg.thumbnailData = [RTImageMessage generateThumbnailWithData:msg.data size:&size];
   msg.thumbnailSize = size;
 
   return msg;
@@ -104,25 +107,21 @@
 
 -(RTAudioMessage *) newAudioMessage
 {
-  //RTDataRef *testDataRef = [RTDataRef dataRefWithPath:[self pathForResourceNamed:@"test" ofType:@"mp3"]];
-
   RTAudioMessage *msg = [self fill:[RTAudioMessage new]];
-  //[msg saveAudioFileWithData:testDataRef andExtension:@"mp3"];
+  msg.data = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp3"]];
   return msg;
 }
 
 -(RTVideoMessage *) newVideoMessage
 {
-  //RTDataRef *testDataRef = [RTDataRef dataRefWithPath:[self pathForResourceNamed:@"test" ofType:@"mp4"]];
-
+  id<DataReference> testDataRef = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp4"]];
+  
   RTVideoMessage *msg = [self fill:[RTVideoMessage new]];
-  //[msg saveVideoFileWithData:testDataRef andExtension:@"mp4"];
-
+  msg.data = testDataRef;
+ 
   NSMutableDictionary *metaData;
-  [msg exportPayloadIntoData:&testDataRef
-  [msg savePayloadData:&testDataRef withMetaData:&metaData];
-
-  [msg loadPayloadData:testDataRef withMetaData:metaData];
+  [msg exportPayloadIntoData:&testDataRef withMetaData:&metaData error:nil];
+  [msg importPayloadFromData:testDataRef withMetaData:metaData error:nil];
 
   return msg;
 }
@@ -140,10 +139,8 @@
 
 -(RTContactMessage *) newContactMessage
 {
-  RTDataRef *testDataRef = [RTDataRef dataRefWithPath:[self pathForResourceNamed:@"test" ofType:@"vcf"]];
-
   RTContactMessage *msg = [self fill:[RTContactMessage new]];
-  msg.vcardData = [testDataRef readAllDataWithError:nil];
+  msg.vcardData = [NSData dataWithContentsOfFile:[self pathForResourceNamed:@"test" ofType:@"vcf"]];
   msg.firstName = @"Test";
   msg.lastName = @"Guy";
   return msg;
@@ -299,7 +296,7 @@
     XCTAssertTrue([self.dbManager[@"Message"] insertMessage:msg error:nil]);
   }
 
-  XCTAssertEqual(4, [dao fetchUnsentMessages].count);
+  XCTAssertEqual(4, [dao fetchUnsentMessagesAndReturnError:nil].count);
 }
 
 -(void) testMessageDelete
@@ -340,7 +337,7 @@
   RTMessageDAO *dao = self.dbManager[@"Message"];
 
   XCTAssertTrue([dao insertMessage:msg error:nil]);
-  XCTAssertTrue([dao updateMessage:msg withSent:[NSDate date]]);
+  XCTAssertTrue([dao updateMessage:msg withSent:[NSDate date] error:nil]);
 
   [dao clearCache];
   XCTAssertTrue([msg isEquivalent:[dao fetchMessageWithId:msg.id]]);
@@ -355,7 +352,7 @@
   RTMessageDAO *dao = self.dbManager[@"Message"];
 
   XCTAssertTrue([dao insertMessage:msg error:nil]);
-  XCTAssertTrue([dao updateMessage:msg withStatus:RTMessageStatusDelivered]);
+  XCTAssertTrue([dao updateMessage:msg withStatus:RTMessageStatusDelivered error:nil]);
   [dao clearCache];
   XCTAssertTrue([msg isEquivalent:[dao fetchMessageWithId:msg.id]]);
 
@@ -383,7 +380,7 @@
   RTMessageDAO *dao = self.dbManager[@"Message"];
 
   XCTAssertTrue([dao insertMessage:msg error:nil]);
-  XCTAssertTrue([dao updateMessage:msg withFlags:RTMessageFlagClarify]);
+  XCTAssertTrue([dao updateMessage:msg withFlags:RTMessageFlagClarify error:nil]);
   [dao clearCache];
   XCTAssertTrue([msg isEquivalent:[dao fetchMessageWithId:msg.id]]);
 
@@ -396,11 +393,11 @@
 
   RTMessageDAO *dao = self.dbManager[@"Message"];
 
-  XCTAssertTrue([dao upsertMessage:msg]);
+  XCTAssertTrue([dao upsertMessage:msg error:nil]);
 
   XCTAssertTrue([_inserted containsObject:msg.id]);
 
-  XCTAssertTrue([dao upsertMessage:msg]);
+  XCTAssertTrue([dao upsertMessage:msg error:nil]);
 
   XCTAssertTrue([_updated containsObject:msg.id]);
 }
@@ -437,7 +434,7 @@
 
   [dao clearCache];
 
-  XCTAssertEqual([dao viewAllMessagesForChat:msg.chat before:[NSDate date]], 5);
+  XCTAssertEqual([dao viewAllMessagesForChat:msg.chat before:[NSDate date] error:nil], YES);
   XCTAssertEqual(_inserted.count, 6);
   XCTAssertEqual(_updated.count, 5);
 }
@@ -446,19 +443,12 @@
 {
   RTMessage *copy = [message copy];
 
-  RTDataRef *dataRef;
+  id<DataReference> dataRef;
   NSMutableDictionary *metaData;
 
-  [message savePayloadData:&dataRef withMetaData:&metaData];
+  [message exportPayloadIntoData:&dataRef withMetaData:&metaData error:nil];
 
-  [copy loadPayloadData:dataRef withMetaData:metaData];
-
-  if ([message respondsToSelector:@selector(thumbnailData)]) {
-    [(id)copy setThumbnailData:[(id)message thumbnailData]];
-  }
-  if ([message respondsToSelector:@selector(dataURL)]) {
-    [(id)copy setDataURL:[(id)message dataURL]];
-  }
+  [copy importPayloadFromData:dataRef withMetaData:metaData error:nil];
 
   return [message isEquivalent:copy];
 }

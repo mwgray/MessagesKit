@@ -24,11 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) FMDatabaseReadWritePool *pool;
 @property (readonly, nonatomic) NSDictionary<NSString *, NSString *> *classTableNames;
 
--(instancetype) initWithPath:(NSString *)dbPath kind:(NSString *)kind daoClasses:(NSArray *)daoClasses;
+-(nullable instancetype) initWithPath:(NSString *)dbPath kind:(NSString *)kind daoClasses:(NSArray *)daoClasses error:(NSError **)error;
 
--(RTDAO *) daoForClass:(Class)modelClass;
+-(__kindof RTDAO *) daoForClass:(Class)modelClass;
 
--(id) objectForKeyedSubscript:(NSString *)daoName;
+-(__kindof RTDAO *) objectForKeyedSubscript:(NSString *)daoName;
 
 -(NSUInteger) countOfDelegates;
 -(void) addDelegatesObject:(id<RTDBManagerDelegate>)delegate;

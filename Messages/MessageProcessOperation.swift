@@ -15,10 +15,10 @@ class MessageProcessOperation: Operation {
   
   let context : MessageFetchContext
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   
-  init(context: MessageFetchContext, api: RTMessageAPI) {
+  init(context: MessageFetchContext, api: MessageAPI) {
     
     self.context = context
 
@@ -45,7 +45,7 @@ class MessageProcessOperation: Operation {
     
   }
   
-  func lookupChatWithMsg(msg: RTMsg) -> RTChat? {
+  func lookupChatWithMsg(msg: RTMsg) throws -> RTChat? {
     
     let chatAlias : String, chatLocalAlias : String
     
@@ -81,12 +81,12 @@ class MessageProcessOperation: Operation {
     
     if !msg.groupIsSet {
       
-      return api.loadUserChatForAlias(chatAlias, localAlias: chatLocalAlias)
+      return try api.loadUserChatForAlias(chatAlias, localAlias: chatLocalAlias)
       
     }
     else {
 
-      return api.loadGroupChatForId(msg.group.chat, members: msg.group.members as NSSet as! Set<String>, localAlias: chatLocalAlias)
+      return try api.loadGroupChatForId(msg.group.chat, members: msg.group.members as NSSet as! Set<String>, localAlias: chatLocalAlias)
       
     }
     
@@ -204,15 +204,15 @@ class MessageProcessOperation: Operation {
         
         if let deletedMessage = try api.messageDAO.fetchMessageWithId(msgId) {
 
-          api.deleteMessageLocally(deletedMessage)
+         try api.deleteMessageLocally(deletedMessage)
           
         }
         
       case "chat":
         
-        if let chat = lookupChatWithMsg(msg) {
+        if let chat = try lookupChatWithMsg(msg) {
           
-          api.deleteChatLocally(chat)
+          try api.deleteChatLocally(chat)
           
         }
         
@@ -258,7 +258,7 @@ class MessageProcessOperation: Operation {
         flags.insert(.Unread)
       }
 
-      api.messageDAO.updateMessage(message, withFlags: message.flags.intersect(flags).rawValue)
+      try api.messageDAO.updateMessage(message, withFlags: message.flags.intersect(flags).rawValue)
 
       if message.unreadFlag {
 
@@ -294,7 +294,7 @@ class MessageProcessOperation: Operation {
         break
       }
       
-      api.messageDAO.updateMessage(message, withStatus: .Viewed, timestamp:NSDate(millisecondsSince1970: msg.sent))
+      try api.messageDAO.updateMessage(message, withStatus: .Viewed, timestamp:NSDate(millisecondsSince1970: msg.sent))
 
       let isCC = (msg.flags & RTMsgFlagCC) == RTMsgFlagCC
       if isCC {
@@ -340,7 +340,7 @@ class MessageProcessOperation: Operation {
         deviceSigningKey = try RTOpenSSLCertificate(DEREncodedData: request.deviceSigningCert, validatedWithTrust: api.certificateTrust).publicKey
       }
       catch {
-        throw RTAPIErrorFactory.invalidCredentialsErrorWithRecipient(msg.sender)
+        throw NSError(code: .InvalidRecipientCertificate, userInfo: ["alias":msg.sender])
       }
 
       let signer = RTMsgSigner(publicKey: deviceSigningKey, signature: msg.signature)
@@ -393,7 +393,7 @@ class MessageProcessOperation: Operation {
         data = nil
       }
     
-      guard let chat = lookupChatWithMsg(msg) else {
+      guard let chat = try lookupChatWithMsg(msg) else {
         DDLogError("MessageProcessOperation: Unable to find chat for message")
         break
       }
@@ -438,7 +438,7 @@ class MessageProcessOperation: Operation {
       }
       else {
         
-        api.chatDAO.updateChat(chat, withLastReceivedMessage:message)
+        try api.chatDAO.updateChat(chat, withLastReceivedMessage:message)
         
       }
     
@@ -449,10 +449,10 @@ class MessageProcessOperation: Operation {
         if let groupChat = chat as? RTGroupChat, let memberAlias = msg.metaData["member"] as? String {
           
           if msg.type == .Enter {
-            api.chatDAO.updateChat(groupChat, addGroupMember: memberAlias)
+            try api.chatDAO.updateChat(groupChat, addGroupMember: memberAlias)
           }
           else if msg.type == .Exit {
-            api.chatDAO.updateChat(groupChat, removeGroupMember: memberAlias)
+            try api.chatDAO.updateChat(groupChat, removeGroupMember: memberAlias)
           }
           
         }
@@ -469,16 +469,16 @@ class MessageProcessOperation: Operation {
         // Send receipts for messages already read
         if !message.unreadFlag {
           
-          api.sendReceiptForMessage(message)
+          produceOperation(SendMessageReceiptOperation(message: message, api: api))
           
         }
         
         dispatch_async(dispatch_get_main_queue()) {
           
           NSNotificationCenter.defaultCenter().postNotificationName(
-            RTMessageAPIUserMessageReceivedNotification,
+            MessageAPIUserMessageReceivedNotification,
             object: self,
-            userInfo: [RTMessageAPIUserMessageReceivedNotification_MessageKey:message])
+            userInfo: [MessageAPIUserMessageReceivedNotification_MessageKey:message])
         
         }
         
@@ -504,7 +504,7 @@ class MessageProcessOperation: Operation {
       // We only adjust the unread count if the message was already unread
       if !previouslyUnread {
         
-        api.adjustUnreadWithDelta(1)
+        api.adjustUnreadMessageCountWithDelta(1)
         
       }
       
@@ -520,7 +520,7 @@ class MessageProcessOperation: Operation {
   
   func verifyMsg(msg: RTMsg) throws -> Bool {
     
-    if let signingCertData = try api.resolveUserWithAlias(msg.sender)?.signingCert {
+    if let signingCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
       
       let signingKey = try RTOpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
       
@@ -528,9 +528,9 @@ class MessageProcessOperation: Operation {
         return true
       }
       
-      api.invalidateUserWithAlias(msg.sender)
+      api.invalidateUserInfoWithAlias(msg.sender)
         
-      if let refreshedSigningCertData = try api.resolveUserWithAlias(msg.sender)?.signingCert {
+      if let refreshedSigningCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
 
         let signingKey = try RTOpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
         

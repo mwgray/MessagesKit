@@ -8,26 +8,40 @@
 
 import Foundation
 import Operations
+import CocoaLumberjack
 
 
-class UpdateAccessToken: Operation {
+public class UpdateAccessToken: Operation {
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
-  init(api: RTMessageAPI) {
+  public init(api: MessageAPI) {
 
     self.api = api
     
     super.init()
-    
+
+    addCondition(MutuallyExclusiveCondition<UpdateAccessToken>())
     addCondition(ReachabilityCondition(host: RTServerAPI.publicURL()))
   }
   
-  override func execute() {
+  public override func execute() {
+    
+    // No need to regenerate...
+    if api.accessToken != nil {
+      finish()
+      return
+    }
+
+    DDLogDebug("Updating access token")
   
     api.publicAPI.generateAccessToken(api.credentials.userId, deviceId: api.credentials.deviceId, refreshToken: api.credentials.refreshToken,
       response: { accessToken in
+
         self.api.updateAccessToken(accessToken)
+        
+        DDLogDebug("Access token updated")
+        
         self.finish()
       },
       failure: { error in

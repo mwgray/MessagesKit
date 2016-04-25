@@ -17,24 +17,35 @@ class MessageAPITest: XCTestCase {
   let testClientA = try! TestClient(baseURL: RTServerAPI.baseURL())
   let testClientB = try! TestClient(baseURL: RTServerAPI.baseURL())
   
-  var api : RTMessageAPI!
+  var api : MessageAPI!
 
   override func setUp() {
     super.setUp()
     
-    testClientB.devices.forEach { $0.openWebSocket() }
+    let x = expectationWithDescription("signIn")
     
-    api = try! firstly {
-      return RTMessageAPI.profileWithId(testClientA.userId, password: testClientA.password)
+    firstly {
+      return MessageAPI.findProfileWithId(testClientA.userId, password: testClientA.password)
     }
     .then { profile in
-      return RTMessageAPI.signInWithProfile(profile as! RTUserProfile, password: self.testClientA.password)
+      return MessageAPI.signInWithProfile(profile as! RTUserProfile, deviceId: self.testClientA.devices[0].deviceInfo.id, password: self.testClientA.password)
     }
-    .then { creds -> RTMessageAPI in
-      let creds = creds!.updateDeviceId(self.testClientA.devices[0].deviceInfo.id)
-      return try RTMessageAPI(credentials: creds, documentDirectoryURL: MessageAPITest.documentDirectoryURL)
+    .then { creds -> Void in
+      let creds = creds.authorizeWithEncryptionIdentity(self.testClientA.encryptionIdentity, signingIdentity: self.testClientA.signingIdentity)
+      self.api = try MessageAPI(credentials: creds, documentDirectoryURL: MessageAPITest.documentDirectoryURL)
     }
-    .wait()
+    .always {
+      x.fulfill()
+    }
+    .error { caught in
+      fatalError("Error signing in: \(caught)")
+    }
+   
+    waitForExpectationsWithTimeout(5, handler: { error in
+      if let error = error {
+        fatalError("Sign in timed out: \(error)")
+      }
+    })
     
   }
   
@@ -46,18 +57,24 @@ class MessageAPITest: XCTestCase {
     super.tearDown()
   }
 
-  func testReceiveUserStatus() {
+  func testReceiveUserStatus() throws {
+
+    let x = expectationWithDescription("Receiving user status")
     
-    let queue = UnboundedBlockingQueue<(String, RTUserStatus)>();
+    let _ = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
+    
     NSNotificationCenter.defaultCenter()
-      .addObserverForName(RTMessageAPIUserStatusDidChangeNotification, object: api, queue: nil, usingBlock: { not in
-        if let info = not.object as? RTUserStatusInfo {
-          queue.put((info.userAlias, info.status))
+      .addObserverForName(MessageAPIUserStatusDidChangeNotification, object: api, queue: nil, usingBlock: { not in
+        if not.userInfo?[MessageAPIUserStatusDidChangeNotification_InfoKey] is RTUserStatusInfo {
+          x.fulfill()
         }
       })
     
+    sleep(2); // Wait for access token generation and websocket connect
+    
     try! testClientB.sendUserStatus(.Typing, from: testClientB.devices[0].preferredAlias, to: testClientA.devices[0].preferredAlias)
     
+    waitForExpectationsWithTimeout(15, handler: nil)
   }
 
 }

@@ -11,4 +11,20 @@ Pod::Spec.new do |s|
   s.source_files = 'Messages/*.{h,m,swift}'
   s.exclude_files = 'src/fmdb.m'
 
+  s.dependency 'CocoaLumberjack/Swift'
+  s.dependency 'OpenSSL'
+  s.dependency 'JWTDecode'
+  s.dependency 'HTMLReader'
+  s.dependency 'SSKeychain'
+  s.dependency 'SocketRocket'
+  s.dependency 'FMDB/standalone/swift'
+  s.dependency 'FMDBMigrationManager'
+  s.dependency 'YOLOKit'
+  s.dependency 'Operations'
+  s.dependency 'Thrift'
+  s.dependency 'PromiseKit'
+  s.dependency 'PromiseKit/AddressBook'
+  s.dependency 'PromiseKit/AssetsLibrary'
+  s.dependency 'PromiseKit/AVFoundation'
+
 end

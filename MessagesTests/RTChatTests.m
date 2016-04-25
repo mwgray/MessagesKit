@@ -18,6 +18,7 @@
 #import <KVOController/KVOController.h>
 
 @import YOLOKit;
+@import FMDB;
 
 
 @interface RTChatTests : XCTestCase <RTDBManagerDelegate>
@@ -40,7 +41,7 @@
   [super setUp];
 
   self.dbPath = [NSTemporaryDirectory() stringByAppendingString:@"test.sqlite"];
-  self.dbManager = [[RTDBManager alloc] initWithPath:self.dbPath kind:@"Message" daoClasses:@[[RTMessageDAO class], [RTChatDAO class]]];
+  self.dbManager = [[RTDBManager alloc] initWithPath:self.dbPath kind:@"Message" daoClasses:@[[RTMessageDAO class], [RTChatDAO class]] error:nil];
   [self.dbManager addDelegatesObject:self];
 
   self.chatDAO = self.dbManager[@"Chat"];
@@ -240,7 +241,9 @@
 
   [self.chatDAO clearCache];
 
-  XCTAssertNotNil([self.chatDAO fetchChatForAlias:chat.alias localAlias:chat.localAlias]);
+  RTUserChat *found;
+  [self.chatDAO fetchChatForAlias:chat.alias localAlias:chat.localAlias returning:&found error:nil];
+  XCTAssertNotNil(found);
 }
 
 -(void) testChatUpdate
@@ -273,7 +276,7 @@
   XCTAssertTrue([self.chatDAO insertChat:chat error:nil]);
   XCTAssertTrue([self.msgDAO insertMessage:chat.lastMessage error:nil]);
 
-  XCTAssertTrue([self.chatDAO updateChat:chat addGroupMember:@"New"]);
+  XCTAssertTrue([self.chatDAO updateChat:chat addGroupMember:@"New" error:nil]);
   XCTAssertTrue([chat.members containsObject:@"New"]);
   XCTAssertTrue([chat.activeMembers containsObject:@"New"]);
 
@@ -293,7 +296,7 @@
   XCTAssertTrue([self.chatDAO insertChat:chat error:nil]);
   XCTAssertTrue([self.msgDAO insertMessage:chat.lastMessage error:nil]);
 
-  XCTAssertTrue([self.chatDAO updateChat:chat removeGroupMember:@"Me"]);
+  XCTAssertTrue([self.chatDAO updateChat:chat removeGroupMember:@"Me" error:nil]);
 
   XCTAssertFalse([chat.activeRecipients containsObject:@"Me"]);
   XCTAssertFalse([chat.allRecipients containsObject:@"Me"]);
@@ -313,7 +316,7 @@
   XCTAssertTrue([self.chatDAO insertChat:chat error:nil]);
   XCTAssertTrue([self.msgDAO insertMessage:chat.lastMessage error:nil]);
 
-  XCTAssertTrue([self.chatDAO updateChat:chat withLastMessage:[self newMessage]]);
+  XCTAssertTrue([self.chatDAO updateChat:chat withLastMessage:[self newMessage] error:nil]);
 
   chat.lastMessage.chat = chat;
   XCTAssertTrue([self.msgDAO insertMessage:chat.lastMessage error:nil]);

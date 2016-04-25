@@ -9,13 +9,10 @@
 @import Foundation;
 
 #import "RTMessages.h"
+#import "DataReference.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-
-@protocol DataInputStream;
-@protocol DataOutputStream;
 
 
 extern NSString *const RTMsgCipherErrorDomain;

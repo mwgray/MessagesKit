@@ -10,6 +10,7 @@ import Foundation
 
 
 extension RTMessageAPI {
+
   
   public func findUserWithAlias(alias: String) -> Promise<RTId?> {
     return __findUserWithAlias(alias).then(on: zalgo) { result in
@@ -28,7 +29,7 @@ extension RTMessageAPI {
   public class func profileWithAlias(alias: String, password: String) -> Promise<RTUserProfile> {
     return Promise(resolvers: {fulfill, reject in
       RTMessageAPI.publicAPI()
-        .profileWithAlias(alias, password: password,
+        .findProfileWithAlias(alias, password: password,
           response: { fulfill($0) }, failure: { reject($0) })
     })
   }
@@ -36,7 +37,7 @@ extension RTMessageAPI {
   public class func profileWithId(userId: RTId, password: String) -> Promise<RTUserProfile> {
     return Promise(resolvers: {fulfill, reject in
       RTMessageAPI.publicAPI()
-        .profileWithId(userId, password: password,
+        .findProfileWithId(userId, password: password,
           response: { fulfill($0) }, failure: { reject($0) })
     })
   }

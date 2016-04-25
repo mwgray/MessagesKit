@@ -42,21 +42,11 @@ PODS:
     - PromiseKit/UIKit
   - PromiseKit/AVFoundation (3.0.3):
     - PromiseKit/CorePromise
-  - PromiseKit/CoreLocation (3.0.3):
-    - PromiseKit/CorePromise
   - PromiseKit/CorePromise (3.0.3)
   - PromiseKit/Foundation (3.0.3):
     - OMGHTTPURLRQ (~> 3.1.0)
     - PromiseKit/CorePromise
-  - PromiseKit/MapKit (3.0.3):
-    - PromiseKit/CorePromise
-  - PromiseKit/MessageUI (3.0.3):
-    - PromiseKit/CorePromise
-  - PromiseKit/Photos (3.0.3):
-    - PromiseKit/CorePromise
   - PromiseKit/QuartzCore (3.0.3):
-    - PromiseKit/CorePromise
-  - PromiseKit/Social (3.0.3):
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (3.0.3):
     - PromiseKit/CorePromise
@@ -241,11 +231,6 @@ DEPENDENCIES:
   - PromiseKit/AddressBook (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AssetsLibrary (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AVFoundation (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
-  - PromiseKit/CoreLocation (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
-  - PromiseKit/MapKit (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
-  - PromiseKit/MessageUI (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
-  - PromiseKit/Photos (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
-  - PromiseKit/Social (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - SocketRocket
   - SSKeychain
   - Thrift (from `https://github.com/reTXT/thrift.git`, branch `master`)
@@ -295,6 +280,6 @@ SPEC CHECKSUMS:
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: e4ee04bd61aa10e44b1feb3a57fc7061ad06c3db
+PODFILE CHECKSUM: efd67662c9872e6c5dbb84f9888701ea0431506b
 
 COCOAPODS: 1.0.0.beta.8

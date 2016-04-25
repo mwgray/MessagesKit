@@ -170,14 +170,6 @@
   return YES;
 }
 
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTId("];
-  [ms appendString: @"data:"];
-  [ms appendFormat: @"\"%@\"", _data];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
 @end
 
 @implementation RTGroup

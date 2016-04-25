@@ -1,0 +1,36 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "04101981B66E318109934C9516F88D824BB96459" : 0,
+    "D9BF12A4EC150465251BDF34A8739F4EB53C500B" : 0,
+    "FB1A5A4CA35EF25B1B33DCC60F147C550DEDEC21" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "459B0A78-D190-445B-9131-1BD051732ECE",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "04101981B66E318109934C9516F88D824BB96459" : "..\/fmdb",
+    "D9BF12A4EC150465251BDF34A8739F4EB53C500B" : "..\/FMDBMigrationManager",
+    "FB1A5A4CA35EF25B1B33DCC60F147C550DEDEC21" : "..\/YOLOKit"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Messages",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Messages.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/reTXT\/fmdb.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "04101981B66E318109934C9516F88D824BB96459"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:reTXT\/FMDBMigrationManager.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D9BF12A4EC150465251BDF34A8739F4EB53C500B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:reTXT\/YOLOKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FB1A5A4CA35EF25B1B33DCC60F147C550DEDEC21"
+    }
+  ]
+}

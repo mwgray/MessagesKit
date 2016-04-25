@@ -19,7 +19,7 @@ class MessageRecipientResolveOperation: MessageAPIOperation {
   var context : MessageResolveContext
   
   
-  init(context: MessageResolveContext, api: RTMessageAPI) {
+  init(context: MessageResolveContext, api: MessageAPI) {
     
     self.context = context
     
@@ -38,11 +38,11 @@ class MessageRecipientResolveOperation: MessageAPIOperation {
     for recipientAlias in context.recipients {
       
       do {
-        if let recipientInfo = try api.resolveUserWithAlias(recipientAlias) {
+        if let recipientInfo = try api.resolveUserInfoWithAlias(recipientAlias) {
           recipientsInfo[recipientAlias] = recipientInfo
         }
         else {
-          throw RTAPIErrorFactory.invalidAliasErrorWithAlias(recipientAlias)
+          throw NSError(code: MessageAPIError.InvalidRecipientAlias, userInfo: ["alias":recipientAlias])
         }
       }
       catch let error as NSError {

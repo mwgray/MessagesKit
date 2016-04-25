@@ -8,8 +8,9 @@
 
 #import "RTImageMessage.h"
 
-#import "Messages-Swift.h"
 #import "RTMessageDAO.h"
+#import "MemoryDataReference.h"
+#import "DataReferences.h"
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 #import "FMResultSet+Utils.h"

@@ -41,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(RTCredentials *) updateAllAliases:(NSArray<NSString *> *)allAliases preferredAlias:(NSString *)preferredAlias;
 -(RTCredentials *) updatePreferredAlias:(NSString *)preferredAlias;
 
-+(instancetype) loadFromKeychain;
-+(instancetype) loadFromKeychain:(RTId *)userId;
++(nullable instancetype) loadFromKeychain;
++(nullable instancetype) loadFromKeychain:(RTId *)userId;
 
 -(BOOL) saveToKeychain:(NSError **)error;
 +(void) deleteFromKeychain;

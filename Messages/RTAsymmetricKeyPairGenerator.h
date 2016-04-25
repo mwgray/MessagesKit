@@ -58,7 +58,7 @@ typedef NS_OPTIONS(NSInteger, RTAsymmetricKeyPairUsage) {
                                                                  usage:(RTAsymmetricKeyPairUsage)usage
                                                                  error:(NSError **)error;
 
-+(nullable RTAsymmetricIdentity *) generateSelfSignedIdentityNamed:(NSDictionary *)certName
++(nullable RTAsymmetricIdentity *) generateSelfSignedIdentityNamed:(NSDictionary<NSString *, NSString *> *)certName
                                                        withKeySize:(NSUInteger)keySize
                                                              usage:(RTAsymmetricKeyPairUsage)usage
                                                              error:(NSError **)error;

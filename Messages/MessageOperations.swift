@@ -16,7 +16,7 @@ public typealias Resolver = (AnyObject?) -> Void
 public class MessageAPIOperation: Operation {
   
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   public var resolver : Resolver?
   
@@ -24,7 +24,7 @@ public class MessageAPIOperation: Operation {
     return nil
   }
   
-  public init(api: RTMessageAPI) {
+  public init(api: MessageAPI) {
     self.api = api
     
     super.init()
@@ -37,9 +37,9 @@ public class MessageAPIOperation: Operation {
     
     for error in errors {
       
-      let transError = RTAPIErrorFactory.translateError(error)
+      let transError = translateError(error)
       
-      if transError.checkAPIError(.AuthenticationError) {
+      if transError == MessageAPIError.AuthenticationError {
         
         api.signOut()
         
@@ -65,7 +65,7 @@ public class MessageAPIOperation: Operation {
 public class MessageAPIGroupOperation: GroupOperation {
   
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   public var resolver : Resolver?
   
@@ -73,7 +73,7 @@ public class MessageAPIGroupOperation: GroupOperation {
     return nil
   }
   
-  public init(api: RTMessageAPI) {
+  public init(api: MessageAPI) {
     self.api = api
     
     super.init(operations: [])
@@ -86,9 +86,9 @@ public class MessageAPIGroupOperation: GroupOperation {
     
     for error in errors {
       
-      let transError = RTAPIErrorFactory.translateError(error)
+      let transError = translateError(error)
       
-      if transError.checkAPIError(.AuthenticationError) {
+      if transError == MessageAPIError.AuthenticationError {
         
         api.signOut()
         

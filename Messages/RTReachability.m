@@ -16,8 +16,8 @@
 RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 
-NSString *RTNetworkConnectivityAvailable = @"RTNetworkConnectivityAvailable";
-NSString *RTNetworkConnectivityLost = @"RTNetworkConnectivityLost";
+NSString *RTNetworkConnectivityAvailableNotification = @"RTNetworkConnectivityAvailable";
+NSString *RTNetworkConnectivityUnavailableNotification = @"RTNetworkConnectivityUnavailable";
 
 
 @interface RTReachability ()
@@ -86,10 +86,10 @@ static RTReachability *_s_instance;
   }
 
   if (available) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:RTNetworkConnectivityAvailable object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RTNetworkConnectivityAvailableNotification object:self];
   }
   else {
-    [[NSNotificationCenter defaultCenter] postNotificationName:RTNetworkConnectivityLost object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RTNetworkConnectivityUnavailableNotification object:self];
   }
 
 }

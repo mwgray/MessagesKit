@@ -15,7 +15,7 @@ public class MessageProcessDirectOperation: MessageAPIOperation {
   let msg : RTDirectMsg
   
   
-  public init(msg: RTDirectMsg, api: RTMessageAPI) {
+  public init(msg: RTDirectMsg, api: MessageAPI) {
     
     self.msg = msg
     
@@ -48,16 +48,16 @@ public class MessageProcessDirectOperation: MessageAPIOperation {
       let data = try RTMsgCipher(forKey: key).decryptData(msg.data, withKey: key)
       
       let userInfo = [
-        RTMessageAPIDirectMessageReceivedNotification_MsgIdKey: msg.id,
-        RTMessageAPIDirectMessageReceivedNotification_MsgTypeKey: msg.type,
-        RTMessageAPIDirectMessageReceivedNotification_MsgDataKey: data,
-        RTMessageAPIDirectMessageReceivedNotification_SenderKey: msg.sender,
-        RTMessageAPIDirectMessageReceivedNotification_SenderDeviceIdKey: msg.senderDevice
+        MessageAPIDirectMessageReceivedNotification_MsgIdKey: msg.id,
+        MessageAPIDirectMessageReceivedNotification_MsgTypeKey: msg.type,
+        MessageAPIDirectMessageReceivedNotification_MsgDataKey: data,
+        MessageAPIDirectMessageReceivedNotification_SenderKey: msg.sender,
+        MessageAPIDirectMessageReceivedNotification_SenderDeviceIdKey: msg.senderDevice
       ]
       
       dispatch_async(dispatch_get_main_queue()) {
         NSNotificationCenter.defaultCenter()
-          .postNotificationName(RTMessageAPIDirectMessageReceivedNotification, object:self, userInfo:userInfo);
+          .postNotificationName(MessageAPIDirectMessageReceivedNotification, object:self, userInfo:userInfo);
       }
         
     }
@@ -70,7 +70,7 @@ public class MessageProcessDirectOperation: MessageAPIOperation {
 
   func verifyMsg() throws -> Bool {
     
-    if let signingCertData = try api.resolveUserWithAlias(msg.sender)?.signingCert {
+    if let signingCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
       
       let signingKey = try RTOpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
         
@@ -80,9 +80,9 @@ public class MessageProcessDirectOperation: MessageAPIOperation {
         return true
       }
       
-      api.invalidateUserWithAlias(msg.sender)
+      api.invalidateUserInfoWithAlias(msg.sender)
       
-      if let refreshedSigningCertData = try api.resolveUserWithAlias(msg.sender)?.signingCert {
+      if let refreshedSigningCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
         
         let signingKey = try RTOpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
         

@@ -14,7 +14,7 @@ public class FetchWaitingOperation: MessageAPIOperation {
   
   public var total = 0
   
-  public override init(api: RTMessageAPI) {
+  public override init(api: MessageAPI) {
     
     super.init(api: api)
     

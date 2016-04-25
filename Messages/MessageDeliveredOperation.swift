@@ -15,7 +15,7 @@ import Foundation
   let msgId : RTId
   
   
-  public init(msgId: RTId, api: RTMessageAPI) {
+  public init(msgId: RTId, api: MessageAPI) {
     
     self.msgId = msgId
   
@@ -32,7 +32,7 @@ import Foundation
           return;
         }
       
-        api.messageDAO.updateMessage(deliveredMessage, withStatus: .Delivered)
+        try api.messageDAO.updateMessage(deliveredMessage, withStatus: .Delivered)
       }
       
     }

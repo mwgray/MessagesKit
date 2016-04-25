@@ -24,7 +24,7 @@ import Operations
   var encryptedData : DataReference?
   
   
-  public init(msgHdr: RTMsgHdr, api: RTMessageAPI) {
+  public init(msgHdr: RTMsgHdr, api: MessageAPI) {
     
     self.msgHdr = msgHdr
     
@@ -53,7 +53,7 @@ import Operations
     addOperations([fetch, save])
   }
   
-  public init(msg: RTMsg, api: RTMessageAPI) {
+  public init(msg: RTMsg, api: MessageAPI) {
     
     self.encryptedData = MemoryDataReference(data: msg.data)
     

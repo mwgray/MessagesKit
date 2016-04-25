@@ -9,8 +9,8 @@
 @import Foundation;
 
 
-extern NSString *RTNetworkConnectivityAvailable;
-extern NSString *RTNetworkConnectivityLost;
+extern NSString *RTNetworkConnectivityAvailableNotification;
+extern NSString *RTNetworkConnectivityUnavailableNotification;
 
 
 @interface RTReachability : NSObject

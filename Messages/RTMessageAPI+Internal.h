@@ -15,6 +15,7 @@
 #import "RTMessageDAO.h"
 #import "RTChatDAO.h"
 #import "RTNotificationDAO.h"
+#import "RTWebSocket.h"
 
 #import "RTPersistentCache.h"
 
@@ -24,13 +25,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+@class OperationQueue;
+
+
 @interface RTMessageAPI (Internal)
 
 +(id<RTPublicAPIAsync>) publicAPI;
 
-@property (readonly, nonatomic, getter=isActive) BOOL active;
+@property(assign, nonatomic) BOOL active;
+@property(retain, nullable, nonatomic) RTId *activeChatId;
+@property(retain, nullable, nonatomic) RTId *suspendedChatId;
 
-@property (readonly, nonatomic, getter=isNetworkUnavailable) BOOL networkUnavailable;
+@property (assign, nonatomic) BOOL networkAvailable;
+
+@property (readonly, nonatomic) OperationQueue *queue;
 
 @property (readonly, nonatomic) RTMessageDAO *messageDAO;
 @property (readonly, nonatomic) RTChatDAO *chatDAO;
@@ -38,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic) id<RTPublicAPIAsync> publicAPI;
 @property (readonly, nonatomic) id<RTUserAPIAsync> userAPI;
+@property (readonly, nonatomic) RTWebSocket *webSocket;
 
 @property (readonly, nonatomic) RTPersistentCache<NSString *, RTUserInfo *> *userInfoCache;
 
@@ -63,10 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef NS_OPTIONS (int, RTSystemMsgTarget) {
-  RTSystemMsgTargetRecipients = (1 << 0),
-  RTSystemMsgTargetCC         = (1 << 1),
-  RTSystemMsgTargetInactive   = (1 << 2),
-  RTSystemMsgTargetAll        = RTSystemMsgTargetRecipients | RTSystemMsgTargetCC | RTSystemMsgTargetInactive,
+  RTSystemMsgTargetActiveRecipients   = (1 << 0),
+  RTSystemMsgTargetCC                 = (1 << 1),
+  RTSystemMsgTargetInactiveRecipients = (1 << 2),
+  RTSystemMsgTargetStandard           = RTSystemMsgTargetActiveRecipients | RTSystemMsgTargetCC,
+  RTSystemMsgTargetEverybody          = RTSystemMsgTargetActiveRecipients | RTSystemMsgTargetCC | RTSystemMsgTargetInactiveRecipients,
 };
 
 

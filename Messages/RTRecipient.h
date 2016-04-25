@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 reTXT Labs, LLC. All rights reserved.
 //
 
-@import Foundation;
-@import AddressBook;
-
 #import "RTMessages.h"
 
 

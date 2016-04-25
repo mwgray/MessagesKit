@@ -37,17 +37,17 @@ typedef NS_ENUM (int32_t, RTChatType) {
 
 -(instancetype) initWithDBManager:(RTDBManager *)dbManager;
 
--(nullable RTChat *) fetchChatForAlias:(NSString *)alias localAlias:(NSString *)localAlias;
+-(BOOL) fetchChatForAlias:(NSString *)alias localAlias:(NSString *)localAlias returning:(RTChat *__nullable __autoreleasing *__nonnull)chat error:(NSError **)error;
 
--(BOOL) updateChat:(RTChat *)chat withLastMessage:(RTMessage *)message;
--(BOOL) updateChat:(RTChat *)chat withLastSentMessage:(RTMessage *)message;
--(BOOL) updateChat:(RTChat *)chat withLastReceivedMessage:(RTMessage *)message;
+-(BOOL) updateChat:(RTChat *)chat withLastMessage:(nullable RTMessage *)message error:(NSError **)error;
+-(BOOL) updateChat:(RTChat *)chat withLastSentMessage:(RTMessage *)message error:(NSError **)error;
+-(BOOL) updateChat:(RTChat *)chat withLastReceivedMessage:(RTMessage *)message error:(NSError **)error;
 
 -(BOOL) updateChat:(RTChat *)chat withClarifiedCount:(int)clarifiedCount;
 -(BOOL) updateChat:(RTChat *)chat withUpdatedCount:(int)updatedCount;
 
--(BOOL) updateChat:(RTGroupChat *)chat addGroupMember:(NSString *)alias;
--(BOOL) updateChat:(RTGroupChat *)chat removeGroupMember:(NSString *)alias;
+-(BOOL) updateChat:(RTGroupChat *)chat addGroupMember:(NSString *)alias error:(NSError **)error;
+-(BOOL) updateChat:(RTGroupChat *)chat removeGroupMember:(NSString *)alias error:(NSError **)error;
 
 -(BOOL) resetUnreadCountsForChat:(RTChat *)chat;
 

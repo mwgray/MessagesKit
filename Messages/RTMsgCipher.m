@@ -8,7 +8,6 @@
 
 #import "RTMsgCipher.h"
 
-#import "Messages-Swift.h"
 #import "NSData+Random.h"
 #import "RTOpenSSL.h"
 

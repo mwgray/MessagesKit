@@ -10,6 +10,10 @@ import Foundation
 
 
 
+public enum WaitError : ErrorType {
+  case TimeExpired
+}
+
 extension Promise where T : AnyObject {
   
   public func wait(time: dispatch_time_t = DISPATCH_TIME_FOREVER) throws -> T? {
@@ -17,9 +21,15 @@ extension Promise where T : AnyObject {
     always {
       dispatch_semaphore_signal(sema)
     }
+    
     if dispatch_semaphore_wait(sema, time) != 0 {
-      return nil
+      throw WaitError.TimeExpired
     }
+    
+    if let error = error {
+      throw error
+    }
+    
     return self.value
   }
   

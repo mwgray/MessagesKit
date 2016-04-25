@@ -31,7 +31,7 @@
   NSString *dbPath = [NSTemporaryDirectory() stringByAppendingString:@"temp.sqlite"];
   [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
 
-  self.dbManager = [[RTDBManager alloc] initWithPath:dbPath kind:@"Message" daoClasses:@[[RTNotificationDAO class]]];
+  self.dbManager = [[RTDBManager alloc] initWithPath:dbPath kind:@"Message" daoClasses:@[[RTNotificationDAO class]] error:nil];
   [self.dbManager addDelegatesObject:self];
 
   self.dao = self.dbManager[@"Notification"];

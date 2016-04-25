@@ -14,11 +14,11 @@ public struct RequireAccessToken: OperationCondition {
   
   public static let name = "RequireAccessToken"
   
-  public static let isMutuallyExclusive = true
+  public static let isMutuallyExclusive = false
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
-  init(api: RTMessageAPI) {
+  init(api: MessageAPI) {
     self.api = api
   }
   

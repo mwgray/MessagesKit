@@ -8,8 +8,9 @@
 
 #import "RTTextMessage.h"
 
-#import "Messages-Swift.h"
 #import "RTMessageDAO.h"
+#import "MemoryDataReference.h"
+#import "DataReferences.h"
 #import "RTHTMLText.h"
 #import "NSObject+Utils.h"
 #import "NSString+Utils.h"

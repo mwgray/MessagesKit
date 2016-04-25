@@ -9,10 +9,10 @@
 #import "RTModel.h"
 
 
-@class RTMessage;
-
-
 NS_ASSUME_NONNULL_BEGIN
+
+
+@class RTMessage;
 
 
 @interface RTChat : RTModel

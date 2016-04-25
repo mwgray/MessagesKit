@@ -46,13 +46,13 @@ typedef NS_ENUM (int32_t, RTMessageSoundAlert) {
 
 @interface RTMessage : RTModel
 
-@property (strong, nonatomic) RTId *id;
+@property (copy, nonatomic) RTId *id;
 @property (strong, nonatomic) RTChat *chat;
-@property (strong, nonatomic) NSString *sender;
-@property (strong, nonatomic, nullable) NSDate *sent;
-@property (strong, nonatomic, nullable) NSDate *updated;
+@property (copy, nonatomic, nullable) NSString *sender;
+@property (copy, nonatomic, nullable) NSDate *sent;
+@property (copy, nonatomic, nullable) NSDate *updated;
 @property (assign, nonatomic) RTMessageStatus status;
-@property (strong, nonatomic, nullable) NSDate *statusTimestamp;
+@property (copy, nonatomic, nullable) NSDate *statusTimestamp;
 @property (assign, nonatomic) RTMessageFlags flags;
 
 @property (assign, nonatomic) BOOL clarifyFlag;
@@ -64,6 +64,9 @@ typedef NS_ENUM (int32_t, RTMessageSoundAlert) {
 @property (readonly, nonatomic) BOOL sentByMe;
 
 @property (readonly, nonatomic) RTMessageSoundAlert soundAlert;
+
+-(instancetype) initWithChat:(RTChat *)chat;
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat NS_DESIGNATED_INITIALIZER;
 
 -(BOOL) isEquivalent:(RTMessage *)message;
 -(BOOL) isEquivalentToMessage:(RTMessage *)message;

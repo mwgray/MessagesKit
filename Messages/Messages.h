@@ -29,6 +29,12 @@ FOUNDATION_EXPORT const unsigned char MessagesVersionString[];
 #import "RTMessageDAO.h"
 #import "RTNotificationDAO.h"
 
+#import "DataReference.h"
+#import "DataReferences.h"
+#import "BlobDataReference.h"
+#import "FileDataReference.h"
+#import "MemoryDataReference.h"
+
 #import "RTModel.h"
 #import "RTMessage.h"
 #import "RTTextMessage.h"
@@ -41,6 +47,7 @@ FOUNDATION_EXPORT const unsigned char MessagesVersionString[];
 #import "RTEnterMessage.h"
 #import "RTExitMessage.h"
 #import "RTNotification.h"
+
 #import "RTChat.h"
 #import "RTUserChat.h"
 #import "RTGroupChat.h"
@@ -48,8 +55,6 @@ FOUNDATION_EXPORT const unsigned char MessagesVersionString[];
 #import "RTRecipient.h"
 
 #import "RTServerAPI.h"
-#import "RTMessageAPI.h"
-#import "RTMessageAPI+Internal.h"
 
 #import "RTCredentials.h"
 #import "RTUserStatusInfo.h"
@@ -64,9 +69,16 @@ FOUNDATION_EXPORT const unsigned char MessagesVersionString[];
 
 #import "RTMsgSigner.h"
 #import "RTMsgCipher.h"
+
 #import "RTURLSessionSSLValidator.h"
+#import "NSURLSessionConfiguration+RTMessageAPI.h"
 
 #import "NSMutableURLRequest+Utils.h"
 #import "NSURL+Utils.h"
 #import "NSDate+Utils.h"
 #import "TBase+Utils.h"
+
+#import "RTReachability.h"
+#import "RTHTTPSessionTransportFactory.h"
+
+#import "MessageAPI+Compat.h"

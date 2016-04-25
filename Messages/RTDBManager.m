@@ -70,7 +70,7 @@ static NSString *RTDBManagerMigrationsFolder = @"Migrations";
 
 @implementation RTDBManager
 
--(instancetype) initWithPath:(NSString *)dbPath kind:(NSString *)kind daoClasses:(NSArray *)daoClasses
+-(instancetype) initWithPath:(NSString *)dbPath kind:(NSString *)kind daoClasses:(NSArray *)daoClasses error:(NSError * _Nullable __autoreleasing * _Nullable)error
 {
   if ((self = [super init])) {
 
@@ -78,13 +78,14 @@ static NSString *RTDBManagerMigrationsFolder = @"Migrations";
     _delegates = [NSMutableSet set];
     _classTableNames = [NSMutableDictionary dictionary];
 
-    _pool = [FMDatabaseReadWritePool databasePoolWithPath:dbPath];
+    _pool = [FMDatabaseReadWritePool.alloc initWithPath:dbPath error:error];
     if (!_pool) {
       return nil;
     }
 
     _pool.delegate = self;
 
+    __block BOOL initialized = NO;
     [_pool inWritableDatabase:^(FMDatabase *db) {
 
       db.shouldCacheStatements = YES;
@@ -98,10 +99,9 @@ static NSString *RTDBManagerMigrationsFolder = @"Migrations";
                                                                               bundlePath:migrationsPath];
       if (!migrationManager.hasMigrationsTable) {
 
-        NSError *error = nil;
-
-        if (![migrationManager createMigrationsTable:&error]) {
-          [[NSException exceptionWithName:@"RTDBManagerException" reason:@"Error creating migration table" userInfo:@{@"error":error}] raise];
+        if (![migrationManager createMigrationsTable:error]) {
+          error && (*error = [NSError errorWithDomain:@"RTDBManagerErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error creating migration table"}]);
+          return;
         }
 
       }
@@ -110,14 +110,14 @@ static NSString *RTDBManagerMigrationsFolder = @"Migrations";
 
         DDLogInfo(@"%@ database has %lu pending migrations", kind, (unsigned long)migrationManager.pendingVersions.count);
 
-        NSError *error;
-
-        [migrationManager migrateDatabaseToVersion:UINT64_MAX progress:^(NSProgress *progress) {
+        BOOL migrated = [migrationManager migrateDatabaseToVersion:UINT64_MAX progress:^(NSProgress *progress) {
           DDLogInfo(@"%@ database migration %lld/%lld", kind, progress.completedUnitCount, progress.totalUnitCount);
-        } error:&error];
+        } error:error];
 
-        if (error) {
-          [[NSException exceptionWithName:@"RTDBManagerException" reason:@"Database migration failed" userInfo:@{@"error":error}] raise];
+        if (!migrated) {
+          error && (*error = [NSError errorWithDomain:@"RTDBManagerErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Database migration failed",
+                                                                                                  NSUnderlyingErrorKey: *error}]);
+          return;
         }
 
         DDLogInfo(@"%@ database migration complete", kind);
@@ -127,7 +127,12 @@ static NSString *RTDBManagerMigrationsFolder = @"Migrations";
         DDLogInfo(@"%@ database up-to-date", kind);
       }
 
+      initialized = YES;
     }];
+    
+    if (!initialized) {
+      return nil;
+    }
 
     for (Class daoClass in daoClasses) {
 
@@ -139,6 +144,7 @@ static NSString *RTDBManagerMigrationsFolder = @"Migrations";
     }
     
   }
+  
   return self;
 }
 

@@ -8,8 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface RTURLSessionSSLValidator : NSObject <NSURLSessionDelegate>
 
 -(instancetype) initWithTrustedCertificates:(NSArray *)trustedCertificates;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

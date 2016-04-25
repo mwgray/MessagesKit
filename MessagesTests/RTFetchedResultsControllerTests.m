@@ -42,7 +42,8 @@
   [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
 
   self.dbManager = [[RTDBManager alloc] initWithPath:dbPath kind:@"Message" daoClasses:@[[RTMessageDAO class],
-                                                                                         [RTChatDAO class]]];
+                                                                                         [RTChatDAO class]]
+                                               error:nil];
   [self.dbManager addDelegatesObject:self];
 
   self.messageDAO = self.dbManager[@"Message"];
@@ -162,7 +163,7 @@
 
     [self.expectations addObject:[self expectationWithDescription:@"Move|Update"]];
 
-    [self.messageDAO updateMessage:msgs[(int)(drand48()*100)] withSent:[NSDate dateWithTimeIntervalSinceNow:-2000-(c*100)]];
+    [self.messageDAO updateMessage:msgs[(int)(drand48()*100)] withSent:[NSDate dateWithTimeIntervalSinceNow:-2000-(c*100)] error:nil];
 
     [self waitForExpectationsWithTimeout:10 handler:NULL];
 
@@ -216,7 +217,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
 
       for (int c=0; c < 100; ++c) {
-        [self.messageDAO updateMessage:msgs[(int)(drand48()*100)] withSent:[NSDate dateWithTimeIntervalSinceNow:-2000-(c*100)]];
+        [self.messageDAO updateMessage:msgs[(int)(drand48()*100)] withSent:[NSDate dateWithTimeIntervalSinceNow:-2000-(c*100)] error:nil];
       }
 
       [updates fulfill];

@@ -20,10 +20,10 @@ class MessageBuildOperation: Operation {
   
   var transmitContext : MessageTransmitContext
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   
-  init(buildContext: MessageBuildContext,  transmitContext: MessageTransmitContext, api: RTMessageAPI) {
+  init(buildContext: MessageBuildContext,  transmitContext: MessageTransmitContext, api: MessageAPI) {
     
     self.buildContext = buildContext
     self.transmitContext = transmitContext
@@ -59,11 +59,11 @@ class MessageBuildOperation: Operation {
             recipientKey = try RTOpenSSLCertificate(DEREncodedData: recipientInfo.encryptionCert, validatedWithTrust: api.certificateTrust).publicKey
           }
           catch {
-            throw RTAPIErrorFactory.invalidCredentialsErrorWithRecipient(recipientAlias)
+            throw NSError(code: .InvalidRecipientCertificate, userInfo: ["alias":recipientAlias])
           }
           
           let encryptedKey = try recipientKey.encryptData(key)
-          let signature = try signer.signWithId(message.id, type: msgType, sender: message.sender, recipient: recipientAlias, chatId: chatId, msgKey: encryptedKey)
+          let signature = try signer.signWithId(message.id, type: msgType, sender: message.sender!, recipient: recipientAlias, chatId: chatId, msgKey: encryptedKey)
           
           envelopes.append(
             RTEnvelope(recipient: recipientAlias, key: encryptedKey, signature: signature, fingerprint: recipientInfo.fingerprint)
@@ -74,7 +74,7 @@ class MessageBuildOperation: Operation {
         // Generate a CC envelope
         
         let encryptedCCKey = try api.credentials.encryptionIdentity.publicKey.encryptData(key)
-        let ccSignature = try signer.signWithId(message.id, type: msgType, sender: message.sender, recipient: message.chat.localAlias, chatId: chatId, msgKey: encryptedCCKey)
+        let ccSignature = try signer.signWithId(message.id, type: msgType, sender: message.sender!, recipient: message.chat.localAlias, chatId: chatId, msgKey: encryptedCCKey)
         
         envelopes.append(
           RTEnvelope(recipient: message.chat.localAlias, key: encryptedCCKey, signature: ccSignature, fingerprint: nil)

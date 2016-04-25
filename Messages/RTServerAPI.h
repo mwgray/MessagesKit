@@ -9,6 +9,9 @@
 #import "RTMessages.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 extern NSString *RTServerEnvironmentName;
 extern NSString *RTServerScheme;
 extern NSString *RTServerHost;
@@ -58,3 +61,6 @@ extern NSString *RTMsgInfoHTTPHeader;
 +(NSString *) HTTPAuthorizationHeaderWithBearer:(NSString *)token;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

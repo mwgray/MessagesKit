@@ -11,22 +11,31 @@
 #import "RTChat.h"
 #import "RTChatDAO.h"
 #import "RTMessageDAO.h"
+#import "MemoryDataReference.h"
+#import "FileDataReference.h"
+#import "BlobDataReference.h"
 #import "RTMessages+Exts.h"
 #import "NSObject+Utils.h"
 #import "NSDate+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 #import "FMResultSet+Utils.h"
-#import "Messages-Swift.h"
 
 
 @implementation RTMessage
 
 @synthesize id=_id;
 
--(instancetype) init
+-(instancetype) initWithChat:(RTChat *)chat
 {
-  if ((self = [super init])) {
-    _id = [RTId generate];
+  return [self initWithId:[RTId generate] chat:chat];
+}
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat
+{
+  self = [super init];
+  if (self) {
+    self.id = id;
+    self.chat = chat;
   }
   return self;
 }
@@ -55,6 +64,7 @@
                           error:error]) {
     return NO;
   }
+  self.chat = chat;
   
   self.sender = [resultSet stringForColumnIndex:dao.senderFieldIdx];
   self.sent = [resultSet dateForColumnIndex:dao.sentFieldIdx];
@@ -229,7 +239,7 @@
     if (!size) {
       return nil;
     }
-    return [NSNumber numberWithBool:size.unsignedLongLongValue < (1024 * 64)];
+    return [NSNumber numberWithBool:size.unsignedLongLongValue > 1024];
   }
   else if ([anyData isKindOfClass:FileDataReference.class]) {
     // Files - Convert all of them
@@ -256,7 +266,8 @@
                             forTable:@"blob"
                           inDatabase:@"main"
                                using:dbManager
-                          filteredBy:nil error:error];
+                          filteredBy:nil
+                               error:error];
 }
 
 @end

@@ -103,7 +103,7 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable> {
       return nil
     }
     
-    return (value: row[0] as! ValueType, expires: row[1] as! NSDate)
+    return (value: row[0] as! ValueType, expires: NSDate(timeIntervalSince1970: row[1] as! Double))
   }
   
   private func cacheValue(value: ValueType, forKey key: KeyType, expires: NSDate, inDatabase db: FMDatabase) throws {

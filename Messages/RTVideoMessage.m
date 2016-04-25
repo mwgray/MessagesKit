@@ -8,8 +8,8 @@
 
 #import "RTVideoMessage.h"
 
-#import "Messages-Swift.h"
 #import "RTMessageDAO.h"
+#import "DataReference.h"
 #import "TBase+Utils.h"
 #import "NSURL+Utils.h"
 #import "NSObject+Utils.h"

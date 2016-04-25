@@ -22,14 +22,14 @@ class MessageBuildSystemOperation: Operation {
   
   let metaData : [String: String]
 
-  let target : RTSystemMsgTarget
+  let target : SystemMsgTarget
   
   var transmitContext : MessageTransmitContext
   
-  let api : RTMessageAPI
+  let api : MessageAPI
   
   
-  init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: RTSystemMsgTarget, transmitContext: MessageTransmitContext, api: RTMessageAPI) {
+  init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: SystemMsgTarget, transmitContext: MessageTransmitContext, api: MessageAPI) {
     
     self.msgType = msgType
     self.chat = chat
@@ -64,10 +64,16 @@ class MessageBuildSystemOperation: Operation {
 
       msgPack.envelopes = []
       
-      if target.contains(.Recipients) {
-        
-        // Select between all or just active recipients
-        let recipients = target.contains(.Inactive) ? chat.allRecipients : chat.activeRecipients
+      // Determine which regular recipients (if any)
+      var recipients : Set<String>?
+      if target.contains(.ActiveRecipients) && target.contains(.InactiveRecipients) {
+        recipients = chat.allRecipients
+      }
+      else if target.contains(.ActiveRecipients) {
+        recipients = chat.activeRecipients
+      }
+      
+      if let recipients = recipients {
         
         // Add recipient envelopes
         for recipient in recipients {
