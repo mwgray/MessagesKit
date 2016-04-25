@@ -140,4 +140,9 @@
   return [FileDataReference copyFrom:self toPath:tempPath filteredBy:filter error:error];
 }
 
+-(BOOL) saveToFile:(NSString *)filePath error:(NSError * _Nullable __autoreleasing *)error
+{
+  return [NSFileManager.defaultManager copyItemAtPath:_path toPath:filePath error:error];
+}
+
 @end
