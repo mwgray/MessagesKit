@@ -7,6 +7,7 @@
 //
 
 #import "DataReference.h"
+#import "FileDataReference.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(nullable NSData *) filterReference:(id<DataReference>)source intoMemoryUsingFilter:(nullable DataReferenceFilter)filter error:(NSError **)error;
 +(BOOL) filterStreamsWithInput:(id<DataInputStream>)inputStream output:(id<DataOutputStream>)outputStream usingFilter:(nullable DataReferenceFilter)filter error:(NSError **)error;
 +(nullable NSData *) readAllDataFromReference:(id<DataReference>)source error:(NSError **)error;
++(nullable FileDataReference *) duplicateDataReferenceToTemporaryFile:(id<DataReference>)source withExtension:(NSString *)extension error:(NSError **)error;
 
 @end
 

@@ -76,4 +76,10 @@
   return [self filterReference:source intoMemoryUsingFilter:self.copyFilter error:error];
 }
 
++(FileDataReference *)duplicateDataReferenceToTemporaryFile:(id<DataReference>)source withExtension:(NSString *)extension error:(NSError * _Nullable __autoreleasing *)error
+{
+  NSString *tempPath = [[NSTemporaryDirectory() stringByAppendingString:NSUUID.UUID.UUIDString] stringByAppendingPathExtension:extension];
+  return [FileDataReference copyFrom:source toPath:tempPath filteredBy:nil error:error];
+}
+
 @end
