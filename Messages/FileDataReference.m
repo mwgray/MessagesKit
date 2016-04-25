@@ -118,7 +118,15 @@
     }
     return nil;
   }
+  
   [ins open];
+  if (ins.streamError) {
+    if (error) {
+      *error = ins.streamError;
+    }
+    return nil;
+  }
+  
   return ins;
 }
 

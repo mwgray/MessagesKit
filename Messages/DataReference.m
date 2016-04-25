@@ -21,7 +21,9 @@
   NSInteger res = [self read:buffer maxLength:maxLength];
   if (res < 0) {
     if (error) {
-      *error = [NSError errorWithDomain:@"NSStreamErrorDomain" code:0 userInfo:@{}];
+      *error = self.streamError ? self.streamError : [NSError errorWithDomain:@"NSStreamErrorDomain"
+                                                                         code:0
+                                                                     userInfo:@{NSLocalizedDescriptionKey:@"Read failed"}];
     }
     return NO;
   }
@@ -37,7 +39,16 @@
 
 -(BOOL) writeBytesFromBuffer:(const UInt8 *)buffer length:(NSUInteger)length error:(NSError * _Nullable __autoreleasing *)error
 {
-  return [self write:buffer maxLength:length] == length;
+  NSUInteger written = [self write:buffer maxLength:length];
+  if (written != length) {
+    if (error) {
+      *error = self.streamError ? self.streamError : [NSError errorWithDomain:@"NSStreamErrorDomain"
+                                                                         code:0
+                                                                     userInfo:@{NSLocalizedDescriptionKey:@"Write failed"}];
+    }
+    return NO;
+  }
+  return YES;
 }
 
 @end
