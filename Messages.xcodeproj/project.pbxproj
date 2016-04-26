@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2257EBB9F7232D27B84A4C42 /* Pods_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */; };
 		7D3612C08EF94D04AB417062 /* Pods_Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D9A54E82B3CA539F58B595 /* Pods_Messages.framework */; };
 		812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */; };
 		AA05D21A1CC827A20051039E /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2181CC827A20051039E /* NSObject+Utils.h */; };
@@ -511,7 +510,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9C1C7A1CC028190070FB59 /* Messages.framework in Frameworks */,
-				2257EBB9F7232D27B84A4C42 /* Pods_MessagesTests.framework in Frameworks */,
 				812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
