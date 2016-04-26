@@ -1090,7 +1090,7 @@ extension MessageAPI {
   }
 
   #if !RELEASE
-  @nonobjc static var __fakeUniqueDeviceId : RTId! //FIXME should init here but crashes compiler with required @nonobjc attribute
+  @nonobjc static var __fakeUniqueDeviceId = RTId.generate()
   #endif
   
   private class func discoverDeviceId() -> Promise<RTId> {
