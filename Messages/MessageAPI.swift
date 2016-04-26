@@ -952,7 +952,7 @@ extension MessageAPI {
       }
   }
   
-  @nonobjc public class func registerUserWithAliases(aliasesAndPins: [String: String], password: String, documentDirectoryURL: NSURL) -> Promise<RTCredentials> {
+  @nonobjc public class func registerUserWithAliases(aliasesAndPins: [String: String], password: String) -> Promise<RTCredentials> {
     
     let aliases = Array(aliasesAndPins.keys)
     let authenticatedAliases = aliasesAndPins.map { RTAuthenticatedAlias(name: $0, pin: $1)! }
