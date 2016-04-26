@@ -266,7 +266,7 @@ class MessageProcessOperation: Operation {
 
       }
 
-      signalMessage(message, wasPreviouslyUnread:previouslyUnread)
+      try signalMessage(message, wasPreviouslyUnread:previouslyUnread)
       
 
     //
@@ -298,7 +298,7 @@ class MessageProcessOperation: Operation {
 
       let isCC = (msg.flags & RTMsgFlagCC) == RTMsgFlagCC
       if isCC {
-        api.hideNotificationForMessage(message)
+        try api.hideNotificationForMessage(message)
       }
       
       
@@ -463,7 +463,7 @@ class MessageProcessOperation: Operation {
         
         // Play alerts, show notifications, etc.
         
-        signalMessage(message, wasPreviouslyUnread:previosulyUnread)
+        try signalMessage(message, wasPreviouslyUnread:previosulyUnread)
         
         
         // Send receipts for messages already read
@@ -488,7 +488,7 @@ class MessageProcessOperation: Operation {
       
   }
   
-  func signalMessage(message: RTMessage, wasPreviouslyUnread previouslyUnread: Bool) {
+  func signalMessage(message: RTMessage, wasPreviouslyUnread previouslyUnread: Bool) throws {
     
     // Play alert if the message's chat is currently active or no chat is active
     
@@ -510,7 +510,7 @@ class MessageProcessOperation: Operation {
       
       if !api.active || api.isOtherChatActive(message.chat) {
         
-        api.showNotificationForMessage(message)
+        try api.showNotificationForMessage(message)
         
       }
     }

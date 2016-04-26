@@ -259,7 +259,9 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       let unreadCount = Int(try! self.messageDAO.readAllMessagesForChat(chat))
       self.adjustUnreadMessageCountWithDelta(-unreadCount)
       
-      self.hideNotificationsForChat(chat)
+      if let error = try? self.hideNotificationsForChat(chat) {
+        DDLogError("Error hiding notifications for chat: \(chat.alias): \(error)")
+      }
       
       self.queue.addOperation(SendChatReceiptOperation(chat: chat, api: self))
     }
@@ -451,7 +453,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       
     }
     
-    hideNotificationForMessage(message)
+    try hideNotificationForMessage(message)
   }
 
   @objc public func deleteMessage(message: RTMessage) throws {
@@ -579,7 +581,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     try chatDAO.deleteChat(chat)
   
-    hideNotificationsForChat(chat)
+    try hideNotificationsForChat(chat)
   }
 
   @objc public func deleteChat(chat: RTChat) throws {
@@ -594,26 +596,123 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     queue.addOperation(delete)
   }
   
-  internal func showNotificationForMessage(message: RTMessage) {
-    //TODO
-  }
-  
-  internal func hideNotificationForMessage(message: RTMessage) {
-    //TODO
-  }
-  
-  internal func hideNotificationsForChat(chat: RTChat) {
-    //TODO
-  }
-  
-  internal func signOut() {
-    //TODO
-  }
-  
-  @nonobjc public func findUserIdWithAlias(alias: String) -> Promise<RTId?> {
-    return self.publicAPI.findUserWithAlias(alias).then(on: zalgo) { val in
-      return val as? RTId
+  internal func showNotificationForMessage(message: RTMessage) throws {
+
+    DDLogDebug("SHOWING NOTIFICATION: \(message.id)")
+    
+    //FIXME title & body should be generatable by end user
+    
+    let title = message.chat.activeRecipients.joinWithSeparator(", ")
+    
+    let body : String
+    
+    if (RTSettings.sharedSettings().privacyShowPreviews) {
+      
+      if (message.clarifyFlag) {
+        
+        body = "\(title) doesn't understand your message"
+
+      }
+      else {
+        
+        body = "\(title) \(message.alertText())"
+      }
+      
     }
+    else {
+      
+      body = "\(title) New Message"
+      
+    }
+    
+    //FIXME allow user provided sounds
+    
+    //let sound = message.clarifyFlag ? RTSound_Message_Clarify : (message.updated ? RTSound_Message_Update : RTSound_Message_Receive)
+    let sound = UILocalNotificationDefaultSoundName
+    
+    let localNotification = UILocalNotification()
+    localNotification.category = "message"
+    localNotification.alertBody = body
+    localNotification.soundName = sound
+    localNotification.userInfo = ["msgId" : message.id.description]
+    localNotification.fireDate = NSDate(timeIntervalSinceNow:0.25)
+    localNotification.applicationIconBadgeNumber = NSUserDefaults.standardUserDefaults().integerForKey(UnreadMessageCountKey)
+    
+    try saveAndScheduleLocalNotification(localNotification, forMessage: message)
+  }
+  
+  internal func showFailNotificationForMessage(message: RTMessage) throws {
+
+    DDLogDebug("SHOWING FAIL NOTIFICATION: \(message.id)")
+    
+    //FIXME title & body should be generatable by end user
+
+    let title = message.chat.activeRecipients.joinWithSeparator(", ");
+    
+    let body = "Failed to send message to: \(title)"
+    
+    let localNotification = UILocalNotification()
+    localNotification.alertBody = body
+    localNotification.soundName = UILocalNotificationDefaultSoundName
+    localNotification.userInfo = ["msgId" : message.id.description]
+    
+    try saveAndScheduleLocalNotification(localNotification, forMessage: message)
+  }
+
+  internal func saveAndScheduleLocalNotification(localNotification: UILocalNotification, forMessage message: RTMessage) throws {
+    
+    UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+    
+    var notification = try notificationDAO.fetchNotificationWithId(message.id)
+    
+    if let notification = notification {
+      try deleteAndCancelNotification(notification, ifOnOrBefore: NSDate())
+    }
+    else {
+      notification = RTNotification()
+      notification!.msgId = message.id
+      notification!.chatId = message.chat.id
+    }
+    
+    notification!.data = NSKeyedArchiver.archivedDataWithRootObject(localNotification)
+    
+    try notificationDAO.upsertNotification(notification!)
+  }
+  
+  internal func hideNotificationsForChat(chat: RTChat) throws {
+    
+    DDLogDebug("HIDING NOTIFICATIONS FOR CHAT: \(chat.id)")
+
+    for notification in try notificationDAO.fetchAllNotificationsForChat(chat) {
+      try deleteAndCancelNotification(notification, ifOnOrBefore:NSDate())
+    }
+    
+  }
+  
+  internal func hideNotificationForMessage(message: RTMessage) throws {
+    
+    DDLogDebug("HIDING NOTIFICATION FOR MESSAGE: \(message.id)")
+    
+    for notification in try notificationDAO.fetchAllNotificationsMatching("chatId = ?", parameters: [message.chat.id]) {
+      try deleteAndCancelNotification(notification, ifOnOrBefore:message.statusTimestamp ?? NSDate())
+    }
+    
+  }
+  
+  internal func deleteAndCancelNotification(notification: RTNotification, ifOnOrBefore sent: NSDate) throws {
+    
+    if let localNotification = NSKeyedUnarchiver.unarchiveObjectWithData(notification.data) as? UILocalNotification {
+      
+      if let fireDate = localNotification.fireDate
+        where fireDate.compare(sent).rawValue <= NSComparisonResult.OrderedSame.rawValue {
+        
+        UIApplication.sharedApplication().cancelLocalNotification(localNotification)
+
+        try notificationDAO.deleteNotification(notification)
+      }
+      
+    }
+    
   }
   
   @objc public func findUserIdWithAlias(alias: String) -> AnyPromise {
