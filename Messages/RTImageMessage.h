@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) id<DataReference> thumbnailOrImageData;
 
-+(id<DataReference>) generateThumbnailWithData:(id<DataReference>)imageData size:(CGSize *)outPointSize;
++(nullable id<DataReference>) generateThumbnailWithData:(id<DataReference>)imageData size:(CGSize *)outPointSize error:(NSError **)error;
 
 -(BOOL) isEquivalentToImageMessage:(RTImageMessage *)imageMessage;
 

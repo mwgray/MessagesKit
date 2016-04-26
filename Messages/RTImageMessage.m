@@ -146,16 +146,24 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
   self.dataMimeType = metaData[RTMetaDataKey_MimeType];
   self.data = payloadData;
 
-  _thumbnailData = [RTImageMessage generateThumbnailWithData:payloadData size:&_thumbnailSize];
+  _thumbnailData = [RTImageMessage generateThumbnailWithData:payloadData size:&_thumbnailSize error:error];
+  if (!_thumbnailData) {
+    return NO;
+  }
   
   return YES;
 }
 
-+(id<DataReference>) generateThumbnailWithData:(id<DataReference>)imageData size:(CGSize *)outSize
++(id<DataReference>) generateThumbnailWithData:(id<DataReference>)imageData size:(CGSize *)outSize error:(NSError **)error
 {
   CGSize maxSize = CGSizeScale(UIScreen.mainScreen.bounds.size, RT_THUMBNAIL_MAX_PERCENT);
   CGRect maxRect = {CGPointZero, maxSize};
 
+  NSData *imageSourceData = [DataReferences readAllDataFromReference:imageData error:error];
+  if (!imageSourceData) {
+    return nil;
+  }
+  
   CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)[DataReferences readAllDataFromReference:imageData error:nil], NULL);
   if (!imageSource) {
     return nil;
