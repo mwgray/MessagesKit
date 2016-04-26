@@ -4,10 +4,10 @@ use_frameworks!
 
 target :Messages do
   
-  pod 'Operations', :path => '../Operations'
-  pod 'FMDB/standalone/swift', :path => '../fmdb'
-  pod 'FMDBMigrationManager', :path => '../FMDBMigrationManager'
-  pod 'YOLOKit', :path => '../YOLOKit', :branch => 'master'
+  pod 'Operations', :git => 'https://github.com/reTXT/Operations.git', :branch => 'master'
+  pod 'FMDB/standalone/swift', :git => 'https://github.com/reTXT/fmdb.git', :branch => 'current'
+  pod 'FMDBMigrationManager', :git => 'https://github.com/reTXT/FMDBMigrationManager.git', :branch => 'master'
+  pod 'YOLOKit', :git => 'https://github.com/reTXT/YOLOKit.git', :branch => 'master'
 
   pod 'Thrift', :git => 'https://github.com/reTXT/thrift.git', :branch => 'master'
   pod 'PromiseKit', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'

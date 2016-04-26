@@ -220,13 +220,13 @@ PODS:
 DEPENDENCIES:
   - CocoaLumberjack/Swift
   - DeviceKit
-  - FMDB/standalone/swift (from `../fmdb`)
-  - FMDBMigrationManager (from `../FMDBMigrationManager`)
+  - FMDB/standalone/swift (from `https://github.com/reTXT/fmdb.git`, branch `current`)
+  - FMDBMigrationManager (from `https://github.com/reTXT/FMDBMigrationManager.git`, branch `master`)
   - HTMLReader
   - JWTDecode
   - OCMock
   - OpenSSL
-  - Operations (from `../Operations`)
+  - Operations (from `https://github.com/reTXT/Operations.git`, branch `master`)
   - PromiseKit (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AddressBook (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AssetsLibrary (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
@@ -234,15 +234,18 @@ DEPENDENCIES:
   - SocketRocket
   - SSKeychain
   - Thrift (from `https://github.com/reTXT/thrift.git`, branch `master`)
-  - YOLOKit (from `../YOLOKit`)
+  - YOLOKit (from `https://github.com/reTXT/YOLOKit.git`, branch `master`)
 
 EXTERNAL SOURCES:
   FMDB:
-    :path: "../fmdb"
+    :branch: current
+    :git: https://github.com/reTXT/fmdb.git
   FMDBMigrationManager:
-    :path: "../FMDBMigrationManager"
+    :branch: master
+    :git: https://github.com/reTXT/FMDBMigrationManager.git
   Operations:
-    :path: "../Operations"
+    :branch: master
+    :git: https://github.com/reTXT/Operations.git
   PromiseKit:
     :branch: master
     :git: https://github.com/reTXT/PromiseKit.git
@@ -251,15 +254,27 @@ EXTERNAL SOURCES:
     :git: https://github.com/reTXT/thrift.git
   YOLOKit:
     :branch: master
-    :path: "../YOLOKit"
+    :git: https://github.com/reTXT/YOLOKit.git
 
 CHECKOUT OPTIONS:
+  FMDB:
+    :commit: a02d60e054766e9756453c3dfa5fca584cb37a3f
+    :git: https://github.com/reTXT/fmdb.git
+  FMDBMigrationManager:
+    :commit: 969baab3f604dc4637f086b6f447458296f978fb
+    :git: https://github.com/reTXT/FMDBMigrationManager.git
+  Operations:
+    :commit: 7a7f6db2910f94b962d7da2729b66ff9a2f32780
+    :git: https://github.com/reTXT/Operations.git
   PromiseKit:
     :commit: 6720b50d7ed4ccf83824bd65a6883113e97b67a1
     :git: https://github.com/reTXT/PromiseKit.git
   Thrift:
     :commit: 8c213489cf31389ea4b4b7147ca8ae49ebcd462f
     :git: https://github.com/reTXT/thrift.git
+  YOLOKit:
+    :commit: d14756998a48a505b459a86d5d2f0a723396dd62
+    :git: https://github.com/reTXT/YOLOKit.git
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
@@ -280,6 +295,6 @@ SPEC CHECKSUMS:
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: 428df2c0965bad8fdb58915793dc289d6a89163e
+PODFILE CHECKSUM: 0676c572723de89454e27397b5f58efd73cdccb5
 
 COCOAPODS: 1.0.0.beta.8
