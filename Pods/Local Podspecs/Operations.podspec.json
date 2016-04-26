@@ -1,0 +1,31 @@
+{
+  "name": "Operations",
+  "version": "0.0.1",
+  "summary": "Advanced implementation of NSOperations that allows conditions and observers",
+  "description": "Advanced implementation of NSOperations that allows conditions and observers",
+  "homepage": "https://github.com/reTXT/Operations",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Kevin Wooten": "kevin@retxt.com"
+  },
+  "platforms": {
+    "ios": "8.0",
+    "osx": "10.10",
+    "watchos": "2.0",
+    "tvos": "9.0"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Operations",
+  "exclude_files": "Operations/Exclude",
+  "requires_arc": true,
+  "dependencies": {
+    "KVOController": [
+
+    ]
+  }
+}

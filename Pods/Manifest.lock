@@ -1,0 +1,285 @@
+PODS:
+  - CocoaLumberjack/Core (2.2.0)
+  - CocoaLumberjack/Default (2.2.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.2.0):
+    - CocoaLumberjack/Default
+  - CocoaLumberjack/Swift (2.2.0):
+    - CocoaLumberjack/Extensions
+  - DeviceKit (0.3.2)
+  - FMDB/standalone/swift (2.6.2):
+    - FMDB/swift
+    - sqlite3
+  - FMDB/standard (2.6.2)
+  - FMDB/swift (2.6.2):
+    - FMDB/standard
+  - FMDBMigrationManager (1.4.1):
+    - FMDBMigrationManager/System (= 1.4.1)
+  - FMDBMigrationManager/System (1.4.1):
+    - FMDB/standard (>= 2.3)
+  - HTMLReader (0.9.6)
+  - JWTDecode (1.0.0)
+  - KVOController (1.1.0)
+  - OCMock (3.3)
+  - OMGHTTPURLRQ (3.1.1):
+    - OMGHTTPURLRQ/RQ (= 3.1.1)
+  - OMGHTTPURLRQ/FormURLEncode (3.1.1)
+  - OMGHTTPURLRQ/RQ (3.1.1):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (3.1.1)
+  - OpenSSL (1.0.207)
+  - Operations (0.0.1):
+    - KVOController
+  - PromiseKit (3.0.3):
+    - PromiseKit/Foundation (= 3.0.3)
+    - PromiseKit/QuartzCore (= 3.0.3)
+    - PromiseKit/UIKit (= 3.0.3)
+  - PromiseKit/AddressBook (3.0.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/AssetsLibrary (3.0.3):
+    - PromiseKit/UIKit
+  - PromiseKit/AVFoundation (3.0.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (3.0.3)
+  - PromiseKit/Foundation (3.0.3):
+    - OMGHTTPURLRQ (~> 3.1.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (3.0.3):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (3.0.3):
+    - PromiseKit/CorePromise
+  - SocketRocket (0.5.0)
+  - sqlite3 (3.12.2):
+    - sqlite3/common (= 3.12.2)
+  - sqlite3/common (3.12.2)
+  - SSKeychain (1.4.0)
+  - Thrift (1.0.0)
+  - YOLOKit (11.1.3):
+    - YOLOKit/all (= 11.1.3)
+    - YOLOKit/any (= 11.1.3)
+    - YOLOKit/array (= 11.1.3)
+    - YOLOKit/base (= 11.1.3)
+    - YOLOKit/chunk (= 11.1.3)
+    - YOLOKit/concat (= 11.1.3)
+    - YOLOKit/dict (= 11.1.3)
+    - YOLOKit/each (= 11.1.3)
+    - YOLOKit/extend (= 11.1.3)
+    - YOLOKit/find (= 11.1.3)
+    - YOLOKit/first (= 11.1.3)
+    - YOLOKit/flatMap (= 11.1.3)
+    - YOLOKit/flatten (= 11.1.3)
+    - YOLOKit/fmap (= 11.1.3)
+    - YOLOKit/get (= 11.1.3)
+    - YOLOKit/groupBy (= 11.1.3)
+    - YOLOKit/has (= 11.1.3)
+    - YOLOKit/indexOf (= 11.1.3)
+    - YOLOKit/inject (= 11.1.3)
+    - YOLOKit/join (= 11.1.3)
+    - YOLOKit/last (= 11.1.3)
+    - YOLOKit/map (= 11.1.3)
+    - YOLOKit/max (= 11.1.3)
+    - YOLOKit/min (= 11.1.3)
+    - YOLOKit/none (= 11.1.3)
+    - YOLOKit/partition (= 11.1.3)
+    - YOLOKit/pick (= 11.1.3)
+    - YOLOKit/pluck (= 11.1.3)
+    - YOLOKit/pmap (= 11.1.3)
+    - YOLOKit/pop (= 11.1.3)
+    - YOLOKit/push (= 11.1.3)
+    - YOLOKit/reduce (= 11.1.3)
+    - YOLOKit/reverse (= 11.1.3)
+    - YOLOKit/rotate (= 11.1.3)
+    - YOLOKit/sample (= 11.1.3)
+    - YOLOKit/select (= 11.1.3)
+    - YOLOKit/shift (= 11.1.3)
+    - YOLOKit/shuffle (= 11.1.3)
+    - YOLOKit/skip (= 11.1.3)
+    - YOLOKit/slice (= 11.1.3)
+    - YOLOKit/snip (= 11.1.3)
+    - YOLOKit/sort (= 11.1.3)
+    - YOLOKit/split (= 11.1.3)
+    - YOLOKit/transpose (= 11.1.3)
+    - YOLOKit/uniq (= 11.1.3)
+    - YOLOKit/unshift (= 11.1.3)
+    - YOLOKit/upTo (= 11.1.3)
+    - YOLOKit/without (= 11.1.3)
+  - YOLOKit/all (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/any (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/array (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/base (11.1.3)
+  - YOLOKit/chunk (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/slice
+  - YOLOKit/concat (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/dict (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/transpose
+  - YOLOKit/each (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/extend (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/find (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/first (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/slice
+  - YOLOKit/flatMap (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/flatten (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/fmap (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/map
+  - YOLOKit/get (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/groupBy (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/has (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/indexOf (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/inject (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/join (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/pluck
+  - YOLOKit/last (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/slice
+  - YOLOKit/map (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/max (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/min (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/none (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/partition (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/pick (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/pluck (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/pmap (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/pop (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/push (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/reduce (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/last
+  - YOLOKit/reverse (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/rotate (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/concat
+    - YOLOKit/skip
+    - YOLOKit/snip
+  - YOLOKit/sample (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/select (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/shift (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/shuffle (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/skip (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/last
+  - YOLOKit/slice (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/snip (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/slice
+  - YOLOKit/sort (11.1.3):
+    - YOLOKit/all
+    - YOLOKit/base
+    - YOLOKit/transpose
+  - YOLOKit/split (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/transpose (11.1.3):
+    - YOLOKit/base
+    - YOLOKit/each
+    - YOLOKit/max
+    - YOLOKit/select
+  - YOLOKit/uniq (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/unshift (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/upTo (11.1.3):
+    - YOLOKit/base
+  - YOLOKit/without (11.1.3):
+    - YOLOKit/base
+
+DEPENDENCIES:
+  - CocoaLumberjack/Swift
+  - DeviceKit
+  - FMDB/standalone/swift (from `../fmdb`)
+  - FMDBMigrationManager (from `../FMDBMigrationManager`)
+  - HTMLReader
+  - JWTDecode
+  - OCMock
+  - OpenSSL
+  - Operations (from `../Operations`)
+  - PromiseKit (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
+  - PromiseKit/AddressBook (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
+  - PromiseKit/AssetsLibrary (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
+  - PromiseKit/AVFoundation (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
+  - SocketRocket
+  - SSKeychain
+  - Thrift (from `https://github.com/reTXT/thrift.git`, branch `master`)
+  - YOLOKit (from `../YOLOKit`)
+
+EXTERNAL SOURCES:
+  FMDB:
+    :path: "../fmdb"
+  FMDBMigrationManager:
+    :path: "../FMDBMigrationManager"
+  Operations:
+    :path: "../Operations"
+  PromiseKit:
+    :branch: master
+    :git: https://github.com/reTXT/PromiseKit.git
+  Thrift:
+    :branch: master
+    :git: https://github.com/reTXT/thrift.git
+  YOLOKit:
+    :branch: master
+    :path: "../YOLOKit"
+
+CHECKOUT OPTIONS:
+  PromiseKit:
+    :commit: 6720b50d7ed4ccf83824bd65a6883113e97b67a1
+    :git: https://github.com/reTXT/PromiseKit.git
+  Thrift:
+    :commit: 8c213489cf31389ea4b4b7147ca8ae49ebcd462f
+    :git: https://github.com/reTXT/thrift.git
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  DeviceKit: 79182140c0aa8daaf4f4b3920e0b079f5fa9db79
+  FMDB: 29b696c579f66357b9a60b2e7e93600c61255063
+  FMDBMigrationManager: d52007f328ea0665e8985ca8a33500707aef084f
+  HTMLReader: 7e21488ee378afc56ccade8af35840c4e03e434c
+  JWTDecode: d172edcb1607cc15aed85d58eceedcbb675a4534
+  KVOController: 321b5fc59300fcaabd42c0f679baa7a27efbb2fd
+  OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
+  OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
+  OpenSSL: 26eb46b2836c0dade24fa53276b552f14c6eece1
+  Operations: cf25446d419e739795b3f5f86686992e2fd63d78
+  PromiseKit: 00ec2a219bf5ad2833f95977698e921932b8dfd3
+  SocketRocket: 2c51efccd2d73c99a923407ca4b06e7e9da95dbf
+  sqlite3: 5724400abcbfbc8d13c60d6a4123361faf0c62e3
+  SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
+  Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
+  YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
+
+PODFILE CHECKSUM: 428df2c0965bad8fdb58915793dc289d6a89163e
+
+COCOAPODS: 1.0.0.beta.8

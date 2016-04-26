@@ -1,0 +1,6 @@
+framework module YOLOKit {
+  umbrella header "YOLOKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

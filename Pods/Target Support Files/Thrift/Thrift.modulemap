@@ -1,0 +1,6 @@
+framework module Thrift {
+  umbrella header "Thrift-umbrella.h"
+
+  export *
+  module * { export * }
+}
