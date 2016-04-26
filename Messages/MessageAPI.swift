@@ -719,6 +719,20 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
+  @nonobjc public class func findUserIdWithAlias(alias: String) -> Promise<RTId?> {
+    return self.publicAPI.findUserWithAlias(alias).then(on: zalgo) { val -> RTId? in
+        let userInfo = val as! RTUserInfo
+        return userInfo.id
+      }
+      .recover { error -> RTId? in
+        let error = error as NSError
+        if error.domain == TApplicationErrorDomain && Int32(error.code) == TApplicationError.MissingResult.rawValue {
+          return nil
+        }
+        throw error
+      }
+  }
+  
   @objc public class func findUserIdWithAlias(alias: String) -> AnyPromise {
     return self.publicAPI.findUserWithAlias(alias)
   }
