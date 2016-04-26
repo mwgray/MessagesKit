@@ -195,7 +195,6 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       // Application - Did Become Active
       nc.addObserverForName(UIApplicationDidBecomeActiveNotification, object: nil, queue: queue) { not in
         self.activate()
-        self.checkIn()
       },
 
       // Application - Will Resign Active
@@ -281,10 +280,6 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     webSocket.disconnect()
     
     active = false
-  }
-  
-  private func checkIn() {
-    //TODO
   }
   
   internal func updateAccessToken(accessToken: String) {
