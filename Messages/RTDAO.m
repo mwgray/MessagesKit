@@ -10,6 +10,7 @@
 
 #import "RTSQLBuilder.h"
 #import "RTCache.h"
+#import "RTMessages+Exts.h"
 #import "RTLog.h"
 
 
@@ -182,6 +183,13 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 -(BOOL)fetchObjectWithId:(RTId *)modelId returning:(RTModel * _Nullable __autoreleasing *)model error:(NSError * _Nullable __autoreleasing *)error
 {
+  if (!modelId || modelId.isNull || [modelId isKindOfClass:NSNull.class]) {
+    if (error) {
+      *error = [NSError errorWithDomain:@"RTDAOError" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Attempt to load object for null or nil id"}];
+    }
+    return NO;
+  }
+  
   id dbId = [self dbIdForId:modelId];
 
   id cached = [_objectCache objectForKey:dbId];
