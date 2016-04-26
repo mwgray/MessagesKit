@@ -285,7 +285,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   internal func updateAccessToken(accessToken: String) {
-    //TODO
+
+    self.accessToken = accessToken
+    
+    NSNotificationCenter.defaultCenter()
+      .postNotificationName(MessageAPIAccessTokenRefreshed, object: self)
   }
   
   internal func adjustUnreadMessageCountWithDelta(delta: Int) {
