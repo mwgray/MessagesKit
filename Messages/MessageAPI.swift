@@ -379,7 +379,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return RTFetchedResultsController(DBManager: dbManager, request: request)
   }
   
-  @objc func saveMessage(message: RTMessage) throws {
+  @nonobjc public func saveMessage(message: RTMessage) throws -> Promise<Void> {
     
     // Ensure certain fields are not set
     if message.sender != nil || message.sent != nil || message.statusTimestamp != nil {
@@ -401,12 +401,12 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     queue.addOperation(MessageSendOperation(message: message, api:self))
   }
   
-  @objc func updateMessageLocally(message: RTMessage) throws {
+  @objc public func updateMessageLocally(message: RTMessage) throws {
     
     try self.messageDAO.updateMessage(message)
   }
   
-  @objc func updateMessage(message: RTMessage) throws {
+  @objc public func updateMessage(message: RTMessage) throws {
 
     // Ensure all required fields are already set
     if message.sender == nil || message.sent == nil {
@@ -719,7 +719,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
-  @objc public func findUserIdWithAlias(alias: String) -> AnyPromise {
+  @objc public class func findUserIdWithAlias(alias: String) -> AnyPromise {
     return self.publicAPI.findUserWithAlias(alias)
   }
   
