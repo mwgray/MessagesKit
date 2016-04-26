@@ -6,7 +6,7 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
-  - EZSwiftExtensions (1.4)
+  - DeviceKit (0.3.2)
   - FMDB/standalone/swift (2.6.2):
     - FMDB/swift
     - sqlite3
@@ -30,7 +30,6 @@ PODS:
   - OMGHTTPURLRQ/UserAgent (3.1.1)
   - OpenSSL (1.0.207)
   - Operations (0.0.1):
-    - EZSwiftExtensions
     - KVOController
   - PromiseKit (3.0.3):
     - PromiseKit/Foundation (= 3.0.3)
@@ -220,8 +219,9 @@ PODS:
 
 DEPENDENCIES:
   - CocoaLumberjack/Swift
-  - FMDB/standalone/swift (from `../../fmdb`)
-  - FMDBMigrationManager (from `../../FMDBMigrationManager`)
+  - DeviceKit
+  - FMDB/standalone/swift (from `../fmdb`)
+  - FMDBMigrationManager (from `../FMDBMigrationManager`)
   - HTMLReader
   - JWTDecode
   - OCMock
@@ -234,13 +234,13 @@ DEPENDENCIES:
   - SocketRocket
   - SSKeychain
   - Thrift (from `https://github.com/reTXT/thrift.git`, branch `master`)
-  - YOLOKit (from `../../YOLOKit`)
+  - YOLOKit (from `../YOLOKit`)
 
 EXTERNAL SOURCES:
   FMDB:
-    :path: "../../fmdb"
+    :path: "../fmdb"
   FMDBMigrationManager:
-    :path: "../../FMDBMigrationManager"
+    :path: "../FMDBMigrationManager"
   Operations:
     :path: "../Operations"
   PromiseKit:
@@ -251,7 +251,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/reTXT/thrift.git
   YOLOKit:
     :branch: master
-    :path: "../../YOLOKit"
+    :path: "../YOLOKit"
 
 CHECKOUT OPTIONS:
   PromiseKit:
@@ -263,7 +263,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
-  EZSwiftExtensions: db7be0022fce8e92cdfe0fadddaf835fcd9696db
+  DeviceKit: 79182140c0aa8daaf4f4b3920e0b079f5fa9db79
   FMDB: 29b696c579f66357b9a60b2e7e93600c61255063
   FMDBMigrationManager: d52007f328ea0665e8985ca8a33500707aef084f
   HTMLReader: 7e21488ee378afc56ccade8af35840c4e03e434c
@@ -272,7 +272,7 @@ SPEC CHECKSUMS:
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
   OpenSSL: 26eb46b2836c0dade24fa53276b552f14c6eece1
-  Operations: 9ad0e9ee492342fc156ac4a3d75835b41889b3d0
+  Operations: cf25446d419e739795b3f5f86686992e2fd63d78
   PromiseKit: 00ec2a219bf5ad2833f95977698e921932b8dfd3
   SocketRocket: 2c51efccd2d73c99a923407ca4b06e7e9da95dbf
   sqlite3: 5724400abcbfbc8d13c60d6a4123361faf0c62e3
@@ -280,6 +280,6 @@ SPEC CHECKSUMS:
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: efd67662c9872e6c5dbb84f9888701ea0431506b
+PODFILE CHECKSUM: 428df2c0965bad8fdb58915793dc289d6a89163e
 
 COCOAPODS: 1.0.0.beta.8

@@ -5,9 +5,9 @@ use_frameworks!
 target :Messages do
   
   pod 'Operations', :path => '../Operations'
-  pod 'FMDB/standalone/swift', :path => '../../fmdb'
-  pod 'FMDBMigrationManager', :path => '../../FMDBMigrationManager'
-  pod 'YOLOKit', :path => '../../YOLOKit', :branch => 'master'
+  pod 'FMDB/standalone/swift', :path => '../fmdb'
+  pod 'FMDBMigrationManager', :path => '../FMDBMigrationManager'
+  pod 'YOLOKit', :path => '../YOLOKit', :branch => 'master'
 
   pod 'Thrift', :git => 'https://github.com/reTXT/thrift.git', :branch => 'master'
   pod 'PromiseKit', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
@@ -26,5 +26,6 @@ target :Messages do
   target :MessagesTests do
     pod 'OCMock'
   end
-  
+
+ 
 end
