@@ -99,7 +99,7 @@
   msg.data = [[FileDataReference alloc] initWithPath:[self pathForResourceNamed:@"test" ofType:@"png"]];
 
   CGSize size;
-  msg.thumbnailData = [RTImageMessage generateThumbnailWithData:msg.data size:&size];
+  msg.thumbnailData = [RTImageMessage generateThumbnailWithData:msg.data size:&size error:nil];
   msg.thumbnailSize = size;
 
   return msg;
