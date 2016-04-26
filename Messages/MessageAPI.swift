@@ -8,8 +8,8 @@
 
 import Foundation
 import Operations
-import EZSwiftExtensions
 import CocoaLumberjack
+import DeviceKit
 
 
 // Notification types & dictionary keys
@@ -834,7 +834,7 @@ extension MessageAPI {
                                          encryptionCSR: encryptionIdentityRequest.certificateSigningRequest.encoded,
                                          signingCSR: signingIdentityRequest.certificateSigningRequest.encoded,
                                          authenticatedAliases: authenticatedAliases,
-                                        deviceInfo:deviceInfo)
+                                         deviceInfo:deviceInfo)
         .then(on: GCD.backgroundQueue) { userProfile in
           
           let userProfile = userProfile!
@@ -907,16 +907,35 @@ extension MessageAPI {
     
     return discoverDeviceId().thenInBackground { deviceId -> RTDeviceInfo in
       
-      let device = UIDevice.currentDevice()
-      
       let deviceVersion : String
-      let deviceModelParts = UIDevice.deviceModelReadable().componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-      if deviceModelParts.count > 1 {
-        deviceVersion = deviceModelParts.joinWithSeparator(" ")
+      
+      switch Device() {
+      case .iPad2:        deviceVersion = "2"
+      case .iPad3:        deviceVersion = "3"
+      case .iPad4:        deviceVersion = "4"
+      case .iPadAir:      deviceVersion = "Air"
+      case .iPadAir2:     deviceVersion = "Air 2"
+      case .iPadPro:      deviceVersion = "Pro"
+      case .iPadMini:     deviceVersion = "Mini"
+      case .iPadMini2:    deviceVersion = "Mini 2"
+      case .iPadMini3:    deviceVersion = "Mini 3"
+      case .iPadMini4:    deviceVersion = "Mini 4"
+      case .iPhone4:      deviceVersion = "4"
+      case .iPhone4s:     deviceVersion = "4s"
+      case .iPhone5:      deviceVersion = "5"
+      case .iPhone5c:     deviceVersion = "5c"
+      case .iPhone5s:     deviceVersion = "5s"
+      case .iPhone6:      deviceVersion = "6"
+      case .iPhone6s:     deviceVersion = "6s"
+      case .iPhone6Plus:  deviceVersion = "6 Plus"
+      case .iPhone6sPlus: deviceVersion = "6s Plus"
+      case .iPhoneSE:     deviceVersion = "SE"
+      case .iPodTouch5:   deviceVersion = "5"
+      case .iPodTouch6:   deviceVersion = "6"
+      default:            deviceVersion = ""
       }
-      else {
-        deviceVersion = deviceModelParts.first ?? "Unknown"
-      }
+      
+      let device = UIDevice.currentDevice()
       
       return RTDeviceInfo(
         id: deviceId,

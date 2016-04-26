@@ -15,6 +15,7 @@ target :Messages do
   pod 'PromiseKit/AssetsLibrary', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
   pod 'PromiseKit/AVFoundation', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
 
+  pod 'DeviceKit'
   pod 'CocoaLumberjack/Swift'
   pod 'OpenSSL'
   pod 'JWTDecode'
