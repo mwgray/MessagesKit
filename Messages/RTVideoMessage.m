@@ -100,6 +100,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 {
   RTVideoMessage *copy = [super copy];
   copy.data = self.data;
+  copy.dataMimeType = self.dataMimeType;
   copy.thumbnailData = self.thumbnailData;
   copy.thumbnailSize = self.thumbnailSize;
   return copy;
@@ -139,7 +140,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 //  [exportSession exportSynchronously];
 //
   
-  *metaData = @{RTMetaDataKey_MimeType: self.dataMimeType,
+  *metaData = @{RTMetaDataKey_MimeType: self.dataMimeType ?: @"",
                 RTMetaDataKey_ThumbnailFrameTime: @"0"};
   *payloadData = self.data;
   
