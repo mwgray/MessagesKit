@@ -81,4 +81,6 @@ FOUNDATION_EXPORT const unsigned char MessagesVersionString[];
 #import "RTReachability.h"
 #import "RTHTTPSessionTransportFactory.h"
 
+#import "RTSettings.h"
+
 #import "MessageAPI+Compat.h"

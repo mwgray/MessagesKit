@@ -117,7 +117,7 @@
 		AA5850531CC22E800034C46D /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850521CC22E800034C46D /* GCD.swift */; };
 		AA5850571CC2B2030034C46D /* PersistentCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */; };
 		AA5920211CCDFA0C007B7D0D /* DataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5920201CCDFA0C007B7D0D /* DataReference.m */; };
-		AA61CD931CCB36B30029B5F2 /* RTSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD911CCB36B30029B5F2 /* RTSettings.h */; };
+		AA61CD931CCB36B30029B5F2 /* RTSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD911CCB36B30029B5F2 /* RTSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA61CD941CCB36B30029B5F2 /* RTSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD921CCB36B30029B5F2 /* RTSettings.m */; };
 		AA61CD951CCB376B0029B5F2 /* RTReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850351CC1E12B0034C46D /* RTReachability.m */; };
 		AA61CD981CCB37930029B5F2 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD961CCB37930029B5F2 /* Reachability.h */; };
