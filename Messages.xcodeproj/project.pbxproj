@@ -1408,7 +1408,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.Messages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Messages";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1436,7 +1435,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.Messages;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Messages";
 			};
 			name = Release;
 		};
@@ -1447,7 +1445,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MessagesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
@@ -1463,7 +1460,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MessagesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
