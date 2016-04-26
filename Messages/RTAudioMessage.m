@@ -21,8 +21,6 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 @interface RTAudioMessage ()
 
-@property(nonatomic, copy) NSString *mimeType;
-
 @end
 
 
@@ -35,7 +33,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   }
 
   self.data = [resultSet dataReferenceForColumnIndex:dao.data1FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
-  self.mimeType = [resultSet stringForColumnIndex:dao.data2FieldIdx];
+  self.dataMimeType = [resultSet stringForColumnIndex:dao.data2FieldIdx];
   
   return YES;
 }
@@ -52,7 +50,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   }
   
   [values setNillableObject:self.data forKey:@"data1"];
-  [values setNillableObject:self.mimeType forKey:@"data2"];
+  [values setNillableObject:self.dataMimeType forKey:@"data2"];
   
   return YES;
 }
@@ -84,7 +82,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 {
   RTAudioMessage *copy = [super copy];
   copy.data = self.data;
-  copy.mimeType = self.mimeType;
+  copy.dataMimeType = self.dataMimeType;
   return copy;
 }
 
@@ -110,7 +108,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 -(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
 
 {
-  *metaData = @{RTMetaDataKey_MimeType: self.mimeType};
+  *metaData = @{RTMetaDataKey_MimeType: self.dataMimeType ?: @""};
   *payloadData = self.data;
   
   return YES;
@@ -118,7 +116,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 -(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
 {
-  self.mimeType = metaData[RTMetaDataKey_MimeType];
+  self.dataMimeType = metaData[RTMetaDataKey_MimeType];
   self.data = payloadData;
   
   return YES;

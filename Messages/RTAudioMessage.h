@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RTAudioMessage : RTMessage
 
-@property (nonatomic, retain) id<DataReference> data;
+@property (retain, nonatomic) id<DataReference> data;
+@property (copy, nonatomic) NSString *dataMimeType;
 
 -(BOOL) isEquivalentToAudioMessage:(RTAudioMessage *)audioMessage;
 
