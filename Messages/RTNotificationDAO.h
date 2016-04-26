@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int chatIdFieldIdx;
 @property (nonatomic, assign) int dataFieldIdx;
 
--(NSArray<__kindof RTNotification *> *) fetchAllNotificationsForChat:(RTChat *)chat error:(NSError **)error;
+-(nullable NSArray<__kindof RTNotification *> *) fetchAllNotificationsForChat:(RTChat *)chat error:(NSError **)error;
 
 @end
 
