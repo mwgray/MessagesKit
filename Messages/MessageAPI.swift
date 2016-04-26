@@ -719,6 +719,31 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
+  @objc public func signOut() {
+    
+    if (signedOut) {
+      return;
+    }
+    
+    signedOut = true;
+    
+    deactivate()
+
+    webSocket.disconnect()
+    webSocket = nil
+
+    queue.suspended = true
+    queue.cancelAllOperations()
+
+    GCD.mainQueue.async {
+      NSNotificationCenter.defaultCenter().postNotificationName(MessageAPISignedOutNotification, object: self)
+    }
+
+    GCD.userInitiatedQueue.async {
+      self.clearUnreadMessageCount()
+    }
+  }
+  
   @nonobjc public class func findUserIdWithAlias(alias: String) -> Promise<RTId?> {
     return self.publicAPI.findUserWithAlias(alias).then(on: zalgo) { val -> RTId? in
         let userInfo = val as! RTUserInfo
