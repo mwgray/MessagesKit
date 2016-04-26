@@ -9,7 +9,8 @@
 #import "RTVideoMessage.h"
 
 #import "RTMessageDAO.h"
-#import "DataReference.h"
+#import "DataReferences.h"
+#import "MemoryDataReference.h"
 #import "TBase+Utils.h"
 #import "NSURL+Utils.h"
 #import "NSObject+Utils.h"
@@ -27,8 +28,6 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 
 @interface RTVideoMessage ()
-
-+(id<DataReference>) generateThumbnailWithData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size;
 
 @end
 
@@ -156,7 +155,10 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   self.data = payloadData;
   self.thumbnailData = [RTVideoMessage generateThumbnailWithData:payloadData
                                                      atFrameTime:thumbnailFrameTime
-                                                            size:&_thumbnailSize];
+                                                            size:&_thumbnailSize error:error];
+  if (!self.thumbnailData) {
+    return NO;
+  }
   
   return YES;
 }
@@ -166,42 +168,50 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   return RTMsgTypeVideo;
 }
 
-+(id<DataReference>) generateThumbnailWithData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size;
++(nullable id<DataReference>) generateThumbnailWithData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size error:(NSError * _Nullable __autoreleasing * _Nullable)error
 {
-  return nil;
+  FileDataReference *tempRef = [DataReferences duplicateDataReferenceToTemporaryFile:videoData withExtension:@"mp4" error:nil];
+  if (!tempRef) {
+    return nil;
+  }
   
-  //FIXME
-//  AVURLAsset *as = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
-//  AVAssetImageGenerator *ima = [[AVAssetImageGenerator alloc] initWithAsset:as];
-//  ima.appliesPreferredTrackTransform = YES;
-//
-//  CMTime time = frameTime ? CMTimeMake([frameTime doubleValue] * 1000, 1000) : kCMTimeZero;
-//
-//  NSError *err = NULL;
-//
-//  CGImageRef imgRef = [ima copyCGImageAtTime:time actualTime:NULL error:&err];
-//  if (err || !imgRef) {
-//    return nil;
-//  }
-//
-//  size->width = CGImageGetWidth(imgRef);
-//  size->height = CGImageGetHeight(imgRef);
-//
-//  NSMutableData *imgData = [NSMutableData data];
-//  CGImageDestinationRef imgDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)(imgData), kUTTypeJPEG, 1, NULL);
-//  @try {
-//
-//    CGImageDestinationAddImage(imgDest, imgRef, NULL);
-//    if (!CGImageDestinationFinalize(imgDest)) {
-//      return nil;
-//    }
-//
-//    return imgData;
-//  }
-//  @finally {
-//    CFRelease(imgDest);
-//    CFRelease(imgRef);
-//  }
+  CGImageRef imgRef;
+  @try {
+    AVURLAsset *as = [[AVURLAsset alloc] initWithURL:tempRef.URL options:nil];
+    AVAssetImageGenerator *ima = [[AVAssetImageGenerator alloc] initWithAsset:as];
+    ima.appliesPreferredTrackTransform = YES;
+
+    CMTime time = frameTime ? CMTimeMake([frameTime doubleValue] * 1000, 1000) : kCMTimeZero;
+
+    NSError *err = NULL;
+
+    imgRef = [ima copyCGImageAtTime:time actualTime:NULL error:&err];
+    if (!imgRef) {
+      return nil;
+    }
+  }
+  @finally {
+    [tempRef deleteAndReturnError:nil];
+  }
+
+  size->width = CGImageGetWidth(imgRef);
+  size->height = CGImageGetHeight(imgRef);
+
+  NSMutableData *imgData = [NSMutableData data];
+  CGImageDestinationRef imgDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)(imgData), kUTTypeJPEG, 1, NULL);
+  @try {
+
+    CGImageDestinationAddImage(imgDest, imgRef, NULL);
+    if (!CGImageDestinationFinalize(imgDest)) {
+      return nil;
+    }
+
+    return [MemoryDataReference.alloc initWithData:imgData.copy];
+  }
+  @finally {
+    CFRelease(imgDest);
+    CFRelease(imgRef);
+  }
 }
 
 @end

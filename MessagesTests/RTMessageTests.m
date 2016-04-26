@@ -114,14 +114,12 @@
 
 -(RTVideoMessage *) newVideoMessage
 {
-  id<DataReference> testDataRef = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp4"]];
-  
   RTVideoMessage *msg = [self fill:[RTVideoMessage new]];
-  msg.data = testDataRef;
- 
-  NSMutableDictionary *metaData;
-  [msg exportPayloadIntoData:&testDataRef withMetaData:&metaData error:nil];
-  [msg importPayloadFromData:testDataRef withMetaData:metaData error:nil];
+  msg.data = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp4"]];
+  
+  CGSize size;
+  msg.thumbnailData = [RTVideoMessage generateThumbnailWithData:msg.data atFrameTime:@"0" size:&size error:nil];
+  msg.thumbnailSize = size;
 
   return msg;
 }
