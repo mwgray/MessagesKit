@@ -19,7 +19,17 @@ public enum PersistentCacheError : ErrorType {
 private let autoCompactAccesses = 50
 
 
-public class PersistentCache<KeyType, ValueType where KeyType : Equatable> {
+public protocol Persistable {
+  
+  static func valueToData(value: Self) throws -> NSData
+  
+  static func dataToValue(data: NSData) throws -> AnyObject
+  
+}
+
+
+
+public class PersistentCache<KeyType, ValueType where KeyType : Equatable, ValueType : Persistable> {
   
   public typealias Loader = (key: KeyType) throws -> (value: ValueType, expires: NSDate)?
   
@@ -103,11 +113,14 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable> {
       return nil
     }
     
-    return (value: row[0] as! ValueType, expires: NSDate(timeIntervalSince1970: row[1] as! Double))
+    let value = row[0] as! NSData
+    let expires = row[1] as! Double
+    
+    return (value: try ValueType.dataToValue(value) as! ValueType, expires: NSDate(timeIntervalSince1970: expires))
   }
   
   private func cacheValue(value: ValueType, forKey key: KeyType, expires: NSDate, inDatabase db: FMDatabase) throws {
-    try db.executeUpdate("INSERT OR REPLACE INTO cache(key, value, expires) VALUES (?, ?, ?)", key as! AnyObject, value as! AnyObject, expires)
+    try db.executeUpdate("INSERT OR REPLACE INTO cache(key, value, expires) VALUES (?, ?, ?)", key as! AnyObject, try ValueType.valueToData(value), expires)
   }
   
   public func cacheValue(value: ValueType, forKey key: KeyType, expires: NSDate) throws {
