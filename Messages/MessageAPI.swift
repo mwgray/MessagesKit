@@ -127,6 +127,10 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
                                        response: { userInfo = $0; dispatch_semaphore_signal(wait) },
                                        failure: { error = $0; dispatch_semaphore_signal(wait) })
       
+      if dispatch_semaphore_wait(wait, dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC) * 3)) != 0 {
+        error = NSError(code: MessageAPIError.UnknownError, userInfo: nil)
+      }
+      
       if let error = error {
         throw error
       }
