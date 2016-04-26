@@ -9,13 +9,16 @@
 #import "RTMessage.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface RTImageMessage : RTMessage
 
-@property (nonatomic, retain) id<DataReference> thumbnailData;
-@property (nonatomic, assign) CGSize thumbnailSize;
+@property (retain, nonatomic, nullable) id<DataReference> thumbnailData;
+@property (assign, nonatomic) CGSize thumbnailSize;
 
-@property (nonatomic, retain) id<DataReference> data;
-@property (nonatomic, retain) NSString *dataMimeType;
+@property (retain, nonatomic, nullable) id<DataReference> data;
+@property (copy, nonatomic, nullable) NSString *dataMimeType;
 
 @property (nonatomic, readonly) id<DataReference> thumbnailOrImageData;
 
@@ -24,3 +27,6 @@
 -(BOOL) isEquivalentToImageMessage:(RTImageMessage *)imageMessage;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

@@ -94,6 +94,7 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 {
   return [super isEquivalentToMessage:imageMessage] &&
          isEqual(self.data, imageMessage.data) &&
+         isEqual(self.dataMimeType, imageMessage.dataMimeType) &&
          isEqual(self.thumbnailData, imageMessage.thumbnailData) &&
          CGSizeEqualToSize(self.thumbnailSize, imageMessage.thumbnailSize);
 }
@@ -102,6 +103,7 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 {
   RTImageMessage *copy = [super copy];
   copy.data = self.data;
+  copy.dataMimeType = self.dataMimeType;
   copy.thumbnailData = self.thumbnailData;
   copy.thumbnailSize = self.thumbnailSize;
   return copy;
@@ -133,7 +135,7 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 
 -(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
 {
-  *metaData = @{RTMetaDataKey_MimeType : self.dataMimeType};
+  *metaData = @{RTMetaDataKey_MimeType : self.dataMimeType ?: @""};
   *payloadData = self.data;
   
   return YES;
