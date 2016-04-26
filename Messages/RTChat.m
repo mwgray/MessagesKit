@@ -47,10 +47,14 @@
   self.localAlias = [resultSet stringForColumnIndex:dao.localAliasFieldIdx];
   
   RTMessage *lastMessage = nil;
-  if (![messageDAO fetchMessageWithId:[resultSet idForColumnIndex:dao.lastMessageFieldIdx]
-                                          returning:&lastMessage
-                                              error:error]) {
-    return NO;
+
+  RTId *lastMessageId = [resultSet idForColumnIndex:dao.lastMessageFieldIdx];
+  if (lastMessageId) {
+    if (![messageDAO fetchMessageWithId:lastMessageId
+                              returning:&lastMessage
+                                  error:error]) {
+      return NO;
+    }
   }
   
   self.lastMessage = lastMessage;
