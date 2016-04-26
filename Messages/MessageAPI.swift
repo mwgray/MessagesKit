@@ -1122,6 +1122,9 @@ extension MessageAPI {
 //
 extension MessageAPI : RTWebSocketDelegate {
   
+  //
+  // Adds build # and Bearer token to websocket connection requests
+  //
   public func webSocket(webSocket: RTWebSocket, willConnect request: NSMutableURLRequest) {
     
     request.addBuildNumber()
@@ -1272,7 +1275,11 @@ extension MessageAPI {
     connectURLRequest.addBuildNumber()
     
     let webSocket = RTWebSocket(URLRequest: connectURLRequest)
+    
+    // MessageAPI is a websocket delegate and it authorized the connection (by
+    // adding a Bearer header) as well as responds to events from the socket
     webSocket.delegate = self
+    
     return webSocket
   }
   
