@@ -545,6 +545,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     chat.alias = chatId.UUIDString()
     chat.localAlias = localAlias
     chat.members = members
+    chat.activeMembers = members
     chat.startedDate = NSDate()
     
     try chatDAO.insertChat(chat)
