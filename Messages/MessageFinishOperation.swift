@@ -50,6 +50,7 @@ class MessageFinishOperation: Operation {
       try! dao.updateMessage(messageContext.message, withStatus:.Sent);
     }
     
+    finish()
   }
   
   override var description : String {
