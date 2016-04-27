@@ -503,13 +503,13 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  @objc public func sendUserStatusWithSender(sender: String, recipient: String, status: RTUserStatus) {
+  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toRecipient recipient: String) {
    
     self.userAPI.sendUserStatus(sender, recipient: recipient, status: status)
     
   }
 
-  @objc public func sendGroupStatusWithSender(sender: String, chat: RTId, members: Set<String>, status: RTUserStatus) {
+  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toMembers members: Set<String>,  inChat chat: RTId) {
 
     let group = RTGroup(chat: chat, members: members)
   
