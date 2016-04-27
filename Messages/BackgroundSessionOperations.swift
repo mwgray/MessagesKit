@@ -97,7 +97,7 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
           
         case .Running, .Suspended:
           
-          if request.URL?.path == RTServerAPI.userSendURL().path {
+          if request.URL?.path == MessageAPI.target.userSendURL.path {
             
             do {
               
@@ -135,7 +135,7 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
           
         case .Running, .Suspended:
           
-          if request.URL?.path == RTServerAPI.userFetchURL().path {
+          if request.URL?.path == MessageAPI.target.userFetchURL.path {
             
             if let msgIdParam = request.URL?.queryValues()["id"],
               let msgId = RTId(string: msgIdParam)

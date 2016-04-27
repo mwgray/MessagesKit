@@ -56,7 +56,7 @@ static RTReachability *_s_instance;
                                                  name:kReachabilityChangedNotification
                                                object:nil];
 
-    _reachability = [Reachability reachabilityWithHostName:RTServerHost];
+    _reachability = [Reachability reachabilityWithHostName:@"master.retxt.io"];
     
   }
   return self;

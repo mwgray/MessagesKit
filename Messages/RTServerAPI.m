@@ -71,16 +71,6 @@ NSURL *RTBaseURL;
 NSString *RTUserAgent = @"reTXT (iOS)";
 int RTServerTimeout = 15;
 
-NSString *RTPublicAPIGeneralURLPath = @"api/public";
-NSString *RTReportAPIGeneralURLPath = @"api/report";
-
-NSString *RTUserAPIGeneralURLPath = @"api/user";
-NSString *RTUserAPIConnectURLPath = @"api/user/connect";
-
-// Fetch Endpoint
-NSString *RTUserAPIFetchURLPath = @"api/user/fetch";
-NSString *RTUserAPISendURLPath = @"api/user/send";
-
 NSString *RTUserAPIFetchMsgIdParam = @"msgId";
 
 NSString *RTMsgInfoHTTPHeader = @"X-Msg-Info";
@@ -123,41 +113,6 @@ NSString *RTTextContentTypePrefix = @"text/";
 +(NSArray *) pinnedCerts
 {
   return RTPinnedCerts;
-}
-
-+(NSURL *) baseURL
-{
-  return RTBaseURL;
-}
-
-+(NSURL *) publicURL
-{
-  return [NSURL URLWithString:RTPublicAPIGeneralURLPath relativeToURL:RTServerAPI.baseURL];
-}
-
-+(NSURL *) userURL
-{
-  return [NSURL URLWithString:RTUserAPIGeneralURLPath relativeToURL:RTServerAPI.baseURL];
-}
-
-+(NSURL *) userConnectURL
-{
-  return [NSURL URLWithString:RTUserAPIConnectURLPath relativeToURL:RTServerAPI.baseURL];
-}
-
-+(NSURL *) userSendURL
-{
-  return [NSURL URLWithString:RTUserAPISendURLPath relativeToURL:RTServerAPI.baseURL];
-}
-
-+(NSURL *) userFetchURL
-{
-  return [NSURL URLWithString:RTUserAPIFetchURLPath relativeToURL:RTServerAPI.baseURL];
-}
-
-+(NSURL *) reportURL
-{
-  return [NSURL URLWithString:RTReportAPIGeneralURLPath relativeToURL:RTServerAPI.baseURL];
 }
 
 +(NSString *) HTTPAuthorizationHeaderWithBearer:(NSString *)token

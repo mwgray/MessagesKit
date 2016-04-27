@@ -22,7 +22,7 @@ class ResendUnsentMessages: Operation {
     super.init()
     
     addCondition(RequireAccessToken(api: api))
-    addCondition(ReachabilityCondition(host: RTServerAPI.publicURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.publicURL))
   }
   
   override func execute() {

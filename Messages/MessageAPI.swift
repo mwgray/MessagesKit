@@ -50,6 +50,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
 @objc public class MessageAPI : NSObject {
   
+  internal static var target : ServerTarget!
   
   private static var _publicAPI : RTPublicAPIAsync!
   private static var _publicAPIInit = dispatch_once_t()
@@ -85,9 +86,17 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   private(set) var networkAvailable = true
   
   internal let certificateTrust : RTOpenSSLCertificateTrust
+
+  
+  public class func initialize(target target: ServerTarget) {
+    assert(self.target == nil, "MessageAPI target already initialized")
+    self.target = target
+  }
   
 
   public init(credentials: RTCredentials, documentDirectoryURL docsDirURL: NSURL) throws {
+    
+    assert(MessageAPI.target != nil, "MessageAPI target not initialized, call MessageAPI.initialize first")
     
     self.certificateTrust = try MessageAPI.makeCertificateTrust()
     
@@ -1221,7 +1230,7 @@ extension MessageAPI {
     
     // Build a client for the new session
     
-    let transportFactory = THTTPSessionTransportFactory(session: session, URL: RTServerAPI.publicURL())
+    let transportFactory = THTTPSessionTransportFactory(session: session, URL: target.publicURL)
     
     return RTPublicAPIClientAsync(protocolFactory: protocolFactory,
                                   transportFactory: transportFactory)
@@ -1243,7 +1252,7 @@ extension MessageAPI {
     // Build a client for the new session
     //
     
-    let transportFactory = RTHTTPSessionTransportFactory(session: session, URL: RTServerAPI.userURL())
+    let transportFactory = RTHTTPSessionTransportFactory(session: session, URL: MessageAPI.target.userURL)
     
     // Add interceptor to add bearer authorization token
     transportFactory.requestInterceptor = { request -> NSError? in
@@ -1271,7 +1280,7 @@ extension MessageAPI {
   
   private func makeWebSocket() -> RTWebSocket {
     
-    let connectURLRequest = NSMutableURLRequest(URL: RTServerAPI.userConnectURL())
+    let connectURLRequest = NSMutableURLRequest(URL: MessageAPI.target.userConnectURL)
     connectURLRequest.addBuildNumber()
     
     let webSocket = RTWebSocket(URLRequest: connectURLRequest)

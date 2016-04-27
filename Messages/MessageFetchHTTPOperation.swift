@@ -33,7 +33,7 @@ class MessageFetchHTTPOperation: Operation {
     super.init()
     
     addCondition(NoFailedDependencies())
-    addCondition(ReachabilityCondition(host: RTServerAPI.userURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.userFetchURL))
     
     addObserver(NetworkObserver())
   }
@@ -77,7 +77,7 @@ class MessageFetchHTTPOperation: Operation {
   
   func initiateDownload() -> Bool {
     
-    let fetchURL = RTServerAPI.userFetchURL().URLByAppendingQueryParameters(["id": context.msgHdr!.id.UUIDString()])
+    let fetchURL = MessageAPI.target.userFetchURL.URLByAppendingQueryParameters(["id": context.msgHdr!.id.UUIDString()])
     
     let request = NSMutableURLRequest(URL: fetchURL)
     request.HTTPMethod = "GET";

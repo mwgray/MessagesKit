@@ -14,13 +14,18 @@ class MessageAPITest: XCTestCase {
   
   static let documentDirectoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
   
-  let testClientA = try! TestClient(baseURL: RTServerAPI.baseURL())
-  let testClientB = try! TestClient(baseURL: RTServerAPI.baseURL())
+  var testClientA : TestClient!
+  var testClientB : TestClient!
   
   var api : MessageAPI!
 
   override func setUp() {
     super.setUp()
+    
+    MessageAPI.initialize(target: ServerTarget(searchForLocalServer: nil))
+
+    testClientA = try! TestClient(baseURL: MessageAPI.target.baseURL)
+    testClientB = try! TestClient(baseURL: MessageAPI.target.baseURL)
     
     let x = expectationWithDescription("signIn")
     

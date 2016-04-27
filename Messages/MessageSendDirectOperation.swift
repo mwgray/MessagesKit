@@ -36,7 +36,7 @@ import Operations
     
     super.init(api: api)
     
-    addCondition(ReachabilityCondition(host: RTServerAPI.userURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.userURL))
     
     addObserver(NetworkObserver())
   }

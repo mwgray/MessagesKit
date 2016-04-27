@@ -12,10 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-extern NSString *RTServerEnvironmentName;
-extern NSString *RTServerScheme;
-extern NSString *RTServerHost;
-
 extern NSString *RTUserAgent;
 extern int RTServerTimeout;
 
@@ -46,17 +42,6 @@ extern NSString *RTMsgInfoHTTPHeader;
 @interface RTServerAPI : NSObject
 
 +(NSArray *) pinnedCerts;
-
-+(NSURL *) baseURL;
-
-+(NSURL *) publicURL;
-
-+(NSURL *) userURL;
-+(NSURL *) userConnectURL;
-+(NSURL *) userSendURL;
-+(NSURL *) userFetchURL;
-
-+(NSURL *) reportURL;
 
 +(NSString *) HTTPAuthorizationHeaderWithBearer:(NSString *)token;
 

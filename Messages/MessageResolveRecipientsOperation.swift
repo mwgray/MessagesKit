@@ -26,7 +26,7 @@ class MessageRecipientResolveOperation: MessageAPIOperation {
     super.init(api: api)
     
     addCondition(NoFailedDependencies())
-    addCondition(ReachabilityCondition(host: RTServerAPI.userURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.userURL))
     
     addObserver(NetworkObserver())
   }

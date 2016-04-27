@@ -43,7 +43,7 @@ class MessageTransmitHTTPOperation: Operation {
     super.init()
     
     addCondition(NoFailedDependencies())
-    addCondition(ReachabilityCondition(host: RTServerAPI.userSendURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.userSendURL))
     
     addObserver(NetworkObserver())
   }
@@ -94,7 +94,7 @@ class MessageTransmitHTTPOperation: Operation {
     //
     let msgInfo = try TBaseUtils.serializeToBase64String(context.msgPack!)
     
-    let request = NSMutableURLRequest(URL: RTServerAPI.userSendURL())
+    let request = NSMutableURLRequest(URL: MessageAPI.target.userSendURL)
     request.HTTPMethod = "POST";
     request.addHTTPBearerAuthorizationWithToken(api.accessToken)
     request.setValue(RTOctetStreamContentType, forHTTPHeaderField: RTContentTypeHTTPHeader)

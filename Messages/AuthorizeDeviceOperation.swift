@@ -33,7 +33,7 @@ public class AuthorizeDeviceOperation: MessageAPIOperation {
     
     addCondition(DeviceAuthorizationCondition(deviceName: request.deviceName, pin: pin))
     addCondition(NoFailedDependencies())
-    addCondition(ReachabilityCondition(host: RTServerAPI.userSendURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.userURL))
     
     addObserver(NetworkObserver())
   }

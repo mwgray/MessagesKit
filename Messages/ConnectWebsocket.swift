@@ -22,7 +22,7 @@ public class ConnectWebSocket: Operation {
     super.init()
     
     addCondition(RequireAccessToken(api: api))
-    addCondition(ReachabilityCondition(host: RTServerAPI.publicURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.userConnectURL))
   }
   
   public override func execute() {

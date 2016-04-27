@@ -22,7 +22,7 @@ public class UpdateAccessToken: Operation {
     super.init()
 
     addCondition(MutuallyExclusiveCondition<UpdateAccessToken>())
-    addCondition(ReachabilityCondition(host: RTServerAPI.publicURL()))
+    addCondition(ReachabilityCondition(host: MessageAPI.target.publicURL))
   }
   
   public override func execute() {
