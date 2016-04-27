@@ -55,7 +55,7 @@ import Operations
   
   public init(msg: RTMsg, api: MessageAPI) {
     
-    self.encryptedData = MemoryDataReference(data: msg.data)
+    self.encryptedData = msg.data != nil ? MemoryDataReference(data: msg.data) : nil
     
     self.msg = msg
     
