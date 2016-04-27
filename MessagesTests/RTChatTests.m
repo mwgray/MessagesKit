@@ -105,13 +105,24 @@
 -(BOOL) compareFetched:(RTChat *)chat
 {
   XCTAssertTrue([self.chatDAO insertChat:chat error:nil]);
-  XCTAssertTrue([self.msgDAO insertMessage:chat.lastMessage error:nil]);
+  if (chat.lastMessage) {
+    XCTAssertTrue([self.msgDAO insertMessage:chat.lastMessage error:nil]);
+  }
 
   [self.chatDAO clearCache];
 
   RTUserChat *chat2 = [self.chatDAO fetchChatWithId:chat.id];
 
   return [chat isEquivalent:chat2];
+}
+
+-(void) testNullLastMessage
+{
+  RTChat *chat = [self newUserChat];
+  
+  chat.lastMessage = nil;
+
+  [self compareFetched:chat];
 }
 
 -(void) testKVO
