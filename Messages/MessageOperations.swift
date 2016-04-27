@@ -13,14 +13,17 @@ import PromiseKit
 
 public typealias Resolver = (AnyObject?) -> Void
 
+
 public class MessageAPIOperation: Operation {
   
   
   let api : MessageAPI
   
-  public var resolver : Resolver?
+  internal var resolver : Resolver?
   
-  public var resolveResult : AnyObject? {
+  internal var resolverPromise : Promise<AnyObject?>?
+  
+  internal var resolveResult : AnyObject? {
     return nil
   }
   
@@ -58,6 +61,26 @@ public class MessageAPIOperation: Operation {
     
   }
 
+  public func promise() -> Promise<AnyObject?> {
+    
+    if let resolverPromise = resolverPromise {
+      return resolverPromise
+    }
+    
+    let (promise, fulfill, reject) = Promise<AnyObject?>.pendingPromise()
+    self.resolverPromise = promise
+    
+    resolver = { result in
+      if let error = result as? ErrorType {
+        reject(error)
+      }
+      else {
+        fulfill(result)
+      }
+    }
+    
+    return promise
+  }
   
 }
 
@@ -67,9 +90,11 @@ public class MessageAPIGroupOperation: GroupOperation {
   
   let api : MessageAPI
   
-  public var resolver : Resolver?
+  internal var resolver : Resolver?
+
+  internal var resolverPromise : Promise<AnyObject?>?
   
-  public var resolveResult : AnyObject? {
+  internal var resolveResult : AnyObject? {
     return nil
   }
   
@@ -105,6 +130,27 @@ public class MessageAPIGroupOperation: GroupOperation {
       }
     }
     
+  }
+  
+  public func promise() -> Promise<AnyObject?> {
+    
+    if let resolverPromise = resolverPromise {
+      return resolverPromise
+    }
+    
+    let (promise, fulfill, reject) = Promise<AnyObject?>.pendingPromise()
+    self.resolverPromise = promise
+    
+    resolver = { result in
+      if let error = result as? ErrorType {
+        reject(error)
+      }
+      else {
+        fulfill(result)
+      }
+    }
+    
+    return promise
   }
   
 }
