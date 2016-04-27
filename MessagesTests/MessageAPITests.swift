@@ -66,12 +66,7 @@ class MessageAPITest: XCTestCase {
     
     let x = expectationWithDescription("Receive")
     
-    api.settle()
-
-    let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
-    
-    let msg = RTTextMessage(chat: chat)
-    msg.text = "Hello World"
+    sleep(2)
     
     try testClientB.devices[0].sendText("hello world", to: testClientA.devices[0].preferredAlias)
     
@@ -79,7 +74,7 @@ class MessageAPITest: XCTestCase {
       x.fulfill()
     }
     
-    waitForExpectationsWithTimeout(30, handler: nil)
+    waitForExpectationsWithTimeout(5, handler: nil)
   }
   
   func testSendMessage() throws {
@@ -93,9 +88,66 @@ class MessageAPITest: XCTestCase {
     
     try api.saveMessage(msg).then { x.fulfill() }
     
-    waitForExpectationsWithTimeout(30, handler: nil)
+    waitForExpectationsWithTimeout(5, handler: nil)
   }
-
+  
+  func testInvalidSendMessage() throws {
+    
+    let x = expectationWithDescription("Invalid Send")
+    
+    let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
+    
+    let msg = RTTextMessage(chat: chat)
+    msg.sender = "asender"
+    
+    try api.saveMessage(msg)
+      .always { x.fulfill() }
+      .then { XCTFail("Send should have failed") }
+    
+    waitForExpectationsWithTimeout(5, handler: nil)
+  }
+  
+  func testUpdateMessage() throws {
+    
+    let x = expectationWithDescription("Update")
+    
+    let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
+    
+    let msg = RTTextMessage(chat: chat)
+    msg.text = "Hello World"
+    
+    firstly {
+      return try self.api.saveMessage(msg)
+    }
+    .then {
+      return try self.api.updateMessage(msg)
+    }
+    .always {
+      x.fulfill()
+    }
+    .error { error -> Void in
+      XCTFail("Update failed: \(error)")
+    }
+    
+    waitForExpectationsWithTimeout(5, handler: nil)
+  }
+  
+  func testInvalidUpdateMessage() throws {
+    
+    let x = expectationWithDescription("Invalid Update")
+    
+    let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
+    
+    let msg = RTTextMessage(chat: chat)
+    msg.text = "Hello World"
+    
+    try api.updateMessage(msg)
+      .always { x.fulfill() }
+      .then { XCTFail("Should have produced an error") }
+    
+    waitForExpectationsWithTimeout(5, handler: nil)
+  }
+  
   func testReceiveUserStatus() throws {
 
     let x = expectationWithDescription("Receiving user status")
