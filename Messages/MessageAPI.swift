@@ -1305,3 +1305,17 @@ extension MessageAPI {
   }
   
 }
+
+
+
+extension RTUserInfo : Persistable {
+  
+  public static func valueToData(value: RTUserInfo) throws -> NSData {
+    return try TBaseUtils.serializeToData(value)
+  }
+  
+  public static func dataToValue(data: NSData) throws -> AnyObject {
+    return try TBaseUtils.deserialize(RTUserInfo(), fromData: data) as! RTUserInfo
+  }
+  
+}
