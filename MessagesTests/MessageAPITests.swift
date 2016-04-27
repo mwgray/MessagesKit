@@ -61,6 +61,40 @@ class MessageAPITest: XCTestCase {
     
     super.tearDown()
   }
+  
+  func testReceiveMessage() throws {
+    
+    let x = expectationWithDescription("Receive")
+    
+    api.settle()
+
+    let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
+    
+    let msg = RTTextMessage(chat: chat)
+    msg.text = "Hello World"
+    
+    try testClientB.devices[0].sendText("hello world", to: testClientA.devices[0].preferredAlias)
+    
+    NSNotificationCenter.defaultCenter().addObserverForName(MessageAPIUserMessageReceivedNotification, object: nil, queue: nil) { not in
+      x.fulfill()
+    }
+    
+    waitForExpectationsWithTimeout(30, handler: nil)
+  }
+  
+  func testSendMessage() throws {
+    
+    let x = expectationWithDescription("Send")
+    
+    let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
+
+    let msg = RTTextMessage(chat: chat)
+    msg.text = "Hello World"
+    
+    try api.saveMessage(msg).then { x.fulfill() }
+    
+    waitForExpectationsWithTimeout(30, handler: nil)
+  }
 
   func testReceiveUserStatus() throws {
 
