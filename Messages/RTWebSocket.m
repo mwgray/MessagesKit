@@ -35,6 +35,12 @@ static const int kRTReconnectAttemptsMax = 50;
 @end
 
 
+@interface NullTransport : NSObject <TTransport>
+
+@end
+
+
+
 @implementation RTWebSocket
 
 -(instancetype) initWithURL:(NSURL *)URL
@@ -209,10 +215,11 @@ static const int kRTReconnectAttemptsMax = 50;
   }
 
   TMemoryBuffer *messageBuffer = [[TMemoryBuffer alloc] initWithDataNoCopy:message];
-  id<TProtocol> messageProtocol = [_protocolFactory newProtocolOnTransport:messageBuffer];
+  id<TProtocol> inMessageProtocol = [_protocolFactory newProtocolOnTransport:messageBuffer];
+  id<TProtocol> outMessageProtocol = [_protocolFactory newProtocolOnTransport:[NullTransport new]];
 
   NSError *error;
-  if (![_processor processOnInputProtocol:messageProtocol outputProtocol:messageProtocol error:&error]) {
+  if (![_processor processOnInputProtocol:inMessageProtocol outputProtocol:outMessageProtocol error:&error]) {
     DDLogError(@"Error processing device service: %@", error);
     return;
   }
@@ -260,5 +267,32 @@ static const int kRTReconnectAttemptsMax = 50;
 
   return YES;
 }
+
+@end
+
+
+
+@implementation NullTransport
+
+-(BOOL) readAll:(UInt8 *)buf offset:(UInt32)offset length:(UInt32)length error:(NSError *__autoreleasing *)error
+{
+  return NO;
+}
+
+-(BOOL) readAvail:(UInt8 *)buf offset:(UInt32)offset length:(UInt32 *)length error:(NSError *__autoreleasing *)error
+{
+  return NO;
+}
+
+-(BOOL) write:(const UInt8 *)data offset:(UInt32)offset length:(UInt32)length error:(NSError *__autoreleasing *)error
+{
+  return YES;
+}
+
+-(BOOL) flush:(NSError *__autoreleasing *)error
+{
+  return YES;
+}
+
 
 @end
