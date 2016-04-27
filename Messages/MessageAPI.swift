@@ -489,7 +489,19 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
                                             target: .Standard,
                                             api: self)
     queue.addOperation(delete)
+  @objc public func sendUserStatusWithSender(sender: String, recipient: String, status: RTUserStatus) {
+   
+    self.userAPI.sendUserStatus(sender, recipient: recipient, status: status)
+    
   }
+
+  @objc public func sendGroupStatusWithSender(sender: String, chat: RTId, members: Set<String>, status: RTUserStatus) {
+
+    let group = RTGroup(chat: chat, members: members)
+  
+    self.userAPI.sendGroupStatus(sender, group: group, status: status)
+  }
+  
   
   @objc public func loadUserChatForAlias(alias: String, localAlias: String) throws -> RTUserChat {
     
