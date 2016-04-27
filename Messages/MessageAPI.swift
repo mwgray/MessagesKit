@@ -392,24 +392,31 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   
   @nonobjc public func saveMessage(message: RTMessage) throws -> Promise<Void> {
     
-    // Ensure certain fields are not set
-    if message.sender != nil || message.sent != nil || message.statusTimestamp != nil {
-      throw MessageAPIError.InvalidMessageState
-    }
-    
-    // Update fields for new message
-    message.sender = message.chat.localAlias
-    message.sent = NSDate()
-    message.status = .Sending
-    message.statusTimestamp = NSDate()
-    message.flags = []
-    
-    try dbManager.pool.inTransaction { db in
-      try self.messageDAO.insertMessage(message)
-      try self.chatDAO.updateChat(message.chat, withLastSentMessage: message)
-    }
+    return firstly {
+      
+      // Ensure certain fields are not set
+      if message.sender != nil || message.sent != nil || message.statusTimestamp != nil {
+        throw MessageAPIError.InvalidMessageState
+      }
+      
+      // Update fields for new message
+      message.sender = message.chat.localAlias
+      message.sent = NSDate()
+      message.status = .Sending
+      message.statusTimestamp = NSDate()
+      message.flags = []
+      
+      try self.dbManager.pool.inTransaction { db in
+        try self.messageDAO.insertMessage(message)
+        try self.chatDAO.updateChat(message.chat, withLastSentMessage: message)
+      }
 
-    queue.addOperation(MessageSendOperation(message: message, api:self))
+      let send = MessageSendOperation(message: message, api: self)
+      self.queue.addOperation(send)
+      
+      return send.promise().asVoid()
+    }
+    
   }
   
   @objc public func updateMessageLocally(message: RTMessage) throws {
