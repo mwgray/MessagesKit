@@ -374,7 +374,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return dispatch_promise(block as! AnyObject)
   }
   
-  @objc public func fetchMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) throws -> RTFetchedResultsController {
+  @objc public func fetchMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> RTFetchedResultsController {
     
     let request = RTFetchRequest()
     request.resultClass = RTMessage.self
