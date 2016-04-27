@@ -424,71 +424,85 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     try self.messageDAO.updateMessage(message)
   }
   
-  @objc public func updateMessage(message: RTMessage) throws {
+  @nonobjc public func updateMessage(message: RTMessage) throws -> Promise<Void> {
 
-    // Ensure all required fields are already set
-    if message.sender == nil || message.sent == nil {
-      throw MessageAPIError.InvalidMessageState
-    }
+    return firstly {
+
+      // Ensure all required fields are already set
+      if message.sender == nil || message.sent == nil {
+        throw MessageAPIError.InvalidMessageState
+      }
+      
+      // Ensure we are only updating messages we sent
+      if !message.sentByMe {
+        throw MessageAPIError.InvalidMessageState
+      }
     
-    // Ensure we are only updating messages we sent
-    if !message.sentByMe {
-      throw MessageAPIError.InvalidMessageState
-    }
-  
-    // Update status for resend
-    message.status = .Unsent
-    message.statusTimestamp = NSDate()
-    message.updated = NSDate()
-    message.flags = []
-  
-    try messageDAO.updateMessage(message)
+      // Update status for resend
+      message.status = .Unsent
+      message.statusTimestamp = NSDate()
+      message.updated = NSDate()
+      message.flags = []
     
-    // Send the update!
-    queue.addOperation(MessageSendOperation(message: message, api: self))    
+      try updateMessageLocally(message)
+      
+      // Send the update!
+      let update = MessageSendOperation(message: message, api: self)
+      queue.addOperation(update)
+      
+      return update.promise().asVoid()
+    }
   }
 
-  @objc public func clarifyMessage(message: RTMessage) throws {
+  @nonobjc public func clarifyMessage(message: RTMessage) throws -> Promise<Void> {
 
-    try messageDAO.updateMessage(message, withFlags: message.flags.union(.Clarify).rawValue)
+    return firstly {
+    
+      try self.messageDAO.updateMessage(message, withFlags: message.flags.union(.Clarify).rawValue)
 
-    let send = MessageSendSystemOperation(msgType: .Clarify,
-                                          chat: message.chat,
-                                          metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString()],
-                                          target: .Standard,
-                                          api: self)
-    queue.addOperation(send)
+      let clarify = MessageSendSystemOperation(msgType: .Clarify,
+                                               chat: message.chat,
+                                               metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString()],
+                                               target: .Standard,
+                                               api: self)
+      self.queue.addOperation(clarify)
+    
+      return clarify.promise().asVoid()
+    }
   }
   
   @objc public func deleteMessageLocally(message: RTMessage) throws {
     
-    try dbManager.pool .inTransaction { db in
+    try self.messageDAO.deleteMessage(message)
+    
+    if message == message.chat.lastMessage {
       
-      try self.messageDAO.deleteMessage(message)
+      let newLastMessage = self.messageDAO.fetchLastMessageForChat(message.chat)
       
-      if message == message.chat.lastMessage {
-        
-        let newLastMessage = self.messageDAO.fetchLastMessageForChat(message.chat)
-        
-        try self.chatDAO.updateChat(message.chat, withLastMessage: newLastMessage)
-      }
-      
+      try self.chatDAO.updateChat(message.chat, withLastMessage: newLastMessage)
     }
     
     try hideNotificationForMessage(message)
   }
 
-  @objc public func deleteMessage(message: RTMessage) throws {
+  @nonobjc public func deleteMessage(message: RTMessage) throws -> Promise<Void> {
     
-    try deleteMessageLocally(message)
+    return firstly {
+    
+      try deleteMessageLocally(message)
 
-    let delete = MessageSendSystemOperation(msgType: .Delete,
-                                            chat: message.chat,
-                                            metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString(),
-                                                       "type": "message"],
-                                            target: .Standard,
-                                            api: self)
-    queue.addOperation(delete)
+      let delete = MessageSendSystemOperation(msgType: .Delete,
+                                              chat: message.chat,
+                                              metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString(),
+                                                         "type": "message"],
+                                              target: .Standard,
+                                              api: self)
+      queue.addOperation(delete)
+    
+      return delete.promise().asVoid()
+    }
+  }
+  
   @objc public func sendUserStatusWithSender(sender: String, recipient: String, status: RTUserStatus) {
    
     self.userAPI.sendUserStatus(sender, recipient: recipient, status: status)
