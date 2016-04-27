@@ -197,7 +197,7 @@ static NSString *typeColumnName = @"type";
 {
   __block FMBlob *blob = nil;
   [_db.pool inReadableDatabase:^(FMDatabase * _Nonnull db) {
-    blob = [FMBlob.alloc initWithDatabase:db dbName:_dbName tableName:_tableName columnName:refsColumnName rowId:_blobId mode:FMBlobOpenModeRead error:error];
+    blob = [FMBlob.alloc initWithDatabase:db dbName:_dbName tableName:_tableName columnName:dataColumnName rowId:_blobId mode:FMBlobOpenModeRead error:error];
   }];
   
   if (!blob) {
