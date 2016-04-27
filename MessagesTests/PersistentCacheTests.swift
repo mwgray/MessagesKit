@@ -35,12 +35,9 @@ class PersistentCacheTests: XCTestCase {
   
   func testPersistence() throws {
     
-    var fetched = false
-    
     let userInfo = RTUserInfo(id: RTId.generate(), aliases: Set(["1", "2"]), encryptionCert: NSData(), signingCert: NSData(), avatar: nil)
     
     let cache = try PersistentCache<String, RTUserInfo>(name: "test", clear: true, loader: { key in
-      fetched = true
       return (userInfo, NSDate(timeIntervalSinceNow: 0.25))
     })
     
