@@ -98,6 +98,8 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     assert(MessageAPI.target != nil, "MessageAPI target not initialized, call MessageAPI.initialize first")
     
+    self.queue.name = "MessageAPI Processing Queue"
+    
     self.certificateTrust = try MessageAPI.makeCertificateTrust()
     
     self.credentials = credentials
