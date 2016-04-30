@@ -65,6 +65,7 @@ typedef NS_ENUM (int32_t, RTMessageSoundAlert) {
 
 @property (readonly, nonatomic) RTMessageSoundAlert soundAlert;
 
+-(instancetype) init NS_DESIGNATED_INITIALIZER;
 -(instancetype) initWithChat:(RTChat *)chat;
 -(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat NS_DESIGNATED_INITIALIZER;
 

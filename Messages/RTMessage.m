@@ -25,6 +25,11 @@
 
 @synthesize id=_id;
 
+-(instancetype) init
+{
+  return [super init];
+}
+
 -(instancetype) initWithChat:(RTChat *)chat
 {
   return [self initWithId:[RTId generate] chat:chat];
