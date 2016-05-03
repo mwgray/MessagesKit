@@ -218,11 +218,6 @@ static NSString *typeColumnName = @"type";
   return [FileDataReference copyFrom:self toPath:tempPath filteredBy:filter error:error];
 }
 
--(BOOL) saveToFile:(NSString *)filePath error:(NSError * _Nullable __autoreleasing *)error
-{
-  return [FileDataReference copyFrom:self toPath:filePath filteredBy:nil error:error];
-}
-
 @end
 
 

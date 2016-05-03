@@ -41,8 +41,6 @@ typedef BOOL (^DataReferenceFilter)(id<DataInputStream>, id<DataOutputStream>, N
 
 -(nullable id<DataReference>) temporaryDuplicateFilteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error NS_REFINED_FOR_SWIFT;
 
--(BOOL) saveToFile:(NSString *)filePath error:(NSError **)error;
-
 @end
 
 

@@ -87,9 +87,4 @@
   return [MemoryDataReference copyFrom:self filteredBy:filter error:error];
 }
 
--(BOOL) saveToFile:(NSString *)filePath error:(NSError * _Nullable __autoreleasing *)error
-{
-  return [_data writeToFile:filePath options:0 error:error];
-}
-
 @end
