@@ -381,9 +381,9 @@
 
   if (count && deleted) {
 
-    for (id del in deleted) {
+    for (RTModel *del in deleted) {
 
-      [del deleteAndReturnError:error];
+      [del deleteWithDAO:self error:nil];
 
       [self.objectCache removeObjectForKey:[del dbId]];
     }

@@ -24,15 +24,85 @@
 @import AssetsLibrary;
 
 
-RT_LUMBERJACK_DECLARE_LOG_LEVEL()
-
-
 @interface RTVideoMessage ()
 
 @end
 
 
 @implementation RTVideoMessage
+
+-(id) copy
+{
+  RTVideoMessage *copy = [super copy];
+  copy.data = self.data;
+  copy.dataMimeType = self.dataMimeType;
+  copy.thumbnailData = self.thumbnailData;
+  copy.thumbnailSize = self.thumbnailSize;
+  return copy;
+}
+
+-(BOOL) isEquivalent:(id)object
+{
+  if (![object isKindOfClass:[RTVideoMessage class]]) {
+    return NO;
+  }
+  
+  return [self isEquivalentToVideoMessage:object];
+}
+
+-(BOOL) isEquivalentToVideoMessage:(RTVideoMessage *)videoMessage
+{
+  return [super isEquivalentToMessage:videoMessage] &&
+    [DataReferences isDataReference:_data equivalentToDataReference:videoMessage.data] &&
+    isEqual(_dataMimeType, videoMessage.dataMimeType) &&
+    [DataReferences isDataReference:_thumbnailData equivalentToDataReference:videoMessage.thumbnailData] &&
+    CGSizeEqualToSize(self.thumbnailSize, videoMessage.thumbnailSize);
+}
+
+-(void) setData:(id<DataReference>)data
+{
+  if (_data == data) {
+    return;
+  }
+  
+  if (_data) {
+    [_data deleteAndReturnError:nil];
+  }
+  
+  _data = [data temporaryDuplicateFilteredBy:nil error:nil];
+}
+
+-(void) setOwnedData:(id<DataReference>)ownedData
+{
+  if (_data == ownedData) {
+    return;
+  }
+  
+  if (_data) {
+    [_data deleteAndReturnError:nil];
+  }
+  
+  _data = ownedData;
+}
+
+-(void) setThumbnailData:(id<DataReference>)thumbnailData
+{
+  if (_thumbnailData == thumbnailData) {
+    return;
+  }
+  
+  if (_thumbnailData) {
+    [_thumbnailData deleteAndReturnError:nil];
+  }
+  
+  _thumbnailData = [thumbnailData temporaryDuplicateFilteredBy:nil error:nil];
+}
+
+-(void) setOwnedThumbnailData:(id<DataReference>)ownedThumbnailData
+{
+  self.thumbnailData = nil;
+  _thumbnailData = ownedThumbnailData;
+}
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
 {
@@ -55,13 +125,14 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   }
   
   // Internalize data references
-  if (self.data && !(self.data = [self internalizeData:self.data dbManager:dao.dbManager error:error])) {
+  if (_data && !(self.ownedData = [self internalizeData:_data dbManager:dao.dbManager error:error])) {
     return NO;
   }
-  if (self.thumbnailData && !(self.thumbnailData = [self internalizeData:self.thumbnailData dbManager:dao.dbManager error:error])) {
+  
+  if (_thumbnailData && !(self.ownedThumbnailData = [self internalizeData:_thumbnailData dbManager:dao.dbManager error:error])) {
     return NO;
   }
-
+  
   [values setNillableObject:self.thumbnailData forKey:@"data1"];
   [values setNillableObject:self.data forKey:@"data2"];
   [values setObject:NSStringFromCGSize(self.thumbnailSize) forKey:@"data3"];
@@ -70,48 +141,17 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   return YES;
 }
 
--(void) delete
+-(BOOL) deleteWithDAO:(RTDAO *)dao error:(NSError *__autoreleasing *)error
 {
-  NSError *error;
-  if (![_data deleteAndReturnError:&error]) {
-    DDLogError(@"Unable to delete video: %@", self.data);
-  }
-}
-
--(BOOL) isEquivalent:(id)object
-{
-  if (![object isKindOfClass:[RTVideoMessage class]]) {
+  if (_data && ![_data deleteAndReturnError:error]) {
     return NO;
   }
-
-  return [self isEquivalentToVideoMessage:object];
-}
-
--(BOOL) isEquivalentToVideoMessage:(RTVideoMessage *)videoMessage
-{
-  return [super isEquivalentToMessage:videoMessage] &&
-         isEqual(self.data, videoMessage.data) &&
-         isEqual(self.thumbnailData, videoMessage.thumbnailData) &&
-         CGSizeEqualToSize(self.thumbnailSize, videoMessage.thumbnailSize);
-}
-
--(id) copy
-{
-  RTVideoMessage *copy = [super copy];
-  copy.data = self.data;
-  copy.dataMimeType = self.dataMimeType;
-  copy.thumbnailData = self.thumbnailData;
-  copy.thumbnailSize = self.thumbnailSize;
-  return copy;
-}
-
--(void)setData:(id<DataReference>)data
-{
-  if (_data) {
-    [_data deleteAndReturnError:nil];
+  
+  if (_thumbnailData && ![_thumbnailData deleteAndReturnError:error]) {
+    return NO;
   }
-
-  _data = data;
+  
+  return YES;
 }
 
 -(NSString *) alertText
@@ -170,48 +210,48 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 +(nullable id<DataReference>) generateThumbnailWithData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size error:(NSError * _Nullable __autoreleasing * _Nullable)error
 {
-  FileDataReference *tempRef = [DataReferences duplicateDataReferenceToTemporaryFile:videoData withExtension:@"mp4" error:nil];
+  FileDataReference *tempRef = [DataReferences duplicateDataReferenceToTemporaryFile:videoData withExtension:@"mp4" error:error];
   if (!tempRef) {
     return nil;
   }
   
-  CGImageRef imgRef;
   @try {
+  
     AVURLAsset *as = [[AVURLAsset alloc] initWithURL:tempRef.URL options:nil];
     AVAssetImageGenerator *ima = [[AVAssetImageGenerator alloc] initWithAsset:as];
     ima.appliesPreferredTrackTransform = YES;
 
     CMTime time = frameTime ? CMTimeMake([frameTime doubleValue] * 1000, 1000) : kCMTimeZero;
 
-    NSError *err = NULL;
-
-    imgRef = [ima copyCGImageAtTime:time actualTime:NULL error:&err];
+    CGImageRef imgRef = [ima copyCGImageAtTime:time actualTime:NULL error:error];
     if (!imgRef) {
       return nil;
     }
+
+    size->width = CGImageGetWidth(imgRef);
+    size->height = CGImageGetHeight(imgRef);
+
+    NSMutableData *imgData = [NSMutableData data];
+    CGImageDestinationRef imgDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)(imgData), kUTTypeJPEG, 1, NULL);
+    @try {
+
+      CGImageDestinationAddImage(imgDest, imgRef, NULL);
+      if (!CGImageDestinationFinalize(imgDest)) {
+        return nil;
+      }
+
+      return [MemoryDataReference.alloc initWithData:imgData.copy];
+    }
+    @finally {
+      CFRelease(imgDest);
+      CFRelease(imgRef);
+    }
+    
   }
   @finally {
     [tempRef deleteAndReturnError:nil];
   }
-
-  size->width = CGImageGetWidth(imgRef);
-  size->height = CGImageGetHeight(imgRef);
-
-  NSMutableData *imgData = [NSMutableData data];
-  CGImageDestinationRef imgDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)(imgData), kUTTypeJPEG, 1, NULL);
-  @try {
-
-    CGImageDestinationAddImage(imgDest, imgRef, NULL);
-    if (!CGImageDestinationFinalize(imgDest)) {
-      return nil;
-    }
-
-    return [MemoryDataReference.alloc initWithData:imgData.copy];
-  }
-  @finally {
-    CFRelease(imgDest);
-    CFRelease(imgRef);
-  }
+  
 }
 
 @end

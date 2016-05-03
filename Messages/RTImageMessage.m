@@ -19,11 +19,7 @@
 
 @import AVFoundation;
 @import MobileCoreServices;
-@import CoreGraphics;
 @import ImageIO;
-
-
-RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 
 const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
@@ -35,6 +31,84 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 {
   UIImage *image = [UIImage imageWithData:[DataReferences readAllDataFromReference:self.thumbnailOrImageData error:nil]];
   return image ? image : [@"Unable to load image for message " stringByAppendingString:self.id.description];
+}
+
+-(id) copy
+{
+  RTImageMessage *copy = [super copy];
+  copy.data = self.data;
+  copy.dataMimeType = self.dataMimeType;
+  copy.thumbnailData = self.thumbnailData;
+  copy.thumbnailSize = self.thumbnailSize;
+  return copy;
+}
+
+-(BOOL) isEquivalent:(id)object
+{
+  if (![object isKindOfClass:[RTImageMessage class]]) {
+    return NO;
+  }
+  
+  return [self isEquivalentToImageMessage:object];
+}
+
+-(BOOL) isEquivalentToImageMessage:(RTImageMessage *)imageMessage
+{
+  return [super isEquivalentToMessage:imageMessage] &&
+    [DataReferences isDataReference:_data equivalentToDataReference:imageMessage.data] &&
+    isEqual(_dataMimeType, imageMessage.dataMimeType) &&
+    [DataReferences isDataReference:_thumbnailData equivalentToDataReference:imageMessage.thumbnailData] &&
+    CGSizeEqualToSize(_thumbnailSize, imageMessage.thumbnailSize);
+}
+
+-(void) setData:(id<DataReference>)data
+{
+  if (_data == data) {
+    return;
+  }
+  
+  if (_data) {
+    [_data deleteAndReturnError:nil];
+  }
+  
+  _data = [data temporaryDuplicateFilteredBy:nil error:nil];
+}
+
+-(void) setOwnedData:(id<DataReference>)ownedData
+{
+  if (_data == ownedData) {
+    return;
+  }
+  
+  if (_data) {
+    [_data deleteAndReturnError:nil];
+  }
+  
+  _data = ownedData;
+}
+
+-(void) setThumbnailData:(id<DataReference>)thumbnailData
+{
+  if (_thumbnailData == thumbnailData) {
+    return;
+  }
+  
+  if (_thumbnailData) {
+    [_thumbnailData deleteAndReturnError:nil];
+  }
+  
+  _thumbnailData = [thumbnailData temporaryDuplicateFilteredBy:nil error:nil];
+}
+
+-(void) setOwnedThumbnailData:(id<DataReference>)ownedThumbnailData
+{
+  self.thumbnailData = nil;
+  _thumbnailData = ownedThumbnailData;
+}
+
+-(id<DataReference>) thumbnailOrImageData
+{
+  return self.thumbnailData ? self.thumbnailData : self.data;
 }
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
@@ -58,10 +132,11 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
   }
 
   // Internalize data references
-  if (self.data && !(self.data = [self internalizeData:self.data dbManager:dao.dbManager error:error])) {
+  if (_data && !(self.ownedData = [self internalizeData:_data dbManager:dao.dbManager error:error])) {
     return NO;
   }
-  if (self.thumbnailData && !(self.thumbnailData = [self internalizeData:self.thumbnailData dbManager:dao.dbManager error:error])) {
+  
+  if (_thumbnailData && !(self.ownedThumbnailData = [self internalizeData:_thumbnailData dbManager:dao.dbManager error:error])) {
     return NO;
   }
   
@@ -73,40 +148,17 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
   return YES;
 }
 
--(void) delete
+-(BOOL) deleteWithDAO:(RTDAO *)dao error:(NSError *__autoreleasing *)error
 {
-  NSError *error;
-  if (![_data deleteAndReturnError:&error]) {
-    DDLogError(@"Unable to delete video data: %@", self.data);
-  }
-}
-
--(BOOL) isEquivalent:(id)object
-{
-  if (![object isKindOfClass:[RTImageMessage class]]) {
+  if (_data && ![_data deleteAndReturnError:error]) {
     return NO;
   }
-
-  return [self isEquivalentToImageMessage:object];
-}
-
--(BOOL) isEquivalentToImageMessage:(RTImageMessage *)imageMessage
-{
-  return [super isEquivalentToMessage:imageMessage] &&
-         isEqual(self.data, imageMessage.data) &&
-         isEqual(self.dataMimeType, imageMessage.dataMimeType) &&
-         isEqual(self.thumbnailData, imageMessage.thumbnailData) &&
-         CGSizeEqualToSize(self.thumbnailSize, imageMessage.thumbnailSize);
-}
-
--(id) copy
-{
-  RTImageMessage *copy = [super copy];
-  copy.data = self.data;
-  copy.dataMimeType = self.dataMimeType;
-  copy.thumbnailData = self.thumbnailData;
-  copy.thumbnailSize = self.thumbnailSize;
-  return copy;
+  
+  if (_thumbnailData && ![_thumbnailData deleteAndReturnError:error]) {
+    return NO;
+  }
+  
+  return YES;
 }
 
 -(NSString *) alertText
@@ -117,20 +169,6 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 -(NSString *) summaryText
 {
   return @"New image";
-}
-
--(void) setData:(id<DataReference>)data
-{
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = data;
-}
-
--(id<DataReference>) thumbnailOrImageData
-{
-  return self.thumbnailData ? self.thumbnailData : self.data;
 }
 
 -(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
@@ -234,7 +272,7 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 
       NSMutableData *thumbnailData = [NSMutableData data];
 
-      CGImageDestinationRef thumbnailDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)thumbnailData, CGImageSourceGetType(imageSource), 1, NULL);
+      CGImageDestinationRef thumbnailDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)thumbnailData, kUTTypePNG, 1, NULL);
       if (!thumbnailDest) {
         return nil;
       }

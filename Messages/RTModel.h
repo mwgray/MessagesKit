@@ -20,7 +20,7 @@
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTDAO *)dao error:(NSError **)error;
 -(BOOL) save:(NSMutableDictionary *)values dao:(RTDAO *)dao error:(NSError **)error;
--(BOOL) deleteAndReturnError:(NSError **)error;
+-(BOOL) deleteWithDAO:(RTDAO *)dao error:(NSError **)error;
 
 -(void) invalidateCachedData;
 

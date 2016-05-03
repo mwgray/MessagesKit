@@ -9,14 +9,12 @@
 #import "RTAudioMessage.h"
 
 #import "TBase+Utils.h"
+#import "DataReferences.h"
 #import "RTMessageDAO.h"
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 #import "FMResultSet+Utils.h"
 #import "RTLog.h"
-
-
-RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 
 @interface RTAudioMessage ()
@@ -26,12 +24,61 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
 @implementation RTAudioMessage
 
+-(id) copy
+{
+  RTAudioMessage *copy = [super copy];
+  copy.data = self.data;
+  copy.dataMimeType = self.dataMimeType;
+  return copy;
+}
+
+-(BOOL) isEquivalent:(id)object
+{
+  if (![object isKindOfClass:[RTAudioMessage class]]) {
+    return NO;
+  }
+  
+  return [self isEquivalentToAudioMessage:object];
+}
+
+-(BOOL) isEquivalentToAudioMessage:(RTAudioMessage *)audioMessage
+{
+  return [super isEquivalentToMessage:audioMessage] &&
+    [DataReferences isDataReference:_data equivalentToDataReference:audioMessage.data];
+}
+
+-(void) setData:(id<DataReference>)data
+{
+  if (_data == data) {
+    return;
+  }
+  
+  if (_data) {
+    [_data deleteAndReturnError:nil];
+  }
+  
+  _data = [data temporaryDuplicateFilteredBy:nil error:nil];
+}
+
+-(void) setOwnedData:(id<DataReference>)ownedData
+{
+  if (_data == ownedData) {
+    return;
+  }
+  
+  if (_data) {
+    [_data deleteAndReturnError:nil];
+  }
+  
+  _data = ownedData;
+}
+
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError **)error
 {
   if (![super load:resultSet dao:dao error:error]) {
     return NO;
   }
-
+  
   self.data = [resultSet dataReferenceForColumnIndex:dao.data1FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
   self.dataMimeType = [resultSet stringForColumnIndex:dao.data2FieldIdx];
   
@@ -43,9 +90,9 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   if (![super save:values dao:dao error:error]) {
     return NO;
   }
-
+  
   // Internalize data references
-  if (self.data && !(self.data = [self internalizeData:self.data dbManager:dao.dbManager error:error])) {
+  if (_data && !(self.ownedData = [self internalizeData:_data dbManager:dao.dbManager error:error])) {
     return NO;
   }
   
@@ -55,44 +102,13 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
   return YES;
 }
 
--(void) delete
+-(BOOL) deleteWithDAO:(RTDAO *)dao error:(NSError *__autoreleasing *)error
 {
-  NSError *error;
-  if (![_data deleteAndReturnError:&error]) {
-    DDLogError(@"Unable to delete audio data: %@", self.data);
-  }
-}
-
--(BOOL) isEquivalent:(id)object
-{
-  if (![object isKindOfClass:[RTAudioMessage class]]) {
+  if (_data && ![_data deleteAndReturnError:error]) {
     return NO;
   }
-
-  return [self isEquivalentToAudioMessage:object];
-}
-
--(BOOL) isEquivalentToAudioMessage:(RTAudioMessage *)audioMessage
-{
-  return [super isEquivalentToMessage:audioMessage] &&
-         isEqual(self.data, audioMessage.data);
-}
-
--(id) copy
-{
-  RTAudioMessage *copy = [super copy];
-  copy.data = self.data;
-  copy.dataMimeType = self.dataMimeType;
-  return copy;
-}
-
--(void) setData:(id<DataReference>)data
-{
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
   
-  _data = data;
+  return YES;
 }
 
 -(NSString *) alertText

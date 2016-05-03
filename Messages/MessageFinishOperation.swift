@@ -50,6 +50,8 @@ class MessageFinishOperation: Operation {
       try! dao.updateMessage(messageContext.message, withStatus:.Sent);
     }
     
+    let _ = try? transmitContext.encryptedData?.delete()
+    
     finish()
   }
   

@@ -326,8 +326,11 @@ class MessageProcessOperation: Operation {
         try cipher.decryptFromStream(inStream, toStream: outStream, withKey: key)
       }
       
-      // Deserialize request data
+      defer {
+        let _ = try? data.delete()
+      }
       
+      // Deserialize request data
       guard let request = try TBaseUtils.deserialize(RTAuthorizeRequest(), fromData: try DataReferences.readAllDataFromReference(data)) as? RTAuthorizeRequest else {
         DDLogError("MessageProcessOperation: Authorize: unable to deserialize request")
         break
@@ -391,6 +394,10 @@ class MessageProcessOperation: Operation {
       else {
         key = nil
         data = nil
+      }
+      
+      defer {
+        let _ = try? data?.delete()
       }
     
       guard let chat = try lookupChatWithMsg(msg) else {

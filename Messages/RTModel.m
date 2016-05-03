@@ -63,7 +63,7 @@
   return YES;
 }
 
--(BOOL)deleteAndReturnError:(NSError *__autoreleasing *)error
+-(BOOL) deleteWithDAO:(RTDAO *)dao error:(NSError *__autoreleasing *)error
 {
   return YES;
 }

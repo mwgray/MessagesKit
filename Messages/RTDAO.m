@@ -433,7 +433,7 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
     if ([db executeUpdate:_tableInfo.deleteSQL, model.dbId]) {
 
-      if (![model deleteAndReturnError:error]) {
+      if (![model deleteWithDAO:self error:error]) {
         return;
       }
 
@@ -530,11 +530,15 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
       count = db.changes;
     }
 
+    for (id del in deleted) {
+      
+      [del deleteWithDAO:self error:nil];
+      
+    }
+    
   }];
 
   for (id del in deleted) {
-
-    [del deleteAndReturnError:nil];
 
     [_objectCache removeObjectForKey:[del dbId]];
 
@@ -579,6 +583,12 @@ RT_LUMBERJACK_DECLARE_LOG_LEVEL()
 
   }];
 
+  for (id del in deleted) {
+    
+    [_objectCache removeObjectForKey:[del dbId]];
+    
+  }
+  
   if (count) {
     [self deletedAll:deleted];
   }

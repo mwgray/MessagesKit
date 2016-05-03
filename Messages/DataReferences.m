@@ -82,4 +82,11 @@
   return [FileDataReference copyFrom:source toPath:tempPath filteredBy:nil error:error];
 }
 
++(BOOL) isDataReference:(id<DataReference>)aref equivalentToDataReference:(id<DataReference>)bref
+{
+  NSData *aData = [DataReferences readAllDataFromReference:aref error:nil];
+  NSData *bData = [DataReferences readAllDataFromReference:bref error:nil];
+  return [aData isEqualToData:bData];
+}
+
 @end
