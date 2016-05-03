@@ -33,8 +33,6 @@
 		AA05D2581CC94C5D0051039E /* DataReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2571CC94C5D0051039E /* DataReference.swift */; };
 		AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D25B1CCABCB00051039E /* CGSize+Utils.m */; };
 		AA05D25E1CCABCB00051039E /* CGSize+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D25C1CCABCB00051039E /* CGSize+Utils.h */; };
-		AA490DAB1CCAF0500010FC17 /* RTPersistentCache.h in Headers */ = {isa = PBXBuildFile; fileRef = AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */; };
-		AA490DAC1CCAF0500010FC17 /* RTPersistentCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AA490DAA1CCAF0500010FC17 /* RTPersistentCache.m */; };
 		AA490DAD1CCAF1970010FC17 /* RTAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* RTAPIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* RTUserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* RTUserStatusInfo.m */; };
 		AA490DAF1CCAF1A80010FC17 /* RTWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BC1CC163B400F1A3B0 /* RTWebSocket.m */; };
@@ -123,7 +121,6 @@
 		AA61CD981CCB37930029B5F2 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD961CCB37930029B5F2 /* Reachability.h */; };
 		AA61CD991CCB37930029B5F2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD971CCB37930029B5F2 /* Reachability.m */; };
 		AA61CD9B1CCB3D2B0029B5F2 /* Promise+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */; };
-		AA9918B11CC164AD00F1A3B0 /* RTPersistentCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918AF1CC164AD00F1A3B0 /* RTPersistentCacheTests.m */; };
 		AA9918C21CC1659100F1A3B0 /* RTChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B71CC1659100F1A3B0 /* RTChatTests.m */; };
 		AA9918C41CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B91CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m */; };
 		AA9918C51CC1659100F1A3B0 /* RTHTMLTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BA1CC1659100F1A3B0 /* RTHTMLTextTests.m */; };
@@ -280,8 +277,6 @@
 		AA05D2571CC94C5D0051039E /* DataReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReference.swift; sourceTree = "<group>"; };
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGSize+Utils.m"; sourceTree = "<group>"; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGSize+Utils.h"; sourceTree = "<group>"; };
-		AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTPersistentCache.h; sourceTree = "<group>"; };
-		AA490DAA1CCAF0500010FC17 /* RTPersistentCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPersistentCache.m; sourceTree = "<group>"; };
 		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectWebsocket.swift; sourceTree = "<group>"; };
 		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResendUnsentMessages.swift; sourceTree = "<group>"; };
 		AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMResultSet+Utils.swift"; sourceTree = "<group>"; };
@@ -451,7 +446,6 @@
 		AA9918961CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAsymmetricKeyPairGenerator.m; sourceTree = "<group>"; };
 		AA9918971CC1645700F1A3B0 /* RTX509Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTX509Utils.h; sourceTree = "<group>"; };
 		AA9918981CC1645700F1A3B0 /* RTX509Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTX509Utils.m; sourceTree = "<group>"; };
-		AA9918AF1CC164AD00F1A3B0 /* RTPersistentCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTPersistentCacheTests.m; sourceTree = "<group>"; };
 		AA9918B01CC164AD00F1A3B0 /* RTDBManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTDBManagerTests.m; sourceTree = "<group>"; };
 		AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMessageTests.m; sourceTree = "<group>"; };
 		AA9918B51CC1652500F1A3B0 /* MessagesTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessagesTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -773,8 +767,6 @@
 				AA4FD0501CCD350F00C0DE2A /* DataReferences.h */,
 				AA4FD0511CCD350F00C0DE2A /* DataReferences.m */,
 				AA05D2571CC94C5D0051039E /* DataReference.swift */,
-				AA490DA91CCAF0500010FC17 /* RTPersistentCache.h */,
-				AA490DAA1CCAF0500010FC17 /* RTPersistentCache.m */,
 				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
 				AA4FD0541CCD4E9000C0DE2A /* MessageAPI.swift */,
 				AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */,
@@ -830,7 +822,6 @@
 				AA9918BE1CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m */,
 				AA9918BF1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m */,
 				AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */,
-				AA9918AF1CC164AD00F1A3B0 /* RTPersistentCacheTests.m */,
 				AA9918B01CC164AD00F1A3B0 /* RTDBManagerTests.m */,
 				AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */,
 				AA9C1C801CC028190070FB59 /* Info.plist */,
@@ -915,7 +906,6 @@
 				AAB481D11CCAD81000EBFC5E /* RTOpenSSLKeyPair.h in Headers */,
 				AAFDFB5D1CC5FDA200066707 /* RTAudioMessage.h in Headers */,
 				AA05D2421CC8572A0051039E /* UIFont+Utils.h in Headers */,
-				AA490DAB1CCAF0500010FC17 /* RTPersistentCache.h in Headers */,
 				AA4FD04E1CCCAF9D00C0DE2A /* FileDataReference.h in Headers */,
 				AA05D2221CC829810051039E /* NSString+PropertyKVC.h in Headers */,
 				AAB481D31CCAD81000EBFC5E /* RTOpenSSLCertificateSet.h in Headers */,
@@ -1177,7 +1167,6 @@
 				AA05D2301CC84CA70051039E /* FMResultSet+Utils.m in Sources */,
 				AA490DC31CCAF59E0010FC17 /* MessageTransmitAPIOperation.swift in Sources */,
 				AAB481F31CCADEC400EBFC5E /* RTMsgSigner.m in Sources */,
-				AA490DAC1CCAF0500010FC17 /* RTPersistentCache.m in Sources */,
 				AA5850191CC1C4510034C46D /* NSArray+Utils.m in Sources */,
 				AA05D22C1CC840B30051039E /* NSMutableArray+Utils.m in Sources */,
 				AAB481EC1CCADEC400EBFC5E /* RTOpenSSLKeyPair.m in Sources */,
@@ -1275,7 +1264,6 @@
 				AA9918C51CC1659100F1A3B0 /* RTHTMLTextTests.m in Sources */,
 				AA9918C91CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m in Sources */,
 				AA5850571CC2B2030034C46D /* PersistentCacheTests.swift in Sources */,
-				AA9918B11CC164AD00F1A3B0 /* RTPersistentCacheTests.m in Sources */,
 				AAB481DE1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

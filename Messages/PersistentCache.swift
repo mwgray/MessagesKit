@@ -31,7 +31,7 @@ public protocol Persistable {
 
 public class PersistentCache<KeyType, ValueType where KeyType : Equatable, ValueType : Persistable> {
   
-  public typealias Loader = (key: KeyType) throws -> (value: ValueType, expires: NSDate)?
+  public typealias Loader = (key: KeyType) throws -> (value: ValueType?, expires: NSDate)?
   
   
   private var pool : FMDatabaseReadWritePool!
@@ -50,7 +50,7 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable, Value
       throw PersistentCacheError.NoCacheDirectory
     }
     
-    let cacheURL = cacheDirURL.URLByAppendingPathComponent(".cache.sqlite")
+    let cacheURL = cacheDirURL.URLByAppendingPathComponent(name).URLByAppendingPathExtension("cache.sqlite")
     
     if clear {
       try NSFileManager.defaultManager().removeItemAtURL(cacheURL)
@@ -63,7 +63,11 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable, Value
     
   }
   
-  public func availableValueForKey(key: KeyType) throws -> (value: ValueType, expires: NSDate)? {
+  deinit {
+    pool.close()
+  }
+  
+  public func availableValueForKey(key: KeyType) throws -> (value: ValueType?, expires: NSDate)? {
     
     return try pool.inReadableDatabase { db in
       
@@ -78,55 +82,55 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable, Value
   
   public func valueForKey(key: KeyType) throws -> ValueType? {
     
-    var success : ValueType!
-    
-    try pool.inTransaction { db in
+    return try pool.inTransaction { db in
       
       self.accessCount += 1
       if self.accessCount - self.lastCompactAccessCount > autoCompactAccesses {
         GCD.backgroundQueue.async(self.compact)
       }
       
-      if let (value, expires) = try self.loadValueForKey(key, fromDatabase: db) where expires.compare(NSDate()) == .OrderedDescending {
-        success = value
-        return
+      if let found = try self.loadValueForKey(key, fromDatabase: db) where found.1.compare(NSDate()) == .OrderedDescending {
+        return found.0
       }
       
       guard let (value, expires) = try self.loader(key: key) else {
-        success = nil
-        return
+        return nil
       }
       
       try self.cacheValue(value, forKey: key, expires: expires, inDatabase: db)
       
-      success = value
-      
-      return
+      return value
     }
     
-    return success
   }
   
-  private func loadValueForKey(key: KeyType, fromDatabase db: FMDatabase) throws -> (ValueType, NSDate)? {
+  private func loadValueForKey(key: KeyType, fromDatabase db: FMDatabase) throws -> (ValueType?, NSDate)? {
     
     guard let row = db.arrayForQuery("SELECT value, expires FROM cache WHERE key = ?", key as! AnyObject) else {
       return nil
     }
     
-    let value = row[0] as! NSData
+    let valueData = row[0] as? NSData
+    let value = valueData != nil ? try ValueType.dataToValue(valueData!) as? ValueType : nil
+    
     let expires = row[1] as! Double
     
-    return (value: try ValueType.dataToValue(value) as! ValueType, expires: NSDate(timeIntervalSince1970: expires))
+    return (value: value, expires: NSDate(timeIntervalSince1970: expires))
   }
   
-  private func cacheValue(value: ValueType, forKey key: KeyType, expires: NSDate, inDatabase db: FMDatabase) throws {
-    try db.executeUpdate("INSERT OR REPLACE INTO cache(key, value, expires) VALUES (?, ?, ?)", key as! AnyObject, try ValueType.valueToData(value), expires)
+  private func cacheValue(value: ValueType?, forKey key: KeyType, expires: NSDate, inDatabase db: FMDatabase) throws {
+    
+    let valueData = value != nil ? try ValueType.valueToData(value!) : NSNull()
+    
+    try db.executeUpdate("INSERT OR REPLACE INTO cache(key, value, expires) VALUES (?, ?, ?)", key as! AnyObject, valueData, expires)
   }
   
-  public func cacheValue(value: ValueType, forKey key: KeyType, expires: NSDate) throws {
+  public func cacheValue(value: ValueType?, forKey key: KeyType, expires: NSDate) throws {
+    
     try pool.inTransaction { db in
       try self.cacheValue(value, forKey: key, expires: expires, inDatabase: db)
     }
+    
   }
   
   public func invalidateValueForKey(key: KeyType) throws {
