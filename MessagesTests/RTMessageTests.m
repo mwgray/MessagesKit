@@ -40,11 +40,14 @@
   [super setUp];
 
   self.dbPath = [NSTemporaryDirectory() stringByAppendingString:@"temp.sqlite"];
-  [[NSFileManager defaultManager] removeItemAtPath:self.dbPath error:nil];
+  
+  [NSFileManager.defaultManager removeItemAtPath:self.dbPath error:nil];
 
-  self.dbManager = [[RTDBManager alloc] initWithPath:self.dbPath kind:@"Message" daoClasses:@[[RTMessageDAO class],
-                                                                                              [RTChatDAO class]]
-                                               error:nil];
+  self.dbManager = [RTDBManager.alloc initWithPath:self.dbPath
+                                              kind:@"Message"
+                                        daoClasses:@[[RTMessageDAO class],
+                                                     [RTChatDAO class]]
+                                             error:nil];
   [self.dbManager addDelegatesObject:self];
 
   self.inserted = [NSMutableSet new];
@@ -61,6 +64,7 @@
 
 -(void) tearDown
 {
+  [self.dbManager shutdown];
   self.dbManager = nil;
   
   [[NSFileManager defaultManager] removeItemAtPath:self.dbPath error:nil];
