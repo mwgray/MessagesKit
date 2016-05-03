@@ -238,6 +238,9 @@
   RTImageMessage *msg = [self newImageMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Image message failed DB roundtrip");
+  
+  XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
+  XCTAssertTrue([msg.thumbnailData isKindOfClass:BlobDataReference.class]);
 }
 
 -(void) testAudioMessageInsertFetch
@@ -245,6 +248,8 @@
   RTAudioMessage *msg = [self newAudioMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Audio message failed DB roundtrip");
+  
+  XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
 }
 
 -(void) testVideoMessageInsertFetch
@@ -252,6 +257,9 @@
   RTVideoMessage *msg = [self newVideoMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Video message failed DB roundtrip");
+  
+  XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
+  XCTAssertTrue([msg.thumbnailData isKindOfClass:BlobDataReference.class]);
 }
 
 -(void) testLocationMessageInsertFetch
