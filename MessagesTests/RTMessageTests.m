@@ -101,6 +101,7 @@
 {
   RTImageMessage *msg = [self fill:[RTImageMessage new]];
   msg.data = [[FileDataReference alloc] initWithPath:[self pathForResourceNamed:@"test" ofType:@"png"]];
+  msg.dataMimeType = RTImageType_PNG;
 
   CGSize size;
   msg.thumbnailData = [RTImageMessage generateThumbnailWithData:msg.data size:&size error:nil];
@@ -113,6 +114,7 @@
 {
   RTAudioMessage *msg = [self fill:[RTAudioMessage new]];
   msg.data = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp3"]];
+  msg.dataMimeType = RTAudioType_MP3;
   return msg;
 }
 
@@ -120,6 +122,7 @@
 {
   RTVideoMessage *msg = [self fill:[RTVideoMessage new]];
   msg.data = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp4"]];
+  msg.dataMimeType = RTVideoType_MP4;
   
   CGSize size;
   msg.thumbnailData = [RTVideoMessage generateThumbnailWithData:msg.data atFrameTime:@"0" size:&size error:nil];
