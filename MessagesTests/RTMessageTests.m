@@ -231,6 +231,8 @@
   RTTextMessage *msg = [self newTextMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Text message failed DB roundtrip");
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testImageMessageInsertFetch
@@ -241,6 +243,8 @@
   
   XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
   XCTAssertTrue([msg.thumbnailData isKindOfClass:BlobDataReference.class]);
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testAudioMessageInsertFetch
@@ -250,6 +254,8 @@
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Audio message failed DB roundtrip");
   
   XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testVideoMessageInsertFetch
@@ -260,6 +266,8 @@
   
   XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
   XCTAssertTrue([msg.thumbnailData isKindOfClass:BlobDataReference.class]);
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testLocationMessageInsertFetch
@@ -271,6 +279,8 @@
     RTLocationMessage *msg = [self newLocationMessage];
 
     XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Location message failed DB roundtrip");
+    
+    XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 
     [expectation fulfill];
   });
@@ -283,6 +293,8 @@
   RTContactMessage *msg = [self newContactMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Contact message failed DB roundtrip");
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testEnterMessageInsertFetch
@@ -290,6 +302,8 @@
   RTEnterMessage *msg = [self newEnterMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Enter message failed DB roundtrip");
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testExitMessageInsertFetch
@@ -297,6 +311,8 @@
   RTExitMessage *msg = [self newExitMessage];
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Exit message failed DB roundtrip");
+  
+  XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
 
 -(void) testMessageFetchUnsent
