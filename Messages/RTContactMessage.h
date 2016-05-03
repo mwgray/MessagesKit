@@ -9,13 +9,27 @@
 #import "RTMessage.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface RTContactMessage : RTMessage
 
-@property (nonatomic, retain) NSData *vcardData;
-@property (nonatomic, retain) NSString *firstName;
-@property (nonatomic, retain) NSString *lastName;
-@property (nonatomic, retain) NSString *extraLabel;
+@property (retain, nonatomic) NSData *vcardData;
+@property (retain, nullable, nonatomic) NSString *firstName;
+@property (retain, nullable, nonatomic) NSString *lastName;
+@property (retain, nullable, nonatomic) NSString *extraLabel;
+
+@property (readonly, nullable, nonatomic) NSString *fullName;
+
+-(instancetype) init NS_UNAVAILABLE;
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat NS_UNAVAILABLE;
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat vcardData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+-(instancetype) initWithChat:(RTChat *)chat vcardData:(NSData *)data;
 
 -(BOOL) isEquivalentToContactMessage:(RTContactMessage *)contactMessage;
--(NSString *) fullName;
+
 @end
+
+
+NS_ASSUME_NONNULL_END

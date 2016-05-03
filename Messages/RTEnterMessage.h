@@ -8,10 +8,23 @@
 
 #import "RTMessage.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface RTEnterMessage : RTMessage
 
-@property (nonatomic, retain) NSString *alias;
+@property (retain, nonatomic) NSString *alias;
+
+-(instancetype) init NS_UNAVAILABLE;
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat NS_UNAVAILABLE;
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat alias:(NSString *)alias NS_DESIGNATED_INITIALIZER;
+-(instancetype) initWithChat:(RTChat *)chat alias:(NSString *)alias;
 
 -(BOOL) isEquivalentToEnterMessage:(RTEnterMessage *)enterMessage;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

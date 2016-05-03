@@ -25,6 +25,23 @@
 
 @implementation RTConferenceMessage
 
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat callingDeviceId:(RTId *)callingDeviceId message:(NSString *)message
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    self.callingDeviceId = callingDeviceId;
+    self.message = message;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithChat:(RTChat *)chat callingDeviceId:(RTId *)callingDeviceId message:(NSString *)message
+{
+  return [self initWithId:[RTId generate] chat:chat callingDeviceId:callingDeviceId message:message];
+}
+
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
 {
   if (![super load:resultSet dao:dao error:error]) {

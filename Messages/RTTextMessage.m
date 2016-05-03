@@ -12,6 +12,7 @@
 #import "MemoryDataReference.h"
 #import "DataReferences.h"
 #import "RTHTMLText.h"
+#import "RTMessages+Exts.h"
 #import "NSObject+Utils.h"
 #import "NSString+Utils.h"
 #import "NSMutableDictionary+Utils.h"
@@ -28,6 +29,40 @@
 
 
 @implementation RTTextMessage
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data type:(RTTextMessageType)type
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    _data = data;
+    _type = type;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat text:(NSString *)text
+{
+  MemoryDataReference *data = [MemoryDataReference.alloc initWithData:[text dataUsingEncoding:NSUTF8StringEncoding]];
+  return [self initWithId:id chat:chat data:data type:RTTextMessageType_Simple];
+}
+
+-(instancetype) initWithChat:(RTChat *)chat text:(NSString *)text
+{
+  return [self initWithId:[RTId generate] chat:chat text:text];
+}
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat html:(NSString *)html
+{
+  MemoryDataReference *data = [MemoryDataReference.alloc initWithData:[html dataUsingEncoding:NSUTF8StringEncoding]];
+  return [self initWithId:id chat:chat data:data type:RTTextMessageType_Html];
+}
+
+-(instancetype) initWithChat:(RTChat *)chat html:(NSString *)html
+{
+  return [self initWithId:[RTId generate] chat:chat html:html];
+}
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
 {

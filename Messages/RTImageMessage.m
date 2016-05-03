@@ -12,6 +12,7 @@
 #import "MemoryDataReference.h"
 #import "DataReferences.h"
 #import "NSObject+Utils.h"
+#import "RTMessages+Exts.h"
 #import "NSMutableDictionary+Utils.h"
 #import "FMResultSet+Utils.h"
 #import "CGSize+Utils.h"
@@ -31,6 +32,34 @@ const CGFloat RT_THUMBNAIL_MAX_PERCENT = 0.5f;
 {
   UIImage *image = [UIImage imageWithData:[DataReferences readAllDataFromReference:self.thumbnailOrImageData error:nil]];
   return image ? image : [@"Unable to load image for message " stringByAppendingString:self.id.description];
+}
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(id<DataReference>)thumbnailData
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    self.data = data;
+    self.dataMimeType = mimeType;
+    self.thumbnailData = thumbnailData;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+{
+  return [self initWithId:id chat:chat data:data mimeType:mimeType thumbnailData:nil];
+}
+
+-(instancetype) initWithChat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(nullable id<DataReference>)thumbnailData
+{
+  return [self initWithId:[RTId generate] chat:chat data:data mimeType:mimeType thumbnailData:nil];
+}
+
+-(instancetype) initWithChat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+{
+  return [self initWithId:[RTId generate] chat:chat data:data mimeType:mimeType];
 }
 
 -(id) copy

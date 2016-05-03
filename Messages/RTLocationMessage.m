@@ -13,6 +13,7 @@
 
 #import "TBase+Utils.h"
 #import "RTMessageDAO.h"
+#import "RTMessages+Exts.h"
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 
@@ -25,6 +26,23 @@ const CGFloat kRTLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 
 
 
 @implementation RTLocationMessage
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat longitude:(double)longitude latitude:(double)latitude
+{
+  self = [super init];
+  if (self) {
+    
+    self.longitude = longitude;
+    self.latitude = latitude;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithChat:(RTChat *)chat longitude:(double)longitude latitude:(double)latitude
+{
+  return [self initWithId:[RTId generate] chat:chat longitude:longitude latitude:latitude];
+}
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
 {

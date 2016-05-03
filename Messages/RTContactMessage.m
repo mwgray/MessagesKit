@@ -11,6 +11,7 @@
 #import "RTMessageDAO.h"
 #import "MemoryDataReference.h"
 #import "DataReferences.h"
+#import "RTMessages+Exts.h"
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 
@@ -18,6 +19,22 @@
 
 
 @implementation RTContactMessage
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat vcardData:(NSData *)vcardData
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    self.vcardData = vcardData;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithChat:(RTChat *)chat vcardData:(NSData *)vcardData
+{
+  return [self initWithId:[RTId generate] chat:chat vcardData:vcardData];
+}
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
 {

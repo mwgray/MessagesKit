@@ -16,10 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RTLocationMessage : RTMessage
 
-@property (nonatomic, assign) double latitude;
-@property (nonatomic, assign) double longitude;
-@property (nonatomic, retain, nullable) NSString *title;
-@property (nonatomic, retain, nullable) NSData *thumbnailData;
+@property (assign, nonatomic) double latitude;
+@property (assign, nonatomic) double longitude;
+@property (retain, nullable, nonatomic) NSString *title;
+@property (retain, nullable, nonatomic) NSData *thumbnailData;
+
+-(instancetype) init NS_UNAVAILABLE;
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat NS_UNAVAILABLE;
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat longitude:(double)longitude latitude:(double)latitude NS_DESIGNATED_INITIALIZER;
+-(instancetype) initWithChat:(RTChat *)chat longitude:(double)longitude latitude:(double)latitude;
 
 +(void) generateThumbnailData:(RTLocationMessage *)msg completion:(void (^)(NSData *_Nonnull data, NSError *_Nullable error))completionBlock;
 

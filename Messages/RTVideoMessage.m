@@ -16,6 +16,7 @@
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 #import "FMResultSet+Utils.h"
+#import "RTMessages+Exts.h"
 #import "RTLog.h"
 
 @import ImageIO;
@@ -30,6 +31,34 @@
 
 
 @implementation RTVideoMessage
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(id<DataReference>)thumbnailData
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    self.data = data;
+    self.dataMimeType = mimeType;
+    self.thumbnailData = thumbnailData;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+{
+  return [self initWithId:id chat:chat data:data mimeType:mimeType thumbnailData:nil];
+}
+
+-(instancetype) initWithChat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(nullable id<DataReference>)thumbnailData
+{
+  return [self initWithId:[RTId generate] chat:chat data:data mimeType:mimeType thumbnailData:nil];
+}
+
+-(instancetype) initWithChat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+{
+  return [self initWithId:[RTId generate] chat:chat data:data mimeType:mimeType];
+}
 
 -(id) copy
 {

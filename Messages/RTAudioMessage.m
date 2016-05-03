@@ -8,10 +8,11 @@
 
 #import "RTAudioMessage.h"
 
-#import "TBase+Utils.h"
 #import "DataReferences.h"
 #import "RTMessageDAO.h"
 #import "NSObject+Utils.h"
+#import "TBase+Utils.h"
+#import "RTMessages+Exts.h"
 #import "NSMutableDictionary+Utils.h"
 #import "FMResultSet+Utils.h"
 #import "RTLog.h"
@@ -23,6 +24,23 @@
 
 
 @implementation RTAudioMessage
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    self.data = data;
+    self.dataMimeType = mimeType;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithChat:(RTChat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+{
+  return [self initWithId:[RTId generate] chat:chat data:data mimeType:mimeType];
+}
 
 -(id) copy
 {

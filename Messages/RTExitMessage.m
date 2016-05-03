@@ -9,11 +9,28 @@
 #import "RTExitMessage.h"
 
 #import "RTMessageDAO.h"
+#import "RTMessages+Exts.h"
 #import "NSObject+Utils.h"
 #import "NSMutableDictionary+Utils.h"
 
 
 @implementation RTExitMessage
+
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat alias:(NSString *)alias
+{
+  self = [super initWithId:id chat:chat];
+  if (self) {
+    
+    self.alias = alias;
+    
+  }
+  return self;
+}
+
+-(instancetype) initWithChat:(RTChat *)chat alias:(NSString *)alias
+{
+  return [self initWithId:[RTId generate] chat:chat alias:alias];
+}
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(RTMessageDAO *)dao error:(NSError *__autoreleasing *)error
 {
