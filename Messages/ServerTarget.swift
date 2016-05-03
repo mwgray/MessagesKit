@@ -33,6 +33,12 @@ import Foundation
     self.port = port
   }
   
+  public init(scheme: ServerTargetScheme, hostName: String) {
+    self.scheme = scheme
+    self.hostName = hostName
+    self.port = nil
+  }
+  
   public init(searchForLocalServer serverName: String?) {
     
     let sd = ServerDiscovery()

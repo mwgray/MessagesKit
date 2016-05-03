@@ -18,12 +18,16 @@ class MessageAPITest: XCTestCase {
   var testClientB : TestClient!
   
   var api : MessageAPI!
+  
+  override class func setUp() {
+    super.setUp()
+    
+    MessageAPI.initialize(target: ServerTarget(scheme: .HTTPS, hostName: "master.dev.retxt.io"))
+  }
 
   override func setUp() {
     super.setUp()
     
-    MessageAPI.initialize(target: ServerTarget(searchForLocalServer: nil))
-
     testClientA = try! TestClient(baseURL: MessageAPI.target.baseURL)
     testClientB = try! TestClient(baseURL: MessageAPI.target.baseURL)
     
