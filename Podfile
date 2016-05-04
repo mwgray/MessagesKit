@@ -12,7 +12,7 @@ target :Messages do
   pod 'PSOperations/SystemConfiguration', :git => 'https://github.com/reTXT/PSOperations.git', :branch => 'current'
 
   pod 'Thrift', :git => 'https://github.com/reTXT/thrift.git', :branch => 'master'
-  pod 'PromiseKit', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
+  pod 'PromiseKit/DietFoundation', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
   pod 'PromiseKit/AddressBook', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
   pod 'PromiseKit/AssetsLibrary', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
   pod 'PromiseKit/AVFoundation', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
