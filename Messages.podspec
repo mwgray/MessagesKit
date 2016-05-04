@@ -16,7 +16,6 @@ Pod::Spec.new do |s|
   s.dependency 'FMDB/standalone/swift'
   s.dependency 'FMDBMigrationManager'
   s.dependency 'HTMLReader'
-  s.dependency 'OpenSSL'
   s.dependency 'PromiseKit'
   s.dependency 'PromiseKit/AddressBook'
   s.dependency 'PromiseKit/AssetsLibrary'
