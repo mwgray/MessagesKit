@@ -21,7 +21,6 @@ target :Messages do
   pod 'DeviceKit'
   pod 'CocoaLumberjack/Swift'
   pod 'OpenSSL'
-  pod 'JWTDecode'
   pod 'HTMLReader'
   pod 'SSKeychain'
   pod 'SocketRocket'

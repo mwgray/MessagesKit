@@ -1,10 +1,10 @@
 PODS:
-  - CocoaLumberjack/Core (2.2.0)
-  - CocoaLumberjack/Default (2.2.0):
+  - CocoaLumberjack/Core (2.3.0)
+  - CocoaLumberjack/Default (2.3.0):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.2.0):
+  - CocoaLumberjack/Extensions (2.3.0):
     - CocoaLumberjack/Default
-  - CocoaLumberjack/Swift (2.2.0):
+  - CocoaLumberjack/Swift (2.3.0):
     - CocoaLumberjack/Extensions
   - DeviceKit (0.3.2)
   - FMDB/standalone/swift (2.6.2):
@@ -18,7 +18,6 @@ PODS:
   - FMDBMigrationManager/System (1.4.1):
     - FMDB/standard (>= 2.3)
   - HTMLReader (0.9.6)
-  - JWTDecode (1.0.0)
   - KVOController (1.1.0)
   - OCMock (3.3)
   - OMGHTTPURLRQ (3.1.1):
@@ -223,7 +222,6 @@ DEPENDENCIES:
   - FMDB/standalone/swift (from `https://github.com/reTXT/fmdb.git`, branch `current`)
   - FMDBMigrationManager (from `https://github.com/reTXT/FMDBMigrationManager.git`, branch `master`)
   - HTMLReader
-  - JWTDecode
   - KVOController
   - OCMock
   - OpenSSL
@@ -269,7 +267,7 @@ CHECKOUT OPTIONS:
     :commit: 6720b50d7ed4ccf83824bd65a6883113e97b67a1
     :git: https://github.com/reTXT/PromiseKit.git
   PSOperations:
-    :commit: bef5a6620627977c7022fdff0e0d23a75febef60
+    :commit: 626d266cf45b814d001c467e112b2c0c6fb2593b
     :git: https://github.com/reTXT/PSOperations.git
   Thrift:
     :commit: 8c213489cf31389ea4b4b7147ca8ae49ebcd462f
@@ -279,12 +277,11 @@ CHECKOUT OPTIONS:
     :git: https://github.com/reTXT/YOLOKit.git
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
   DeviceKit: 79182140c0aa8daaf4f4b3920e0b079f5fa9db79
   FMDB: 29b696c579f66357b9a60b2e7e93600c61255063
   FMDBMigrationManager: d52007f328ea0665e8985ca8a33500707aef084f
   HTMLReader: 7e21488ee378afc56ccade8af35840c4e03e434c
-  JWTDecode: d172edcb1607cc15aed85d58eceedcbb675a4534
   KVOController: 321b5fc59300fcaabd42c0f679baa7a27efbb2fd
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
@@ -297,6 +294,6 @@ SPEC CHECKSUMS:
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: 34cd7f00d631eadf2ca043c27b3961603672df19
+PODFILE CHECKSUM: 027ae8d50fe60ba2da039978b8cc2dfd93a27693
 
-COCOAPODS: 1.0.0.beta.8
+COCOAPODS: 1.0.0.rc.1
