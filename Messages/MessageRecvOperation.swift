@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Operations
+import PSOperations
 
 
 /*
@@ -50,7 +50,7 @@ import Operations
     save.addDependency(fetch)
     
     
-    addOperations([fetch, save])
+    [fetch, save].forEach { addOperation($0) }
   }
   
   public init(msg: RTMsg, api: MessageAPI) {
@@ -63,7 +63,7 @@ import Operations
     
     let save = MessageProcessOperation(context: self, api: api)
     
-    addOperations([save])
+    addOperation(save)
   }
   
 }

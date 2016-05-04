@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '20D3D44A81F2A3D15947A221A98B0206'
-               BlueprintName = 'YOLOKit'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'YOLOKit.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A534BDC586F0A1A824552A5F8EBD0F07"
+               BlueprintName = "YOLOKit"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "YOLOKit.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PSOperations
 
 
 public class AlertOperation: Operation {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Operations
+import PSOperations
 import Thrift
 
 
@@ -75,7 +75,7 @@ import Thrift
     
     transmit.addDependency(build)
     
-    addOperations([resolve, build, transmit])
+    [resolve, build, transmit].forEach { addOperation($0) }
   }
   
 }

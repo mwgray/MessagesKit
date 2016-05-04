@@ -29,8 +29,6 @@ PODS:
     - OMGHTTPURLRQ/UserAgent
   - OMGHTTPURLRQ/UserAgent (3.1.1)
   - OpenSSL (1.0.207)
-  - Operations (0.0.1):
-    - KVOController
   - PromiseKit (3.0.3):
     - PromiseKit/Foundation (= 3.0.3)
     - PromiseKit/QuartzCore (= 3.0.3)
@@ -49,6 +47,8 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (3.0.3):
     - PromiseKit/CorePromise
+  - PSOperations/Core (2.2.0)
+  - PSOperations/SystemConfiguration (2.2.0)
   - SocketRocket (0.5.0)
   - sqlite3 (3.12.2):
     - sqlite3/common (= 3.12.2)
@@ -224,13 +224,15 @@ DEPENDENCIES:
   - FMDBMigrationManager (from `https://github.com/reTXT/FMDBMigrationManager.git`, branch `master`)
   - HTMLReader
   - JWTDecode
+  - KVOController
   - OCMock
   - OpenSSL
-  - Operations (from `https://github.com/reTXT/Operations.git`, branch `master`)
   - PromiseKit (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AddressBook (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AssetsLibrary (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AVFoundation (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
+  - PSOperations/Core (from `https://github.com/reTXT/PSOperations.git`, branch `current`)
+  - PSOperations/SystemConfiguration (from `https://github.com/reTXT/PSOperations.git`, branch `current`)
   - SocketRocket
   - SSKeychain
   - Thrift (from `https://github.com/reTXT/thrift.git`, branch `master`)
@@ -243,12 +245,12 @@ EXTERNAL SOURCES:
   FMDBMigrationManager:
     :branch: master
     :git: https://github.com/reTXT/FMDBMigrationManager.git
-  Operations:
-    :branch: master
-    :git: https://github.com/reTXT/Operations.git
   PromiseKit:
     :branch: master
     :git: https://github.com/reTXT/PromiseKit.git
+  PSOperations:
+    :branch: current
+    :git: https://github.com/reTXT/PSOperations.git
   Thrift:
     :branch: master
     :git: https://github.com/reTXT/thrift.git
@@ -263,12 +265,12 @@ CHECKOUT OPTIONS:
   FMDBMigrationManager:
     :commit: 969baab3f604dc4637f086b6f447458296f978fb
     :git: https://github.com/reTXT/FMDBMigrationManager.git
-  Operations:
-    :commit: 7a7f6db2910f94b962d7da2729b66ff9a2f32780
-    :git: https://github.com/reTXT/Operations.git
   PromiseKit:
     :commit: 6720b50d7ed4ccf83824bd65a6883113e97b67a1
     :git: https://github.com/reTXT/PromiseKit.git
+  PSOperations:
+    :commit: bef5a6620627977c7022fdff0e0d23a75febef60
+    :git: https://github.com/reTXT/PSOperations.git
   Thrift:
     :commit: 8c213489cf31389ea4b4b7147ca8ae49ebcd462f
     :git: https://github.com/reTXT/thrift.git
@@ -287,14 +289,14 @@ SPEC CHECKSUMS:
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
   OpenSSL: 26eb46b2836c0dade24fa53276b552f14c6eece1
-  Operations: cf25446d419e739795b3f5f86686992e2fd63d78
   PromiseKit: 00ec2a219bf5ad2833f95977698e921932b8dfd3
+  PSOperations: a6b64f5bd214d6c28665026e4e9310db6d4e32a4
   SocketRocket: 2c51efccd2d73c99a923407ca4b06e7e9da95dbf
   sqlite3: 5724400abcbfbc8d13c60d6a4123361faf0c62e3
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: 0676c572723de89454e27397b5f58efd73cdccb5
+PODFILE CHECKSUM: 34cd7f00d631eadf2ca043c27b3961603672df19
 
 COCOAPODS: 1.0.0.beta.8

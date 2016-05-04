@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import PSOperations
+
 
 /**
   NetworkObserver
@@ -24,6 +26,9 @@ public struct NetworkObserver: OperationObserver {
     dispatch_async(dispatch_get_main_queue()) {
       NetworkIndicatorController.sharedIndicatorController.incrementUsage()
     }
+  }
+  
+  public func operationDidCancel(operation: Operation) {
   }
   
   public func operation(operation: Operation, didProduceOperation newOperation: NSOperation) {

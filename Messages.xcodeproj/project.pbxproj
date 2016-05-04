@@ -33,6 +33,7 @@
 		AA05D2581CC94C5D0051039E /* DataReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2571CC94C5D0051039E /* DataReference.swift */; };
 		AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D25B1CCABCB00051039E /* CGSize+Utils.m */; };
 		AA05D25E1CCABCB00051039E /* CGSize+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D25C1CCABCB00051039E /* CGSize+Utils.h */; };
+		AA09E9B71CD9ABB900566778 /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */; };
 		AA490DAD1CCAF1970010FC17 /* RTAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* RTAPIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* RTUserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* RTUserStatusInfo.m */; };
 		AA490DAF1CCAF1A80010FC17 /* RTWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BC1CC163B400F1A3B0 /* RTWebSocket.m */; };
@@ -157,6 +158,11 @@
 		AAB481F41CCADEC400EBFC5E /* RTMsgSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918941CC1645700F1A3B0 /* RTMsgSigner.swift */; };
 		AAB481F51CCADEC400EBFC5E /* RTAsymmetricKeyPairGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918961CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.m */; };
 		AAB481F61CCADEC400EBFC5E /* RTX509Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918981CC1645700F1A3B0 /* RTX509Utils.m */; };
+		AAB717FD1CD92CF40041A878 /* RetryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FC1CD92CF40041A878 /* RetryOperation.swift */; };
+		AAB717FF1CD931FE0041A878 /* AlertOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FE1CD931FE0041A878 /* AlertOperation.swift */; };
+		AAB718011CD933470041A878 /* UIKitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718001CD933470041A878 /* UIKitConditions.swift */; };
+		AAB718041CD933920041A878 /* NetworkObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718031CD933920041A878 /* NetworkObserver.swift */; };
+		AAB718061CD93A5A0041A878 /* OperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718051CD93A5A0041A878 /* OperationsTests.swift */; };
 		AAC62D1D1CD03B0F006AFEDD /* ServerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */; };
 		AAC62D1F1CD05570006AFEDD /* ServerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */; };
 		AADCA40D1CCB4FF100607C05 /* Migrations in Resources */ = {isa = PBXBuildFile; fileRef = AADCA40C1CCB4FF100607C05 /* Migrations */; };
@@ -277,8 +283,9 @@
 		AA05D2571CC94C5D0051039E /* DataReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReference.swift; sourceTree = "<group>"; };
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGSize+Utils.m"; sourceTree = "<group>"; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGSize+Utils.h"; sourceTree = "<group>"; };
+		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
 		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectWebsocket.swift; sourceTree = "<group>"; };
-		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResendUnsentMessages.swift; sourceTree = "<group>"; };
+		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResendUnsentMessages.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMResultSet+Utils.swift"; sourceTree = "<group>"; };
 		AA4FD0421CCCADF300C0DE2A /* DataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReference.h; sourceTree = "<group>"; };
 		AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlobDataReference.h; sourceTree = "<group>"; };
@@ -351,28 +358,28 @@
 		AA9917C41CC163B400F1A3B0 /* RTHTTPSessionTransportFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTHTTPSessionTransportFactory.h; sourceTree = "<group>"; };
 		AA9917C51CC163B400F1A3B0 /* RTHTTPSessionTransportFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTHTTPSessionTransportFactory.m; sourceTree = "<group>"; };
 		AA9917E01CC163CD00F1A3B0 /* MessageContexts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageContexts.swift; sourceTree = "<group>"; };
-		AA9917E11CC163CD00F1A3B0 /* MessageOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageOperations.swift; sourceTree = "<group>"; };
+		AA9917E11CC163CD00F1A3B0 /* MessageOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageOperations.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917E21CC163CD00F1A3B0 /* MessageSendOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSendOperations.swift; sourceTree = "<group>"; };
-		AA9917E31CC163CD00F1A3B0 /* MessageSendDirectOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSendDirectOperation.swift; sourceTree = "<group>"; };
+		AA9917E31CC163CD00F1A3B0 /* MessageSendDirectOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageSendDirectOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917E41CC163CD00F1A3B0 /* MessageSendSystemOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSendSystemOperation.swift; sourceTree = "<group>"; };
-		AA9917E51CC163CD00F1A3B0 /* MessageResolveRecipientsOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageResolveRecipientsOperation.swift; sourceTree = "<group>"; };
-		AA9917E61CC163CD00F1A3B0 /* MessageEncryptOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageEncryptOperation.swift; sourceTree = "<group>"; };
-		AA9917E71CC163CD00F1A3B0 /* MessageBuildOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBuildOperation.swift; sourceTree = "<group>"; };
-		AA9917E81CC163CD00F1A3B0 /* MessageBuildSystemOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBuildSystemOperation.swift; sourceTree = "<group>"; };
-		AA9917E91CC163CD00F1A3B0 /* MessageTransmitHTTPOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTransmitHTTPOperation.swift; sourceTree = "<group>"; };
-		AA9917EA1CC163CD00F1A3B0 /* MessageTransmitAPIOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTransmitAPIOperation.swift; sourceTree = "<group>"; };
-		AA9917EB1CC163CD00F1A3B0 /* MessageFinishOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFinishOperation.swift; sourceTree = "<group>"; };
+		AA9917E51CC163CD00F1A3B0 /* MessageResolveRecipientsOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageResolveRecipientsOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917E61CC163CD00F1A3B0 /* MessageEncryptOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageEncryptOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917E71CC163CD00F1A3B0 /* MessageBuildOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageBuildOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917E81CC163CD00F1A3B0 /* MessageBuildSystemOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageBuildSystemOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917E91CC163CD00F1A3B0 /* MessageTransmitHTTPOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageTransmitHTTPOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917EA1CC163CD00F1A3B0 /* MessageTransmitAPIOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageTransmitAPIOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917EB1CC163CD00F1A3B0 /* MessageFinishOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageFinishOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917EC1CC163CD00F1A3B0 /* MessageRecvOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageRecvOperation.swift; sourceTree = "<group>"; };
-		AA9917ED1CC163CD00F1A3B0 /* MessageFetchAPIOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFetchAPIOperation.swift; sourceTree = "<group>"; };
-		AA9917EE1CC163CD00F1A3B0 /* MessageFetchHTTPOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFetchHTTPOperation.swift; sourceTree = "<group>"; };
-		AA9917EF1CC163CD00F1A3B0 /* MessageProcessOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageProcessOperation.swift; sourceTree = "<group>"; };
-		AA9917F01CC163CD00F1A3B0 /* MessageProcessDirectOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageProcessDirectOperation.swift; sourceTree = "<group>"; };
+		AA9917ED1CC163CD00F1A3B0 /* MessageFetchAPIOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageFetchAPIOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917EE1CC163CD00F1A3B0 /* MessageFetchHTTPOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageFetchHTTPOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917EF1CC163CD00F1A3B0 /* MessageProcessOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageProcessOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917F01CC163CD00F1A3B0 /* MessageProcessDirectOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageProcessDirectOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917F11CC163CD00F1A3B0 /* MessageDeliveredOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDeliveredOperation.swift; sourceTree = "<group>"; };
-		AA9917F21CC163CD00F1A3B0 /* FetchWaitingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchWaitingOperation.swift; sourceTree = "<group>"; };
-		AA9917F31CC163CD00F1A3B0 /* RequestAuthorizationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestAuthorizationOperation.swift; sourceTree = "<group>"; };
-		AA9917F41CC163CD00F1A3B0 /* AuthorizeDeviceOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizeDeviceOperation.swift; sourceTree = "<group>"; };
+		AA9917F21CC163CD00F1A3B0 /* FetchWaitingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FetchWaitingOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917F31CC163CD00F1A3B0 /* RequestAuthorizationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RequestAuthorizationOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA9917F41CC163CD00F1A3B0 /* AuthorizeDeviceOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AuthorizeDeviceOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageAPIError.swift; sourceTree = "<group>"; };
-		AA9917F61CC163CD00F1A3B0 /* UpdateAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateAccessToken.swift; sourceTree = "<group>"; };
+		AA9917F61CC163CD00F1A3B0 /* UpdateAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UpdateAccessToken.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA99180F1CC163DF00F1A3B0 /* RequireAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequireAuthorization.swift; sourceTree = "<group>"; };
 		AA9918101CC163DF00F1A3B0 /* RequireAccessToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequireAccessToken.swift; sourceTree = "<group>"; };
 		AA9918141CC1642300F1A3B0 /* RTDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTDBManager.h; sourceTree = "<group>"; };
@@ -470,6 +477,11 @@
 		AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTDAO.swift; sourceTree = "<group>"; };
 		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestClient.swift; sourceTree = "<group>"; };
 		AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboundedBlockingQueue.swift; sourceTree = "<group>"; };
+		AAB717FC1CD92CF40041A878 /* RetryOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryOperation.swift; sourceTree = "<group>"; };
+		AAB717FE1CD931FE0041A878 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
+		AAB718001CD933470041A878 /* UIKitConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitConditions.swift; sourceTree = "<group>"; };
+		AAB718031CD933920041A878 /* NetworkObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkObserver.swift; sourceTree = "<group>"; };
+		AAB718051CD93A5A0041A878 /* OperationsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OperationsTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDiscovery.swift; sourceTree = "<group>"; };
 		AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTarget.swift; sourceTree = "<group>"; };
 		AADCA40C1CCB4FF100607C05 /* Migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Migrations; sourceTree = "<group>"; };
@@ -600,6 +612,7 @@
 		AA9917DF1CC163C200F1A3B0 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				AAB718021CD933840041A878 /* Observers */,
 				AA99180E1CC163D000F1A3B0 /* Conditions */,
 				AA9917E01CC163CD00F1A3B0 /* MessageContexts.swift */,
 				AA9917E11CC163CD00F1A3B0 /* MessageOperations.swift */,
@@ -626,6 +639,8 @@
 				AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */,
 				AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */,
 				AA4FD0561CCD8AFC00C0DE2A /* SendReceiptOperation.swift */,
+				AAB717FC1CD92CF40041A878 /* RetryOperation.swift */,
+				AAB717FE1CD931FE0041A878 /* AlertOperation.swift */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -633,8 +648,10 @@
 		AA99180E1CC163D000F1A3B0 /* Conditions */ = {
 			isa = PBXGroup;
 			children = (
+				AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */,
 				AA99180F1CC163DF00F1A3B0 /* RequireAuthorization.swift */,
 				AA9918101CC163DF00F1A3B0 /* RequireAccessToken.swift */,
+				AAB718001CD933470041A878 /* UIKitConditions.swift */,
 			);
 			name = Conditions;
 			sourceTree = "<group>";
@@ -809,6 +826,7 @@
 		AA9C1C7D1CC028190070FB59 /* MessagesTests */ = {
 			isa = PBXGroup;
 			children = (
+				AAB718051CD93A5A0041A878 /* OperationsTests.swift */,
 				AADCA4121CCBE66000607C05 /* Resources */,
 				AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */,
 				AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */,
@@ -830,6 +848,14 @@
 				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
 			);
 			path = MessagesTests;
+			sourceTree = "<group>";
+		};
+		AAB718021CD933840041A878 /* Observers */ = {
+			isa = PBXGroup;
+			children = (
+				AAB718031CD933920041A878 /* NetworkObserver.swift */,
+			);
+			name = Observers;
 			sourceTree = "<group>";
 		};
 		AADCA4121CCBE66000607C05 /* Resources */ = {
@@ -1171,6 +1197,7 @@
 				AA05D22C1CC840B30051039E /* NSMutableArray+Utils.m in Sources */,
 				AAB481EC1CCADEC400EBFC5E /* RTOpenSSLKeyPair.m in Sources */,
 				AA4FCFFA1CCC3C3800C0DE2A /* ResendUnsentMessages.swift in Sources */,
+				AAB718041CD933920041A878 /* NetworkObserver.swift in Sources */,
 				AA490DC51CCAF59E0010FC17 /* MessageRecvOperation.swift in Sources */,
 				AAFDFB621CC5FDA200066707 /* RTLocationMessage.m in Sources */,
 				AAFDFB481CC5FDA200066707 /* RTDAO.m in Sources */,
@@ -1179,6 +1206,7 @@
 				AA5850531CC22E800034C46D /* GCD.swift in Sources */,
 				AAB481EB1CCADEC400EBFC5E /* RTOpenSSL.m in Sources */,
 				AAB481F51CCADEC400EBFC5E /* RTAsymmetricKeyPairGenerator.m in Sources */,
+				AAB717FF1CD931FE0041A878 /* AlertOperation.swift in Sources */,
 				AA490DC01CCAF59E0010FC17 /* MessageBuildOperation.swift in Sources */,
 				AAFDFB7E1CC5FF0E00066707 /* RTServerAPI.m in Sources */,
 				AA490DC21CCAF59E0010FC17 /* MessageTransmitHTTPOperation.swift in Sources */,
@@ -1187,8 +1215,10 @@
 				AA490DCD1CCAF59E0010FC17 /* AuthorizeDeviceOperation.swift in Sources */,
 				AA61CD951CCB376B0029B5F2 /* RTReachability.m in Sources */,
 				AA5850131CC1C0360034C46D /* NSData+Random.m in Sources */,
+				AAB717FD1CD92CF40041A878 /* RetryOperation.swift in Sources */,
 				AA490DCA1CCAF59E0010FC17 /* MessageDeliveredOperation.swift in Sources */,
 				AA4FD05B1CCD918500C0DE2A /* MessageAPI+Compat.m in Sources */,
+				AA09E9B71CD9ABB900566778 /* NoFailedDependencies.swift in Sources */,
 				AADCA4261CCBEB6300607C05 /* NSBundle+Utils.m in Sources */,
 				AA490DB91CCAF59E0010FC17 /* MessageContexts.swift in Sources */,
 				AAFDFB6A1CC5FDA200066707 /* RTExitMessage.m in Sources */,
@@ -1245,6 +1275,7 @@
 				AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocket.swift in Sources */,
 				AAFDFB7C1CC5FF0200066707 /* RTMessages+Exts.m in Sources */,
 				AA05D23F1CC856830051039E /* NSString+Utils.m in Sources */,
+				AAB718011CD933470041A878 /* UIKitConditions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1257,6 +1288,7 @@
 				AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */,
 				AA9918C41CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m in Sources */,
 				AA9918C81CC1659100F1A3B0 /* RTNotificationTests.m in Sources */,
+				AAB718061CD93A5A0041A878 /* OperationsTests.swift in Sources */,
 				AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */,
 				AA9918C21CC1659100F1A3B0 /* RTChatTests.m in Sources */,
 				AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */,

@@ -20,11 +20,11 @@ Pod::Spec.new do |s|
   s.dependency 'FMDB/standalone/swift'
   s.dependency 'FMDBMigrationManager'
   s.dependency 'YOLOKit'
-  s.dependency 'Operations'
   s.dependency 'Thrift'
   s.dependency 'PromiseKit'
   s.dependency 'PromiseKit/AddressBook'
   s.dependency 'PromiseKit/AssetsLibrary'
   s.dependency 'PromiseKit/AVFoundation'
+  s.dependency 'PSOperations'
 
 end

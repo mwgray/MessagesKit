@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Operations
+import PSOperations
 
 
 class MessageFetchHTTPOperation: Operation {

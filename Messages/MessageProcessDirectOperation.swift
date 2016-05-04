@@ -30,7 +30,7 @@ public class MessageProcessDirectOperation: MessageAPIOperation {
       
     }
     catch let error as NSError {
-      finishWithError(error)
+      cancelWithError(error)
     }
     
   }

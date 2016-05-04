@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Operations
+import PSOperations
 
 
 public struct RequireAccessToken: OperationCondition {

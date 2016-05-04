@@ -15,8 +15,7 @@
 #import "RTTextMessage.h"
 #import "RTMessages+Exts.h"
 
-#import <KVOController/KVOController.h>
-
+@import KVOController;
 @import YOLOKit;
 @import FMDB;
 

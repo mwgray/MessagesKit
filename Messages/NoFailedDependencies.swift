@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PSOperations
 
 /**
  A condition that specifies that every dependency must have finished without 
@@ -31,14 +32,22 @@ public struct NoFailedDependencies: OperationCondition {
   public func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
     
     // Verify that all of the dependencies executed.
-    let failed = operation.dependencies.filter { ($0 as? Operation)?.failed ?? false }
+    let failed = operation.dependencies.filter {
+      if let op = $0 as? Operation {
+        return !op.errors.isEmpty || op.cancelled
+      }
+      else {
+        return $0.cancelled
+      }
+    }
     
     if !failed.isEmpty {
       
       // At least one dependency was cancelled; the condition was not satisfied.
       let error = NSError(
-        failedConditionName: self.dynamicType.name,
-        extraInfo: [
+        code: .ConditionFailed,
+        userInfo: [
+          OperationConditionKey: self.dynamicType.name,
           NoFailedDependencies.failedDependenciesKey: failed
         ])
       

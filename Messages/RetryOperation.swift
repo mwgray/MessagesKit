@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PSOperations
 
 
 /**
@@ -43,7 +44,7 @@ public class RetryOperation: Operation {
     self.init(maxAttempts: maxAttempts, failureErrors: [String: Int?](), generator: generator)
   }
   
-  public convenience init(maxAttempts: UInt, retryBlock block: ((NSError) -> Void) -> Void) {
+  public convenience init(maxAttempts: UInt, retryBlock block: (Void -> Void) -> Void) {
     self.init(maxAttempts: maxAttempts, failureErrors: [String: Int?](), generator: {
       return BlockOperation(block: { completion in
         block(completion)
@@ -113,7 +114,7 @@ extension RetryOperation: OperationQueueDelegate {
         
       }
       
-      finishWithErrors(errors)
+      finish(errors)
       
     }
     

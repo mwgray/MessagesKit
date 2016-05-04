@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Operations
+import PSOperations
 import Thrift
 
 
@@ -57,13 +57,13 @@ class MessageSendBaseOperation: MessageAPIGroupOperation, MessageContext, Messag
     )
   }
   
-  override func childOperation(operation: NSOperation, didFinishWithErrors errors: [NSError]) {
+  override func operationDidFinish(operation: NSOperation, withErrors errors: [NSError]) {
     
     if errors.isEmpty {
       return
     }
     
-    finishWithErrors(errors)
+    finish(errors)
     
   }
   
@@ -107,7 +107,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
     // Build operation
     
     let build = MessageBuildOperation(buildContext: self, transmitContext: self, api: api)
-    build.addDependencies([resolve, encrypt])
+    [resolve, encrypt].forEach { build.addDependency($0) }
     
     // Build transmit (API or HTTP)
 
@@ -138,7 +138,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
     let finish = MessageFinishOperation(messageContext: self, transmitContext: self, dao: api.messageDAO)
     finish.addDependency(transmit)
     
-    addOperations([resolve, encrypt, build, transmit, finish])
+    [resolve, encrypt, build, transmit, finish].forEach { addDependency($0) }
   }
   
 }
@@ -162,7 +162,7 @@ class MessageSendResurrectedOperation: MessageSendBaseOperation {
     let finish = MessageFinishOperation(messageContext: self, transmitContext: self, dao: api.messageDAO)
     finish.addDependency(transmit)
     
-    addOperations([transmit, finish])
+    [transmit, finish].forEach { addOperation($0) }
     
   }
   

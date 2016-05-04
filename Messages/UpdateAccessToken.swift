@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Operations
+import PSOperations
 import CocoaLumberjack
 
 
@@ -21,7 +21,7 @@ public class UpdateAccessToken: Operation {
     
     super.init()
 
-    addCondition(MutuallyExclusiveCondition<UpdateAccessToken>())
+    addCondition(MutuallyExclusive<UpdateAccessToken>())
     addCondition(ReachabilityCondition(host: MessageAPI.target.publicURL))
   }
   

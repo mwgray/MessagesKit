@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'BF962B13E95DF2E0AA316EBFD0C3FAB5'
-               BlueprintName = 'FMDBMigrationManager'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'FMDBMigrationManager.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BF962B13E95DF2E0AA316EBFD0C3FAB5"
+               BlueprintName = "FMDBMigrationManager"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "FMDBMigrationManager.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
