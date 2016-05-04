@@ -20,7 +20,7 @@ target :Messages do
   pod 'KVOController'
   pod 'DeviceKit'
   pod 'CocoaLumberjack/Swift'
-  pod 'OpenSSL'
+  pod 'OpenSSL', '1.0.207'
   pod 'HTMLReader'
   pod 'SSKeychain'
   pod 'SocketRocket'

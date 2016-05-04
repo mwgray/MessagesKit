@@ -210,7 +210,7 @@ DEPENDENCIES:
   - HTMLReader
   - KVOController
   - OCMock
-  - OpenSSL
+  - OpenSSL (= 1.0.207)
   - PromiseKit/AddressBook (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AssetsLibrary (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AVFoundation (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
@@ -279,6 +279,6 @@ SPEC CHECKSUMS:
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: 3ffdbd98a7f62b9ed6ff5fd7be53d0b46725199c
+PODFILE CHECKSUM: 5bec1c94e11f035521fb63c582233bc4757d45ba
 
 COCOAPODS: 1.0.0.rc.1
