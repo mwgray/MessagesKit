@@ -91,7 +91,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
     addCondition(RequireAuthorization(api: api))
 
     let failures : [String: Int?] = [
-      "MessageAPIErrorDomain": MessageAPIError.AuthenticationError.rawValue  //FIXME not sure this works with new errors
+      MessageAPIErrorDomain: MessageAPIError.AuthenticationError.rawValue
     ]
     
     // Resolve operation
