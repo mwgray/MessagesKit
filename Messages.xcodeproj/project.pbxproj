@@ -73,7 +73,6 @@
 		AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */; };
 		AA4FCFFA1CCC3C3800C0DE2A /* ResendUnsentMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */; };
 		AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */; };
-		AA4FD0411CCCA78100C0DE2A /* FMResultSet+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */; };
 		AA4FD0431CCCADF300C0DE2A /* DataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0421CCCADF300C0DE2A /* DataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4FD0461CCCAF0F00C0DE2A /* BlobDataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4FD0471CCCAF0F00C0DE2A /* BlobDataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */; };
@@ -286,7 +285,6 @@
 		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
 		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectWebsocket.swift; sourceTree = "<group>"; };
 		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResendUnsentMessages.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMResultSet+Utils.swift"; sourceTree = "<group>"; };
 		AA4FD0421CCCADF300C0DE2A /* DataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReference.h; sourceTree = "<group>"; };
 		AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlobDataReference.h; sourceTree = "<group>"; };
 		AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlobDataReference.m; sourceTree = "<group>"; };
@@ -554,7 +552,6 @@
 				AA05D25C1CCABCB00051039E /* CGSize+Utils.h */,
 				AA05D22D1CC84CA70051039E /* FMResultSet+Utils.h */,
 				AA05D22E1CC84CA70051039E /* FMResultSet+Utils.m */,
-				AA4FD0401CCCA78100C0DE2A /* FMResultSet+Utils.swift */,
 				AA5850141CC1C4510034C46D /* NSArray+Utils.h */,
 				AA5850151CC1C4510034C46D /* NSArray+Utils.m */,
 				AA5850101CC1C0360034C46D /* NSData+Random.h */,
@@ -1254,7 +1251,6 @@
 				AAFDFB581CC5FDA200066707 /* RTMessage.m in Sources */,
 				AAFDFB681CC5FDA200066707 /* RTEnterMessage.m in Sources */,
 				AA5850201CC1CAE40034C46D /* TBase+Utils.m in Sources */,
-				AA4FD0411CCCA78100C0DE2A /* FMResultSet+Utils.swift in Sources */,
 				AA490DCB1CCAF59E0010FC17 /* FetchWaitingOperation.swift in Sources */,
 				AA58504B1CC1F18A0034C46D /* RTWeakReference.m in Sources */,
 				AA490DAD1CCAF1970010FC17 /* RTAPIError.m in Sources */,

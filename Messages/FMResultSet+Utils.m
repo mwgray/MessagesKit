@@ -76,23 +76,29 @@
 -(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(RTDBManager *)db
 {
   NSData *data = [self dataForColumn:columnName];
+  if (!data) {
+    return nil;
+  }
   
   id<NSKeyedUnarchiverDelegate> uaDelegate = [[DataReferenceInflater alloc] initWithDB:db owner:owner];
   NSKeyedUnarchiver *ua = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   ua.delegate = uaDelegate;
   
-  return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+  return [ua decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 }
 
 -(id<DataReference>) dataReferenceForColumnIndex:(int)columnIndex forOwner:(NSString *)owner usingDB:(RTDBManager *)db
 {
   NSData *data = [self dataForColumnIndex:columnIndex];
+  if (!data) {
+    return nil;
+  }
   
   id<NSKeyedUnarchiverDelegate> uaDelegate = [[DataReferenceInflater alloc] initWithDB:db owner:owner];
   NSKeyedUnarchiver *ua = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
   ua.delegate = uaDelegate;
   
-  return data ? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+  return [ua decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 }
 
 -(id) nillableObjectForColumnIndex:(int)columnIndex
