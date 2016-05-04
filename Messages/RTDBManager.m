@@ -16,6 +16,7 @@
 
 #import <sqlite3.h>
 
+@import Darwin;
 @import libkern;
 @import YOLOKit;
 @import FMDBMigrationManager;
