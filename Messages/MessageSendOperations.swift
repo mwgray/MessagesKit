@@ -107,7 +107,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
     // Build operation
     
     let build = MessageBuildOperation(buildContext: self, transmitContext: self, api: api)
-    [resolve, encrypt].forEach { build.addDependency($0) }
+    build.addDependencies([resolve, encrypt])
     
     // Build transmit (API or HTTP)
 
@@ -138,7 +138,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
     let finish = MessageFinishOperation(messageContext: self, transmitContext: self, dao: api.messageDAO)
     finish.addDependency(transmit)
     
-    [resolve, encrypt, build, transmit, finish].forEach { addDependency($0) }
+    addDependencies([resolve, encrypt, build, transmit, finish])
   }
   
 }
