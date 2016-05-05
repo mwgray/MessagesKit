@@ -12,8 +12,7 @@
 #import "NSData+Encoding.h"
 #import "NSBundle+Utils.h"
 
-#include <openssl/x509.h>
-
+@import openssl;
 @import XCTest;
 
 

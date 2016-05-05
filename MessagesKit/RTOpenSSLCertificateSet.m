@@ -10,9 +10,7 @@
 
 #import "RTOpenSSL.h"
 
-#import <openssl/x509.h>
-#import <openssl/pem.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 @interface RTOpenSSLCertificateSet ()

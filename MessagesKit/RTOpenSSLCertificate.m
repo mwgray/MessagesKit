@@ -16,10 +16,7 @@
 #import "NSData+CommonDigest.h"
 #import "NSString+Utils.h"
 
-#import <openssl/x509v3.h>
-#import <openssl/pem.h>
-#import <openssl/pkcs12.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 static NSCache *certificateCache;

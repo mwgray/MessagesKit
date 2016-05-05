@@ -14,8 +14,7 @@
 
 #import "NSDate+Utils.h"
 
-#import <openssl/pkcs12.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 NSString *translateUsage(RTAsymmetricKeyPairUsage usage)

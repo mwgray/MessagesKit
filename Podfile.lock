@@ -20,7 +20,7 @@ PODS:
   - HTMLReader (0.9.6)
   - KVOController (1.1.0)
   - OCMock (3.3)
-  - OpenSSL (1.0.207)
+  - OpenSSLAll (0.1.0)
   - PromiseKit/AddressBook (3.0.3):
     - PromiseKit/CorePromise
   - PromiseKit/AssetsLibrary (3.0.3):
@@ -210,7 +210,7 @@ DEPENDENCIES:
   - HTMLReader
   - KVOController
   - OCMock
-  - OpenSSL (= 1.0.207)
+  - OpenSSLAll (from `file:///Users/kdubb/Documents/Projects/OpenSSLAll`)
   - PromiseKit/AddressBook (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AssetsLibrary (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
   - PromiseKit/AVFoundation (from `https://github.com/reTXT/PromiseKit.git`, branch `master`)
@@ -229,6 +229,8 @@ EXTERNAL SOURCES:
   FMDBMigrationManager:
     :branch: master
     :git: https://github.com/reTXT/FMDBMigrationManager.git
+  OpenSSLAll:
+    :git: file:///Users/kdubb/Documents/Projects/OpenSSLAll
   PromiseKit:
     :branch: master
     :git: https://github.com/reTXT/PromiseKit.git
@@ -249,6 +251,9 @@ CHECKOUT OPTIONS:
   FMDBMigrationManager:
     :commit: 969baab3f604dc4637f086b6f447458296f978fb
     :git: https://github.com/reTXT/FMDBMigrationManager.git
+  OpenSSLAll:
+    :commit: 8c94dd1b5293b704ce3380c243252d1f4d843314
+    :git: file:///Users/kdubb/Documents/Projects/OpenSSLAll
   PromiseKit:
     :commit: 6720b50d7ed4ccf83824bd65a6883113e97b67a1
     :git: https://github.com/reTXT/PromiseKit.git
@@ -270,7 +275,7 @@ SPEC CHECKSUMS:
   HTMLReader: 7e21488ee378afc56ccade8af35840c4e03e434c
   KVOController: 321b5fc59300fcaabd42c0f679baa7a27efbb2fd
   OCMock: d68685bde31f69cb61d518dcb39269080c78b5ed
-  OpenSSL: 26eb46b2836c0dade24fa53276b552f14c6eece1
+  OpenSSLAll: 290021a20a4813c969fa13ce4156a2205b35312b
   PromiseKit: 00ec2a219bf5ad2833f95977698e921932b8dfd3
   PSOperations: a6b64f5bd214d6c28665026e4e9310db6d4e32a4
   SocketRocket: 2c51efccd2d73c99a923407ca4b06e7e9da95dbf
@@ -279,6 +284,6 @@ SPEC CHECKSUMS:
   Thrift: 95f37a5ae6dfa9312accfb79010902e107f3d40c
   YOLOKit: bcd64e00fb81469a1ac54013b1ff78ca60eb93a2
 
-PODFILE CHECKSUM: 5bec1c94e11f035521fb63c582233bc4757d45ba
+PODFILE CHECKSUM: d0881e9a901d8ed2453e2f91fa4c2b3c6c5490ce
 
 COCOAPODS: 1.0.0.rc.1

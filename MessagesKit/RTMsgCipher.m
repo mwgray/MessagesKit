@@ -14,10 +14,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import <CommonCrypto/CommonRandom.h>
 
-#import <openssl/evp.h>
-#import <openssl/aes.h>
-#import <openssl/bio.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 #define BUFFER_SIZE 4096

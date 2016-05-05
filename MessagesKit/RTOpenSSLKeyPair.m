@@ -16,9 +16,7 @@
 #import "NSArray+Utils.h"
 #import "NSData+CommonDigest.h"
 
-#import <openssl/evp.h>
-#import <openssl/pkcs12.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 @interface RTOpenSSLPrivateKey ()

@@ -2,7 +2,9 @@ platform :ios, '8.0'
 
 use_frameworks!
 
-target :Messages do
+target :MessagesKit do
+  
+  pod 'OpenSSLAll', :git => 'file:///Users/kdubb/Documents/Projects/OpenSSLAll'
 
   pod 'FMDB/standalone/swift', :git => 'https://github.com/reTXT/fmdb.git', :branch => 'current'
   pod 'FMDBMigrationManager', :git => 'https://github.com/reTXT/FMDBMigrationManager.git', :branch => 'master'
@@ -20,14 +22,12 @@ target :Messages do
   pod 'KVOController'
   pod 'DeviceKit'
   pod 'CocoaLumberjack/Swift'
-  pod 'OpenSSL', '1.0.207'
   pod 'HTMLReader'
   pod 'SSKeychain'
   pod 'SocketRocket'
 
-  target :MessagesTests do
+  target :MessagesKitTests do
     pod 'OCMock'
   end
 
- 
 end

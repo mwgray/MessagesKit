@@ -8,9 +8,7 @@
 
 #import "RTOpenSSL.h"
 
-#import <openssl/crypto.h>
-#import <openssl/evp.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 NSString *RTOpenSSLErrorDomain = @"RTOpenSSLErrorDomain";

@@ -10,7 +10,7 @@
 
 #import "RTOpenSSL.h"
 
-#import <openssl/x509v3.h>
+@import openssl;
 
 
 @implementation RTOpenSSLCertificationRequest

@@ -12,7 +12,7 @@
 #import "NSData+Random.h"
 #import "NSString+Utils.h"
 
-#import <openssl/evp.h>
+@import openssl;
 
 
 @interface RTOpenSSLKeyPairTests : XCTestCase

@@ -1,0 +1,32 @@
+{
+  "name": "OpenSSLAll",
+  "version": "0.1.0",
+  "summary": "A short description of OpenSSLAll.",
+  "description": "A description",
+  "homepage": "https://github.com/reTXT/OpenSSLAll",
+  "license": "MIT",
+  "authors": {
+    "Kevin Wooten": "kevin@wooten.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/OpenSSLAll.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "header_dir": "openssl",
+  "source_files": [
+    "include/*.h",
+    "src/**/*.{h,c}"
+  ],
+  "preserve_paths": [
+    "src/**/*.ch"
+  ],
+  "exclude_files": [
+    "include/rc2.h",
+    "include/rc4.h"
+  ],
+  "public_header_files": "include/*.h",
+  "compiler_flags": "-DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -O3 -fomit-frame-pointer -fno-common -DOPENSSL_NO_INLINE_ASM -DOPENSSL_NO_ASM"
+}

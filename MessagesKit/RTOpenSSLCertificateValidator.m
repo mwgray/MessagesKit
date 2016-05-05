@@ -11,8 +11,7 @@
 #import "RTOpenSSL.h"
 #import "RTOpenSSLCertificate.h"
 
-#import <openssl/x509_vfy.h>
-#import <openssl/err.h>
+@import openssl;
 
 
 @implementation RTOpenSSLCertificateTrust

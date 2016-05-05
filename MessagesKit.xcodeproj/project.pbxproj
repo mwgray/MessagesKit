@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7D3612C08EF94D04AB417062 /* Pods_Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D9A54E82B3CA539F58B595 /* Pods_Messages.framework */; };
+		7F6375B7E2B9B2F13C8A5C82 /* Pods_MessagesKit_MessagesKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 065AF905BED421566E598174 /* Pods_MessagesKit_MessagesKitTests.framework */; };
 		812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */; };
 		AA05D21A1CC827A20051039E /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2181CC827A20051039E /* NSObject+Utils.h */; };
 		AA05D21B1CC827A20051039E /* NSObject+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2191CC827A20051039E /* NSObject+Utils.m */; };
@@ -129,7 +129,6 @@
 		AA9918C91CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BE1CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m */; };
 		AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BF1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m */; };
 		AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */; };
-		AA9C1C7A1CC028190070FB59 /* MessagesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */; };
 		AAB0029E1CC74B8E00A2C7EB /* MessagesKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */; };
 		AAB481CE1CCAC51C00EBFC5E /* RTDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */; };
 		AAB481CF1CCAD7F500EBFC5E /* RTAsymmetricKeyPairGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918951CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -161,7 +160,6 @@
 		AAB717FF1CD931FE0041A878 /* AlertOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FE1CD931FE0041A878 /* AlertOperation.swift */; };
 		AAB718011CD933470041A878 /* UIKitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718001CD933470041A878 /* UIKitConditions.swift */; };
 		AAB718041CD933920041A878 /* NetworkObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718031CD933920041A878 /* NetworkObserver.swift */; };
-		AAB718061CD93A5A0041A878 /* OperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718051CD93A5A0041A878 /* OperationsTests.swift */; };
 		AAC62D1D1CD03B0F006AFEDD /* ServerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */; };
 		AAC62D1F1CD05570006AFEDD /* ServerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */; };
 		AADCA40D1CCB4FF100607C05 /* Migrations in Resources */ = {isa = PBXBuildFile; fileRef = AADCA40C1CCB4FF100607C05 /* Migrations */; };
@@ -236,6 +234,7 @@
 		AAFDFB811CC5FF2200066707 /* RTWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BB1CC163B400F1A3B0 /* RTWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB821CC5FF2200066707 /* RTCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BD1CC163B400F1A3B0 /* RTCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB831CC6022200066707 /* PersistentCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850501CC1F4FE0034C46D /* PersistentCache.swift */; };
+		C777179DE9BF6A3B94EF6840 /* Pods_MessagesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 238677F9F2FED68F6B33A443 /* Pods_MessagesKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,14 +248,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		065AF905BED421566E598174 /* Pods_MessagesKit_MessagesKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesKit_MessagesKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		238677F9F2FED68F6B33A443 /* Pods_MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.release.xcconfig"; sourceTree = "<group>"; };
 		477CD8044D99DDC7BFD842DD /* Pods-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesTests/Pods-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messages_MessagesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47B4709552EED87860268ED9 /* Pods-MessagesKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKit/Pods-MessagesKit.release.xcconfig"; sourceTree = "<group>"; };
 		636D81C99BF283C3D64954EA /* Pods-Messages.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages.release.xcconfig"; path = "Pods/Target Support Files/Pods-Messages/Pods-Messages.release.xcconfig"; sourceTree = "<group>"; };
 		761D9669CD95E2099493F4C7 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		786ADFDA483BAE368EDEB04B /* Pods-MessagesKit-MessagesKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKit-MessagesKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKit-MessagesKitTests/Pods-MessagesKit-MessagesKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		80D9A54E82B3CA539F58B595 /* Pods_Messages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85D6AF6122D004DF2B8078C8 /* Pods-Messages.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Messages/Pods-Messages.debug.xcconfig"; sourceTree = "<group>"; };
+		93B1FC57C55C51C335F1789F /* Pods-MessagesKit-MessagesKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKit-MessagesKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKit-MessagesKitTests/Pods-MessagesKit-MessagesKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		97493CACC5E3E4221450C2C4 /* Pods-MessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesTests/Pods-MessagesTests.release.xcconfig"; sourceTree = "<group>"; };
+		9C846BB11A4C706E09E20CCE /* Pods-MessagesKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKit/Pods-MessagesKit.debug.xcconfig"; sourceTree = "<group>"; };
 		AA05D2181CC827A20051039E /* NSObject+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Utils.h"; sourceTree = "<group>"; };
 		AA05D2191CC827A20051039E /* NSObject+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Utils.m"; sourceTree = "<group>"; };
 		AA05D21C1CC829810051039E /* NSObject+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Properties.h"; sourceTree = "<group>"; };
@@ -283,6 +288,8 @@
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGSize+Utils.m"; sourceTree = "<group>"; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGSize+Utils.h"; sourceTree = "<group>"; };
 		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
+		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectWebsocket.swift; sourceTree = "<group>"; };
 		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResendUnsentMessages.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA4FD0421CCCADF300C0DE2A /* DataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReference.h; sourceTree = "<group>"; };
@@ -467,9 +474,7 @@
 		AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSQLBuilderTests.m; sourceTree = "<group>"; };
 		AA9918CC1CC16C2800F1A3B0 /* Thrift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Thrift.framework; path = "Pods/../build/Debug-iphoneos/Thrift/Thrift.framework"; sourceTree = "<group>"; };
 		AA9918CE1CC16C3200F1A3B0 /* Operations.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operations.framework; path = "Pods/../build/Debug-iphoneos/Operations/Operations.framework"; sourceTree = "<group>"; };
-		AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9C1C741CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA9C1C791CC028190070FB59 /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9C1C801CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MessagesKit.podspec; sourceTree = "<group>"; };
 		AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTDAO.swift; sourceTree = "<group>"; };
@@ -479,7 +484,6 @@
 		AAB717FE1CD931FE0041A878 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
 		AAB718001CD933470041A878 /* UIKitConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitConditions.swift; sourceTree = "<group>"; };
 		AAB718031CD933920041A878 /* NetworkObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkObserver.swift; sourceTree = "<group>"; };
-		AAB718051CD93A5A0041A878 /* OperationsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OperationsTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDiscovery.swift; sourceTree = "<group>"; };
 		AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTarget.swift; sourceTree = "<group>"; };
 		AADCA40C1CCB4FF100607C05 /* Migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Migrations; sourceTree = "<group>"; };
@@ -503,7 +507,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7D3612C08EF94D04AB417062 /* Pods_Messages.framework in Frameworks */,
+				C777179DE9BF6A3B94EF6840 /* Pods_MessagesKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,8 +515,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA9C1C7A1CC028190070FB59 /* MessagesKit.framework in Frameworks */,
 				812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */,
+				7F6375B7E2B9B2F13C8A5C82 /* Pods_MessagesKit_MessagesKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +532,8 @@
 				CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */,
 				80D9A54E82B3CA539F58B595 /* Pods_Messages.framework */,
 				47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */,
+				238677F9F2FED68F6B33A443 /* Pods_MessagesKit.framework */,
+				065AF905BED421566E598174 /* Pods_MessagesKit_MessagesKitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -541,6 +547,10 @@
 				97493CACC5E3E4221450C2C4 /* Pods-MessagesTests.release.xcconfig */,
 				D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */,
 				464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */,
+				9C846BB11A4C706E09E20CCE /* Pods-MessagesKit.debug.xcconfig */,
+				47B4709552EED87860268ED9 /* Pods-MessagesKit.release.xcconfig */,
+				786ADFDA483BAE368EDEB04B /* Pods-MessagesKit-MessagesKitTests.debug.xcconfig */,
+				93B1FC57C55C51C335F1789F /* Pods-MessagesKit-MessagesKitTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -749,22 +759,14 @@
 				AA9C1C7D1CC028190070FB59 /* MessagesKitTests */,
 				AADCA40E1CCB501900607C05 /* Certificates */,
 				AADCA40C1CCB4FF100607C05 /* Migrations */,
-				AA9C1C701CC028190070FB59 /* Products */,
 				071039BEAAD0DB0EB9C0BC26 /* Frameworks */,
 				7A64535DD7702E69844C8BF0 /* Pods */,
+				AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */,
+				AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
 			tabWidth = 2;
-		};
-		AA9C1C701CC028190070FB59 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */,
-				AA9C1C791CC028190070FB59 /* MessagesKitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
 		};
 		AA9C1C711CC028190070FB59 /* MessagesKit */ = {
 			isa = PBXGroup;
@@ -817,14 +819,12 @@
 				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
 				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
 			);
-			name = MessagesKit;
-			path = Messages;
+			path = MessagesKit;
 			sourceTree = "<group>";
 		};
 		AA9C1C7D1CC028190070FB59 /* MessagesKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				AAB718051CD93A5A0041A878 /* OperationsTests.swift */,
 				AADCA4121CCBE66000607C05 /* Resources */,
 				AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */,
 				AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */,
@@ -845,8 +845,7 @@
 				AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */,
 				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
 			);
-			name = MessagesKitTests;
-			path = MessagesTests;
+			path = MessagesKitTests;
 			sourceTree = "<group>";
 		};
 		AAB718021CD933840041A878 /* Observers */ = {
@@ -980,7 +979,7 @@
 			);
 			name = MessagesKit;
 			productName = Messages;
-			productReference = AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */;
+			productReference = AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		AA9C1C781CC028190070FB59 /* MessagesKitTests */ = {
@@ -1001,7 +1000,7 @@
 			);
 			name = MessagesKitTests;
 			productName = MessagesTests;
-			productReference = AA9C1C791CC028190070FB59 /* MessagesKitTests.xctest */;
+			productReference = AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1030,7 +1029,7 @@
 				en,
 			);
 			mainGroup = AA9C1C651CC028190070FB59;
-			productRefGroup = AA9C1C701CC028190070FB59 /* Products */;
+			productRefGroup = AA9C1C651CC028190070FB59;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1081,7 +1080,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MessagesKit-MessagesKitTests/Pods-MessagesKit-MessagesKitTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		55858174A78A0E0828493CF6 /* 📦 Check Pods Manifest.lock */ = {
@@ -1111,7 +1110,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MessagesKit-MessagesKitTests/Pods-MessagesKit-MessagesKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D6878778E35D90DDEB7587C3 /* 📦 Check Pods Manifest.lock */ = {
@@ -1141,7 +1140,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Messages/Pods-Messages-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MessagesKit/Pods-MessagesKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1286,7 +1285,6 @@
 				AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */,
 				AA9918C41CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m in Sources */,
 				AA9918C81CC1659100F1A3B0 /* RTNotificationTests.m in Sources */,
-				AAB718061CD93A5A0041A878 /* OperationsTests.swift in Sources */,
 				AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */,
 				AA9918C21CC1659100F1A3B0 /* RTChatTests.m in Sources */,
 				AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */,
@@ -1401,7 +1399,7 @@
 		};
 		AA9C1C841CC028190070FB59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 85D6AF6122D004DF2B8078C8 /* Pods-Messages.debug.xcconfig */;
+			baseConfigurationReference = 9C846BB11A4C706E09E20CCE /* Pods-MessagesKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1410,12 +1408,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/Thrift",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/Operations",
-				);
-				INFOPLIST_FILE = Messages/Info.plist;
+				INFOPLIST_FILE = MessagesKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1428,7 +1421,7 @@
 		};
 		AA9C1C851CC028190070FB59 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 636D81C99BF283C3D64954EA /* Pods-Messages.release.xcconfig */;
+			baseConfigurationReference = 47B4709552EED87860268ED9 /* Pods-MessagesKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1437,12 +1430,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/Thrift",
-					"$(PROJECT_DIR)/build/Debug-iphoneos/Operations",
-				);
-				INFOPLIST_FILE = Messages/Info.plist;
+				INFOPLIST_FILE = MessagesKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1454,7 +1442,7 @@
 		};
 		AA9C1C871CC028190070FB59 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */;
+			baseConfigurationReference = 786ADFDA483BAE368EDEB04B /* Pods-MessagesKit-MessagesKitTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MessagesTests/Info.plist;
@@ -1469,7 +1457,7 @@
 		};
 		AA9C1C881CC028190070FB59 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */;
+			baseConfigurationReference = 93B1FC57C55C51C335F1789F /* Pods-MessagesKit-MessagesKitTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = MessagesTests/Info.plist;
