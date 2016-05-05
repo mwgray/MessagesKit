@@ -1,6 +1,6 @@
 //
-//  Messages.h
-//  Messages
+//  MessagesKit.h
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 4/14/16.
 //  Copyright © 2016 reTXT Labs LLC. All rights reserved.
@@ -8,11 +8,11 @@
 
 @import Foundation;
 
-//! Project version number for Messages.
-FOUNDATION_EXPORT double MessagesVersionNumber;
+//! Project version number for MessagesKit.
+FOUNDATION_EXPORT double MessagesKitVersionNumber;
 
-//! Project version string for Messages.
-FOUNDATION_EXPORT const unsigned char MessagesVersionString[];
+//! Project version string for MessagesKit.
+FOUNDATION_EXPORT const unsigned char MessagesKitVersionString[];
 
 
 #import "RTMessages.h"

@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Messages.xcodeproj">
+      location = "group:/Users/kdubb/Documents/Projects/MessageKit/MessagesKit.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

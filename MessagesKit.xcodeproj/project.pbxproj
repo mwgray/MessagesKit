@@ -29,7 +29,7 @@
 		AA05D23F1CC856830051039E /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D23D1CC856830051039E /* NSString+Utils.m */; };
 		AA05D2421CC8572A0051039E /* UIFont+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2401CC8572A0051039E /* UIFont+Utils.h */; };
 		AA05D2431CC8572A0051039E /* UIFont+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2411CC8572A0051039E /* UIFont+Utils.m */; };
-		AA05D2481CC937C00051039E /* Messages.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2471CC937C00051039E /* Messages.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA05D2481CC937C00051039E /* MessagesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2471CC937C00051039E /* MessagesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA05D2581CC94C5D0051039E /* DataReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2571CC94C5D0051039E /* DataReference.swift */; };
 		AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D25B1CCABCB00051039E /* CGSize+Utils.m */; };
 		AA05D25E1CCABCB00051039E /* CGSize+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D25C1CCABCB00051039E /* CGSize+Utils.h */; };
@@ -129,8 +129,8 @@
 		AA9918C91CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BE1CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m */; };
 		AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BF1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m */; };
 		AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */; };
-		AA9C1C7A1CC028190070FB59 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA9C1C6F1CC028190070FB59 /* Messages.framework */; };
-		AAB0029E1CC74B8E00A2C7EB /* Messages.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AAB0029D1CC74B8E00A2C7EB /* Messages.podspec */; };
+		AA9C1C7A1CC028190070FB59 /* MessagesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */; };
+		AAB0029E1CC74B8E00A2C7EB /* MessagesKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */; };
 		AAB481CE1CCAC51C00EBFC5E /* RTDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */; };
 		AAB481CF1CCAD7F500EBFC5E /* RTAsymmetricKeyPairGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918951CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB481D01CCAD81000EBFC5E /* RTOpenSSL.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918831CC1645700F1A3B0 /* RTOpenSSL.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -278,7 +278,7 @@
 		AA05D23D1CC856830051039E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
 		AA05D2401CC8572A0051039E /* UIFont+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Utils.h"; sourceTree = "<group>"; };
 		AA05D2411CC8572A0051039E /* UIFont+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Utils.m"; sourceTree = "<group>"; };
-		AA05D2471CC937C00051039E /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Messages.h; sourceTree = "<group>"; };
+		AA05D2471CC937C00051039E /* MessagesKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesKit.h; sourceTree = "<group>"; };
 		AA05D2571CC94C5D0051039E /* DataReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReference.swift; sourceTree = "<group>"; };
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGSize+Utils.m"; sourceTree = "<group>"; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGSize+Utils.h"; sourceTree = "<group>"; };
@@ -467,11 +467,11 @@
 		AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSQLBuilderTests.m; sourceTree = "<group>"; };
 		AA9918CC1CC16C2800F1A3B0 /* Thrift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Thrift.framework; path = "Pods/../build/Debug-iphoneos/Thrift/Thrift.framework"; sourceTree = "<group>"; };
 		AA9918CE1CC16C3200F1A3B0 /* Operations.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operations.framework; path = "Pods/../build/Debug-iphoneos/Operations/Operations.framework"; sourceTree = "<group>"; };
-		AA9C1C6F1CC028190070FB59 /* Messages.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Messages.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9C1C741CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AA9C1C791CC028190070FB59 /* MessagesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA9C1C791CC028190070FB59 /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA9C1C801CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB0029D1CC74B8E00A2C7EB /* Messages.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Messages.podspec; sourceTree = "<group>"; };
+		AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MessagesKit.podspec; sourceTree = "<group>"; };
 		AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTDAO.swift; sourceTree = "<group>"; };
 		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestClient.swift; sourceTree = "<group>"; };
 		AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboundedBlockingQueue.swift; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA9C1C7A1CC028190070FB59 /* Messages.framework in Frameworks */,
+				AA9C1C7A1CC028190070FB59 /* MessagesKit.framework in Frameworks */,
 				812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -744,9 +744,9 @@
 		AA9C1C651CC028190070FB59 = {
 			isa = PBXGroup;
 			children = (
-				AAB0029D1CC74B8E00A2C7EB /* Messages.podspec */,
-				AA9C1C711CC028190070FB59 /* Messages */,
-				AA9C1C7D1CC028190070FB59 /* MessagesTests */,
+				AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */,
+				AA9C1C711CC028190070FB59 /* MessagesKit */,
+				AA9C1C7D1CC028190070FB59 /* MessagesKitTests */,
 				AADCA40E1CCB501900607C05 /* Certificates */,
 				AADCA40C1CCB4FF100607C05 /* Migrations */,
 				AA9C1C701CC028190070FB59 /* Products */,
@@ -760,16 +760,16 @@
 		AA9C1C701CC028190070FB59 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA9C1C6F1CC028190070FB59 /* Messages.framework */,
-				AA9C1C791CC028190070FB59 /* MessagesTests.xctest */,
+				AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */,
+				AA9C1C791CC028190070FB59 /* MessagesKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA9C1C711CC028190070FB59 /* Messages */ = {
+		AA9C1C711CC028190070FB59 /* MessagesKit */ = {
 			isa = PBXGroup;
 			children = (
-				AA05D2471CC937C00051039E /* Messages.h */,
+				AA05D2471CC937C00051039E /* MessagesKit.h */,
 				AA4FD0421CCCADF300C0DE2A /* DataReference.h */,
 				AA5920201CCDFA0C007B7D0D /* DataReference.m */,
 				AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */,
@@ -817,10 +817,11 @@
 				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
 				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
 			);
+			name = MessagesKit;
 			path = Messages;
 			sourceTree = "<group>";
 		};
-		AA9C1C7D1CC028190070FB59 /* MessagesTests */ = {
+		AA9C1C7D1CC028190070FB59 /* MessagesKitTests */ = {
 			isa = PBXGroup;
 			children = (
 				AAB718051CD93A5A0041A878 /* OperationsTests.swift */,
@@ -844,6 +845,7 @@
 				AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */,
 				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
 			);
+			name = MessagesKitTests;
 			path = MessagesTests;
 			sourceTree = "<group>";
 		};
@@ -907,7 +909,7 @@
 				AAFDFB731CC5FDA200066707 /* RTSQLBuilder.h in Headers */,
 				AA4FD04A1CCCAF8C00C0DE2A /* MemoryDataReference.h in Headers */,
 				AA490DB41CCAF1C80010FC17 /* RTURLSessionSSLValidator.h in Headers */,
-				AA05D2481CC937C00051039E /* Messages.h in Headers */,
+				AA05D2481CC937C00051039E /* MessagesKit.h in Headers */,
 				AA4FD0461CCCAF0F00C0DE2A /* BlobDataReference.h in Headers */,
 				AAB481D21CCAD81000EBFC5E /* RTOpenSSLCertificate.h in Headers */,
 				AA4FD0521CCD350F00C0DE2A /* DataReferences.h in Headers */,
@@ -961,9 +963,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		AA9C1C6E1CC028190070FB59 /* Messages */ = {
+		AA9C1C6E1CC028190070FB59 /* MessagesKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AA9C1C831CC028190070FB59 /* Build configuration list for PBXNativeTarget "Messages" */;
+			buildConfigurationList = AA9C1C831CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesKit" */;
 			buildPhases = (
 				55858174A78A0E0828493CF6 /* 📦 Check Pods Manifest.lock */,
 				AA9C1C6A1CC028190070FB59 /* Sources */,
@@ -976,14 +978,14 @@
 			);
 			dependencies = (
 			);
-			name = Messages;
+			name = MessagesKit;
 			productName = Messages;
-			productReference = AA9C1C6F1CC028190070FB59 /* Messages.framework */;
+			productReference = AA9C1C6F1CC028190070FB59 /* MessagesKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AA9C1C781CC028190070FB59 /* MessagesTests */ = {
+		AA9C1C781CC028190070FB59 /* MessagesKitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AA9C1C861CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesTests" */;
+			buildConfigurationList = AA9C1C861CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesKitTests" */;
 			buildPhases = (
 				D6878778E35D90DDEB7587C3 /* 📦 Check Pods Manifest.lock */,
 				AA9C1C751CC028190070FB59 /* Sources */,
@@ -997,9 +999,9 @@
 			dependencies = (
 				AA9C1C7C1CC028190070FB59 /* PBXTargetDependency */,
 			);
-			name = MessagesTests;
+			name = MessagesKitTests;
 			productName = MessagesTests;
-			productReference = AA9C1C791CC028190070FB59 /* MessagesTests.xctest */;
+			productReference = AA9C1C791CC028190070FB59 /* MessagesKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1020,7 +1022,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AA9C1C691CC028190070FB59 /* Build configuration list for PBXProject "Messages" */;
+			buildConfigurationList = AA9C1C691CC028190070FB59 /* Build configuration list for PBXProject "MessagesKit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1032,8 +1034,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AA9C1C6E1CC028190070FB59 /* Messages */,
-				AA9C1C781CC028190070FB59 /* MessagesTests */,
+				AA9C1C6E1CC028190070FB59 /* MessagesKit */,
+				AA9C1C781CC028190070FB59 /* MessagesKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1043,7 +1045,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB0029E1CC74B8E00A2C7EB /* Messages.podspec in Resources */,
+				AAB0029E1CC74B8E00A2C7EB /* MessagesKit.podspec in Resources */,
 				AADCA40F1CCB501900607C05 /* Certificates in Resources */,
 				AADCA40D1CCB4FF100607C05 /* Migrations in Resources */,
 			);
@@ -1301,7 +1303,7 @@
 /* Begin PBXTargetDependency section */
 		AA9C1C7C1CC028190070FB59 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AA9C1C6E1CC028190070FB59 /* Messages */;
+			target = AA9C1C6E1CC028190070FB59 /* MessagesKit */;
 			targetProxy = AA9C1C7B1CC028190070FB59 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1482,7 +1484,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA9C1C691CC028190070FB59 /* Build configuration list for PBXProject "Messages" */ = {
+		AA9C1C691CC028190070FB59 /* Build configuration list for PBXProject "MessagesKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA9C1C811CC028190070FB59 /* Debug */,
@@ -1491,7 +1493,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AA9C1C831CC028190070FB59 /* Build configuration list for PBXNativeTarget "Messages" */ = {
+		AA9C1C831CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA9C1C841CC028190070FB59 /* Debug */,
@@ -1500,7 +1502,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AA9C1C861CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesTests" */ = {
+		AA9C1C861CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesKitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA9C1C871CC028190070FB59 /* Debug */,
