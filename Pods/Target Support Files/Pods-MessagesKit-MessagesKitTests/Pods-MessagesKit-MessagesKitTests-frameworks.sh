@@ -90,7 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FMDBMigrationManager/FMDBMigrationManager.framework"
   install_framework "$BUILT_PRODUCTS_DIR/HTMLReader/HTMLReader.framework"
   install_framework "$BUILT_PRODUCTS_DIR/KVOController/KVOController.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/OpenSSLAll/openssl.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OpenSSLCrypto/openssl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PSOperations/PSOperations.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PromiseKit/PromiseKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SSKeychain/SSKeychain.framework"
@@ -99,6 +99,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/YOLOKit/YOLOKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/sqlite3/sqlite3.framework"
   install_framework "$BUILT_PRODUCTS_DIR/OCMock/OCMock.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OMGHTTPURLRQ/OMGHTTPURLRQ.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CocoaLumberjack/CocoaLumberjack.framework"
@@ -107,7 +108,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FMDBMigrationManager/FMDBMigrationManager.framework"
   install_framework "$BUILT_PRODUCTS_DIR/HTMLReader/HTMLReader.framework"
   install_framework "$BUILT_PRODUCTS_DIR/KVOController/KVOController.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/OpenSSLAll/openssl.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OpenSSLCrypto/openssl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PSOperations/PSOperations.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PromiseKit/PromiseKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SSKeychain/SSKeychain.framework"
@@ -116,4 +117,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/YOLOKit/YOLOKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/sqlite3/sqlite3.framework"
   install_framework "$BUILT_PRODUCTS_DIR/OCMock/OCMock.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/OMGHTTPURLRQ/OMGHTTPURLRQ.framework"
 fi

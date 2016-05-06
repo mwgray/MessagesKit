@@ -137,12 +137,11 @@ extern "C" {
 #define MD2_INT unsigned int
 #endif
 
-#if defined(HEADER_RC2_H) && !defined(RC2_INT)
+#if !defined(RC2_INT)
 /* I need to put in a mod for the alpha - eay */
 #define RC2_INT unsigned int
 #endif
 
-#if defined(HEADER_RC4_H)
 #if !defined(RC4_INT)
 /* using int types make the structure larger but make the code faster
  * on most boxes I have tested - up to %20 faster. */
@@ -159,7 +158,6 @@ extern "C" {
  * boundary. See crypto/rc4/rc4_enc.c for further details.
  */
 #define RC4_CHUNK unsigned long
-#endif
 #endif
 
 #if (defined(HEADER_NEW_DES_H) || defined(HEADER_DES_H)) && !defined(DES_LONG)

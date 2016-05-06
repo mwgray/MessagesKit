@@ -49,6 +49,8 @@
 #import "pkcs7.h"
 #import "pqueue.h"
 #import "rand.h"
+#import "rc2.h"
+#import "rc4.h"
 #import "ripemd.h"
 #import "rsa.h"
 #import "safestack.h"

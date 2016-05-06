@@ -1,15 +1,15 @@
 {
-  "name": "OpenSSLAll",
+  "name": "OpenSSLCrypto",
   "version": "0.1.0",
-  "summary": "A short description of OpenSSLAll.",
-  "description": "A description",
-  "homepage": "https://github.com/reTXT/OpenSSLAll",
+  "summary": "A short description of OpenSSLCrypto.",
+  "description": "A long description of OpenSSLCrypto",
+  "homepage": "https://github.com/reTXT/OpenSSLCrypto",
   "license": "MIT",
   "authors": {
-    "Kevin Wooten": "kevin@wooten.com"
+    "Kevin Wooten": "kevin@retxt.com"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/OpenSSLAll.git",
+    "git": "https://github.com/reTXT/OpenSSLCrypto.git",
     "tag": "0.1.0"
   },
   "platforms": {
@@ -22,10 +22,6 @@
   ],
   "preserve_paths": [
     "src/**/*.ch"
-  ],
-  "exclude_files": [
-    "include/rc2.h",
-    "include/rc4.h"
   ],
   "public_header_files": "include/*.h",
   "compiler_flags": "-DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -O3 -fomit-frame-pointer -fno-common -DOPENSSL_NO_INLINE_ASM -DOPENSSL_NO_ASM"
