@@ -138,7 +138,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
     let finish = MessageFinishOperation(messageContext: self, transmitContext: self, dao: api.messageDAO)
     finish.addDependency(transmit)
     
-    addDependencies([resolve, encrypt, build, transmit, finish])
+    [resolve, encrypt, build, transmit, finish].forEach { addOperation($0) }
   }
   
 }
