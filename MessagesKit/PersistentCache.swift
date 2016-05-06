@@ -71,7 +71,9 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable, Value
   }
   
   deinit {
-    pool.close()
+    if let pool = pool {
+      pool.close()
+    }
   }
   
   public func availableValueForKey(key: KeyType) throws -> (value: ValueType?, expires: NSDate)? {
