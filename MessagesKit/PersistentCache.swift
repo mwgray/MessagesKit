@@ -53,7 +53,14 @@ public class PersistentCache<KeyType, ValueType where KeyType : Equatable, Value
     let cacheURL = cacheDirURL.URLByAppendingPathComponent(name).URLByAppendingPathExtension("cache.sqlite")
     
     if clear {
-      try NSFileManager.defaultManager().removeItemAtURL(cacheURL)
+      do {
+        try NSFileManager.defaultManager().removeItemAtURL(cacheURL)
+      }
+      catch let error as NSCocoaError {
+        if error != NSCocoaError.FileNoSuchFileError {
+          throw error
+        }
+      }
     }
     
     pool = try FMDatabaseReadWritePool(path: cacheURL.path!)
