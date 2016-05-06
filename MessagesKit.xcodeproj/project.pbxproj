@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7F6375B7E2B9B2F13C8A5C82 /* Pods_MessagesKit_MessagesKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 065AF905BED421566E598174 /* Pods_MessagesKit_MessagesKitTests.framework */; };
-		812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */; };
 		AA05D21A1CC827A20051039E /* NSObject+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D2181CC827A20051039E /* NSObject+Utils.h */; };
 		AA05D21B1CC827A20051039E /* NSObject+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D2191CC827A20051039E /* NSObject+Utils.m */; };
 		AA05D2201CC829810051039E /* NSObject+Properties.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D21C1CC829810051039E /* NSObject+Properties.h */; };
@@ -72,7 +71,6 @@
 		AA490DD11CCAF5A30010FC17 /* RequireAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918101CC163DF00F1A3B0 /* RequireAccessToken.swift */; };
 		AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */; };
 		AA4FCFFA1CCC3C3800C0DE2A /* ResendUnsentMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */; };
-		AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */; };
 		AA4FD0431CCCADF300C0DE2A /* DataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0421CCCADF300C0DE2A /* DataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4FD0461CCCAF0F00C0DE2A /* BlobDataReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4FD0471CCCAF0F00C0DE2A /* BlobDataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */; };
@@ -113,7 +111,6 @@
 		AA58504A1CC1F18A0034C46D /* RTWeakReference.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5850481CC1F18A0034C46D /* RTWeakReference.h */; };
 		AA58504B1CC1F18A0034C46D /* RTWeakReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5850491CC1F18A0034C46D /* RTWeakReference.m */; };
 		AA5850531CC22E800034C46D /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850521CC22E800034C46D /* GCD.swift */; };
-		AA5850571CC2B2030034C46D /* PersistentCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */; };
 		AA5920211CCDFA0C007B7D0D /* DataReference.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5920201CCDFA0C007B7D0D /* DataReference.m */; };
 		AA61CD931CCB36B30029B5F2 /* RTSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD911CCB36B30029B5F2 /* RTSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA61CD941CCB36B30029B5F2 /* RTSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD921CCB36B30029B5F2 /* RTSettings.m */; };
@@ -121,14 +118,18 @@
 		AA61CD981CCB37930029B5F2 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD961CCB37930029B5F2 /* Reachability.h */; };
 		AA61CD991CCB37930029B5F2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD971CCB37930029B5F2 /* Reachability.m */; };
 		AA61CD9B1CCB3D2B0029B5F2 /* Promise+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */; };
-		AA9918C21CC1659100F1A3B0 /* RTChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B71CC1659100F1A3B0 /* RTChatTests.m */; };
-		AA9918C41CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B91CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m */; };
-		AA9918C51CC1659100F1A3B0 /* RTHTMLTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BA1CC1659100F1A3B0 /* RTHTMLTextTests.m */; };
-		AA9918C71CC1659100F1A3B0 /* RTMsgCipherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BC1CC1659100F1A3B0 /* RTMsgCipherTests.m */; };
-		AA9918C81CC1659100F1A3B0 /* RTNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BD1CC1659100F1A3B0 /* RTNotificationTests.m */; };
-		AA9918C91CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BE1CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m */; };
-		AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BF1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m */; };
-		AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */; };
+		AA97DA781CDC3FFC00EE4DF2 /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */; };
+		AA97DA791CDC3FFC00EE4DF2 /* MessageAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */; };
+		AA97DA7A1CDC3FFC00EE4DF2 /* RTChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B71CC1659100F1A3B0 /* RTChatTests.m */; };
+		AA97DA7C1CDC3FFC00EE4DF2 /* RTFetchedResultsControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B91CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m */; };
+		AA97DA7D1CDC3FFC00EE4DF2 /* RTHTMLTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BA1CC1659100F1A3B0 /* RTHTMLTextTests.m */; };
+		AA97DA7F1CDC3FFC00EE4DF2 /* RTMsgCipherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BC1CC1659100F1A3B0 /* RTMsgCipherTests.m */; };
+		AA97DA801CDC3FFC00EE4DF2 /* RTNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BD1CC1659100F1A3B0 /* RTNotificationTests.m */; };
+		AA97DA811CDC3FFC00EE4DF2 /* RTOpenSSLCertificateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BE1CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m */; };
+		AA97DA821CDC3FFC00EE4DF2 /* RTOpenSSLKeyPairTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918BF1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m */; };
+		AA97DA831CDC3FFC00EE4DF2 /* RTSQLBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918C01CC1659100F1A3B0 /* RTSQLBuilderTests.m */; };
+		AA97DA851CDC3FFC00EE4DF2 /* RTMessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */; };
+		AA97DA861CDC3FFC00EE4DF2 /* PersistentCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */; };
 		AAB0029E1CC74B8E00A2C7EB /* MessagesKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */; };
 		AAB481CE1CCAC51C00EBFC5E /* RTDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */; };
 		AAB481CF1CCAD7F500EBFC5E /* RTAsymmetricKeyPairGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918951CC1645700F1A3B0 /* RTAsymmetricKeyPairGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -141,8 +142,6 @@
 		AAB481D61CCAD81000EBFC5E /* RTMsgCipher.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918901CC1645700F1A3B0 /* RTMsgCipher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB481D71CCAD81000EBFC5E /* RTMsgSigner.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918921CC1645700F1A3B0 /* RTMsgSigner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB481D81CCAD81000EBFC5E /* RTX509Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918971CC1645700F1A3B0 /* RTX509Utils.h */; };
-		AAB481DA1CCAD94300EBFC5E /* MessageAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */; };
-		AAB481DC1CCADC8F00EBFC5E /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */; };
 		AAB481DE1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */; };
 		AAB481EB1CCADEC400EBFC5E /* RTOpenSSL.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918841CC1645700F1A3B0 /* RTOpenSSL.m */; };
 		AAB481EC1CCADEC400EBFC5E /* RTOpenSSLKeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918861CC1645700F1A3B0 /* RTOpenSSLKeyPair.m */; };
@@ -270,13 +269,13 @@
 		AA05D21F1CC829810051039E /* NSString+PropertyKVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PropertyKVC.m"; sourceTree = "<group>"; };
 		AA05D2241CC82DB30051039E /* RTCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTCache.h; sourceTree = "<group>"; };
 		AA05D2251CC82DB30051039E /* RTCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTCache.m; sourceTree = "<group>"; };
-		AA05D2281CC82E6E0051039E /* RTLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTLog.h; sourceTree = "<group>"; };
+		AA05D2281CC82E6E0051039E /* RTLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RTLog.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA05D2291CC840B30051039E /* NSMutableArray+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Utils.h"; sourceTree = "<group>"; };
 		AA05D22A1CC840B30051039E /* NSMutableArray+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Utils.m"; sourceTree = "<group>"; };
-		AA05D22D1CC84CA70051039E /* FMResultSet+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMResultSet+Utils.h"; sourceTree = "<group>"; };
-		AA05D22E1CC84CA70051039E /* FMResultSet+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMResultSet+Utils.m"; sourceTree = "<group>"; };
-		AA05D2311CC84D1C0051039E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
-		AA05D2321CC84D1C0051039E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
+		AA05D22D1CC84CA70051039E /* FMResultSet+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "FMResultSet+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA05D22E1CC84CA70051039E /* FMResultSet+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "FMResultSet+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AA05D2311CC84D1C0051039E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSMutableDictionary+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA05D2321CC84D1C0051039E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSMutableDictionary+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA05D2351CC84E1D0051039E /* RTHTMLText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTHTMLText.h; sourceTree = "<group>"; };
 		AA05D2361CC84E1D0051039E /* RTHTMLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTHTMLText.m; sourceTree = "<group>"; };
 		AA05D23C1CC856830051039E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
@@ -284,27 +283,27 @@
 		AA05D2401CC8572A0051039E /* UIFont+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+Utils.h"; sourceTree = "<group>"; };
 		AA05D2411CC8572A0051039E /* UIFont+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+Utils.m"; sourceTree = "<group>"; };
 		AA05D2471CC937C00051039E /* MessagesKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagesKit.h; sourceTree = "<group>"; };
-		AA05D2571CC94C5D0051039E /* DataReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReference.swift; sourceTree = "<group>"; };
+		AA05D2571CC94C5D0051039E /* DataReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DataReference.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGSize+Utils.m"; sourceTree = "<group>"; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGSize+Utils.h"; sourceTree = "<group>"; };
 		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
 		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectWebsocket.swift; sourceTree = "<group>"; };
+		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectWebsocket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA4FCFF91CCC3C3800C0DE2A /* ResendUnsentMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ResendUnsentMessages.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		AA4FD0421CCCADF300C0DE2A /* DataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReference.h; sourceTree = "<group>"; };
-		AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlobDataReference.h; sourceTree = "<group>"; };
-		AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlobDataReference.m; sourceTree = "<group>"; };
-		AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryDataReference.h; sourceTree = "<group>"; };
-		AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryDataReference.m; sourceTree = "<group>"; };
-		AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDataReference.h; sourceTree = "<group>"; };
-		AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDataReference.m; sourceTree = "<group>"; };
-		AA4FD0501CCD350F00C0DE2A /* DataReferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataReferences.h; sourceTree = "<group>"; };
-		AA4FD0511CCD350F00C0DE2A /* DataReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataReferences.m; sourceTree = "<group>"; };
+		AA4FD0421CCCADF300C0DE2A /* DataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DataReference.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BlobDataReference.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BlobDataReference.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MemoryDataReference.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MemoryDataReference.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FileDataReference.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FileDataReference.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AA4FD0501CCD350F00C0DE2A /* DataReferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DataReferences.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA4FD0511CCD350F00C0DE2A /* DataReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DataReferences.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA4FD0541CCD4E9000C0DE2A /* MessageAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
-		AA4FD0561CCD8AFC00C0DE2A /* SendReceiptOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendReceiptOperation.swift; sourceTree = "<group>"; };
-		AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MessageAPI+Compat.h"; sourceTree = "<group>"; };
-		AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MessageAPI+Compat.m"; sourceTree = "<group>"; };
+		AA4FD0561CCD8AFC00C0DE2A /* SendReceiptOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SendReceiptOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "MessageAPI+Compat.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "MessageAPI+Compat.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA5850101CC1C0360034C46D /* NSData+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Random.h"; sourceTree = "<group>"; };
 		AA5850111CC1C0360034C46D /* NSData+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Random.m"; sourceTree = "<group>"; };
 		AA5850141CC1C4510034C46D /* NSArray+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utils.h"; sourceTree = "<group>"; };
@@ -334,13 +333,13 @@
 		AA5850491CC1F18A0034C46D /* RTWeakReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTWeakReference.m; sourceTree = "<group>"; };
 		AA5850501CC1F4FE0034C46D /* PersistentCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentCache.swift; sourceTree = "<group>"; };
 		AA5850521CC22E800034C46D /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
-		AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentCacheTests.swift; sourceTree = "<group>"; };
-		AA5920201CCDFA0C007B7D0D /* DataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataReference.m; sourceTree = "<group>"; };
+		AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PersistentCacheTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AA5920201CCDFA0C007B7D0D /* DataReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DataReference.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA61CD911CCB36B30029B5F2 /* RTSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSettings.h; sourceTree = "<group>"; };
 		AA61CD921CCB36B30029B5F2 /* RTSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSettings.m; sourceTree = "<group>"; };
 		AA61CD961CCB37930029B5F2 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AA61CD971CCB37930029B5F2 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Promise+Utils.swift"; sourceTree = "<group>"; };
+		AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Promise+Utils.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917AD1CC163B400F1A3B0 /* RTMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTMessages.h; sourceTree = "<group>"; };
 		AA9917AE1CC163B400F1A3B0 /* RTMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMessages.m; sourceTree = "<group>"; };
 		AA9917AF1CC163B400F1A3B0 /* RTMessages+Exts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTMessages+Exts.h"; sourceTree = "<group>"; };
@@ -377,7 +376,7 @@
 		AA9917EC1CC163CD00F1A3B0 /* MessageRecvOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageRecvOperation.swift; sourceTree = "<group>"; };
 		AA9917ED1CC163CD00F1A3B0 /* MessageFetchAPIOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageFetchAPIOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917EE1CC163CD00F1A3B0 /* MessageFetchHTTPOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageFetchHTTPOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		AA9917EF1CC163CD00F1A3B0 /* MessageProcessOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageProcessOperation.swift; sourceTree = "<group>"; };
+		AA9917EF1CC163CD00F1A3B0 /* MessageProcessOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageProcessOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917F01CC163CD00F1A3B0 /* MessageProcessDirectOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessageProcessDirectOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AA9917F11CC163CD00F1A3B0 /* MessageDeliveredOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDeliveredOperation.swift; sourceTree = "<group>"; };
 		AA9917F21CC163CD00F1A3B0 /* FetchWaitingOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = FetchWaitingOperation.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -459,8 +458,8 @@
 		AA9918971CC1645700F1A3B0 /* RTX509Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTX509Utils.h; sourceTree = "<group>"; };
 		AA9918981CC1645700F1A3B0 /* RTX509Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTX509Utils.m; sourceTree = "<group>"; };
 		AA9918B01CC164AD00F1A3B0 /* RTDBManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTDBManagerTests.m; sourceTree = "<group>"; };
-		AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMessageTests.m; sourceTree = "<group>"; };
-		AA9918B51CC1652500F1A3B0 /* MessagesTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessagesTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RTMessageTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AA9918B51CC1652500F1A3B0 /* MessagesKitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessagesKitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageAPITests.swift; sourceTree = "<group>"; };
 		AA9918B71CC1659100F1A3B0 /* RTChatTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTChatTests.m; sourceTree = "<group>"; };
 		AA9918B81CC1659100F1A3B0 /* RTContactTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTContactTests.m; sourceTree = "<group>"; };
@@ -476,16 +475,16 @@
 		AA9918CE1CC16C3200F1A3B0 /* Operations.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Operations.framework; path = "Pods/../build/Debug-iphoneos/Operations/Operations.framework"; sourceTree = "<group>"; };
 		AA9C1C741CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA9C1C801CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MessagesKit.podspec; sourceTree = "<group>"; };
-		AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTDAO.swift; sourceTree = "<group>"; };
+		AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = MessagesKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		AAB481CD1CCAC51C00EBFC5E /* RTDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RTDAO.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestClient.swift; sourceTree = "<group>"; };
 		AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnboundedBlockingQueue.swift; sourceTree = "<group>"; };
 		AAB717FC1CD92CF40041A878 /* RetryOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryOperation.swift; sourceTree = "<group>"; };
 		AAB717FE1CD931FE0041A878 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
-		AAB718001CD933470041A878 /* UIKitConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitConditions.swift; sourceTree = "<group>"; };
+		AAB718001CD933470041A878 /* UIKitConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UIKitConditions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB718031CD933920041A878 /* NetworkObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkObserver.swift; sourceTree = "<group>"; };
-		AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDiscovery.swift; sourceTree = "<group>"; };
-		AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTarget.swift; sourceTree = "<group>"; };
+		AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ServerDiscovery.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ServerTarget.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AADCA40C1CCB4FF100607C05 /* Migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Migrations; sourceTree = "<group>"; };
 		AADCA40E1CCB501900607C05 /* Certificates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Certificates; sourceTree = "<group>"; };
 		AADCA4131CCBE67100607C05 /* empty.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = empty.pem; sourceTree = "<group>"; };
@@ -496,8 +495,8 @@
 		AADCA4181CCBE67100607C05 /* test.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = test.mp3; sourceTree = "<group>"; };
 		AADCA4191CCBE67100607C05 /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
 		AADCA41A1CCBE67100607C05 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
-		AADCA4231CCBEB6300607C05 /* NSBundle+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Utils.h"; sourceTree = "<group>"; };
-		AADCA4241CCBEB6300607C05 /* NSBundle+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Utils.m"; sourceTree = "<group>"; };
+		AADCA4231CCBEB6300607C05 /* NSBundle+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSBundle+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AADCA4241CCBEB6300607C05 /* NSBundle+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSBundle+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -515,7 +514,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				812A1F5C90647B85D9339EA3 /* Pods_Messages_MessagesTests.framework in Frameworks */,
 				7F6375B7E2B9B2F13C8A5C82 /* Pods_MessagesKit_MessagesKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -841,7 +839,7 @@
 				AA9918B01CC164AD00F1A3B0 /* RTDBManagerTests.m */,
 				AA9918B31CC164B400F1A3B0 /* RTMessageTests.m */,
 				AA9C1C801CC028190070FB59 /* Info.plist */,
-				AA9918B51CC1652500F1A3B0 /* MessagesTests-Bridging-Header.h */,
+				AA9918B51CC1652500F1A3B0 /* MessagesKitTests-Bridging-Header.h */,
 				AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */,
 				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
 			);
@@ -1280,19 +1278,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA9918C71CC1659100F1A3B0 /* RTMsgCipherTests.m in Sources */,
-				AAB481DA1CCAD94300EBFC5E /* MessageAPITests.swift in Sources */,
-				AA9918CB1CC1659100F1A3B0 /* RTSQLBuilderTests.m in Sources */,
-				AA9918C41CC1659100F1A3B0 /* RTFetchedResultsControllerTests.m in Sources */,
-				AA9918C81CC1659100F1A3B0 /* RTNotificationTests.m in Sources */,
-				AA4FCFFB1CCC5D6C00C0DE2A /* RTMessageTests.m in Sources */,
-				AA9918C21CC1659100F1A3B0 /* RTChatTests.m in Sources */,
-				AA9918CA1CC1659100F1A3B0 /* RTOpenSSLKeyPairTests.m in Sources */,
-				AAB481DC1CCADC8F00EBFC5E /* TestClient.swift in Sources */,
-				AA9918C51CC1659100F1A3B0 /* RTHTMLTextTests.m in Sources */,
-				AA9918C91CC1659100F1A3B0 /* RTOpenSSLCertificateTests.m in Sources */,
-				AA5850571CC2B2030034C46D /* PersistentCacheTests.swift in Sources */,
+				AA97DA7D1CDC3FFC00EE4DF2 /* RTHTMLTextTests.m in Sources */,
+				AA97DA781CDC3FFC00EE4DF2 /* TestClient.swift in Sources */,
+				AA97DA7A1CDC3FFC00EE4DF2 /* RTChatTests.m in Sources */,
+				AA97DA791CDC3FFC00EE4DF2 /* MessageAPITests.swift in Sources */,
+				AA97DA851CDC3FFC00EE4DF2 /* RTMessageTests.m in Sources */,
+				AA97DA7C1CDC3FFC00EE4DF2 /* RTFetchedResultsControllerTests.m in Sources */,
+				AA97DA831CDC3FFC00EE4DF2 /* RTSQLBuilderTests.m in Sources */,
+				AA97DA811CDC3FFC00EE4DF2 /* RTOpenSSLCertificateTests.m in Sources */,
+				AA97DA821CDC3FFC00EE4DF2 /* RTOpenSSLKeyPairTests.m in Sources */,
 				AAB481DE1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift in Sources */,
+				AA97DA861CDC3FFC00EE4DF2 /* PersistentCacheTests.swift in Sources */,
+				AA97DA801CDC3FFC00EE4DF2 /* RTNotificationTests.m in Sources */,
+				AA97DA7F1CDC3FFC00EE4DF2 /* RTMsgCipherTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1412,7 +1410,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.Messages;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.MessagesKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1434,7 +1432,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.Messages;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.MessagesKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1445,12 +1443,12 @@
 			baseConfigurationReference = 786ADFDA483BAE368EDEB04B /* Pods-MessagesKit-MessagesKitTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				INFOPLIST_FILE = MessagesTests/Info.plist;
+				INFOPLIST_FILE = MessagesKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MessagesTests/MessagesTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MessagesKitTests/MessagesKitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1460,12 +1458,12 @@
 			baseConfigurationReference = 93B1FC57C55C51C335F1789F /* Pods-MessagesKit-MessagesKitTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				INFOPLIST_FILE = MessagesTests/Info.plist;
+				INFOPLIST_FILE = MessagesKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.retxt.ios.MessagesKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MessagesTests/MessagesTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MessagesKitTests/MessagesKitTests-Bridging-Header.h";
 			};
 			name = Release;
 		};

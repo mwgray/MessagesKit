@@ -8,7 +8,7 @@
 
 import Foundation
 import OMGHTTPURLRQ
-@testable import Messages
+@testable import MessagesKit
 
 public typealias SenderInterceptor = (RTMsgPack) throws -> Void
 public typealias SendMethod = (RTMsgPack) throws -> Int64

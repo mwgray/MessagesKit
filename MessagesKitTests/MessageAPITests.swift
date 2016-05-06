@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Messages
+@testable import MessagesKit
 
 
 class MessageAPITest: XCTestCase {

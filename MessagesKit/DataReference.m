@@ -1,6 +1,6 @@
 //
 //  DataReference.m
-//  Messages
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 4/25/16.
 //  Copyright © 2016 reTXT Labs LLC. All rights reserved.

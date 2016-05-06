@@ -7,7 +7,7 @@
 //
 
 @import XCTest;
-@import Messages;
+@import MessagesKit;
 @import CoreGraphics;
 
 

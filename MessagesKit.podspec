@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name = 'MessagesKit'
   s.version = '0.1'
-  s.summary = 'reTXT Messages SDK for iOS/OSX'
+  s.summary = 'reTXT MessagesKit SDK for iOS/OSX'
   s.homepage = 'https://github.com/reTXT/MessagesKit'
   s.license = 'MIT'
   s.author = { 'Kevin Wooten' => 'kevin@retxt.com' }

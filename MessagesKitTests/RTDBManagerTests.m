@@ -11,6 +11,7 @@
 @import XCTest;
 @import CocoaLumberjack;
 @import FMDB;
+@import MessagesKit;
 
 
 RT_LUMBERJACK_DECLARE_LOG_LEVEL()
