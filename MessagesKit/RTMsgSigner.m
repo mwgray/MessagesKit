@@ -1,6 +1,6 @@
 //
 //  RTMsgSigner.m
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 8/27/15.
 //  Copyright © 2015 reTXT Labs, LLC. All rights reserved.

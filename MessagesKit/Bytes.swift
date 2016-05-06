@@ -1,6 +1,6 @@
 //
 //  Bytes.swift
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 11/27/15.
 //  Copyright © 2015 reTXT Labs, LLC. All rights reserved.

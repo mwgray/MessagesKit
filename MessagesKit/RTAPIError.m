@@ -1,6 +1,6 @@
 //
 //  RTAPIError.m
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Francisco Rimoldi on 29/04/14.
 //  Copyright (c) 2014 reTXT Labs, LLC. All rights reserved.

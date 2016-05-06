@@ -1,6 +1,6 @@
 //
 //  MessageAPIError.swift
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 9/15/15.
 //  Copyright © 2015 reTXT Labs, LLC. All rights reserved.

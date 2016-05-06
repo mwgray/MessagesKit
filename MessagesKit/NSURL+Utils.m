@@ -1,6 +1,6 @@
 //
 //  NSURL+Utils.m
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 6/12/14.
 //  Copyright (c) 2014 reTXT Labs, LLC. All rights reserved.

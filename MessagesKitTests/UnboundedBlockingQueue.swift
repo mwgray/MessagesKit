@@ -1,6 +1,6 @@
 //
 //  UnboundedBlockingQueue.swift
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 3/12/16.
 //  Copyright © 2016 reTXT Labs, LLC. All rights reserved.

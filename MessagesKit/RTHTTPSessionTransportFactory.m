@@ -1,6 +1,6 @@
 //
 //  RTHTTPSessionTransportFactory.m
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 12/21/15.
 //  Copyright © 2015 reTXT Labs, LLC. All rights reserved.

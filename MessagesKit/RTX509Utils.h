@@ -1,6 +1,6 @@
 //
 //  RTX509Utils.h
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 12/2/15.
 //  Copyright © 2015 reTXT Labs, LLC. All rights reserved.

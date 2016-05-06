@@ -1,6 +1,6 @@
 //
 //  RTMessages+Exts.m
-//  ReTxt
+//  MessagesKit
 //
 //  Created by Kevin Wooten on 12/13/15.
 //  Copyright © 2015 reTXT Labs, LLC. All rights reserved.
