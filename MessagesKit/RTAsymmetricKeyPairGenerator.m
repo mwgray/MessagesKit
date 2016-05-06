@@ -54,7 +54,7 @@ NSString *translateUsage(RTAsymmetricKeyPairUsage usage)
       RT_RETURN_OPENSSL_ERROR(KeyGenInitFailed, NULL);
     }
     
-    if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, keySize) <= 0) {
+    if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, (int)keySize) <= 0) {
       RT_RETURN_OPENSSL_ERROR(KeyGenBitsFailed, NULL);
     }
     

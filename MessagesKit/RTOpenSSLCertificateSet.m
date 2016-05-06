@@ -67,7 +67,7 @@
 
 -(RTOpenSSLCertificate *)objectAtIndexedSubscript:(NSUInteger)idx
 {
-  X509 *cert = sk_X509_value(_pointer, idx);
+  X509 *cert = sk_X509_value(_pointer, (int)idx);
   return [[RTOpenSSLCertificate alloc] initWithCertPointer:cert];
 }
 
@@ -77,7 +77,7 @@
   for (localIdx=0, totalIdx=state->state; localIdx < len && totalIdx < sk_X509_num(_pointer); localIdx++, totalIdx++) {
     // XXX needed to ensure temp objects live until autorelease pool dumped
     RTOpenSSLCertificate *__autoreleasing cert =
-      [[RTOpenSSLCertificate alloc] initWithCertPointer:sk_X509_value(_pointer, totalIdx)];
+      [[RTOpenSSLCertificate alloc] initWithCertPointer:sk_X509_value(_pointer, (int)totalIdx)];
     buffer[localIdx] = cert;
   }
   
