@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.source_files = 'MessagesKit/*.{h,m,swift}'
   s.exclude_files = 'src/fmdb.m'
 
-  s.dependency 'OpenSSL', '1.0.207'
+  s.dependency 'OpenSSLCrypto'
   s.dependency 'CocoaLumberjack/Swift'
   s.dependency 'DeviceKit'
   s.dependency 'FMDB/standalone/swift'
