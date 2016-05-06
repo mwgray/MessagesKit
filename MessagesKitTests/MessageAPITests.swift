@@ -90,9 +90,11 @@ class MessageAPITest: XCTestCase {
     let msg = RTTextMessage(chat: chat)
     msg.text = "Hello World"
     
-    try api.saveMessage(msg).then { x.fulfill() }
+    try api.saveMessage(msg)
+      .always { x.fulfill() }
+      .error { error in XCTFail("Send failed: \(error)") }
     
-    waitForExpectationsWithTimeout(5, handler: nil)
+    waitForExpectationsWithTimeout(50, handler: nil)
   }
   
   func testInvalidSendMessage() throws {
