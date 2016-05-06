@@ -37,7 +37,7 @@ class MessageAPITest: XCTestCase {
       return MessageAPI.findProfileWithId(testClientA.userId, password: testClientA.password)
     }
     .then { profile in
-      return MessageAPI.signInWithProfile(profile as! RTUserProfile, deviceId: self.testClientA.devices[0].deviceInfo.id, password: self.testClientA.password)
+      return MessageAPI.signInWithProfile(profile, deviceId: self.testClientA.devices[0].deviceInfo.id, password: self.testClientA.password)
     }
     .then { creds -> Void in
       let creds = creds.authorizeWithEncryptionIdentity(self.testClientA.encryptionIdentity, signingIdentity: self.testClientA.signingIdentity)

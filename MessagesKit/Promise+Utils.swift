@@ -10,20 +10,22 @@ import Foundation
 
 
 
-public enum WaitError : ErrorType {
-  case TimeExpired
+public enum PromiseError : ErrorType {
+  case WaitTimeExpired
+  case ConversionCastingError
+  case ConversionUnwrappingError
 }
 
 extension Promise where T : AnyObject {
-  
-  public func wait(time: dispatch_time_t = DISPATCH_TIME_FOREVER) throws -> T? {
+
+  func wait(time: dispatch_time_t = DISPATCH_TIME_FOREVER) throws -> T? {
     let sema = dispatch_semaphore_create(0)
     always {
       dispatch_semaphore_signal(sema)
     }
     
     if dispatch_semaphore_wait(sema, time) != 0 {
-      throw WaitError.TimeExpired
+      throw PromiseError.WaitTimeExpired
     }
     
     if let error = error {
@@ -31,6 +33,88 @@ extension Promise where T : AnyObject {
     }
     
     return self.value
+  }
+  
+  func to<U>() -> Promise<U> {
+    
+    return self.then(on: zalgo) { value -> U in
+      
+      if let value = value as? U {
+        return value
+      }
+      
+      throw PromiseError.ConversionCastingError
+    }
+  }
+  
+}
+
+
+protocol OptionalEquivalent {
+  associatedtype WrappedValueType
+  func toOptional() -> WrappedValueType?
+}
+
+extension Optional: OptionalEquivalent {
+  
+  typealias WrappedValueType = Wrapped
+  
+  // just to cast `Optional<Wrapped>` to `Wrapped?`
+  func toOptional() -> WrappedValueType? {
+    return self
+  }
+  
+}
+
+extension Promise where T : OptionalEquivalent {
+  
+  func to<U>() -> Promise<U?> {
+    
+    return self.then(on: zalgo) { value -> U? in
+      
+      guard let value = value.toOptional() else {
+        return nil
+      }
+      
+      if let value = value as? U {
+        return value
+      }
+      
+      throw PromiseError.ConversionCastingError
+    }
+  }
+  
+  func to<U>() -> Promise<U> {
+    
+    return self.then(on: zalgo) { value -> U in
+      
+      guard let value = value.toOptional() else {
+        throw PromiseError.ConversionUnwrappingError
+      }
+      
+      if let value = value as? U {
+        return value
+      }
+      
+      throw PromiseError.ConversionCastingError
+    }
+  }
+  
+}
+
+
+extension AnyPromise {
+  
+  func toPromise<T>(type: T.Type) -> Promise<T> {
+    
+    return self.then(on: zalgo) { (value: AnyObject?) -> T in
+      
+      if let value = value as? T {
+        return value
+      }
+      
+      throw PromiseError.ConversionCastingError
+    }
   }
   
 }

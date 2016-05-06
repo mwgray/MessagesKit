@@ -313,7 +313,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     UIApplication.sharedApplication().applicationIconBadgeNumber = unread
   }
   
-  private func updateUnreadMessageCount() -> UInt {
+  public func updateUnreadMessageCount() -> UInt {
     
     let count = Int(messageDAO.countOfUnreadMessages())
     
@@ -362,6 +362,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
+  @available(*, unavailable)
   @objc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) throws -> AnyPromise {
     
     let block : @convention(block) () -> AnyObject = {
@@ -390,7 +391,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return RTFetchedResultsController(DBManager: dbManager, request: request)
   }
   
-  @nonobjc public func saveMessage(message: RTMessage) throws -> Promise<Void> {
+  @nonobjc public func saveMessage(message: RTMessage) -> Promise<Void> {
     
     return firstly {
       
@@ -419,12 +420,17 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
+  @available(*, unavailable)
+  @objc public func saveMessage(message: RTMessage) -> AnyPromise {
+    return AnyPromise(bound: saveMessage(message))
+  }
+  
   @objc public func updateMessageLocally(message: RTMessage) throws {
     
     try self.messageDAO.updateMessage(message)
   }
   
-  @nonobjc public func updateMessage(message: RTMessage) throws -> Promise<Void> {
+  @nonobjc public func updateMessage(message: RTMessage) -> Promise<Void> {
 
     return firstly {
 
@@ -454,7 +460,12 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
 
-  @nonobjc public func clarifyMessage(message: RTMessage) throws -> Promise<Void> {
+  @available(*, unavailable)
+  @objc public func updateMessage(message: RTMessage) -> AnyPromise {
+    return AnyPromise(bound: updateMessage(message))
+  }
+  
+  @nonobjc public func clarifyMessage(message: RTMessage) -> Promise<Void> {
 
     return firstly {
     
@@ -471,6 +482,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
+  @available(*, unavailable)
+  @objc public func clarifyMessage(message: RTMessage) -> AnyPromise {
+    return AnyPromise(bound: clarifyMessage(message))
+  }
+  
   @objc public func deleteMessageLocally(message: RTMessage) throws {
     
     try self.messageDAO.deleteMessage(message)
@@ -485,7 +501,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     try hideNotificationForMessage(message)
   }
 
-  @nonobjc public func deleteMessage(message: RTMessage) throws -> Promise<Void> {
+  @nonobjc public func deleteMessage(message: RTMessage) -> Promise<Void> {
     
     return firstly {
     
@@ -501,6 +517,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
       return delete.promise().asVoid()
     }
+  }
+  
+  @available(*, unavailable)
+  @objc public func deleteMessage(message: RTMessage) -> AnyPromise {
+    return AnyPromise(bound: deleteMessage(message))
   }
   
   @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toRecipient recipient: String) {
@@ -591,6 +612,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
+  @available(*, unavailable)
   @objc public func findChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> AnyPromise {
     
     let block : @convention(block) () -> AnyObject = {
@@ -804,7 +826,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @objc public class func findUserIdWithAlias(alias: String) -> AnyPromise {
-    return self.publicAPI.findUserWithAlias(alias)
+    return AnyPromise(bound: findUserIdWithAlias(alias))
   }
   
   func resolveUserInfoWithAlias(alias: String) throws -> RTUserInfo? {
@@ -834,7 +856,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  public func reportWaitingMessage(msgId: RTId, type: RTMsgType, dataLength: Int32) -> Promise<Void> {
+  @nonobjc public func reportWaitingMessage(msgId: RTId, type: RTMsgType, dataLength: Int32) -> Promise<Void> {
     
     if !credentials.authorized {
       return Promise<Void>(Void())
@@ -857,6 +879,25 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       queue.addOperation(op)
     }
   }
+  
+  @objc public func reportWaitingMessage(msgId: RTId, type: RTMsgType, dataLength: Int32) -> AnyPromise {
+    let promise : Promise<Void> = reportWaitingMessage(msgId, type: type, dataLength: dataLength)
+    return AnyPromise(bound: promise)
+  }
+  
+  @nonobjc public func pollForMessages() -> Promise<Int> {
+    
+    let fetch = FetchWaitingOperation(api: self)
+    queue.addOperation(fetch)
+    
+    return fetch.promise().to()
+  }
+
+  @available(*, unavailable)
+  @objc public func pollForMessages() -> AnyPromise {
+    
+    return AnyPromise(bound: pollForMessages())
+  }
 
   @nonobjc public func changePasswordWithOldPassword(oldPassword: String, newPassword: String) -> Promise<Bool> {
     //TODO
@@ -871,30 +912,33 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 extension MessageAPI {
   
   @nonobjc public class func findProfileWithAlias(alias: String, password: String) -> Promise<RTUserProfile> {
-    return MessageAPI.publicAPI.findProfileWithAlias(alias, password: password).then(on: zalgo) { val in
-      return val as! RTUserProfile
-    }
+    return MessageAPI.publicAPI.findProfileWithAlias(alias, password: password).toPromise(RTUserProfile.self)
   }
   
+  @available(*, unavailable)
   @objc public class func findProfileWithAlias(alias: String, password: String) -> AnyPromise {
     return MessageAPI.publicAPI.findProfileWithAlias(alias, password: password)
   }
   
   @nonobjc public class func findProfileWithId(id: RTId, password: String) -> Promise<RTUserProfile> {
-    return MessageAPI.publicAPI.findProfileWithId(id, password: password).then(on: zalgo) { val in
-      return val as! RTUserProfile
-    }
+    return MessageAPI.publicAPI.findProfileWithId(id, password: password).toPromise(RTUserProfile.self)
   }
   
+  @available(*, unavailable)
   @objc public class func findProfileWithId(id: RTId, password: String) -> AnyPromise {
     return MessageAPI.publicAPI.findProfileWithId(id, password: password)
   }
   
-  @nonobjc public class func checkCurrentDeviceRegistered(profile: RTUserProfile) -> Promise<Bool> {
+  @nonobjc public class func checkCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> Promise<Bool> {
     
     return discoverDeviceId().then { currentDeviceId in
       return profile.devices.filter { $0.id == currentDeviceId }.isEmpty
     }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func checkCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> AnyPromise {
+    return AnyPromise(bound: checkCurrentDeviceRegisteredInProfile(profile))
   }
   
   @nonobjc public class func signInWithProfile(profile: RTUserProfile, password: String) -> Promise<RTCredentials> {
@@ -902,6 +946,11 @@ extension MessageAPI {
     return discoverDeviceId().then { currentDeviceId in
       return signInWithProfile(profile, deviceId: currentDeviceId, password: password)
     }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func signInWithProfile(profile: RTUserProfile, password: String) -> AnyPromise {
+    return AnyPromise(bound: signInWithProfile(profile, password: password))
   }
   
   @nonobjc public class func signInWithProfile(profile: RTUserProfile, deviceId: RTId, password: String) -> Promise<RTCredentials> {
@@ -974,27 +1023,36 @@ extension MessageAPI {
         throw translateError(error as NSError)
       }
   }
+
+  @available(*, unavailable)
+  @objc public class func signInWithProfile(profile: RTUserProfile, deviceId: RTId, password: String) -> AnyPromise {
+    return AnyPromise(bound: signInWithProfile(profile, deviceId: deviceId, password: password))
+  }
   
   @nonobjc public class func requestAuthenticationForAlias(alias: String) -> Promise<Void> {
     
-    return publicAPI.requestAliasAuthentication(alias)
-      .then(on: zalgo) { val in
-        return val
-      }
+    return publicAPI.requestAliasAuthentication(alias).toPromise(Void.self)
       .recover { error -> Void in
         throw translateError(error as NSError)
     }
   }
   
+  @available(*, unavailable)
+  @objc public class func requestAuthenticationForAlias(alias: String) -> AnyPromise {
+    return AnyPromise(bound: requestAuthenticationForAlias(alias))
+  }
+  
   @nonobjc public class func checkAuthenticationForAlias(alias: String, pin: String) -> Promise<Bool> {
     
-    return publicAPI.checkAliasAuthentication(alias, pin: pin)
-      .then(on: zalgo) { val in
-        return (val as? NSNumber as? Bool) ?? false
-      }
+    return publicAPI.checkAliasAuthentication(alias, pin: pin).toPromise(Bool.self)
       .recover { error -> Bool in
         throw translateError(error as NSError)
       }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func checkAuthenticationForAlias(alias: String, pin: String) -> AnyPromise {
+    return AnyPromise(bound: checkAuthenticationForAlias(alias, pin: pin))
   }
   
   @nonobjc public class func registerUserWithAliases(aliasesAndPins: [String: String], password: String) -> Promise<RTCredentials> {
@@ -1054,6 +1112,11 @@ extension MessageAPI {
             }
         }
     }
+  }
+
+  @available(*, unavailable)
+  @objc public class func registerUserWithAliases(aliasesAndPins: [String: String], password: String) -> AnyPromise {
+    return AnyPromise(bound: registerUserWithAliases(aliasesAndPins, password: password))
   }
   
   @nonobjc public class func updateKeysForUserId(id: RTId, password: String, encryptionCSR: NSData, signingCSR: NSData) -> Promise<AnyObject> {

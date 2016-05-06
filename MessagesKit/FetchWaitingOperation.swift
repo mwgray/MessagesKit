@@ -21,7 +21,7 @@ public class FetchWaitingOperation: MessageAPIOperation {
     addCondition(RequireAuthorization(api: api))
   }
   
-  public override var resolveResult : AnyObject {
+  public override var resolveResult : Any {
     return total
   }
   

@@ -11,7 +11,7 @@ import PSOperations
 import PromiseKit
 
 
-public typealias Resolver = (AnyObject?) -> Void
+public typealias Resolver = (Any?) -> Void
 
 
 public class MessageAPIOperation: Operation {
@@ -21,9 +21,9 @@ public class MessageAPIOperation: Operation {
   
   internal var resolver : Resolver?
   
-  internal var resolverPromise : Promise<AnyObject?>?
+  internal var resolverPromise : Promise<Any?>?
   
-  internal var resolveResult : AnyObject? {
+  internal var resolveResult : Any? {
     return nil
   }
   
@@ -61,13 +61,13 @@ public class MessageAPIOperation: Operation {
     
   }
 
-  public func promise() -> Promise<AnyObject?> {
+  public func promise() -> Promise<Any?> {
     
     if let resolverPromise = resolverPromise {
       return resolverPromise
     }
     
-    let (promise, fulfill, reject) = Promise<AnyObject?>.pendingPromise()
+    let (promise, fulfill, reject) = Promise<Any?>.pendingPromise()
     self.resolverPromise = promise
     
     resolver = { result in
@@ -92,9 +92,9 @@ public class MessageAPIGroupOperation: GroupOperation {
   
   internal var resolver : Resolver?
 
-  internal var resolverPromise : Promise<AnyObject?>?
+  internal var resolverPromise : Promise<Any?>?
   
-  internal var resolveResult : AnyObject? {
+  internal var resolveResult : Any? {
     return nil
   }
   
@@ -132,13 +132,13 @@ public class MessageAPIGroupOperation: GroupOperation {
     
   }
   
-  public func promise() -> Promise<AnyObject?> {
+  public func promise() -> Promise<Any?> {
     
     if let resolverPromise = resolverPromise {
       return resolverPromise
     }
     
-    let (promise, fulfill, reject) = Promise<AnyObject?>.pendingPromise()
+    let (promise, fulfill, reject) = Promise<Any?>.pendingPromise()
     self.resolverPromise = promise
     
     resolver = { result in
