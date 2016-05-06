@@ -16,3 +16,26 @@ typedef NS_OPTIONS (int, SystemMsgTarget) {
   SystemMsgTargetStandard           = SystemMsgTargetActiveRecipients | SystemMsgTargetCC,
   SystemMsgTargetEverybody          = SystemMsgTargetActiveRecipients | SystemMsgTargetCC | SystemMsgTargetInactiveRecipients,
 };
+
+
+// Notification types & dictionary keys
+//
+extern NSString* const MessageAPIUserMessageReceivedNotification;
+extern NSString* const MessageAPIUserMessageReceivedNotification_MessageKey;
+
+extern NSString* const MessageAPIDirectMessageReceivedNotification;
+extern NSString* const MessageAPIDirectMessageReceivedNotification_MsgIdKey;
+extern NSString* const MessageAPIDirectMessageReceivedNotification_MsgTypeKey;
+extern NSString* const MessageAPIDirectMessageReceivedNotification_MsgDataKey;
+extern NSString* const MessageAPIDirectMessageReceivedNotification_SenderKey;
+extern NSString* const MessageAPIDirectMessageReceivedNotification_SenderDeviceIdKey;
+
+extern NSString* const MessageAPIDirectMessageMsgTypeKeySet;
+
+extern NSString* const MessageAPIUserStatusDidChangeNotification;
+extern NSString* const MessageAPIUserStatusDidChangeNotification_InfoKey;
+
+extern NSString* const MessageAPISignedInNotification;
+extern NSString* const MessageAPISignedOutNotification;
+
+extern NSString* const MessageAPIAccessTokenRefreshed;

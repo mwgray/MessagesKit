@@ -12,29 +12,6 @@ import CocoaLumberjack
 import DeviceKit
 
 
-// Notification types & dictionary keys
-//
-public let MessageAPIUserMessageReceivedNotification = "UserMessageReceived"
-public let MessageAPIUserMessageReceivedNotification_MessageKey = "message"
-
-public let MessageAPIDirectMessageReceivedNotification = "DirectMessageReceivedNotification"
-public let MessageAPIDirectMessageReceivedNotification_MsgIdKey = "msgId"
-public let MessageAPIDirectMessageReceivedNotification_MsgTypeKey = "msgType"
-public let MessageAPIDirectMessageReceivedNotification_MsgDataKey = "msgData"
-public let MessageAPIDirectMessageReceivedNotification_SenderKey = "sender"
-public let MessageAPIDirectMessageReceivedNotification_SenderDeviceIdKey = "senderDeviceId"
-
-public let MessageAPIDirectMessageMsgTypeKeySet = "keySet"
-
-public let MessageAPIUserStatusDidChangeNotification = "UserStatusDidChange"
-public let MessageAPIUserStatusDidChangeNotification_InfoKey = "info"
-
-public let MessageAPISignedInNotification = "MessageAPISignedInNotification"
-public let MessageAPISignedOutNotification = "MessageAPISignedOutNotification"
-
-public let MessageAPIAccessTokenRefreshed = "MessageAPIAccessTokenRefreshed"
-
-
 // Constants
 //
 private let kUserCacheTTL = NSTimeInterval(86400 * 7)
@@ -42,10 +19,10 @@ private let kUserCacheTTL = NSTimeInterval(86400 * 7)
 // User defaults keys
 //
 private let UnreadMessageCountKey = "io.retxt.UnreadMessageCount"
+
 // Debugging
 private let ClearDataDebugKey = "io.retxt.debug.ClearData"
 private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
-
 
 
 @objc public class MessageAPI : NSObject {
