@@ -156,7 +156,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
         self.messageDAO.failAllSendingMessagesExcluding(transferringMessageIds)
         
         // Restart any transfers that were just killed
-        self.queue.addOperation(ResendUnsentMessages(api: self))
+        self.queue.addOperation(ResendUnsentMessagesOperation(api: self))
       }
       
     }
@@ -170,7 +170,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       // Network - Available
       nc.addObserverForName(RTNetworkConnectivityAvailableNotification, object: nil, queue: queue) { not in
         if !self.networkAvailable {
-          self.queue.addOperation(ResendUnsentMessages(api: self))
+          self.queue.addOperation(ResendUnsentMessagesOperation(api: self))
         }
         self.networkAvailable = true
       },
@@ -216,9 +216,9 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     active = true
     
     if credentials.authorized {
-      queue.addOperation(ConnectWebSocket(api: self))
+      queue.addOperation(ConnectWebSocketOperation(api: self))
       queue.addOperation(FetchWaitingOperation(api: self))
-      queue.addOperation(ResendUnsentMessages(api: self))
+      queue.addOperation(ResendUnsentMessagesOperation(api: self))
     }
     
     if let suspendedChatId = suspendedChatId {
@@ -315,7 +315,8 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  @objc public func findMesageWithId(id: RTId) -> AnyPromise {
+  @available(*, unavailable)
+  @objc public func findMessageWithId(id: RTId) -> AnyPromise {
     
     let block : @convention(block) () -> AnyObject = {
       do {
@@ -501,20 +502,6 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: deleteMessage(message))
   }
   
-  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toRecipient recipient: String) {
-   
-    self.userAPI.sendUserStatus(sender, recipient: recipient, status: status)
-    
-  }
-
-  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toMembers members: Set<String>,  inChat chat: RTId) {
-
-    let group = RTGroup(chat: chat, members: members)
-  
-    self.userAPI.sendGroupStatus(sender, group: group, status: status)
-  }
-  
-  
   @objc public func loadUserChatForAlias(alias: String, localAlias: String) throws -> RTUserChat {
     
     if let chat = try chatDAO.fetchChatForAlias(alias, localAlias: localAlias) as? RTUserChat {
@@ -625,13 +612,6 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
-  @objc public func deleteChatLocally(chat: RTChat) throws {
-    
-    try chatDAO.deleteChat(chat)
-  
-    try hideNotificationsForChat(chat)
-  }
-
   @objc public func deleteChat(chat: RTChat) throws {
     
     try deleteChatLocally(chat)
@@ -642,6 +622,26 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
                                             target: .CC,
                                             api: self)
     queue.addOperation(delete)
+  }
+  
+  @objc public func deleteChatLocally(chat: RTChat) throws {
+    
+    try chatDAO.deleteChat(chat)
+    
+    try hideNotificationsForChat(chat)
+  }
+  
+  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toRecipient recipient: String) {
+    
+    self.userAPI.sendUserStatus(sender, recipient: recipient, status: status)
+    
+  }
+  
+  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toMembers members: Set<String>,  inChat chat: RTId) {
+    
+    let group = RTGroup(chat: chat, members: members)
+    
+    self.userAPI.sendGroupStatus(sender, group: group, status: status)
   }
   
   internal func showNotificationForMessage(message: RTMessage) throws {
@@ -788,22 +788,36 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  @nonobjc public class func findUserIdWithAlias(alias: String) -> Promise<RTId?> {
-    return self.publicAPI.findUserWithAlias(alias).then(on: zalgo) { val -> RTId? in
-        let userInfo = val as! RTUserInfo
-        return userInfo.id
-      }
-      .recover { error -> RTId? in
+  @nonobjc public class func findUserInfoWithAlias(alias: String) -> Promise<RTUserInfo?> {
+    return self.publicAPI.findUserWithAlias(alias).toPromise(RTUserInfo?)
+      .recover { error -> RTUserInfo? in
         let error = error as NSError
         if error.domain == TApplicationErrorDomain && Int32(error.code) == TApplicationError.MissingResult.rawValue {
           return nil
         }
         throw error
-      }
+    }
   }
   
-  @objc public class func findUserIdWithAlias(alias: String) -> AnyPromise {
-    return AnyPromise(bound: findUserIdWithAlias(alias))
+  @available(*, unavailable)
+  @objc public class func findUserInfoWithAlias(alias: String) -> AnyPromise {
+    return AnyPromise(bound: findUserInfoWithAlias(alias))
+  }
+  
+  @nonobjc public class func findUserInfoWithId(id: RTId) -> Promise<RTUserInfo?> {
+    return self.publicAPI.findUserWithId(id).toPromise(RTUserInfo?)
+      .recover { error -> RTUserInfo? in
+        let error = error as NSError
+        if error.domain == TApplicationErrorDomain && Int32(error.code) == TApplicationError.MissingResult.rawValue {
+          return nil
+        }
+        throw error
+    }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func findUserInfoWithId(id: RTId) -> AnyPromise {
+    return AnyPromise(bound: findUserInfoWithId(id))
   }
   
   func resolveUserInfoWithAlias(alias: String) throws -> RTUserInfo? {
@@ -815,7 +829,41 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   
-  public func reportDirectMessage(msg: RTDirectMsg) -> Promise<Void> {
+  private var _informationNotificationToken : NSData?
+  
+  public var informationNotificationToken : NSData? {
+    get {
+      return _informationNotificationToken
+    }
+    set {
+      if newValue != _informationNotificationToken {
+        _informationNotificationToken = newValue
+        if let newValue = newValue {
+          queue.addOperation(RegisterNotificationTokenOperation(token: newValue, type: .Information, api:self))
+        }
+      }
+    }
+  }
+  
+  
+  private var _messageNotificationToken : NSData?
+  
+  public var messageNotificationToken : NSData? {
+    get {
+      return _messageNotificationToken
+    }
+    set {
+      if newValue != _messageNotificationToken {
+        _messageNotificationToken = newValue
+        if let newValue = newValue {
+          queue.addOperation(RegisterNotificationTokenOperation(token: newValue, type: .Message, api:self))
+        }
+      }
+    }
+  }
+  
+  
+  @nonobjc public func reportDirectMessage(msg: RTDirectMsg) -> Promise<Void> {
     
     return Promise<Void>() { fulfill, reject in
       
@@ -833,7 +881,12 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  @nonobjc public func reportWaitingMessage(msgId: RTId, type: RTMsgType, dataLength: Int32) -> Promise<Void> {
+  @available(*, unavailable)
+  @objc public func reportDirectMessage(msg: RTDirectMsg) -> AnyPromise {
+    return AnyPromise(bound: reportDirectMessage(msg))
+  }
+  
+  @nonobjc public func reportWaitingMessageWithId(msgId: RTId, type: RTMsgType, dataLength: Int32) -> Promise<Void> {
     
     if !credentials.authorized {
       return Promise<Void>(Void())
@@ -857,8 +910,9 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  @objc public func reportWaitingMessage(msgId: RTId, type: RTMsgType, dataLength: Int32) -> AnyPromise {
-    let promise : Promise<Void> = reportWaitingMessage(msgId, type: type, dataLength: dataLength)
+  @available(*, unavailable)
+  @objc public func reportWaitingMessageWithId(msgId: RTId, type: RTMsgType, dataLength: Int32) -> AnyPromise {
+    let promise : Promise<Void> = reportWaitingMessageWithId(msgId, type: type, dataLength: dataLength)
     return AnyPromise(bound: promise)
   }
   
@@ -876,11 +930,6 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: pollForMessages())
   }
 
-  @nonobjc public func changePasswordWithOldPassword(oldPassword: String, newPassword: String) -> Promise<Bool> {
-    //TODO
-    return Promise<Bool>(false)
-  }
-  
 }
 
 //
@@ -1111,6 +1160,11 @@ extension MessageAPI {
   }
   
   @nonobjc public class func resetPasswordForUser(alias: String, temporaryPassword: String, password: String) -> Promise<Bool> {
+    //TODO
+    return Promise<Bool>(false)
+  }
+  
+  @nonobjc public func changePasswordWithOldPassword(oldPassword: String, newPassword: String) -> Promise<Bool> {
     //TODO
     return Promise<Bool>(false)
   }

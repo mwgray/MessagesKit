@@ -10,14 +10,14 @@ import UIKit
 import PSOperations
 
 
-public class AlertOperation: Operation {
+class AlertOperation: Operation {
 
   // MARK: Properties
 
   private let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .Alert)
   private let presentationContext: UIViewController?
     
-  public var title: String? {
+  var title: String? {
     get {
       return alertController.title
     }
@@ -28,7 +28,7 @@ public class AlertOperation: Operation {
     }
   }
     
-  public var message: String? {
+  var message: String? {
     get {
       return alertController.message
     }
@@ -40,7 +40,7 @@ public class AlertOperation: Operation {
     
   // MARK: Initialization
     
-  public init(presentationContext: UIViewController? = nil) {
+  init(presentationContext: UIViewController? = nil) {
     
     self.presentationContext = presentationContext ?? UIApplication.sharedApplication().keyWindow?.rootViewController
 
@@ -50,7 +50,7 @@ public class AlertOperation: Operation {
     addCondition(ViewHierarchyCondition())
   }
     
-  public func addAction(title: String, style: UIAlertActionStyle = .Default, handler: AlertOperation -> Void = { _ in }) {
+  func addAction(title: String, style: UIAlertActionStyle = .Default, handler: AlertOperation -> Void = { _ in }) {
   
     let action = UIAlertAction(title: title, style: style) { [weak self] _ in
       
@@ -64,7 +64,7 @@ public class AlertOperation: Operation {
     alertController.addAction(action)
   }
     
-  override public func execute() {
+  override func execute() {
 
     if let presentationContext = presentationContext {
 

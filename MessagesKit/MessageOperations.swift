@@ -11,10 +11,10 @@ import PSOperations
 import PromiseKit
 
 
-public typealias Resolver = (Any?) -> Void
+typealias Resolver = (Any?) -> Void
 
 
-public class MessageAPIOperation: Operation {
+class MessageAPIOperation: Operation {
   
   
   let api : MessageAPI
@@ -27,7 +27,7 @@ public class MessageAPIOperation: Operation {
     return nil
   }
   
-  public init(api: MessageAPI) {
+  init(api: MessageAPI) {
     self.api = api
     
     super.init()
@@ -36,7 +36,7 @@ public class MessageAPIOperation: Operation {
     addCondition(RequireAccessToken(api: api))
   }
   
-  override public func finished(errors: [NSError]) {
+  override func finished(errors: [NSError]) {
     
     for error in errors {
       
@@ -61,7 +61,7 @@ public class MessageAPIOperation: Operation {
     
   }
 
-  public func promise() -> Promise<Any?> {
+  func promise() -> Promise<Any?> {
     
     if let resolverPromise = resolverPromise {
       return resolverPromise
@@ -85,7 +85,7 @@ public class MessageAPIOperation: Operation {
 }
 
 
-public class MessageAPIGroupOperation: GroupOperation {
+class MessageAPIGroupOperation: GroupOperation {
   
   
   let api : MessageAPI
@@ -98,7 +98,7 @@ public class MessageAPIGroupOperation: GroupOperation {
     return nil
   }
   
-  public init(api: MessageAPI) {
+  init(api: MessageAPI) {
     self.api = api
     
     super.init(operations: [])
@@ -107,7 +107,7 @@ public class MessageAPIGroupOperation: GroupOperation {
     addCondition(RequireAccessToken(api: api))
   }
   
-  override public func finished(errors: [NSError]) {
+  override func finished(errors: [NSError]) {
     
     for error in errors {
       
@@ -132,7 +132,7 @@ public class MessageAPIGroupOperation: GroupOperation {
     
   }
   
-  public func promise() -> Promise<Any?> {
+  func promise() -> Promise<Any?> {
     
     if let resolverPromise = resolverPromise {
       return resolverPromise

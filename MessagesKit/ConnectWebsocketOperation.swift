@@ -1,5 +1,5 @@
 //
-//  ConnectWebsocket.swift
+//  ConnectWebsocketOperation.swift
 //  MessagesKit
 //
 //  Created by Kevin Wooten on 4/23/16.
@@ -11,11 +11,11 @@ import PSOperations
 import CocoaLumberjack
 
 
-public class ConnectWebSocket: Operation {
+class ConnectWebSocketOperation: Operation {
   
   let api : MessageAPI
   
-  public init(api: MessageAPI) {
+  init(api: MessageAPI) {
     
     self.api = api
     
@@ -25,7 +25,7 @@ public class ConnectWebSocket: Operation {
     addCondition(ReachabilityCondition(host: MessageAPI.target.userConnectURL))
   }
   
-  public override func execute() {
+  override func execute() {
     
     DDLogDebug("Connecting web socket")
 

@@ -14,7 +14,7 @@ import Thrift
 /*
   Send system message
 */
-@objc public class MessageSendSystemOperation: MessageAPIGroupOperation, MessageResolveContext, MessageTransmitContext {
+class MessageSendSystemOperation: MessageAPIGroupOperation, MessageResolveContext, MessageTransmitContext {
   
   
   var recipients : Set<String>
@@ -28,7 +28,7 @@ import Thrift
   var sentAt : RTTimeStamp?
   
   
-  public init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: SystemMsgTarget, api: MessageAPI) {
+  init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: SystemMsgTarget, api: MessageAPI) {
     
     var recipients : Set<String>
     

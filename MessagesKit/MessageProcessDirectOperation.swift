@@ -10,19 +10,19 @@ import Foundation
 import CocoaLumberjack
 
 
-public class MessageProcessDirectOperation: MessageAPIOperation {
+class MessageProcessDirectOperation: MessageAPIOperation {
   
   let msg : RTDirectMsg
   
   
-  public init(msg: RTDirectMsg, api: MessageAPI) {
+  init(msg: RTDirectMsg, api: MessageAPI) {
     
     self.msg = msg
     
     super.init(api: api)
   }
   
-  public override func execute() {
+  override func execute() {
     
     do {
       

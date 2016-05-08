@@ -10,11 +10,11 @@ import Foundation
 import PSOperations
 
 
-public struct RequireAccessToken: OperationCondition {
+struct RequireAccessToken: OperationCondition {
   
-  public static let name = "RequireAccessToken"
+  static let name = "RequireAccessToken"
   
-  public static let isMutuallyExclusive = false
+  static let isMutuallyExclusive = false
   
   let api : MessageAPI
   
@@ -22,17 +22,17 @@ public struct RequireAccessToken: OperationCondition {
     self.api = api
   }
   
-  public func dependencyForOperation(operation: Operation) -> NSOperation? {
+  func dependencyForOperation(operation: Operation) -> NSOperation? {
     
     if api.accessToken != nil {
       // No need for update
       return nil
     }
     
-    return UpdateAccessToken(api: api)
+    return UpdateAccessTokenOperation(api: api)
   }
   
-  public func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
+  func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
 
     if api.accessToken != nil {
       completion(.Satisfied)

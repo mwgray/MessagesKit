@@ -10,7 +10,7 @@ import Foundation
 import PSOperations
 
 
-public class RequestAuthorizationOperation: MessageAPIOperation {
+class RequestAuthorizationOperation: MessageAPIOperation {
 
   
   let alias : String
@@ -23,7 +23,7 @@ public class RequestAuthorizationOperation: MessageAPIOperation {
   let signer : RTMsgSigner
   
   
-  public init(alias: String, deviceId: RTId, deviceName: String, api: MessageAPI) {
+  init(alias: String, deviceId: RTId, deviceName: String, api: MessageAPI) {
 
     self.alias = alias
     self.deviceId = deviceId
@@ -40,7 +40,7 @@ public class RequestAuthorizationOperation: MessageAPIOperation {
     addObserver(NetworkObserver())
   }
   
-  public override func execute() {
+  override func execute() {
     
     do {
 

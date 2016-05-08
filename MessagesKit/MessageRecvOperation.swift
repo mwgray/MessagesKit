@@ -14,7 +14,7 @@ import PSOperations
   Fetch message via API
 */
 
-@objc public class MessageRecvOperation: MessageAPIGroupOperation, MessageFetchContext {
+class MessageRecvOperation: MessageAPIGroupOperation, MessageFetchContext {
   
   
   var msgHdr : RTMsgHdr?
@@ -24,7 +24,7 @@ import PSOperations
   var encryptedData : DataReference?
   
   
-  public init(msgHdr: RTMsgHdr, api: MessageAPI) {
+  init(msgHdr: RTMsgHdr, api: MessageAPI) {
     
     self.msgHdr = msgHdr
     
@@ -53,7 +53,7 @@ import PSOperations
     [fetch, save].forEach { addOperation($0) }
   }
   
-  public init(msg: RTMsg, api: MessageAPI) {
+  init(msg: RTMsg, api: MessageAPI) {
     
     self.encryptedData = msg.data != nil ? MemoryDataReference(data: msg.data) : nil
     

@@ -10,7 +10,7 @@ import Foundation
 import PSOperations
 
 
-public enum Modal {}
-public typealias ModalCondition = MutuallyExclusive<Modal>
+enum Modal {}
+typealias ModalCondition = MutuallyExclusive<Modal>
 
-public typealias ViewHierarchyCondition = MutuallyExclusive<UIViewController>
+typealias ViewHierarchyCondition = MutuallyExclusive<UIViewController>

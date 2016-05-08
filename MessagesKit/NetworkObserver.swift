@@ -16,25 +16,25 @@ import PSOperations
   Shows the network activity indicator to appear as long
   as the operation to which it is attached is executing.
 */
-public struct NetworkObserver: OperationObserver {
+struct NetworkObserver: OperationObserver {
   
   // MARK: Initilization
   
-  public init() { }
+  init() { }
   
-  public func operationDidStart(operation: Operation) {
+  func operationDidStart(operation: Operation) {
     dispatch_async(dispatch_get_main_queue()) {
       NetworkIndicatorController.sharedIndicatorController.incrementUsage()
     }
   }
   
-  public func operationDidCancel(operation: Operation) {
+  func operationDidCancel(operation: Operation) {
   }
   
-  public func operation(operation: Operation, didProduceOperation newOperation: NSOperation) {
+  func operation(operation: Operation, didProduceOperation newOperation: NSOperation) {
   }
   
-  public func operationDidFinish(operation: Operation, errors: [NSError]) {
+  func operationDidFinish(operation: Operation, errors: [NSError]) {
     dispatch_async(dispatch_get_main_queue()) {
       NetworkIndicatorController.sharedIndicatorController.decrementUsage()
     }

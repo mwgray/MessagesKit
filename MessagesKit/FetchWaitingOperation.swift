@@ -9,23 +9,23 @@
 import Foundation
 
 
-public class FetchWaitingOperation: MessageAPIOperation {
+class FetchWaitingOperation: MessageAPIOperation {
   
   
-  public var total = 0
+  var total = 0
   
-  public override init(api: MessageAPI) {
+  override init(api: MessageAPI) {
     
     super.init(api: api)
     
     addCondition(RequireAuthorization(api: api))
   }
   
-  public override var resolveResult : Any {
+  override var resolveResult : Any {
     return total
   }
   
-  public override func execute() {
+  override func execute() {
     
     api.userAPI.fetchWaiting({ msgHdrs in
       

@@ -1,5 +1,5 @@
 //
-//  UpdateAccessToken.swift
+//  UpdateAccessTokenOperation.swift
 //  MessagesKit
 //
 //  Created by Kevin Wooten on 3/12/16.
@@ -11,21 +11,21 @@ import PSOperations
 import CocoaLumberjack
 
 
-public class UpdateAccessToken: Operation {
+class UpdateAccessTokenOperation: Operation {
   
   let api : MessageAPI
   
-  public init(api: MessageAPI) {
+  init(api: MessageAPI) {
 
     self.api = api
     
     super.init()
 
-    addCondition(MutuallyExclusive<UpdateAccessToken>())
+    addCondition(MutuallyExclusive<UpdateAccessTokenOperation>())
     addCondition(ReachabilityCondition(host: MessageAPI.target.publicURL))
   }
   
-  public override func execute() {
+  override func execute() {
     
     // No need to regenerate...
     if api.accessToken != nil {

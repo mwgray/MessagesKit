@@ -13,7 +13,7 @@ import PSOperations
 /**
   Retries an operation
 */
-public class RetryOperation: Operation {
+class RetryOperation: Operation {
   
   
   private let maxAttempts: UInt
@@ -29,7 +29,7 @@ public class RetryOperation: Operation {
   private var currentOperation : Operation?
   
   
-  public required init(maxAttempts: UInt, failureErrors: [String: Int?], generator: () -> Operation) {
+  required init(maxAttempts: UInt, failureErrors: [String: Int?], generator: () -> Operation) {
     
     self.maxAttempts = maxAttempts
     self.failureErrors = failureErrors
@@ -40,11 +40,11 @@ public class RetryOperation: Operation {
     internalQueue.delegate = self
   }
   
-  public convenience init(maxAttempts: UInt, generator: () -> Operation) {
+  convenience init(maxAttempts: UInt, generator: () -> Operation) {
     self.init(maxAttempts: maxAttempts, failureErrors: [String: Int?](), generator: generator)
   }
   
-  public convenience init(maxAttempts: UInt, retryBlock block: (Void -> Void) -> Void) {
+  convenience init(maxAttempts: UInt, retryBlock block: (Void -> Void) -> Void) {
     self.init(maxAttempts: maxAttempts, failureErrors: [String: Int?](), generator: {
       return BlockOperation(block: { completion in
         block(completion)
@@ -52,12 +52,12 @@ public class RetryOperation: Operation {
     })
   }
   
-  override public func cancel() {
+  override func cancel() {
     internalQueue.cancelAllOperations()
     super.cancel()
   }
   
-  override public func execute() {
+  override func execute() {
     currentOperation = generator()
     internalQueue.addOperation(currentOperation!)
   }
@@ -82,7 +82,7 @@ public class RetryOperation: Operation {
     return false
   }
   
-  override public var description : String {
+  override var description : String {
     return "Retry<" + (currentOperation?.description ?? "None") + ">"
   }
   
@@ -90,7 +90,7 @@ public class RetryOperation: Operation {
 
 extension RetryOperation: OperationQueueDelegate {
   
-  final public func operationQueue(operationQueue: OperationQueue, operationDidFinish operation: NSOperation, withErrors errors: [NSError]) {
+  final func operationQueue(operationQueue: OperationQueue, operationDidFinish operation: NSOperation, withErrors errors: [NSError]) {
 
     if errors.isEmpty {
       

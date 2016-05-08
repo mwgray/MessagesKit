@@ -13,7 +13,7 @@ import PSOperations
 /*
   Authorizes a device
 */
-public class AuthorizeDeviceOperation: MessageAPIOperation {
+class AuthorizeDeviceOperation: MessageAPIOperation {
   
   let signer : RTMsgSigner
   let cipher : RTMsgCipher
@@ -22,7 +22,7 @@ public class AuthorizeDeviceOperation: MessageAPIOperation {
   
   let pin = String(randomDigitsOfLength: 4)
   
-  public required init(request: RTAuthorizeRequest, api: MessageAPI) {
+  required init(request: RTAuthorizeRequest, api: MessageAPI) {
     
     self.signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
     self.cipher = RTMsgCipher.defaultCipher()
@@ -38,7 +38,7 @@ public class AuthorizeDeviceOperation: MessageAPIOperation {
     addObserver(NetworkObserver())
   }
   
-  public override func execute() {
+  override func execute() {
     
     do {
       

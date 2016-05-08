@@ -10,11 +10,11 @@ import Foundation
 import PSOperations
 
 
-public struct RequireAuthorization: OperationCondition {
+struct RequireAuthorization: OperationCondition {
   
-  public static let name = "RequireAuthorization"
+  static let name = "RequireAuthorization"
   
-  public static let isMutuallyExclusive = false
+  static let isMutuallyExclusive = false
   
   let api : MessageAPI
   
@@ -22,11 +22,11 @@ public struct RequireAuthorization: OperationCondition {
     self.api = api
   }
   
-  public func dependencyForOperation(operation: Operation) -> NSOperation? {
+  func dependencyForOperation(operation: Operation) -> NSOperation? {
     return nil
   }
   
-  public func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
+  func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
 
     if api.credentials.authorized {
       completion(.Satisfied)

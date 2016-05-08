@@ -14,22 +14,22 @@ import PSOperations
  errors. If any dependency has errors, either by finishing or cancelling, the 
  target operation will be cancelled as well.
  */
-public struct NoFailedDependencies: OperationCondition {
+struct NoFailedDependencies: OperationCondition {
   
-  public static let name = "NoFailedDependencies"
+  static let name = "NoFailedDependencies"
   
   static let failedDependenciesKey = "FailedDependencies"
   
-  public static let isMutuallyExclusive = false
+  static let isMutuallyExclusive = false
   
-  public init() {
+  init() {
   }
   
-  public func dependencyForOperation(operation: Operation) -> NSOperation? {
+  func dependencyForOperation(operation: Operation) -> NSOperation? {
     return nil
   }
   
-  public func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
+  func evaluateForOperation(operation: Operation, completion: OperationConditionResult -> Void) {
     
     // Verify that all of the dependencies executed.
     let failed = operation.dependencies.filter {

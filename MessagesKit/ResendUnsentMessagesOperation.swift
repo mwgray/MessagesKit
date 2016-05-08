@@ -1,5 +1,5 @@
 //
-//  ResendUnsentMessages.swift
+//  ResendUnsentMessagesOperation.swift
 //  MessagesKit
 //
 //  Created by Kevin Wooten on 4/23/16.
@@ -11,7 +11,7 @@ import PSOperations
 import CocoaLumberjack
 
 
-class ResendUnsentMessages: Operation {
+class ResendUnsentMessagesOperation: Operation {
   
   let api : MessageAPI
   

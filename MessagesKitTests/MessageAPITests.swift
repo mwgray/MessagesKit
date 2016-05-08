@@ -90,7 +90,7 @@ class MessageAPITest: XCTestCase {
     let msg = RTTextMessage(chat: chat)
     msg.text = "Hello World"
     
-    try api.saveMessage(msg)
+    api.saveMessage(msg)
       .always { x.fulfill() }
       .error { error in XCTFail("Send failed: \(error)") }
     
@@ -106,7 +106,7 @@ class MessageAPITest: XCTestCase {
     let msg = RTTextMessage(chat: chat)
     msg.sender = "asender"
     
-    try api.saveMessage(msg)
+    api.saveMessage(msg)
       .always { x.fulfill() }
       .then { XCTFail("Send should have failed") }
     
@@ -123,10 +123,10 @@ class MessageAPITest: XCTestCase {
     msg.text = "Hello World"
     
     firstly {
-      return try self.api.saveMessage(msg)
+      return self.api.saveMessage(msg)
     }
     .then {
-      return try self.api.updateMessage(msg)
+      return self.api.updateMessage(msg)
     }
     .always {
       x.fulfill()
@@ -147,7 +147,7 @@ class MessageAPITest: XCTestCase {
     let msg = RTTextMessage(chat: chat)
     msg.text = "Hello World"
     
-    try api.updateMessage(msg)
+    api.updateMessage(msg)
       .always { x.fulfill() }
       .then { XCTFail("Should have produced an error") }
     

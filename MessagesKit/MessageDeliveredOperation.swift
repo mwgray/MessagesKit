@@ -9,20 +9,20 @@
 import Foundation
 
 
-@objc public class MessageDeliveredOperation: MessageAPIOperation {
+class MessageDeliveredOperation: MessageAPIOperation {
   
   
   let msgId : RTId
   
   
-  public init(msgId: RTId, api: MessageAPI) {
+  init(msgId: RTId, api: MessageAPI) {
     
     self.msgId = msgId
   
     super.init(api: api)
   }
   
-  public override func execute() {
+  override func execute() {
     
     do {
       

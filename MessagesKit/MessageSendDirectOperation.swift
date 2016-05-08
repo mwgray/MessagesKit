@@ -13,7 +13,7 @@ import PSOperations
 /*
   Send direct message
 */
-@objc public class MessageSendDirectOperation : MessageAPIOperation {
+class MessageSendDirectOperation : MessageAPIOperation {
   
   
   let sender : String
@@ -27,7 +27,7 @@ import PSOperations
   let msgData : NSData?
   
   
-  public required init(sender: String, recipientDevices: [String: RTId], msgId: RTId?, msgType: String, msgData: NSData?, api: MessageAPI) {
+  required init(sender: String, recipientDevices: [String: RTId], msgId: RTId?, msgType: String, msgData: NSData?, api: MessageAPI) {
     self.sender = sender
     self.recipientDevices = recipientDevices
     self.msgId = msgId ?? RTId()
@@ -41,7 +41,7 @@ import PSOperations
     addObserver(NetworkObserver())
   }
   
-  public override func execute() {
+  override func execute() {
     
     do {
       
