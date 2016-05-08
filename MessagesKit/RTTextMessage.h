@@ -24,17 +24,16 @@ typedef NS_ENUM (int, RTTextMessageType) {
 @property (readonly, nonatomic) id data;
 
 @property (nonatomic) NSString *text;
+@property (nonatomic) NSData *html;
 
 -(instancetype) init NS_UNAVAILABLE;
 -(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat NS_UNAVAILABLE;
 
--(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data type:(RTTextMessageType)type NS_DESIGNATED_INITIALIZER;
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id)data type:(RTTextMessageType)type NS_DESIGNATED_INITIALIZER;
 -(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat text:(NSString *)text;
 -(instancetype) initWithChat:(RTChat *)chat text:(NSString *)text;
 -(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat html:(NSString *)html;
 -(instancetype) initWithChat:(RTChat *)chat html:(NSString *)html;
-
--(void) setData:(id)data withType:(RTTextMessageType)type;
 
 -(BOOL) isEquivalentToTextMessage:(RTTextMessage *)textMessage;
 

@@ -30,7 +30,7 @@
 
 @implementation RTTextMessage
 
--(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id<DataReference>)data type:(RTTextMessageType)type
+-(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat data:(id)data type:(RTTextMessageType)type
 {
   self = [super initWithId:id chat:chat];
   if (self) {
@@ -44,8 +44,7 @@
 
 -(instancetype) initWithId:(RTId *)id chat:(RTChat *)chat text:(NSString *)text
 {
-  MemoryDataReference *data = [MemoryDataReference.alloc initWithData:[text dataUsingEncoding:NSUTF8StringEncoding]];
-  return [self initWithId:id chat:chat data:data type:RTTextMessageType_Simple];
+  return [self initWithId:id chat:chat data:text type:RTTextMessageType_Simple];
 }
 
 -(instancetype) initWithChat:(RTChat *)chat text:(NSString *)text
@@ -153,8 +152,24 @@
 -(void) setText:(NSString *)text
 {
   [self setData:text withType:RTTextMessageType_Simple];
-
+  
   _cachedText = text;
+}
+
+-(NSData *) html
+{
+  switch (_type) {
+  case RTTextMessageType_Html:
+    return _data;
+      
+  case RTTextMessageType_Simple:
+    return [[[@"<html><body>" stringByAppendingString:_data] stringByAppendingString:@"</body></html>"] dataUsingEncoding:NSUTF8StringEncoding];
+  }
+}
+
+-(void) setHtml:(NSData *)html
+{
+  [self setData:html withType:RTTextMessageType_Html];
 }
 
 -(NSString *) alertText
@@ -172,12 +187,12 @@
   switch (_type) {
   case RTTextMessageType_Simple:
     *metaData = @{@"type":@"text/plain"};
-    *payloadData = [[MemoryDataReference alloc] initWithData:[self.data dataUsingEncoding:NSUTF8StringEncoding]];
+    *payloadData = [MemoryDataReference.alloc initWithData:[self.data dataUsingEncoding:NSUTF8StringEncoding]];
     break;
 
   case RTTextMessageType_Html:
     *metaData = @{@"type":@"text/html"};
-    *payloadData = [[MemoryDataReference alloc] initWithData:self.data];
+    *payloadData = [MemoryDataReference.alloc initWithData:self.data];
     break;
   }
   
@@ -186,20 +201,20 @@
 
 -(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
 {
-  self.type = [metaData[@"type"] isEqualToStringCI:@"text/html"] ? RTTextMessageType_Html : RTTextMessageType_Simple;
+  RTTextMessageType type = [metaData[@"type"] isEqualToStringCI:@"text/html"] ? RTTextMessageType_Html : RTTextMessageType_Simple;
   
   NSData *data = [DataReferences readAllDataFromReference:payloadData error:error];
   if (!data) {
     return NO;
   }
 
-  switch (self.type) {
+  switch (type) {
   case RTTextMessageType_Simple:
-    self.text = [NSString stringWithData:data encoding:NSUTF8StringEncoding];
+    [self setData:[NSString stringWithData:data encoding:NSUTF8StringEncoding] withType:RTTextMessageType_Simple];
     break;
 
   case RTTextMessageType_Html:
-    self.data = data;
+    [self setData:data withType:RTTextMessageType_Html];
     break;
   }
   

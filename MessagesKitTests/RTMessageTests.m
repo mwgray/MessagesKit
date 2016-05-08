@@ -486,7 +486,11 @@
 {
   RTTextMessage *msg = [self newTextMessage];
 
-  XCTAssertTrue([self payloadRoundtripForMessage:msg], @"Text message failed Payload roundtrip");
+  XCTAssertTrue([self payloadRoundtripForMessage:msg], @"Text message (simple) failed Payload roundtrip");
+  
+  msg.html = [@"Yo!" dataUsingEncoding:NSUTF8StringEncoding];
+  
+  XCTAssertTrue([self payloadRoundtripForMessage:msg], @"Text message (HTML) failed Payload roundtrip");
 }
 
 -(void) testImageMessagePayload
