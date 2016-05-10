@@ -11,16 +11,16 @@ import Foundation
 
 class SendMessageReceiptOperation: MessageAPIOperation {
   
-  let message : RTMessage
+  let message : Message
   
-  init(message: RTMessage, api: MessageAPI) {
+  init(message: Message, api: MessageAPI) {
     self.message = message
     super.init(api: api)
   }
   
   override func execute() {
     
-    if message.sentByMe || message is RTEnterMessage || message is RTExitMessage {
+    if message.sentByMe || message is EnterMessage || message is ExitMessage {
       // Skip... no need for these
       finish()
       return
@@ -28,7 +28,7 @@ class SendMessageReceiptOperation: MessageAPIOperation {
     
     let receipt = MessageSendSystemOperation(msgType: .View,
                                              chat: message.chat,
-                                             metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString()],
+                                             metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString()],
                                              target: .Standard,
                                              api: api)
     produceOperation(receipt)
@@ -39,9 +39,9 @@ class SendMessageReceiptOperation: MessageAPIOperation {
 
 class SendChatReceiptOperation: MessageAPIOperation {
   
-  let chat : RTChat
+  let chat : Chat
   
-  init(chat: RTChat, api: MessageAPI) {
+  init(chat: Chat, api: MessageAPI) {
     self.chat = chat
     super.init(api: api)
   }

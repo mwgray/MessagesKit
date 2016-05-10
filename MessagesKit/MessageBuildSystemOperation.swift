@@ -16,9 +16,9 @@ import PSOperations
 class MessageBuildSystemOperation: Operation {
   
   
-  let msgType : RTMsgType
+  let msgType : MsgType
   
-  let chat : RTChat
+  let chat : Chat
   
   let metaData : [String: String]
 
@@ -29,7 +29,7 @@ class MessageBuildSystemOperation: Operation {
   let api : MessageAPI
   
   
-  init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: SystemMsgTarget, transmitContext: MessageTransmitContext, api: MessageAPI) {
+  init(msgType: MsgType, chat: Chat, metaData: [String: String], target: SystemMsgTarget, transmitContext: MessageTransmitContext, api: MessageAPI) {
     
     self.msgType = msgType
     self.chat = chat
@@ -48,19 +48,19 @@ class MessageBuildSystemOperation: Operation {
     
     do {
       
-      let msgPack = RTMsgPack()
-      msgPack.id = RTId.generate()
+      let msgPack = MsgPack()
+      msgPack.id = Id.generate()
       msgPack.type = msgType
       msgPack.sender = chat.localAlias
       msgPack.metaData = (metaData as NSDictionary).mutableCopy() as! NSMutableDictionary
       
-      if let groupChat = chat as? RTGroupChat {
-        msgPack.chat = RTId(string: groupChat.alias)
+      if let groupChat = chat as? GroupChat {
+        msgPack.chat = Id(string: groupChat.alias)
       }
       
       // Add recipient envelopes
       
-      let signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
+      let signer = MsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
 
       msgPack.envelopes = []
       
@@ -83,7 +83,7 @@ class MessageBuildSystemOperation: Operation {
             continue
           }
           
-          let envelope = RTEnvelope(
+          let envelope = Envelope(
             recipient:recipient,
             key:nil,
             signature: try signer.signWithId(msgPack.id, type: msgType, sender: chat.localAlias, recipient: recipient, chatId: msgPack.chat, msgKey: nil),
@@ -98,7 +98,7 @@ class MessageBuildSystemOperation: Operation {
         
         // Add sender envelope (for CC)
         
-        let ccEnvelope = RTEnvelope(
+        let ccEnvelope = Envelope(
           recipient: chat.localAlias,
           key: nil,
           signature: try signer.signWithId(msgPack.id, type: msgType, sender: chat.localAlias, recipient: chat.localAlias, chatId: msgPack.chat, msgKey: nil),

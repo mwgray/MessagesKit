@@ -18,19 +18,19 @@ class MessageSendDirectOperation : MessageAPIOperation {
   
   let sender : String
   
-  let recipientDevices : [String: RTId]
+  let recipientDevices : [String: Id]
   
-  let msgId : RTId
+  let msgId : Id
   
   let msgType : String
   
   let msgData : NSData?
   
   
-  required init(sender: String, recipientDevices: [String: RTId], msgId: RTId?, msgType: String, msgData: NSData?, api: MessageAPI) {
+  required init(sender: String, recipientDevices: [String: Id], msgId: Id?, msgType: String, msgData: NSData?, api: MessageAPI) {
     self.sender = sender
     self.recipientDevices = recipientDevices
-    self.msgId = msgId ?? RTId()
+    self.msgId = msgId ?? Id()
     self.msgType = msgType
     self.msgData = msgData
     
@@ -47,7 +47,7 @@ class MessageSendDirectOperation : MessageAPIOperation {
       
       // Encrypt data (if present)
       
-      let cipher = RTMsgCipher.defaultCipher()
+      let cipher = MsgCipher.defaultCipher()
       
       var key : NSData?
       var encryptedData : NSData?
@@ -62,7 +62,7 @@ class MessageSendDirectOperation : MessageAPIOperation {
 
       // Make envelope for each recipient
       
-      var envelopes = [RTDirectEnvelope]()
+      var envelopes = [DirectEnvelope]()
       
       for (recipientAlias, recipientDeviceId) in recipientDevices {
         
@@ -72,13 +72,13 @@ class MessageSendDirectOperation : MessageAPIOperation {
 
         var encryptedKey : NSData?
         
-        let signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
+        let signer = MsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
         
         if let key = key {
           
-          let recipientKey : RTOpenSSLPublicKey
+          let recipientKey : OpenSSLPublicKey
           do {
-            recipientKey = try RTOpenSSLCertificate(DEREncodedData: recipientInfo.encryptionCert, validatedWithTrust: api.certificateTrust).publicKey
+            recipientKey = try OpenSSLCertificate(DEREncodedData: recipientInfo.encryptionCert, validatedWithTrust: api.certificateTrust).publicKey
           }
           catch {
             throw NSError(code: .InvalidRecipientCertificate, userInfo: ["alias":recipientAlias])
@@ -87,7 +87,7 @@ class MessageSendDirectOperation : MessageAPIOperation {
           encryptedKey = try recipientKey.encryptData(key)
         }
         
-        let envelope = RTDirectEnvelope(
+        let envelope = DirectEnvelope(
           recipient: recipientAlias,
           device: recipientDeviceId,
           key: encryptedKey,

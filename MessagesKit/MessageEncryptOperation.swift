@@ -18,7 +18,7 @@ class MessageEncryptOperation: Operation {
   
   var context : MessageBuildContext
   
-  let cipher = RTMsgCipher.defaultCipher()
+  let cipher = MsgCipher.defaultCipher()
   
   
   init(context: MessageBuildContext) {

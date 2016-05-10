@@ -15,19 +15,19 @@ FOUNDATION_EXPORT double MessagesKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char MessagesKitVersionString[];
 
 
-#import "RTMessages.h"
-#import "RTMessages+Exts.h"
+#import "Messages.h"
+#import "Messages+Exts.h"
 
-#import "RTDBManager.h"
+#import "DBManager.h"
 
-#import "RTDBCodeMigrations.h"
-#import "RTSQLBuilder.h"
-#import "RTFetchedResultsController.h"
+#import "DBCodeMigrations.h"
+#import "SQLBuilder.h"
+#import "FetchedResultsController.h"
 
-#import "RTDAO.h"
-#import "RTChatDAO.h"
-#import "RTMessageDAO.h"
-#import "RTNotificationDAO.h"
+#import "DAO.h"
+#import "ChatDAO.h"
+#import "MessageDAO.h"
+#import "NotificationDAO.h"
 
 #import "DataReference.h"
 #import "DataReferences.h"
@@ -35,52 +35,52 @@ FOUNDATION_EXPORT const unsigned char MessagesKitVersionString[];
 #import "FileDataReference.h"
 #import "MemoryDataReference.h"
 
-#import "RTModel.h"
-#import "RTMessage.h"
-#import "RTTextMessage.h"
-#import "RTAudioMessage.h"
-#import "RTImageMessage.h"
-#import "RTVideoMessage.h"
-#import "RTLocationMessage.h"
-#import "RTContactMessage.h"
-#import "RTConferenceMessage.h"
-#import "RTEnterMessage.h"
-#import "RTExitMessage.h"
-#import "RTNotification.h"
+#import "Model.h"
+#import "Message.h"
+#import "TextMessage.h"
+#import "AudioMessage.h"
+#import "ImageMessage.h"
+#import "VideoMessage.h"
+#import "LocationMessage.h"
+#import "ContactMessage.h"
+#import "ConferenceMessage.h"
+#import "EnterMessage.h"
+#import "ExitMessage.h"
+#import "Notification.h"
 
-#import "RTChat.h"
-#import "RTUserChat.h"
-#import "RTGroupChat.h"
+#import "Chat.h"
+#import "UserChat.h"
+#import "GroupChat.h"
 
-#import "RTRecipient.h"
+#import "Recipient.h"
 
-#import "RTServerAPI.h"
+#import "ServerAPI.h"
 
-#import "RTCredentials.h"
-#import "RTUserStatusInfo.h"
+#import "Credentials.h"
+#import "UserStatusInfo.h"
 
-#import "RTWebSocket.h"
+#import "WebSocket.h"
 
 
-#import "RTOpenSSLKeyPair.h"
-#import "RTOpenSSLCertificate.h"
-#import "RTOpenSSLCertificateSet.h"
-#import "RTOpenSSLCertificateValidator.h"
+#import "OpenSSLKeyPair.h"
+#import "OpenSSLCertificate.h"
+#import "OpenSSLCertificateSet.h"
+#import "OpenSSLCertificateValidator.h"
 
-#import "RTMsgSigner.h"
-#import "RTMsgCipher.h"
+#import "MsgSigner.h"
+#import "MsgCipher.h"
 
-#import "RTURLSessionSSLValidator.h"
-#import "NSURLSessionConfiguration+RTMessageAPI.h"
+#import "URLSessionSSLValidator.h"
+#import "NSURLSessionConfiguration+MessageAPI.h"
 
 #import "NSMutableURLRequest+Utils.h"
 #import "NSURL+Utils.h"
 #import "NSDate+Utils.h"
 #import "TBase+Utils.h"
 
-#import "RTReachability.h"
-#import "RTHTTPSessionTransportFactory.h"
+#import "NetworkConnectivity.h"
+#import "HTTPSessionTransportFactory.h"
 
-#import "RTSettings.h"
+#import "Settings.h"
 
 #import "MessageAPI+Compat.h"

@@ -42,11 +42,11 @@ class MessageBuildOperation: Operation {
       let message = buildContext.message
       
       let msgType = message.payloadType;
-      let chatId = message.chat.isGroup ? RTId(string: message.chat.alias) : nil
+      let chatId = message.chat.isGroup ? Id(string: message.chat.alias) : nil
       
-      var envelopes = [RTEnvelope]()
+      var envelopes = [Envelope]()
       
-      let signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
+      let signer = MsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
 
       if let key = buildContext.key {
         
@@ -54,9 +54,9 @@ class MessageBuildOperation: Operation {
         
         for (recipientAlias, recipientInfo) in buildContext.recipientInformation! {
           
-          let recipientKey : RTOpenSSLPublicKey
+          let recipientKey : OpenSSLPublicKey
           do {
-            recipientKey = try RTOpenSSLCertificate(DEREncodedData: recipientInfo.encryptionCert, validatedWithTrust: api.certificateTrust).publicKey
+            recipientKey = try OpenSSLCertificate(DEREncodedData: recipientInfo.encryptionCert, validatedWithTrust: api.certificateTrust).publicKey
           }
           catch {
             throw NSError(code: .InvalidRecipientCertificate, userInfo: ["alias":recipientAlias])
@@ -66,7 +66,7 @@ class MessageBuildOperation: Operation {
           let signature = try signer.signWithId(message.id, type: msgType, sender: message.sender!, recipient: recipientAlias, chatId: chatId, msgKey: encryptedKey)
           
           envelopes.append(
-            RTEnvelope(recipient: recipientAlias, key: encryptedKey, signature: signature, fingerprint: recipientInfo.fingerprint)
+            Envelope(recipient: recipientAlias, key: encryptedKey, signature: signature, fingerprint: recipientInfo.fingerprint)
           )
           
         }
@@ -77,7 +77,7 @@ class MessageBuildOperation: Operation {
         let ccSignature = try signer.signWithId(message.id, type: msgType, sender: message.sender!, recipient: message.chat.localAlias, chatId: chatId, msgKey: encryptedCCKey)
         
         envelopes.append(
-          RTEnvelope(recipient: message.chat.localAlias, key: encryptedCCKey, signature: ccSignature, fingerprint: nil)
+          Envelope(recipient: message.chat.localAlias, key: encryptedCCKey, signature: ccSignature, fingerprint: nil)
         )
         
       }
@@ -85,7 +85,7 @@ class MessageBuildOperation: Operation {
       // Fill out context
 
       transmitContext.msgPack =
-        RTMsgPack(
+        MsgPack(
           id: message.id,
           type: msgType,
           sender: message.sender,

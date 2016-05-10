@@ -8,7 +8,7 @@
 
 #import "FMResultSet+Utils.h"
 
-#import "RTMessages+Exts.h"
+#import "Messages+Exts.h"
 #import "BlobDataReference.h"
 #import "DataReferences.h"
 
@@ -16,19 +16,19 @@
 
 @interface DataReferenceInflater : NSObject <NSKeyedUnarchiverDelegate>
 
-@property(nonatomic, retain) RTDBManager *db;
+@property(nonatomic, retain) DBManager *db;
 @property(nonatomic, copy) NSString *owner;
 
--(instancetype) initWithDB:(RTDBManager *)db owner:(NSString *)owner;
+-(instancetype) initWithDB:(DBManager *)db owner:(NSString *)owner;
 
 @end
 
 
 @interface DataReferenceDeflater : NSObject <NSKeyedArchiverDelegate>
 
-@property(nonatomic, retain) RTDBManager *db;
+@property(nonatomic, retain) DBManager *db;
 
--(instancetype) initWithDB:(RTDBManager *)db;
+-(instancetype) initWithDB:(DBManager *)db;
 
 @end
 
@@ -49,16 +49,16 @@
   return val ? [NSURL URLWithString:val] : nil;
 }
 
--(RTId *) idForColumn:(NSString *)columnName
+-(Id *) idForColumn:(NSString *)columnName
 {
   NSData *val = [self dataForColumn:columnName];
-  return val ? [RTId idWithData:val] : nil;
+  return val ? [Id idWithData:val] : nil;
 }
 
--(RTId *) idForColumnIndex:(int)columnIdx
+-(Id *) idForColumnIndex:(int)columnIdx
 {
   NSData *val = [self dataForColumnIndex:columnIdx];
-  return val ? [RTId idWithData:val] : nil;
+  return val ? [Id idWithData:val] : nil;
 }
 
 -(CGSize) sizeForColumn:(NSString *)columnName
@@ -73,7 +73,7 @@
   return val ? CGSizeFromString(val) : CGSizeZero;
 }
 
--(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(RTDBManager *)db
+-(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(DBManager *)db
 {
   NSData *data = [self dataForColumn:columnName];
   if (!data) {
@@ -87,7 +87,7 @@
   return [ua decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 }
 
--(id<DataReference>) dataReferenceForColumnIndex:(int)columnIndex forOwner:(NSString *)owner usingDB:(RTDBManager *)db
+-(id<DataReference>) dataReferenceForColumnIndex:(int)columnIndex forOwner:(NSString *)owner usingDB:(DBManager *)db
 {
   NSData *data = [self dataForColumnIndex:columnIndex];
   if (!data) {
@@ -117,7 +117,7 @@
 
 @implementation DataReferenceInflater
 
--(instancetype) initWithDB:(RTDBManager *)db owner:(NSString *)owner
+-(instancetype) initWithDB:(DBManager *)db owner:(NSString *)owner
 {
   self = [self init];
   if (self) {
@@ -141,7 +141,7 @@
 
 @implementation DataReferenceDeflater
 
--(instancetype) initWithDB:(RTDBManager *)db
+-(instancetype) initWithDB:(DBManager *)db
 {
   self = [self init];
   if (self) {

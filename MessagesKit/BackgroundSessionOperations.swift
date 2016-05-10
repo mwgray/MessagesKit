@@ -60,19 +60,19 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
   
   var taskData = [Int: NSMutableData]()
   
-  let sslValidator : RTURLSessionSSLValidator
+  let sslValidator : URLSessionSSLValidator
   
   weak var api : MessageAPI?
   
-  let dao : RTMessageDAO
+  let dao : MessageDAO
   
   let queue: OperationQueue
   
   var operations = [Int: BackgroundSessionOperation]()
   
   
-  public init(trustedCertificates: [AnyObject], api: MessageAPI, dao: RTMessageDAO, queue: OperationQueue) {
-    self.sslValidator = RTURLSessionSSLValidator(trustedCertificates: trustedCertificates)
+  public init(trustedCertificates: [AnyObject], api: MessageAPI, dao: MessageDAO, queue: OperationQueue) {
+    self.sslValidator = URLSessionSSLValidator(trustedCertificates: trustedCertificates)
     self.api = api
     self.dao = dao
     self.queue = queue
@@ -83,11 +83,11 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
     operations[operation.taskIdentifier] = operation
   }
 
-  public func resurrectOperationsForSession(session: NSURLSession, withCompletion completion: ([RTId]) -> Void) {
+  public func resurrectOperationsForSession(session: NSURLSession, withCompletion completion: ([Id]) -> Void) {
     
     session.getTasksWithCompletionHandler { dataTasks, uploadTasks, downloadTasks in
       
-      var backgroundTransferringMessageIds = [RTId]()
+      var backgroundTransferringMessageIds = [Id]()
       
       for upload in (uploadTasks as [NSURLSessionUploadTask]) {
         
@@ -101,8 +101,8 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
             
             do {
               
-              if let msgInfoHeader = request.allHTTPHeaderFields?[RTMsgInfoHTTPHeader],
-                let msgPack = try TBaseUtils.deserialize(RTMsgPack(), fromBase64String: msgInfoHeader) as? RTMsgPack,
+              if let msgInfoHeader = request.allHTTPHeaderFields?[MsgInfoHTTPHeader],
+                let msgPack = try TBaseUtils.deserialize(MsgPack(), fromBase64String: msgInfoHeader) as? MsgPack,
                 let api = self.api {
                 
                   backgroundTransferringMessageIds.append(msgPack.id)
@@ -138,7 +138,7 @@ public protocol BackgroundSessionDownloadOperation: BackgroundSessionOperation {
           if request.URL?.path == MessageAPI.target.userFetchURL.path {
             
             if let msgIdParam = request.URL?.queryValues()["id"],
-              let msgId = RTId(string: msgIdParam)
+              let msgId = Id(string: msgIdParam)
             {
               
               backgroundTransferringMessageIds.append(msgId)

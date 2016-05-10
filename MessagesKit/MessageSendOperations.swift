@@ -18,17 +18,17 @@ import Thrift
 */
 class MessageSendBaseOperation: MessageAPIGroupOperation, MessageContext, MessageResolveContext, MessageTransmitContext {
   
-  let message : RTMessage
-  var recipientInformation : [String: RTUserInfo]?
+  let message : Message
+  var recipientInformation : [String: UserInfo]?
   var encryptedData : DataReference?
-  var msgPack : RTMsgPack?
-  var sentAt : RTTimeStamp?
+  var msgPack : MsgPack?
+  var sentAt : TimeStamp?
   
   var recipients : Set<String> {
     return message.chat.activeRecipients
   }
   
-  init(message: RTMessage, api: MessageAPI) {
+  init(message: Message, api: MessageAPI) {
     
     self.message = message
     
@@ -84,7 +84,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
   var key : NSData?
   
   
-  internal required override init(message: RTMessage, api: MessageAPI) {
+  internal required override init(message: Message, api: MessageAPI) {
     
     super.init(message: message, api: api)
     
@@ -151,7 +151,7 @@ class MessageSendOperation: MessageSendBaseOperation, MessageBuildContext {
 */
 class MessageSendResurrectedOperation: MessageSendBaseOperation {
   
-  required init(msgPack: RTMsgPack, task: NSURLSessionUploadTask, api: MessageAPI) throws {
+  required init(msgPack: MsgPack, task: NSURLSessionUploadTask, api: MessageAPI) throws {
     
     super.init(message: try api.messageDAO.fetchMessageWithId(msgPack.id)!, api: api)
     

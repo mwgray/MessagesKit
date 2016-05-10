@@ -82,7 +82,7 @@ class MessageFetchHTTPOperation: Operation {
     let request = NSMutableURLRequest(URL: fetchURL)
     request.HTTPMethod = "GET";
     request.addHTTPBearerAuthorizationWithToken(api.accessToken)
-    request.setValue(RTOctetStreamContentType, forHTTPHeaderField: RTAcceptHTTPHeader)
+    request.setValue(OctetStreamContentType, forHTTPHeaderField: AcceptHTTPHeader)
     
     task = api.backgroundURLSession.downloadTaskWithRequest(request)
     
@@ -111,8 +111,8 @@ extension MessageFetchHTTPOperation: BackgroundSessionDownloadOperation {
 
       // Deserialize the Msg-Info header
       
-      if let msgInfoHeader = response.allHeaderFields[RTMsgInfoHTTPHeader] as? String,
-        let msg = try TBaseUtils.deserialize(RTMsg(), fromBase64String:msgInfoHeader) as? RTMsg
+      if let msgInfoHeader = response.allHeaderFields[MsgInfoHTTPHeader] as? String,
+        let msg = try TBaseUtils.deserialize(Msg(), fromBase64String:msgInfoHeader) as? Msg
       {
         context.msg = msg
       }

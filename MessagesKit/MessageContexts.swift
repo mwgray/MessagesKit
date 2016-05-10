@@ -13,21 +13,21 @@ protocol MessageResolveContext {
   
   var recipients : Set<String> { get }
 
-  var recipientInformation : [String: RTUserInfo]? { get set }
+  var recipientInformation : [String: UserInfo]? { get set }
   
 }
 
 
 protocol MessageContext {
   
-  var message : RTMessage { get }
+  var message : Message { get }
   
 }
 
 
 protocol MessageBuildContext : MessageContext {
   
-  var recipientInformation : [String: RTUserInfo]? { get set }
+  var recipientInformation : [String: UserInfo]? { get set }
   
   var metaData : NSDictionary? { get set }
   
@@ -40,18 +40,18 @@ protocol MessageBuildContext : MessageContext {
 
 protocol MessageTransmitContext {
   
-  var msgPack : RTMsgPack? { get set }
+  var msgPack : MsgPack? { get set }
   
   var encryptedData : DataReference? { get set }
   
-  var sentAt : RTTimeStamp? { get set }
+  var sentAt : TimeStamp? { get set }
   
 }
 
 
 protocol MessageSaveContext {
     
-  var msg : RTMsg? { get set }
+  var msg : Msg? { get set }
   
   var encryptedData : DataReference? { get set }
   
@@ -59,6 +59,6 @@ protocol MessageSaveContext {
 
 protocol MessageFetchContext : MessageSaveContext {
   
-  var msgHdr : RTMsgHdr? { get }
+  var msgHdr : MsgHdr? { get }
   
 }

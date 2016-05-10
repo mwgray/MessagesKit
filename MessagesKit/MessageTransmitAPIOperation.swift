@@ -18,10 +18,10 @@ class MessageTransmitAPIOperation: Operation {
   
   var context: MessageTransmitContext
   
-  var userAPI: RTUserAPIAsync
+  var userAPI: UserAPIAsync
 
   
-  init(context: MessageTransmitContext, userAPI: RTUserAPIAsync) {
+  init(context: MessageTransmitContext, userAPI: UserAPIAsync) {
     
     self.context = context
     self.userAPI = userAPI
@@ -50,7 +50,7 @@ class MessageTransmitAPIOperation: Operation {
     
     userAPI.send(context.msgPack, response: { sentAt in
       
-      self.context.sentAt = sentAt as RTTimeStamp
+      self.context.sentAt = sentAt as TimeStamp
       
       self.finish()
       

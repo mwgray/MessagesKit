@@ -7,7 +7,7 @@
 //
 
 #import "DataReference.h"
-#import "RTDBManager.h"
+#import "DBManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,14 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BlobDataReference : NSObject <DataReference>
 
-@property(retain, nonatomic) RTDBManager *db;
+@property(retain, nonatomic) DBManager *db;
 @property(copy, nonatomic) NSString *owner;
 
 @property(readonly, nonatomic) NSString *dbName;
 @property(readonly, nonatomic) NSString *tableName;
 @property(readonly, nonatomic) SInt64 blobId;
 
-+(nullable instancetype) copyFrom:(id<DataReference>)source toOwner:(NSString *)owner forTable:(NSString *)tableName inDatabase:(NSString *)dbName using:(RTDBManager *)db filteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error;
++(nullable instancetype) copyFrom:(id<DataReference>)source toOwner:(NSString *)owner forTable:(NSString *)tableName inDatabase:(NSString *)dbName using:(DBManager *)db filteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error;
 
 @end
 

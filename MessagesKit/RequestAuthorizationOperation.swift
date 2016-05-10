@@ -15,22 +15,22 @@ class RequestAuthorizationOperation: MessageAPIOperation {
   
   let alias : String
   
-  let deviceId : RTId
+  let deviceId : Id
   
   let deviceName : String
   
-  let cipher : RTMsgCipher
-  let signer : RTMsgSigner
+  let cipher : MsgCipher
+  let signer : MsgSigner
   
   
-  init(alias: String, deviceId: RTId, deviceName: String, api: MessageAPI) {
+  init(alias: String, deviceId: Id, deviceName: String, api: MessageAPI) {
 
     self.alias = alias
     self.deviceId = deviceId
     self.deviceName = deviceName
     
-    self.cipher = RTMsgCipher.defaultCipher()
-    self.signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
+    self.cipher = MsgCipher.defaultCipher()
+    self.signer = MsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
 
     super.init(api: api)
     
@@ -54,7 +54,7 @@ class RequestAuthorizationOperation: MessageAPIOperation {
       
       // Build authorization request
       
-      let request = RTAuthorizeRequest(
+      let request = AuthorizeRequest(
         deviceId: deviceId,
         deviceName: deviceName,
         deviceEncryptionCert: api.credentials.encryptionIdentity.certificate.encoded,
@@ -69,9 +69,9 @@ class RequestAuthorizationOperation: MessageAPIOperation {
       let key = try cipher.randomKey()
       let encryptedRequestData = try cipher.encryptData(requestData, withKey: key)
       
-      let id = RTId.generate()
+      let id = Id.generate()
       
-      let userEncryptionCert = try RTOpenSSLCertificate(DEREncodedData: userInfo.encryptionCert, validatedWithTrust: api.certificateTrust)
+      let userEncryptionCert = try OpenSSLCertificate(DEREncodedData: userInfo.encryptionCert, validatedWithTrust: api.certificateTrust)
       
       let encryptedKey = try userEncryptionCert.publicKey.encryptData(key)
       
@@ -79,11 +79,11 @@ class RequestAuthorizationOperation: MessageAPIOperation {
       
       // Assemble & send message
       
-      let msg = RTMsgPack(
+      let msg = MsgPack(
         id: id,
         type: .Authorize,
         sender: api.credentials.preferredAlias,
-        envelopes: [RTEnvelope(recipient: api.credentials.preferredAlias, key: encryptedKey, signature: signature, fingerprint: nil)],
+        envelopes: [Envelope(recipient: api.credentials.preferredAlias, key: encryptedKey, signature: signature, fingerprint: nil)],
         chat: nil,
         metaData: nil,
         data: encryptedRequestData)

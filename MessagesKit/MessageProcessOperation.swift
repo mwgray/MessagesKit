@@ -45,12 +45,12 @@ class MessageProcessOperation: Operation {
     
   }
   
-  func lookupChatWithMsg(msg: RTMsg) throws -> RTChat? {
+  func lookupChatWithMsg(msg: Msg) throws -> Chat? {
     
     let chatAlias : String, chatLocalAlias : String
     
     // Sender/Recipient swapped in CC messages
-    let isCC = (msg.flags & RTMsgFlagCC) == RTMsgFlagCC    
+    let isCC = (msg.flags & MsgFlagCC) == MsgFlagCC    
     if isCC {
 
       // CC only messages have the same sender & recipients
@@ -92,50 +92,50 @@ class MessageProcessOperation: Operation {
     
   }
   
-  func messageClassForMsgType(msgType: RTMsgType) -> RTMessage.Type? {
+  func messageClassForMsgType(msgType: MsgType) -> Message.Type? {
     
     switch msgType {
     case .Text:
-      return RTTextMessage.self
+      return TextMessage.self
       
     case .Image:
-      return RTImageMessage.self
+      return ImageMessage.self
       
     case .Audio:
-      return RTAudioMessage.self
+      return AudioMessage.self
       
     case .Video:
-      return RTVideoMessage.self
+      return VideoMessage.self
       
     case .Location:
-      return RTLocationMessage.self
+      return LocationMessage.self
       
     case .Contact:
-      return RTContactMessage.self
+      return ContactMessage.self
       
     case .Enter:
-      return RTEnterMessage.self
+      return EnterMessage.self
       
     case .Exit:
-      return RTExitMessage.self
+      return ExitMessage.self
       
     case .Conference:
-      return RTConferenceMessage.self
+      return ConferenceMessage.self
       
     default:
-      DDLogError("MessageProcessOperation: Unknow RTMsgType, cannot provide class")
+      DDLogError("MessageProcessOperation: Unknow MsgType, cannot provide class")
       return nil
     }
     
   }
   
-  func parseMsg(msg: RTMsg, forChat chat: RTChat, decryptedData: DataReference?) throws -> RTMessage? {
+  func parseMsg(msg: Msg, forChat chat: Chat, decryptedData: DataReference?) throws -> Message? {
     
     if let messageClass = messageClassForMsgType(msg.type) {
 
       let prevMessage = try api.messageDAO.fetchMessageWithId(msg.id)
         
-      var message : RTMessage
+      var message : Message
       
       if prevMessage?.isKindOfClass(messageClass) ?? false {
         message = prevMessage!
@@ -192,7 +192,7 @@ class MessageProcessOperation: Operation {
         
         guard
           let msgIdVal = msg.metaData["msgId"] as? String,
-          let msgId = RTId(string: msgIdVal)
+          let msgId = Id(string: msgIdVal)
         else {
           DDLogError("MessageProcessOperation: Delete: missing or invalid msgId")
           break
@@ -236,7 +236,7 @@ class MessageProcessOperation: Operation {
       
       guard
         let msgIdVal = msg.metaData["msgId"] as? String,
-        let msgId = RTId(string: msgIdVal)
+        let msgId = Id(string: msgIdVal)
       else {
         DDLogError("MessageProcessOperation: Clarify: missing or invalid msgId")
         break
@@ -252,7 +252,7 @@ class MessageProcessOperation: Operation {
 
       let previouslyUnread = message.unreadFlag
       
-      var flags : RTMessageFlags = .Clarify
+      var flags : MessageFlags = .Clarify
       
       if !api.isChatActive(chat) {
         flags.insert(.Unread)
@@ -284,7 +284,7 @@ class MessageProcessOperation: Operation {
       
       guard
         let msgIdVal = msg.metaData["msgId"] as? String,
-        let msgId = RTId(string: msgIdVal)
+        let msgId = Id(string: msgIdVal)
       else {
         DDLogError("MessageProcessOperation: View: missing or invalid msgId")
         break
@@ -296,7 +296,7 @@ class MessageProcessOperation: Operation {
       
       try api.messageDAO.updateMessage(message, withStatus: .Viewed, timestamp:NSDate(millisecondsSince1970: msg.sent))
 
-      let isCC = (msg.flags & RTMsgFlagCC) == RTMsgFlagCC
+      let isCC = (msg.flags & MsgFlagCC) == MsgFlagCC
       if isCC {
         try api.hideNotificationForMessage(message)
       }
@@ -320,7 +320,7 @@ class MessageProcessOperation: Operation {
       
       let key = try api.credentials.encryptionIdentity.privateKey.decryptData(encryptedKey)
       
-      let cipher = RTMsgCipher(forKey: key)
+      let cipher = MsgCipher(forKey: key)
       
       let data = try encryptedData.temporaryDuplicate { inStream, outStream in
         try cipher.decryptFromStream(inStream, toStream: outStream, withKey: key)
@@ -331,22 +331,22 @@ class MessageProcessOperation: Operation {
       }
       
       // Deserialize request data
-      guard let request = try TBaseUtils.deserialize(RTAuthorizeRequest(), fromData: try DataReferences.readAllDataFromReference(data)) as? RTAuthorizeRequest else {
+      guard let request = try TBaseUtils.deserialize(AuthorizeRequest(), fromData: try DataReferences.readAllDataFromReference(data)) as? AuthorizeRequest else {
         DDLogError("MessageProcessOperation: Authorize: unable to deserialize request")
         break
       }
       
       // Verify signature
       
-      let deviceSigningKey : RTOpenSSLPublicKey
+      let deviceSigningKey : OpenSSLPublicKey
       do {
-        deviceSigningKey = try RTOpenSSLCertificate(DEREncodedData: request.deviceSigningCert, validatedWithTrust: api.certificateTrust).publicKey
+        deviceSigningKey = try OpenSSLCertificate(DEREncodedData: request.deviceSigningCert, validatedWithTrust: api.certificateTrust).publicKey
       }
       catch {
         throw NSError(code: .InvalidRecipientCertificate, userInfo: ["alias":msg.sender])
       }
 
-      let signer = RTMsgSigner(publicKey: deviceSigningKey, signature: msg.signature)
+      let signer = MsgSigner(publicKey: deviceSigningKey, signature: msg.signature)
       
       if try signer.verifyMsg(msg) == false {
         DDLogError("MessageProcessOperation: Authorize: invalid signature")
@@ -384,7 +384,7 @@ class MessageProcessOperation: Operation {
         
         key = try api.credentials.encryptionIdentity.privateKey.decryptData(encryptedKey)
         
-        let cipher = RTMsgCipher(forKey: key!)
+        let cipher = MsgCipher(forKey: key!)
         
         data = try encryptedData.temporaryDuplicate { inStream, outStream in
           try cipher.decryptFromStream(inStream, toStream: outStream, withKey: key!)
@@ -453,7 +453,7 @@ class MessageProcessOperation: Operation {
       
       if msg.type == .Enter || msg.type == .Exit {
         
-        if let groupChat = chat as? RTGroupChat, let memberAlias = msg.metaData["member"] as? String {
+        if let groupChat = chat as? GroupChat, let memberAlias = msg.metaData["member"] as? String {
           
           if msg.type == .Enter {
             try api.chatDAO.updateChat(groupChat, addGroupMember: memberAlias)
@@ -495,7 +495,7 @@ class MessageProcessOperation: Operation {
       
   }
   
-  func signalMessage(message: RTMessage, wasPreviouslyUnread previouslyUnread: Bool) throws {
+  func signalMessage(message: Message, wasPreviouslyUnread previouslyUnread: Bool) throws {
     
     // Play alert if the message's chat is currently active or no chat is active
     
@@ -525,13 +525,13 @@ class MessageProcessOperation: Operation {
   }
   
   
-  func verifyMsg(msg: RTMsg) throws -> Bool {
+  func verifyMsg(msg: Msg) throws -> Bool {
     
     if let signingCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
       
-      let signingKey = try RTOpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
+      let signingKey = try OpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
       
-      if try RTMsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg) {
+      if try MsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg) {
         return true
       }
       
@@ -539,9 +539,9 @@ class MessageProcessOperation: Operation {
         
       if let refreshedSigningCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
 
-        let signingKey = try RTOpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
+        let signingKey = try OpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
         
-        return try RTMsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg)
+        return try MsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg)
         
       }
       
@@ -550,15 +550,15 @@ class MessageProcessOperation: Operation {
     return false
   }
 
-  func playReceivedAlertForMessage(message: RTMessage) {
+  func playReceivedAlertForMessage(message: Message) {
     
     if message.soundAlert == .None {
       return
     }
 
     //FIXME
-//    let sound = message.clarifyFlag ? RTSound_Message_Clarify : (message.updated != nil ? RTSound_Message_Update : RTSound_Message_Receive)
-//    RTAppDelegate.playSound(sound, alert: true)
+//    let sound = message.clarifyFlag ? Sound_Message_Clarify : (message.updated != nil ? Sound_Message_Update : Sound_Message_Receive)
+//    AppDelegate.playSound(sound, alert: true)
     
   }
   

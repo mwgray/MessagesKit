@@ -20,10 +20,10 @@ class MessageFinishOperation: Operation {
   
   let transmitContext : MessageTransmitContext
   
-  let dao: RTMessageDAO
+  let dao: MessageDAO
   
   
-  init(messageContext: MessageContext, transmitContext: MessageTransmitContext, dao: RTMessageDAO) {
+  init(messageContext: MessageContext, transmitContext: MessageTransmitContext, dao: MessageDAO) {
     
     self.messageContext = messageContext
     self.transmitContext = transmitContext
@@ -37,7 +37,7 @@ class MessageFinishOperation: Operation {
   override func execute() {
     
     //FIXME
-    //RTAppDelegate.playSound(RTSound_Message_Send, alert: false);
+    //AppDelegate.playSound(Sound_Message_Send, alert: false);
     
     // Update sent only if the message has never been sent before
     if (messageContext.message.updated == nil) {
@@ -46,7 +46,7 @@ class MessageFinishOperation: Operation {
     
     // Ensure we don't overwrite "Delivered" or "Viewed"
     // statuses if they were sent very fast
-    if (messageContext.message.status.rawValue <= RTMessageStatus.Sent.rawValue) {
+    if (messageContext.message.status.rawValue <= MessageStatus.Sent.rawValue) {
       try! dao.updateMessage(messageContext.message, withStatus:.Sent);
     }
     

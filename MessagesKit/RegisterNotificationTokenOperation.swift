@@ -14,11 +14,11 @@ import CocoaLumberjack
 class RegisterNotificationTokenOperation: Operation {
   
   let api : MessageAPI
-  let type : RTNotificationType
+  let type : NotificationType
   let token : NSData
   
   
-  init(token: NSData, type: RTNotificationType, api: MessageAPI) {
+  init(token: NSData, type: NotificationType, api: MessageAPI) {
     
     self.api = api
     self.type = type

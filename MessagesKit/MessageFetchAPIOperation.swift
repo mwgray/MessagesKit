@@ -15,10 +15,10 @@ class MessageFetchAPIOperation: Operation {
   
   var context : MessageFetchContext
   
-  let api : RTUserAPIAsync
+  let api : UserAPIAsync
  
   
-  init(context: MessageFetchContext, api: RTUserAPIAsync) {
+  init(context: MessageFetchContext, api: UserAPIAsync) {
     
     self.context = context
     self.api = api

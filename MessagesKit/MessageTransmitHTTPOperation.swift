@@ -97,10 +97,10 @@ class MessageTransmitHTTPOperation: Operation {
     let request = NSMutableURLRequest(URL: MessageAPI.target.userSendURL)
     request.HTTPMethod = "POST";
     request.addHTTPBearerAuthorizationWithToken(api.accessToken)
-    request.setValue(RTOctetStreamContentType, forHTTPHeaderField: RTContentTypeHTTPHeader)
-    request.setValue(RTThriftContentType, forHTTPHeaderField: RTAcceptHTTPHeader)
-    request.setValue("\(try context.encryptedData!.dataSize())", forHTTPHeaderField: RTContentLengthHTTPHeader)
-    request.setValue(msgInfo, forHTTPHeaderField: RTMsgInfoHTTPHeader)
+    request.setValue(OctetStreamContentType, forHTTPHeaderField: ContentTypeHTTPHeader)
+    request.setValue(ThriftContentType, forHTTPHeaderField: AcceptHTTPHeader)
+    request.setValue("\(try context.encryptedData!.dataSize())", forHTTPHeaderField: ContentLengthHTTPHeader)
+    request.setValue(msgInfo, forHTTPHeaderField: MsgInfoHTTPHeader)
     
     // Generate file for uploading
     //
@@ -154,11 +154,11 @@ extension MessageTransmitHTTPOperation: BackgroundSessionUploadOperation {
     
     do {
       
-      let resultClass = NSClassFromString("RTUserAPI_send_result") as! NSObject.Type
+      let resultClass = NSClassFromString("UserAPI_send_result") as! NSObject.Type
 
       if let result = try TBaseUtils.deserialize(resultClass.init() as! TBase, fromData: data) as? NSObject {
       
-        if let sentAt = result.valueForKey("success") as? RTTimeStamp {
+        if let sentAt = result.valueForKey("success") as? TimeStamp {
         
           context.sentAt = sentAt
         
@@ -169,13 +169,13 @@ extension MessageTransmitHTTPOperation: BackgroundSessionUploadOperation {
         }
         else {
         
-          if let ex = result.valueForKey("invalidSender") as? RTInvalidSender {
+          if let ex = result.valueForKey("invalidSender") as? InvalidSender {
             throw ex
           }
-          else if let ex = result.valueForKey("invalidRecipient") as? RTInvalidRecipient {
+          else if let ex = result.valueForKey("invalidRecipient") as? InvalidRecipient {
             throw ex
           }
-          else if let ex = result.valueForKey("invalidCredentials") as? RTInvalidCredentials {
+          else if let ex = result.valueForKey("invalidCredentials") as? InvalidCredentials {
             throw ex
           }
           else {

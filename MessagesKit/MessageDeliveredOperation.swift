@@ -12,10 +12,10 @@ import Foundation
 class MessageDeliveredOperation: MessageAPIOperation {
   
   
-  let msgId : RTId
+  let msgId : Id
   
   
-  init(msgId: RTId, api: MessageAPI) {
+  init(msgId: Id, api: MessageAPI) {
     
     self.msgId = msgId
   
@@ -28,7 +28,7 @@ class MessageDeliveredOperation: MessageAPIOperation {
       
       if let deliveredMessage = try api.messageDAO.fetchMessageWithId(msgId) {
       
-        if (deliveredMessage.status.rawValue > RTMessageStatus.Delivered.rawValue) {
+        if (deliveredMessage.status.rawValue > MessageStatus.Delivered.rawValue) {
           return;
         }
       

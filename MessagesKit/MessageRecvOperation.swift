@@ -17,14 +17,14 @@ import PSOperations
 class MessageRecvOperation: MessageAPIGroupOperation, MessageFetchContext {
   
   
-  var msgHdr : RTMsgHdr?
+  var msgHdr : MsgHdr?
   
-  var msg : RTMsg?
+  var msg : Msg?
   
   var encryptedData : DataReference?
   
   
-  init(msgHdr: RTMsgHdr, api: MessageAPI) {
+  init(msgHdr: MsgHdr, api: MessageAPI) {
     
     self.msgHdr = msgHdr
     
@@ -53,7 +53,7 @@ class MessageRecvOperation: MessageAPIGroupOperation, MessageFetchContext {
     [fetch, save].forEach { addOperation($0) }
   }
   
-  init(msg: RTMsg, api: MessageAPI) {
+  init(msg: Msg, api: MessageAPI) {
     
     self.encryptedData = msg.data != nil ? MemoryDataReference(data: msg.data) : nil
     

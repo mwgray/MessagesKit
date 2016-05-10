@@ -15,17 +15,17 @@ import PSOperations
 */
 class AuthorizeDeviceOperation: MessageAPIOperation {
   
-  let signer : RTMsgSigner
-  let cipher : RTMsgCipher
+  let signer : MsgSigner
+  let cipher : MsgCipher
 
-  let request : RTAuthorizeRequest
+  let request : AuthorizeRequest
   
   let pin = String(randomDigitsOfLength: 4)
   
-  required init(request: RTAuthorizeRequest, api: MessageAPI) {
+  required init(request: AuthorizeRequest, api: MessageAPI) {
     
-    self.signer = RTMsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
-    self.cipher = RTMsgCipher.defaultCipher()
+    self.signer = MsgSigner.defaultSignerWithKeyPair(api.credentials.signingIdentity.keyPair)
+    self.cipher = MsgCipher.defaultCipher()
 
     self.request = request
     
@@ -44,7 +44,7 @@ class AuthorizeDeviceOperation: MessageAPIOperation {
       
       // Build keyset
       
-      let keySet = RTKeySet(
+      let keySet = KeySet(
         encryptionKeyPair: try api.credentials.encryptionIdentity.exportPKCS12WithPassphrase(pin),
         signingKeyPair: try api.credentials.signingIdentity.exportPKCS12WithPassphrase(pin)
       )
@@ -58,11 +58,11 @@ class AuthorizeDeviceOperation: MessageAPIOperation {
 
       // Generate message signature
       
-      let id = RTId.generate()
+      let id = Id.generate()
       
-      let deviceEncryptionKey : RTOpenSSLPublicKey
+      let deviceEncryptionKey : OpenSSLPublicKey
       do {
-        deviceEncryptionKey = try RTOpenSSLCertificate(DEREncodedData: request.deviceEncryptionCert, validatedWithTrust: api.certificateTrust).publicKey
+        deviceEncryptionKey = try OpenSSLCertificate(DEREncodedData: request.deviceEncryptionCert, validatedWithTrust: api.certificateTrust).publicKey
       }
       catch {
         throw MessageAPIError.InvalidRecipientCertificate
@@ -74,7 +74,7 @@ class AuthorizeDeviceOperation: MessageAPIOperation {
       
       // Send message
       
-      let envelope = RTDirectEnvelope(recipient: api.credentials.preferredAlias, device: request.deviceId, key: encryptedKey, signature: signature, fingerprint: nil)
+      let envelope = DirectEnvelope(recipient: api.credentials.preferredAlias, device: request.deviceId, key: encryptedKey, signature: signature, fingerprint: nil)
       
       api.userAPI.sendDirect(id, msgType: MessageAPIDirectMessageMsgTypeKeySet, msgData: encryptedKeySetData, sender: api.credentials.preferredAlias, envelopes: [envelope], response: {
         

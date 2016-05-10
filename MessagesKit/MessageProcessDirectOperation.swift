@@ -12,10 +12,10 @@ import CocoaLumberjack
 
 class MessageProcessDirectOperation: MessageAPIOperation {
   
-  let msg : RTDirectMsg
+  let msg : DirectMsg
   
   
-  init(msg: RTDirectMsg, api: MessageAPI) {
+  init(msg: DirectMsg, api: MessageAPI) {
     
     self.msg = msg
     
@@ -45,7 +45,7 @@ class MessageProcessDirectOperation: MessageAPIOperation {
     
       let key = try api.credentials.encryptionIdentity.privateKey.decryptData(msg.key)
 
-      let data = try RTMsgCipher(forKey: key).decryptData(msg.data, withKey: key)
+      let data = try MsgCipher(forKey: key).decryptData(msg.data, withKey: key)
       
       let userInfo = [
         MessageAPIDirectMessageReceivedNotification_MsgIdKey: msg.id,
@@ -72,9 +72,9 @@ class MessageProcessDirectOperation: MessageAPIOperation {
     
     if let signingCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
       
-      let signingKey = try RTOpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
+      let signingKey = try OpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
         
-      let signer = RTMsgSigner(publicKey: signingKey, signature: msg.signature)
+      let signer = MsgSigner(publicKey: signingKey, signature: msg.signature)
       
       if try signer.verifyDirectMsg(msg, forDevice: api.credentials.deviceId) {
         return true
@@ -84,9 +84,9 @@ class MessageProcessDirectOperation: MessageAPIOperation {
       
       if let refreshedSigningCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
         
-        let signingKey = try RTOpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
+        let signingKey = try OpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
         
-        let signer = RTMsgSigner(publicKey: signingKey, signature: msg.signature)
+        let signer = MsgSigner(publicKey: signingKey, signature: msg.signature)
         
         return try signer.verifyDirectMsg(msg, forDevice: api.credentials.deviceId)
         

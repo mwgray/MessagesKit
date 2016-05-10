@@ -35,10 +35,10 @@ class PersistentCacheTests: XCTestCase {
   
   func testPersistence() throws {
 
-    let avatar = RTImage(mimeType: "image/png", data: NSData())
-    let userInfo = RTUserInfo(id: RTId.generate(), aliases: Set(["1", "2"]), encryptionCert: NSData(), signingCert: NSData(), avatar: avatar)
+    let avatar = Image(mimeType: "image/png", data: NSData())
+    let userInfo = UserInfo(id: Id.generate(), aliases: Set(["1", "2"]), encryptionCert: NSData(), signingCert: NSData(), avatar: avatar)
     
-    let cache = try PersistentCache<String, RTUserInfo>(name: "test", clear: true) { key in
+    let cache = try PersistentCache<String, UserInfo>(name: "test", clear: true) { key in
       return (userInfo, NSDate(timeIntervalSinceNow: 0.25))
     }
     

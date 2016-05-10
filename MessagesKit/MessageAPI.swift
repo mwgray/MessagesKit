@@ -29,29 +29,29 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   
   public internal(set) static var target : ServerTarget!
   
-  private static var _publicAPI : RTPublicAPIAsync!
+  private static var _publicAPI : PublicAPIAsync!
   private static var _publicAPIInit = dispatch_once_t()
 
   public static var publicAPI = MessageAPI.makePublicAPI()
   
-  public var credentials : RTCredentials
+  public var credentials : Credentials
   
   private(set) var accessToken : String?
 
   private(set) var active = false
-  private var activeChatId : RTId?
-  private var suspendedChatId : RTId?
+  private var activeChatId : Id?
+  private var suspendedChatId : Id?
   
-  internal var publicAPI : RTPublicAPIAsync { return MessageAPI.publicAPI }
-  internal var userAPI : RTUserAPIAsync!
+  internal var publicAPI : PublicAPIAsync { return MessageAPI.publicAPI }
+  internal var userAPI : UserAPIAsync!
 
-  internal var dbManager : RTDBManager!
-  internal var chatDAO : RTChatDAO!
-  internal var messageDAO : RTMessageDAO!
-  internal var notificationDAO : RTNotificationDAO!
+  internal var dbManager : DBManager!
+  internal var chatDAO : ChatDAO!
+  internal var messageDAO : MessageDAO!
+  internal var notificationDAO : NotificationDAO!
   
-  private var userInfoCache : PersistentCache<String, RTUserInfo>!
-  internal var webSocket : RTWebSocket!
+  private var userInfoCache : PersistentCache<String, UserInfo>!
+  internal var webSocket : WebSocket!
   
   internal var backgroundURLSession : NSURLSession!
   
@@ -62,7 +62,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   
   private(set) var networkAvailable = true
   
-  internal let certificateTrust : RTOpenSSLCertificateTrust
+  internal let certificateTrust : OpenSSLCertificateTrust
 
   
   public class func initialize(target target: ServerTarget) {
@@ -71,7 +71,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
 
-  public init(credentials: RTCredentials, documentDirectoryURL docsDirURL: NSURL) throws {
+  public init(credentials: Credentials, documentDirectoryURL docsDirURL: NSURL) throws {
     
     assert(MessageAPI.target != nil, "MessageAPI target not initialized, call MessageAPI.initialize first")
     
@@ -99,16 +99,16 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       throw MessageAPIError.InvalidDocumentDirectoryURL
     }
     
-    self.dbManager = try RTDBManager(path: dbPath, kind: "Message", daoClasses: [RTChatDAO.self, RTMessageDAO.self, RTNotificationDAO.self])
+    self.dbManager = try DBManager(path: dbPath, kind: "Message", daoClasses: [ChatDAO.self, MessageDAO.self, NotificationDAO.self])
     
-    self.chatDAO = self.dbManager["Chat"] as! RTChatDAO
-    self.messageDAO = self.dbManager["Message"] as! RTMessageDAO
-    self.notificationDAO = self.dbManager["Notification"] as! RTNotificationDAO
+    self.chatDAO = self.dbManager["Chat"] as! ChatDAO
+    self.messageDAO = self.dbManager["Message"] as! MessageDAO
+    self.notificationDAO = self.dbManager["Notification"] as! NotificationDAO
     
     self.userInfoCache = try PersistentCache(name: "UserInfo", clear: clearData) { key in
       
       let wait = dispatch_semaphore_create(0)
-      var userInfo : RTUserInfo?
+      var userInfo : UserInfo?
       var error : NSError?
 
       self.publicAPI.findUserWithAlias(key,
@@ -138,7 +138,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     // Build session as required
     let backgroundURLSessionConfig = NSURLSessionConfiguration.backgroundSessionConfigurationWithUserId(credentials.userId)
-    let backgroundSessionOperations = BackgroundSessionOperations(trustedCertificates: RTServerAPI.pinnedCerts(),
+    let backgroundSessionOperations = BackgroundSessionOperations(trustedCertificates: ServerAPI.pinnedCerts(),
                                                                   api: self,
                                                                   dao: messageDAO,
                                                                   queue: queue)
@@ -168,7 +168,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     self.observers = [
       
       // Network - Available
-      nc.addObserverForName(RTNetworkConnectivityAvailableNotification, object: nil, queue: queue) { not in
+      nc.addObserverForName(NetworkConnectivityAvailableNotification, object: nil, queue: queue) { not in
         if !self.networkAvailable {
           self.queue.addOperation(ResendUnsentMessagesOperation(api: self))
         }
@@ -176,7 +176,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       },
       
       // Network - Unavailable
-      nc.addObserverForName(RTNetworkConnectivityUnavailableNotification, object: nil, queue: queue) { not in
+      nc.addObserverForName(NetworkConnectivityUnavailableNotification, object: nil, queue: queue) { not in
         self.networkAvailable = false
       },
       
@@ -201,11 +201,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     self.observers.forEach(NSNotificationCenter.defaultCenter().removeObserver)
   }
   
-  public func isChatActive(chat: RTChat) -> Bool {
+  public func isChatActive(chat: Chat) -> Bool {
     return activeChatId == chat.id
   }
   
-  public func isOtherChatActive(chat: RTChat) -> Bool {
+  public func isOtherChatActive(chat: Chat) -> Bool {
     return activeChatId != nil && !isChatActive(chat)
   }
   
@@ -231,7 +231,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     }
   }
   
-  public func activateChat(chat: RTChat) {
+  public func activateChat(chat: Chat) {
     
     if activeChatId == chat.id { return }
 
@@ -309,14 +309,14 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   
-  @nonobjc public func findMessageWithId(id: RTId) -> Promise<RTMessage?> {
+  @nonobjc public func findMessageWithId(id: Id) -> Promise<Message?> {
     return dispatch_promise {
       return try self.messageDAO.fetchMessageWithId(id)
     }
   }
   
   @available(*, unavailable)
-  @objc public func findMessageWithId(id: RTId) -> AnyPromise {
+  @objc public func findMessageWithId(id: Id) -> AnyPromise {
     
     let block : @convention(block) () -> AnyObject = {
       do {
@@ -330,7 +330,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return dispatch_promise(block as! AnyObject)
   }
   
-  @nonobjc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> Promise<[RTMessage]> {
+  @nonobjc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> Promise<[Message]> {
     
     return dispatch_promise {
       
@@ -355,10 +355,10 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return dispatch_promise(block as! AnyObject)
   }
   
-  @objc public func fetchMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> RTFetchedResultsController {
+  @objc public func fetchMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> FetchedResultsController {
     
-    let request = RTFetchRequest()
-    request.resultClass = RTMessage.self
+    let request = FetchRequest()
+    request.resultClass = Message.self
     request.predicate = predicate
     request.includeSubentities = true
     request.sortDescriptors = sorts
@@ -366,10 +366,10 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     request.fetchLimit = limit
     request.fetchBatchSize = 0
     
-    return RTFetchedResultsController(DBManager: dbManager, request: request)
+    return FetchedResultsController(DBManager: dbManager, request: request)
   }
   
-  @nonobjc public func saveMessage(message: RTMessage) -> Promise<Void> {
+  @nonobjc public func saveMessage(message: Message) -> Promise<Void> {
     
     return firstly {
       
@@ -399,16 +399,16 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func saveMessage(message: RTMessage) -> AnyPromise {
+  @objc public func saveMessage(message: Message) -> AnyPromise {
     return AnyPromise(bound: saveMessage(message))
   }
   
-  @objc public func updateMessageLocally(message: RTMessage) throws {
+  @objc public func updateMessageLocally(message: Message) throws {
     
     try self.messageDAO.updateMessage(message)
   }
   
-  @nonobjc public func updateMessage(message: RTMessage) -> Promise<Void> {
+  @nonobjc public func updateMessage(message: Message) -> Promise<Void> {
 
     return firstly {
 
@@ -439,11 +439,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
 
   @available(*, unavailable)
-  @objc public func updateMessage(message: RTMessage) -> AnyPromise {
+  @objc public func updateMessage(message: Message) -> AnyPromise {
     return AnyPromise(bound: updateMessage(message))
   }
   
-  @nonobjc public func clarifyMessage(message: RTMessage) -> Promise<Void> {
+  @nonobjc public func clarifyMessage(message: Message) -> Promise<Void> {
 
     return firstly {
     
@@ -451,7 +451,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
       let clarify = MessageSendSystemOperation(msgType: .Clarify,
                                                chat: message.chat,
-                                               metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString()],
+                                               metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString()],
                                                target: .Standard,
                                                api: self)
       self.queue.addOperation(clarify)
@@ -461,11 +461,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func clarifyMessage(message: RTMessage) -> AnyPromise {
+  @objc public func clarifyMessage(message: Message) -> AnyPromise {
     return AnyPromise(bound: clarifyMessage(message))
   }
   
-  @objc public func deleteMessageLocally(message: RTMessage) throws {
+  @objc public func deleteMessageLocally(message: Message) throws {
     
     try self.messageDAO.deleteMessage(message)
     
@@ -479,7 +479,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     try hideNotificationForMessage(message)
   }
 
-  @nonobjc public func deleteMessage(message: RTMessage) -> Promise<Void> {
+  @nonobjc public func deleteMessage(message: Message) -> Promise<Void> {
     
     return firstly {
     
@@ -487,7 +487,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
       let delete = MessageSendSystemOperation(msgType: .Delete,
                                               chat: message.chat,
-                                              metaData: [RTMetaDataKey_TargetMessageId: message.id.UUIDString(),
+                                              metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString(),
                                                          "type": "message"],
                                               target: .Standard,
                                               api: self)
@@ -498,11 +498,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func deleteMessage(message: RTMessage) -> AnyPromise {
+  @objc public func deleteMessage(message: Message) -> AnyPromise {
     return AnyPromise(bound: deleteMessage(message))
   }
   
-  @nonobjc public func sendDirectMessageFromSender(senderAlias: String, toRecipientDevices recipientDevices: [String: RTId], withId msgId: RTId?, type: String, dataObject: AnyObject) -> Promise<Void> {
+  @nonobjc public func sendDirectMessageFromSender(senderAlias: String, toRecipientDevices recipientDevices: [String: Id], withId msgId: Id?, type: String, dataObject: AnyObject) -> Promise<Void> {
     
     return firstly {
       
@@ -516,18 +516,18 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func sendDirectMessageFromSender(senderAlias: String, toRecipientDevices recipientDevices: [String: RTId], withId msgId: RTId?, type: String, dataObject: AnyObject) -> AnyPromise {
+  @objc public func sendDirectMessageFromSender(senderAlias: String, toRecipientDevices recipientDevices: [String: Id], withId msgId: Id?, type: String, dataObject: AnyObject) -> AnyPromise {
     return AnyPromise(bound: sendDirectMessageFromSender(senderAlias, toRecipientDevices: recipientDevices, withId: msgId, type: type, dataObject: dataObject))
   }
   
-  @objc public func loadUserChatForAlias(alias: String, localAlias: String) throws -> RTUserChat {
+  @objc public func loadUserChatForAlias(alias: String, localAlias: String) throws -> UserChat {
     
-    if let chat = try chatDAO.fetchChatForAlias(alias, localAlias: localAlias) as? RTUserChat {
+    if let chat = try chatDAO.fetchChatForAlias(alias, localAlias: localAlias) as? UserChat {
       return chat
     }
     
-    let chat = RTUserChat()
-    chat.id = RTId.generate()
+    let chat = UserChat()
+    chat.id = Id.generate()
     chat.alias = alias
     chat.localAlias = localAlias
     chat.startedDate = NSDate()
@@ -537,13 +537,13 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return chat
   }
   
-  @objc public func loadGroupChatForId(chatId: RTId, members: Set<String>, localAlias: String) throws -> RTGroupChat {
+  @objc public func loadGroupChatForId(chatId: Id, members: Set<String>, localAlias: String) throws -> GroupChat {
     
-    if let chat = try chatDAO.fetchChatForAlias(chatId.UUIDString(), localAlias: localAlias) as? RTGroupChat {
+    if let chat = try chatDAO.fetchChatForAlias(chatId.UUIDString(), localAlias: localAlias) as? GroupChat {
       return chat
     }
     
-    let chat = RTGroupChat()
+    let chat = GroupChat()
     chat.id = chatId
     chat.alias = chatId.UUIDString()
     chat.localAlias = localAlias
@@ -556,7 +556,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return chat
   }
   
-  @objc public func enterChat(chat: RTGroupChat) throws {
+  @objc public func enterChat(chat: GroupChat) throws {
     
     if chat.includesMe {
       return
@@ -572,7 +572,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     queue.addOperation(enter)
   }
   
-  @objc public func exitChat(chat: RTGroupChat) throws {
+  @objc public func exitChat(chat: GroupChat) throws {
     
     if !chat.includesMe {
       return
@@ -588,7 +588,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     queue.addOperation(enter)
   }
   
-  @nonobjc public func findChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> Promise<[RTChat]> {
+  @nonobjc public func findChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> Promise<[Chat]> {
     return dispatch_promise {
       return try self.chatDAO.fetchAllChatsMatching(predicate, offset: offset, limit: limit, sortedBy: sorts)
     }
@@ -610,10 +610,10 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return dispatch_promise(block as! AnyObject)
   }
   
-  @objc public func fetchChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> RTFetchedResultsController {
+  @objc public func fetchChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> FetchedResultsController {
     
-    let request = RTFetchRequest()
-    request.resultClass = RTChat.self
+    let request = FetchRequest()
+    request.resultClass = Chat.self
     request.predicate = predicate
     request.includeSubentities = true
     request.sortDescriptors = sorts
@@ -621,16 +621,16 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     request.fetchLimit = limit
     request.fetchBatchSize = 0
 
-    return RTFetchedResultsController(DBManager: dbManager, request: request)
+    return FetchedResultsController(DBManager: dbManager, request: request)
   }
 
-  @objc public func updateChatLocally(chat: RTChat) throws {
+  @objc public func updateChatLocally(chat: Chat) throws {
     
     try chatDAO.updateChat(chat)
     
   }
   
-  @objc public func deleteChat(chat: RTChat) throws {
+  @objc public func deleteChat(chat: Chat) throws {
     
     try deleteChatLocally(chat)
     
@@ -642,27 +642,27 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     queue.addOperation(delete)
   }
   
-  @objc public func deleteChatLocally(chat: RTChat) throws {
+  @objc public func deleteChatLocally(chat: Chat) throws {
     
     try chatDAO.deleteChat(chat)
     
     try hideNotificationsForChat(chat)
   }
   
-  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toRecipient recipient: String) {
+  @objc public func sendUserStatus(status: UserStatus, withSender sender: String, toRecipient recipient: String) {
     
     self.userAPI.sendUserStatus(sender, recipient: recipient, status: status)
     
   }
   
-  @objc public func sendUserStatus(status: RTUserStatus, withSender sender: String, toMembers members: Set<String>,  inChat chat: RTId) {
+  @objc public func sendUserStatus(status: UserStatus, withSender sender: String, toMembers members: Set<String>,  inChat chat: Id) {
     
-    let group = RTGroup(chat: chat, members: members)
+    let group = Group(chat: chat, members: members)
     
     self.userAPI.sendGroupStatus(sender, group: group, status: status)
   }
   
-  internal func showNotificationForMessage(message: RTMessage) throws {
+  internal func showNotificationForMessage(message: Message) throws {
 
     DDLogDebug("SHOWING NOTIFICATION: \(message.id)")
     
@@ -672,7 +672,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     let body : String
     
-    if (RTSettings.sharedSettings().privacyShowPreviews) {
+    if (Settings.sharedSettings().privacyShowPreviews) {
       
       if (message.clarifyFlag) {
         
@@ -693,7 +693,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     //FIXME allow user provided sounds
     
-    //let sound = message.clarifyFlag ? RTSound_Message_Clarify : (message.updated ? RTSound_Message_Update : RTSound_Message_Receive)
+    //let sound = message.clarifyFlag ? Sound_Message_Clarify : (message.updated ? Sound_Message_Update : Sound_Message_Receive)
     let sound = UILocalNotificationDefaultSoundName
     
     let localNotification = UILocalNotification()
@@ -707,7 +707,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     try saveAndScheduleLocalNotification(localNotification, forMessage: message)
   }
   
-  internal func showFailNotificationForMessage(message: RTMessage) throws {
+  internal func showFailNotificationForMessage(message: Message) throws {
 
     DDLogDebug("SHOWING FAIL NOTIFICATION: \(message.id)")
     
@@ -725,7 +725,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     try saveAndScheduleLocalNotification(localNotification, forMessage: message)
   }
 
-  internal func saveAndScheduleLocalNotification(localNotification: UILocalNotification, forMessage message: RTMessage) throws {
+  internal func saveAndScheduleLocalNotification(localNotification: UILocalNotification, forMessage message: Message) throws {
     
     UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
     
@@ -735,7 +735,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       try deleteAndCancelNotification(notification, ifOnOrBefore: NSDate())
     }
     else {
-      notification = RTNotification()
+      notification = Notification()
       notification!.msgId = message.id
       notification!.chatId = message.chat.id
     }
@@ -745,7 +745,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     try notificationDAO.upsertNotification(notification!)
   }
   
-  internal func hideNotificationsForChat(chat: RTChat) throws {
+  internal func hideNotificationsForChat(chat: Chat) throws {
     
     DDLogDebug("HIDING NOTIFICATIONS FOR CHAT: \(chat.id)")
 
@@ -755,7 +755,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
-  internal func hideNotificationForMessage(message: RTMessage) throws {
+  internal func hideNotificationForMessage(message: Message) throws {
     
     DDLogDebug("HIDING NOTIFICATION FOR MESSAGE: \(message.id)")
     
@@ -765,7 +765,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
   }
   
-  internal func deleteAndCancelNotification(notification: RTNotification, ifOnOrBefore sent: NSDate) throws {
+  internal func deleteAndCancelNotification(notification: Notification, ifOnOrBefore sent: NSDate) throws {
     
     if let localNotification = NSKeyedUnarchiver.unarchiveObjectWithData(notification.data) as? UILocalNotification {
       
@@ -821,7 +821,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
   @nonobjc public func addAlias(alias: String, pin: String) -> Promise<Void> {
   
-    let aliasAndPin = RTAuthenticatedAlias(name: alias, pin: pin)
+    let aliasAndPin = AuthenticatedAlias(name: alias, pin: pin)
     
     return userAPI.registerAlias(aliasAndPin).toPromise(NSNumber)
       .then { value -> Void in
@@ -860,23 +860,23 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: removeAlias(alias))
   }
   
-  @nonobjc public class func isCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> Promise<Bool> {
+  @nonobjc public class func isCurrentDeviceRegisteredInProfile(profile: UserProfile) -> Promise<Bool> {
     
     return MessageAPI.discoverDeviceId().then { id -> Bool in
-      let devices = profile.devices as NSArray as! [RTDeviceInfo]
+      let devices = profile.devices as NSArray as! [DeviceInfo]
       return !devices.filter { $0.id == id }.isEmpty
     }
   }
   
   @available(*, unavailable)
-  @objc public class func isCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> AnyPromise {
+  @objc public class func isCurrentDeviceRegisteredInProfile(profile: UserProfile) -> AnyPromise {
     return AnyPromise(bound: isCurrentDeviceRegisteredInProfile(profile))
   }
   
-  @nonobjc public func listDevices() -> Promise<[RTDeviceInfo]> {
+  @nonobjc public func listDevices() -> Promise<[DeviceInfo]> {
     
-    return userAPI.listDevices().toPromise([RTDeviceInfo])
-      .recover { error -> [RTDeviceInfo] in
+    return userAPI.listDevices().toPromise([DeviceInfo])
+      .recover { error -> [DeviceInfo] in
         throw translateError(error as NSError)
       }
   }
@@ -886,7 +886,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: listDevices())
   }
   
-  @nonobjc public func updateActiveAliases(activeAliases: Set<String>, onDeviceWithId deviceId: RTId) -> Promise<Void> {
+  @nonobjc public func updateActiveAliases(activeAliases: Set<String>, onDeviceWithId deviceId: Id) -> Promise<Void> {
     
     return userAPI.updateDeviceActiveAliases(deviceId, activeAliases: activeAliases).toPromise(NSNumber).asVoid()
       .recover { error -> Void in
@@ -895,7 +895,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
 
   @available(*, unavailable)
-  @objc public func updateActiveAliases(activeAliases: Set<String>, onDeviceWithId deviceId: RTId) -> AnyPromise {
+  @objc public func updateActiveAliases(activeAliases: Set<String>, onDeviceWithId deviceId: Id) -> AnyPromise {
     return AnyPromise(bound: updateActiveAliases(activeAliases, onDeviceWithId: deviceId))
   }
   
@@ -915,28 +915,28 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: requestAuthorization())
   }
   
-  @nonobjc public func resetKeys() -> Promise<RTCredentials> {
+  @nonobjc public func resetKeys() -> Promise<Credentials> {
     
     return firstly {
       
       let encryptionIdentityRequest =
-        try RTAsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Encryption",
+        try AsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Encryption",
           withKeySize: 2048,
           usage: [.KeyEncipherment, .NonRepudiation])
       
       let signingIdentityRequest =
-        try RTAsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Signing",
+        try AsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Signing",
           withKeySize: 2048,
           usage: [.DigitalSignature, .NonRepudiation])
       
       return userAPI.updateCertificates(encryptionIdentityRequest.certificateSigningRequest.encoded, signingCSR: signingIdentityRequest.certificateSigningRequest.encoded)
-        .toPromise(RTCertificateSet)
-        .then { certs -> RTCredentials in
+        .toPromise(CertificateSet)
+        .then { certs -> Credentials in
           
-          let encryptionCert = try RTOpenSSLCertificate(DEREncodedData: certs.encryptionCert, validatedWithTrust: self.certificateTrust)
+          let encryptionCert = try OpenSSLCertificate(DEREncodedData: certs.encryptionCert, validatedWithTrust: self.certificateTrust)
           let encryptionIdent = encryptionIdentityRequest.buildIdentityWithCertificate(encryptionCert)
           
-          let signingCert = try RTOpenSSLCertificate(DEREncodedData: certs.signingCert, validatedWithTrust: self.certificateTrust)
+          let signingCert = try OpenSSLCertificate(DEREncodedData: certs.signingCert, validatedWithTrust: self.certificateTrust)
           let signingIdent = signingIdentityRequest.buildIdentityWithCertificate(signingCert)
         
           return self.credentials.authorizeWithEncryptionIdentity(encryptionIdent, signingIdentity: signingIdent)
@@ -951,9 +951,9 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: resetKeys())
   }
   
-  @nonobjc public class func findUserInfoWithAlias(alias: String) -> Promise<RTUserInfo?> {
-    return self.publicAPI.findUserWithAlias(alias).toPromise(RTUserInfo?)
-      .recover { error -> RTUserInfo? in
+  @nonobjc public class func findUserInfoWithAlias(alias: String) -> Promise<UserInfo?> {
+    return self.publicAPI.findUserWithAlias(alias).toPromise(UserInfo?)
+      .recover { error -> UserInfo? in
         let error = error as NSError
         if error.domain == TApplicationErrorDomain && Int32(error.code) == TApplicationError.MissingResult.rawValue {
           return nil
@@ -967,9 +967,9 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return AnyPromise(bound: findUserInfoWithAlias(alias))
   }
   
-  @nonobjc public class func findUserInfoWithId(id: RTId) -> Promise<RTUserInfo?> {
-    return self.publicAPI.findUserWithId(id).toPromise(RTUserInfo?)
-      .recover { error -> RTUserInfo? in
+  @nonobjc public class func findUserInfoWithId(id: Id) -> Promise<UserInfo?> {
+    return self.publicAPI.findUserWithId(id).toPromise(UserInfo?)
+      .recover { error -> UserInfo? in
         let error = error as NSError
         if error.domain == TApplicationErrorDomain && Int32(error.code) == TApplicationError.MissingResult.rawValue {
           return nil
@@ -979,11 +979,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public class func findUserInfoWithId(id: RTId) -> AnyPromise {
+  @objc public class func findUserInfoWithId(id: Id) -> AnyPromise {
     return AnyPromise(bound: findUserInfoWithId(id))
   }
   
-  func resolveUserInfoWithAlias(alias: String) throws -> RTUserInfo? {
+  func resolveUserInfoWithAlias(alias: String) throws -> UserInfo? {
     return try self.userInfoCache.valueForKey(alias)
   }
   
@@ -1026,7 +1026,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   
-  @nonobjc public func reportDirectMessage(msg: RTDirectMsg) -> Promise<Void> {
+  @nonobjc public func reportDirectMessage(msg: DirectMsg) -> Promise<Void> {
     
     return Promise<Void>() { fulfill, reject in
       
@@ -1045,17 +1045,17 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func reportDirectMessage(msg: RTDirectMsg) -> AnyPromise {
+  @objc public func reportDirectMessage(msg: DirectMsg) -> AnyPromise {
     return AnyPromise(bound: reportDirectMessage(msg))
   }
   
-  @nonobjc public func reportWaitingMessageWithId(msgId: RTId, type: RTMsgType, dataLength: Int32) -> Promise<Void> {
+  @nonobjc public func reportWaitingMessageWithId(msgId: Id, type: MsgType, dataLength: Int32) -> Promise<Void> {
     
     if !credentials.authorized {
       return Promise<Void>(Void())
     }
     
-    let msgHdr = RTMsgHdr(id: msgId, type: type, dataLength: dataLength)
+    let msgHdr = MsgHdr(id: msgId, type: type, dataLength: dataLength)
     
     return Promise<Void>() { fulfill, reject in
       
@@ -1074,7 +1074,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func reportWaitingMessageWithId(msgId: RTId, type: RTMsgType, dataLength: Int32) -> AnyPromise {
+  @objc public func reportWaitingMessageWithId(msgId: Id, type: MsgType, dataLength: Int32) -> AnyPromise {
     let promise : Promise<Void> = reportWaitingMessageWithId(msgId, type: type, dataLength: dataLength)
     return AnyPromise(bound: promise)
   }
@@ -1100,8 +1100,8 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 //
 extension MessageAPI {
   
-  @nonobjc public class func findProfileWithAlias(alias: String, password: String) -> Promise<RTUserProfile> {
-    return MessageAPI.publicAPI.findProfileWithAlias(alias, password: password).toPromise(RTUserProfile.self)
+  @nonobjc public class func findProfileWithAlias(alias: String, password: String) -> Promise<UserProfile> {
+    return MessageAPI.publicAPI.findProfileWithAlias(alias, password: password).toPromise(UserProfile.self)
   }
   
   @available(*, unavailable)
@@ -1109,16 +1109,16 @@ extension MessageAPI {
     return MessageAPI.publicAPI.findProfileWithAlias(alias, password: password)
   }
   
-  @nonobjc public class func findProfileWithId(id: RTId, password: String) -> Promise<RTUserProfile> {
-    return MessageAPI.publicAPI.findProfileWithId(id, password: password).toPromise(RTUserProfile.self)
+  @nonobjc public class func findProfileWithId(id: Id, password: String) -> Promise<UserProfile> {
+    return MessageAPI.publicAPI.findProfileWithId(id, password: password).toPromise(UserProfile.self)
   }
   
   @available(*, unavailable)
-  @objc public class func findProfileWithId(id: RTId, password: String) -> AnyPromise {
+  @objc public class func findProfileWithId(id: Id, password: String) -> AnyPromise {
     return MessageAPI.publicAPI.findProfileWithId(id, password: password)
   }
   
-  @nonobjc public class func checkCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> Promise<Bool> {
+  @nonobjc public class func checkCurrentDeviceRegisteredInProfile(profile: UserProfile) -> Promise<Bool> {
     
     return discoverDeviceId().then { currentDeviceId in
       return profile.devices.filter { $0.id == currentDeviceId }.isEmpty
@@ -1126,11 +1126,11 @@ extension MessageAPI {
   }
   
   @available(*, unavailable)
-  @objc public class func checkCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> AnyPromise {
+  @objc public class func checkCurrentDeviceRegisteredInProfile(profile: UserProfile) -> AnyPromise {
     return AnyPromise(bound: checkCurrentDeviceRegisteredInProfile(profile))
   }
   
-  @nonobjc public class func signInWithProfile(profile: RTUserProfile, password: String) -> Promise<RTCredentials> {
+  @nonobjc public class func signInWithProfile(profile: UserProfile, password: String) -> Promise<Credentials> {
     
     return discoverDeviceId().then { currentDeviceId in
       return signInWithProfile(profile, deviceId: currentDeviceId, password: password)
@@ -1138,23 +1138,23 @@ extension MessageAPI {
   }
   
   @available(*, unavailable)
-  @objc public class func signInWithProfile(profile: RTUserProfile, password: String) -> AnyPromise {
+  @objc public class func signInWithProfile(profile: UserProfile, password: String) -> AnyPromise {
     return AnyPromise(bound: signInWithProfile(profile, password: password))
   }
   
-  @nonobjc public class func signInWithProfile(profile: RTUserProfile, deviceId: RTId, password: String) -> Promise<RTCredentials> {
+  @nonobjc public class func signInWithProfile(profile: UserProfile, deviceId: Id, password: String) -> Promise<Credentials> {
     
-    let savedCredentials = RTCredentials.loadFromKeychain(profile.id)
+    let savedCredentials = Credentials.loadFromKeychain(profile.id)
     
     return self.publicAPI.signIn(profile.id,
                                  password: password,
                                  deviceId: deviceId)
-      .then(on: GCD.backgroundQueue) { refreshToken -> RTCredentials in
+      .then(on: GCD.backgroundQueue) { refreshToken -> Credentials in
         
         let refreshToken = refreshToken as! NSData
         
-        var encryptionIdentity : RTAsymmetricIdentity!
-        var signingIdentity : RTAsymmetricIdentity!
+        var encryptionIdentity : AsymmetricIdentity!
+        var signingIdentity : AsymmetricIdentity!
         let authorized : Bool
         
         if let savedCredentials = savedCredentials {
@@ -1163,8 +1163,8 @@ extension MessageAPI {
           // Attempt to use saved credentials if the keys & certs are matching
           //
           
-          let encryptionCert = try RTOpenSSLCertificate(DEREncodedData: profile.encryptionCert)
-          let signingCert = try RTOpenSSLCertificate(DEREncodedData: profile.signingCert)
+          let encryptionCert = try OpenSSLCertificate(DEREncodedData: profile.encryptionCert)
+          let signingCert = try OpenSSLCertificate(DEREncodedData: profile.signingCert)
           
           authorized =
             savedCredentials.encryptionIdentity.privateKeyMatchesCertificate(encryptionCert) &&
@@ -1185,12 +1185,12 @@ extension MessageAPI {
           // Generate temporary keys for authorization
           //
           
-          encryptionIdentity = try RTAsymmetricKeyPairGenerator
+          encryptionIdentity = try AsymmetricKeyPairGenerator
             .generateSelfSignedIdentityNamed(["UID":profile.id.UUIDString(),"CN":"reTXT Encryption"],
               withKeySize: 2048,
               usage: [.KeyEncipherment,.NonRepudiation])
           
-          signingIdentity = try RTAsymmetricKeyPairGenerator
+          signingIdentity = try AsymmetricKeyPairGenerator
             .generateSelfSignedIdentityNamed(["UID":profile.id.UUIDString(),"CN":"reTXT Signing"],
               withKeySize: 2048,
               usage: [.DigitalSignature, .NonRepudiation])
@@ -1199,7 +1199,7 @@ extension MessageAPI {
         
         let aliases = (profile.aliases! as NSSet).allObjects as! [String]
         
-        return RTCredentials(refreshToken: refreshToken,
+        return Credentials(refreshToken: refreshToken,
           userId: profile.id,
           deviceId: deviceId,
           allAliases: aliases,
@@ -1208,13 +1208,13 @@ extension MessageAPI {
           signingIdentity: signingIdentity,
           authorized: authorized)
       }
-      .recover { error -> RTCredentials in
+      .recover { error -> Credentials in
         throw translateError(error as NSError)
       }
   }
 
   @available(*, unavailable)
-  @objc public class func signInWithProfile(profile: RTUserProfile, deviceId: RTId, password: String) -> AnyPromise {
+  @objc public class func signInWithProfile(profile: UserProfile, deviceId: Id, password: String) -> AnyPromise {
     return AnyPromise(bound: signInWithProfile(profile, deviceId: deviceId, password: password))
   }
   
@@ -1244,20 +1244,20 @@ extension MessageAPI {
     return AnyPromise(bound: checkAuthenticationForAlias(alias, pin: pin))
   }
   
-  @nonobjc public class func registerUserWithAliases(aliasesAndPins: [String: String], password: String) -> Promise<RTCredentials> {
+  @nonobjc public class func registerUserWithAliases(aliasesAndPins: [String: String], password: String) -> Promise<Credentials> {
     
     let aliases = Array(aliasesAndPins.keys)
-    let authenticatedAliases = aliasesAndPins.map { RTAuthenticatedAlias(name: $0, pin: $1)! }
+    let authenticatedAliases = aliasesAndPins.map { AuthenticatedAlias(name: $0, pin: $1)! }
     
     return discoverDeviceInfoWithAliases(aliases).thenInBackground { deviceInfo in
       
       let encryptionIdentityRequest =
-        try RTAsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Encryption",
+        try AsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Encryption",
                                                                       withKeySize: 2048,
                                                                       usage: [.KeyEncipherment, .NonRepudiation])
 
       let signingIdentityRequest =
-        try RTAsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Signing",
+        try AsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Signing",
                                                                       withKeySize: 2048,
                                                                       usage: [.DigitalSignature, .NonRepudiation])
 
@@ -1283,14 +1283,14 @@ extension MessageAPI {
               
               let certificateTrust = try makeCertificateTrust()
               
-              let encryptionCert = try RTOpenSSLCertificate(DEREncodedData: userProfile.encryptionCert, validatedWithTrust: certificateTrust)
+              let encryptionCert = try OpenSSLCertificate(DEREncodedData: userProfile.encryptionCert, validatedWithTrust: certificateTrust)
               let encryptionIdent = encryptionIdentityRequest.buildIdentityWithCertificate(encryptionCert)
               
-              let signingCert = try RTOpenSSLCertificate(DEREncodedData: userProfile.signingCert, validatedWithTrust: certificateTrust)
+              let signingCert = try OpenSSLCertificate(DEREncodedData: userProfile.signingCert, validatedWithTrust: certificateTrust)
               let signingIdent = signingIdentityRequest.buildIdentityWithCertificate(signingCert)
               
               
-              return RTCredentials(refreshToken: refreshToken,
+              return Credentials(refreshToken: refreshToken,
                                    userId: userProfile.id,
                                    deviceId: deviceInfo.id,
                                    allAliases: aliases,
@@ -1308,10 +1308,10 @@ extension MessageAPI {
     return AnyPromise(bound: registerUserWithAliases(aliasesAndPins, password: password))
   }
   
-  @nonobjc public class func requestTemporaryPasswordForAlias(alias: String) -> Promise<RTId?> {
+  @nonobjc public class func requestTemporaryPasswordForAlias(alias: String) -> Promise<Id?> {
     
-    return publicAPI.requestTemporaryPassword(alias).toPromise(RTId)
-      .then { foundId -> RTId? in
+    return publicAPI.requestTemporaryPassword(alias).toPromise(Id)
+      .then { foundId -> Id? in
         
         if foundId.isNull() {
           return nil
@@ -1319,7 +1319,7 @@ extension MessageAPI {
         
         return foundId
       }
-      .recover { error -> RTId? in
+      .recover { error -> Id? in
         throw translateError(error as NSError)
       }
     
@@ -1330,7 +1330,7 @@ extension MessageAPI {
     return AnyPromise(bound: requestTemporaryPasswordForAlias(alias))
   }
   
-  @nonobjc public class func checkTemporaryPasswordForUser(userId: RTId, temporaryPassword: String) -> Promise<Bool> {
+  @nonobjc public class func checkTemporaryPasswordForUser(userId: Id, temporaryPassword: String) -> Promise<Bool> {
 
     return publicAPI.checkTemporaryPassword(userId, tempPassword: temporaryPassword).toPromise(NSNumber).to()
       .recover { error -> Bool in
@@ -1339,11 +1339,11 @@ extension MessageAPI {
   }
   
   @available(*, unavailable)
-  @objc public class func checkTemporaryPasswordForUser(userId: RTId, temporaryPassword: String) -> AnyPromise {
+  @objc public class func checkTemporaryPasswordForUser(userId: Id, temporaryPassword: String) -> AnyPromise {
     return AnyPromise(bound: checkTemporaryPasswordForUser(userId, temporaryPassword: temporaryPassword))
   }
   
-  @nonobjc public class func resetPasswordForUser(userId: RTId, temporaryPassword: String, password: String) -> Promise<Bool> {
+  @nonobjc public class func resetPasswordForUser(userId: Id, temporaryPassword: String, password: String) -> Promise<Bool> {
     
     return publicAPI.resetPassword(userId, tempPassword: temporaryPassword, password: password).toPromise(NSNumber).to()
       .recover { error -> Bool in
@@ -1352,7 +1352,7 @@ extension MessageAPI {
   }
   
   @available(*, unavailable)
-  @objc public class func resetPasswordForUser(userId: RTId, temporaryPassword: String, password: String) -> AnyPromise {
+  @objc public class func resetPasswordForUser(userId: Id, temporaryPassword: String, password: String) -> AnyPromise {
     return AnyPromise(bound: resetPasswordForUser(userId, temporaryPassword: temporaryPassword, password: password))
   }
   
@@ -1378,7 +1378,7 @@ extension MessageAPI {
     return selectPreferredAlias(aliases)
   }
   
-  @nonobjc public class func addDeviceNamed(deviceName: String?, toProfile profile: RTUserProfile, withPassword password: String) -> Promise<Void> {
+  @nonobjc public class func addDeviceNamed(deviceName: String?, toProfile profile: UserProfile, withPassword password: String) -> Promise<Void> {
     
     return MessageAPI.discoverDeviceInfoWithAliases(profile.aliases.allObjects as! [String])
       .then { deviceInfo in
@@ -1393,11 +1393,11 @@ extension MessageAPI {
   }
   
   @available(*, unavailable)
-  @objc public class func addDeviceNamed(deviceName: String?, toProfile profile: RTUserProfile, withPassword password: String) -> AnyPromise {
+  @objc public class func addDeviceNamed(deviceName: String?, toProfile profile: UserProfile, withPassword password: String) -> AnyPromise {
     return AnyPromise(bound: addDeviceNamed(deviceName, toProfile: profile, withPassword: password))
   }
 
-  @nonobjc public class func replaceDeviceWithId(deviceId: RTId, withDeviceNamed deviceName: String?, inProfile profile: RTUserProfile, withPassword password: String) -> Promise<Void> {
+  @nonobjc public class func replaceDeviceWithId(deviceId: Id, withDeviceNamed deviceName: String?, inProfile profile: UserProfile, withPassword password: String) -> Promise<Void> {
 
     return MessageAPI.discoverDeviceInfoWithAliases(profile.aliases.allObjects as! [String])
       .then { deviceInfo in
@@ -1412,11 +1412,11 @@ extension MessageAPI {
   }
 
   @available(*, unavailable)
-  @objc public class func replaceDeviceWithId(deviceId: RTId, withDeviceNamed deviceName: String?, inProfile profile: RTUserProfile, withPassword password: String) -> AnyPromise {
+  @objc public class func replaceDeviceWithId(deviceId: Id, withDeviceNamed deviceName: String?, inProfile profile: UserProfile, withPassword password: String) -> AnyPromise {
     return AnyPromise(bound: replaceDeviceWithId(deviceId, withDeviceNamed: deviceName, inProfile: profile, withPassword: password))
   }
   
-  @nonobjc public class func removeDeviceWithId(deviceId: RTId, fromProfile profile: RTUserProfile, withPassword password: String) -> Promise<Void> {
+  @nonobjc public class func removeDeviceWithId(deviceId: Id, fromProfile profile: UserProfile, withPassword password: String) -> Promise<Void> {
 
     return publicAPI.unregisterDevice(profile.id, password: password, deviceId: deviceId).toPromise(NSNumber).asVoid()
       .recover { error -> Void in
@@ -1425,7 +1425,7 @@ extension MessageAPI {
   }
   
   @available(*, unavailable)
-  @objc public class func removeDeviceWithId(deviceId: RTId, fromProfile profile: RTUserProfile, withPassword password: String) -> AnyPromise {
+  @objc public class func removeDeviceWithId(deviceId: Id, fromProfile profile: UserProfile, withPassword password: String) -> AnyPromise {
     return AnyPromise(bound: removeDeviceWithId(deviceId, fromProfile: profile, withPassword: password))
   }
   
@@ -1434,9 +1434,9 @@ extension MessageAPI {
     return aliases.first ?? ""
   }
   
-  private class func discoverDeviceInfoWithAliases(aliases: [String]) -> Promise<RTDeviceInfo> {
+  private class func discoverDeviceInfoWithAliases(aliases: [String]) -> Promise<DeviceInfo> {
     
-    return discoverDeviceId().thenInBackground { deviceId -> RTDeviceInfo in
+    return discoverDeviceId().thenInBackground { deviceId -> DeviceInfo in
       
       let deviceVersion : String
       
@@ -1468,7 +1468,7 @@ extension MessageAPI {
       
       let device = UIDevice.currentDevice()
       
-      return RTDeviceInfo(
+      return DeviceInfo(
         id: deviceId,
         name: device.name,
         manufacturer: "Apple",
@@ -1480,10 +1480,10 @@ extension MessageAPI {
   }
 
   #if !RELEASE
-  @nonobjc static var __fakeUniqueDeviceId = RTId.generate()
+  @nonobjc static var __fakeUniqueDeviceId = Id.generate()
   #endif
   
-  private class func discoverDeviceId() -> Promise<RTId> {
+  private class func discoverDeviceId() -> Promise<Id> {
     
     return dispatch_promise {
       
@@ -1499,7 +1499,7 @@ extension MessageAPI {
         throw MessageAPIError.DeviceNotReady
       }
       
-      return RTId(UUID: vendorDeviceId)
+      return Id(UUID: vendorDeviceId)
     }
   }
   
@@ -1510,12 +1510,12 @@ extension MessageAPI {
 //
 // WebSocket delegate methods
 //
-extension MessageAPI : RTWebSocketDelegate {
+extension MessageAPI : WebSocketDelegate {
   
   //
   // Adds build # and Bearer token to websocket connection requests
   //
-  public func webSocket(webSocket: RTWebSocket, willConnect request: NSMutableURLRequest) {
+  public func webSocket(webSocket: WebSocket, willConnect request: NSMutableURLRequest) {
     
     request.addBuildNumber()
     
@@ -1525,7 +1525,7 @@ extension MessageAPI : RTWebSocketDelegate {
     
   }
   
-  public func webSocket(webSocket: RTWebSocket, didReceiveUserStatus sender: String, recipient: String, status: RTUserStatus) {
+  public func webSocket(webSocket: WebSocket, didReceiveUserStatus sender: String, recipient: String, status: UserStatus) {
 
     DDLogDebug("USER STATUS: \(sender), \(recipient), \(status)");
     
@@ -1533,7 +1533,7 @@ extension MessageAPI : RTWebSocketDelegate {
       return
     }
     
-    let info = RTUserStatusInfo(status: status, forUser: sender, inChat: chat)
+    let info = UserStatusInfo(status: status, forUser: sender, inChat: chat)
     
     GCD.mainQueue.async {
       NSNotificationCenter.defaultCenter()
@@ -1543,7 +1543,7 @@ extension MessageAPI : RTWebSocketDelegate {
     }
   }
   
-  public func webSocket(webSocket: RTWebSocket, didReceiveGroupStatus sender: String, chatId: RTId, status: RTUserStatus) {
+  public func webSocket(webSocket: WebSocket, didReceiveGroupStatus sender: String, chatId: Id, status: UserStatus) {
 
     DDLogDebug("GROUP STATUS: \(sender), \(chatId), \(status)");
     
@@ -1551,7 +1551,7 @@ extension MessageAPI : RTWebSocketDelegate {
       return
     }
     
-    let info = RTUserStatusInfo(status: status, forUser: sender, inChat: chat)
+    let info = UserStatusInfo(status: status, forUser: sender, inChat: chat)
     
     GCD.mainQueue.async {
       NSNotificationCenter.defaultCenter()
@@ -1561,28 +1561,28 @@ extension MessageAPI : RTWebSocketDelegate {
     }
   }
   
-  public func webSocket(webSocket: RTWebSocket, didReceiveMsgReady msgHdr: RTMsgHdr) {
+  public func webSocket(webSocket: WebSocket, didReceiveMsgReady msgHdr: MsgHdr) {
     
     DDLogDebug("MESSAGE READY: \(msgHdr)")
     
     queue.addOperation(MessageRecvOperation(msgHdr: msgHdr, api: self))
   }
   
-  public func webSocket(webSocket: RTWebSocket, didReceiveMsgDelivery msg: RTMsg) {
+  public func webSocket(webSocket: WebSocket, didReceiveMsgDelivery msg: Msg) {
 
     DDLogDebug("MESSAGE DELIVERY: \(msg.id) \(msg.type) \(msg.sent)")
     
     queue.addOperation(MessageRecvOperation(msg: msg, api: self))
   }
   
-  public func webSocket(webSocket: RTWebSocket, didReceiveMsgDirect msg: RTDirectMsg) {
+  public func webSocket(webSocket: WebSocket, didReceiveMsgDirect msg: DirectMsg) {
 
     DDLogDebug("MESSAGE DIRECT: \(msg.id) \(msg.type) \(msg.sender) \(msg.senderDevice)")
     
     reportDirectMessage(msg)
   }
   
-  public func webSocket(webSocket: RTWebSocket, didReceiveMsgDelivered msgId: RTId, recipient: String) {
+  public func webSocket(webSocket: WebSocket, didReceiveMsgDelivered msgId: Id, recipient: String) {
     
     queue.addOperation(MessageDeliveredOperation(msgId: msgId, api: self))
   }
@@ -1595,11 +1595,11 @@ extension MessageAPI : RTWebSocketDelegate {
 //
 extension MessageAPI {
   
-  private class func makePublicAPI() -> RTPublicAPIAsync {
+  private class func makePublicAPI() -> PublicAPIAsync {
     
     // Build an SSL validator
     
-    let validator = RTURLSessionSSLValidator(trustedCertificates: RTServerAPI.pinnedCerts())
+    let validator = URLSessionSSLValidator(trustedCertificates: ServerAPI.pinnedCerts())
     
     // Build a session configured for PublicAPI usage
     
@@ -1613,15 +1613,15 @@ extension MessageAPI {
     
     let transportFactory = THTTPSessionTransportFactory(session: session, URL: target.publicURL)
     
-    return RTPublicAPIClientAsync(protocolFactory: protocolFactory,
+    return PublicAPIClientAsync(protocolFactory: protocolFactory,
                                   transportFactory: transportFactory)
   }
   
-  private func makeUserAPI() -> RTUserAPIAsync {
+  private func makeUserAPI() -> UserAPIAsync {
     
     // Build an SSL validator
     
-    let validator = RTURLSessionSSLValidator(trustedCertificates: RTServerAPI.pinnedCerts())
+    let validator = URLSessionSSLValidator(trustedCertificates: ServerAPI.pinnedCerts())
     
     // Build a session configured for UserAPI usage
     
@@ -1633,7 +1633,7 @@ extension MessageAPI {
     // Build a client for the new session
     //
     
-    let transportFactory = RTHTTPSessionTransportFactory(session: session, URL: MessageAPI.target.userURL)
+    let transportFactory = HTTPSessionTransportFactory(session: session, URL: MessageAPI.target.userURL)
     
     // Add interceptor to add bearer authorization token
     transportFactory.requestInterceptor = { request -> NSError? in
@@ -1648,23 +1648,23 @@ extension MessageAPI {
     // Add interceptor to inspect for refreshed bearer tokens
     transportFactory.responseValidate = { (response, data) -> NSError? in
       
-      if let updatedAccessToken = response.allHeaderFields[RTBearerRefreshHTTPHeader] as? String {
+      if let updatedAccessToken = response.allHeaderFields[BearerRefreshHTTPHeader] as? String {
         self.updateAccessToken(updatedAccessToken)
       }
       
       return nil
     }
     
-    return RTUserAPIClientAsync(protocolFactory: protocolFactory,
+    return UserAPIClientAsync(protocolFactory: protocolFactory,
                                 transportFactory:transportFactory)
   }
   
-  private func makeWebSocket() -> RTWebSocket {
+  private func makeWebSocket() -> WebSocket {
     
     let connectURLRequest = NSMutableURLRequest(URL: MessageAPI.target.userConnectURL)
     connectURLRequest.addBuildNumber()
     
-    let webSocket = RTWebSocket(URLRequest: connectURLRequest)
+    let webSocket = WebSocket(URLRequest: connectURLRequest)
     
     // MessageAPI is a websocket delegate and it authorized the connection (by
     // adding a Bearer header) as well as responds to events from the socket
@@ -1673,13 +1673,13 @@ extension MessageAPI {
     return webSocket
   }
   
-  private class func makeCertificateTrust() throws -> RTOpenSSLCertificateTrust {
+  private class func makeCertificateTrust() throws -> OpenSSLCertificateTrust {
     
     let bundle = NSBundle(forClass: self)
     let rootsURL = bundle.URLForResource("roots", withExtension:"pem", subdirectory:"Certificates")!
     let intermediatesURL = bundle.URLForResource("inters", withExtension:"pem", subdirectory:"Certificates")!
 
-    return try RTOpenSSLCertificateTrust(PEMEncodedRoots: NSData(contentsOfURL:rootsURL)!,
+    return try OpenSSLCertificateTrust(PEMEncodedRoots: NSData(contentsOfURL:rootsURL)!,
                                          intermediates: NSData(contentsOfURL:intermediatesURL)!)
   }
   
@@ -1687,14 +1687,14 @@ extension MessageAPI {
 
 
 
-extension RTUserInfo : Persistable {
+extension UserInfo : Persistable {
   
-  public static func valueToData(value: RTUserInfo) throws -> NSData {
+  public static func valueToData(value: UserInfo) throws -> NSData {
     return try TBaseUtils.serializeToData(value)
   }
   
   public static func dataToValue(data: NSData) throws -> AnyObject {
-    return try TBaseUtils.deserialize(RTUserInfo(), fromData: data) as! RTUserInfo
+    return try TBaseUtils.deserialize(UserInfo(), fromData: data) as! UserInfo
   }
   
 }

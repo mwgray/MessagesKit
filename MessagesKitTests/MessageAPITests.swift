@@ -87,7 +87,7 @@ class MessageAPITest: XCTestCase {
     
     let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
 
-    let msg = RTTextMessage(chat: chat)
+    let msg = TextMessage(chat: chat)
     msg.text = "Hello World"
     
     api.saveMessage(msg)
@@ -103,7 +103,7 @@ class MessageAPITest: XCTestCase {
     
     let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
     
-    let msg = RTTextMessage(chat: chat)
+    let msg = TextMessage(chat: chat)
     msg.sender = "asender"
     
     api.saveMessage(msg)
@@ -119,7 +119,7 @@ class MessageAPITest: XCTestCase {
     
     let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
     
-    let msg = RTTextMessage(chat: chat)
+    let msg = TextMessage(chat: chat)
     msg.text = "Hello World"
     
     firstly {
@@ -144,7 +144,7 @@ class MessageAPITest: XCTestCase {
     
     let chat = try api.loadUserChatForAlias(testClientB.devices[0].preferredAlias, localAlias: testClientA.devices[0].preferredAlias)
     
-    let msg = RTTextMessage(chat: chat)
+    let msg = TextMessage(chat: chat)
     msg.text = "Hello World"
     
     api.updateMessage(msg)
@@ -162,7 +162,7 @@ class MessageAPITest: XCTestCase {
     
     NSNotificationCenter.defaultCenter()
       .addObserverForName(MessageAPIUserStatusDidChangeNotification, object: api, queue: nil, usingBlock: { not in
-        if not.userInfo?[MessageAPIUserStatusDidChangeNotification_InfoKey] is RTUserStatusInfo {
+        if not.userInfo?[MessageAPIUserStatusDidChangeNotification_InfoKey] is UserStatusInfo {
           x.fulfill()
         }
       })

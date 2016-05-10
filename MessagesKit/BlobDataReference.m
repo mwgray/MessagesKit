@@ -51,7 +51,7 @@ static NSString *typeColumnName = @"type";
   return YES;
 }
 
--(instancetype) initWithDB:(RTDBManager *)db owner:(NSString *)owner dbName:(NSString *)dbName tableName:(NSString *)tableName blobId:(SInt64)blobId
+-(instancetype) initWithDB:(DBManager *)db owner:(NSString *)owner dbName:(NSString *)dbName tableName:(NSString *)tableName blobId:(SInt64)blobId
 {
   self = [self init];
   if (self) {
@@ -150,7 +150,7 @@ static NSString *typeColumnName = @"type";
   return res;
 }
 
-+(nullable instancetype) copyFrom:(id<DataReference>)source toOwner:(NSString *)owner forTable:(NSString *)tableName inDatabase:(NSString *)dbName using:(RTDBManager *)db filteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error
++(nullable instancetype) copyFrom:(id<DataReference>)source toOwner:(NSString *)owner forTable:(NSString *)tableName inDatabase:(NSString *)dbName using:(DBManager *)db filteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error
 {
   if ([source isKindOfClass:BlobDataReference.class] && [(id)source isSameLocationInDatabase:dbName andTable:tableName] && filter == nil) {
     

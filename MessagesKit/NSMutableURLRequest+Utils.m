@@ -8,7 +8,7 @@
 
 #import "NSMutableURLRequest+Utils.h"
 
-#import "RTServerAPI.h"
+#import "ServerAPI.h"
 
 @implementation NSMutableURLRequest (Utils)
 
@@ -17,19 +17,19 @@
   // Build/Add Basic Authentication Header
   NSString *userPassEncoded = [[[NSString stringWithFormat:@"%@:%@", user, password] dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:0];
 
-  [self setValue:[NSString stringWithFormat:@"%@ %@", RTBasicAuthorizationHTTPHeaderValue, userPassEncoded] forHTTPHeaderField:RTAuthorizationHTTPHeader];
+  [self setValue:[NSString stringWithFormat:@"%@ %@", BasicAuthorizationHTTPHeaderValue, userPassEncoded] forHTTPHeaderField:AuthorizationHTTPHeader];
 }
 
 -(void) addHTTPBearerAuthorizationWithToken:(NSString *)token
 {
   // Build/Add Bearere Authentication Header
-  [self setValue:[NSString stringWithFormat:@"%@ %@", RTBearerAuthorizationHTTPHeaderValue, token] forHTTPHeaderField:RTAuthorizationHTTPHeader];
+  [self setValue:[NSString stringWithFormat:@"%@ %@", BearerAuthorizationHTTPHeaderValue, token] forHTTPHeaderField:AuthorizationHTTPHeader];
 }
 
 -(void) addBuildNumber
 {
-  NSDictionary *infoDict = [[NSBundle bundleForClass:NSClassFromString(@"RTMessageAPI")] infoDictionary];
-  [self setValue:[infoDict objectForKey:@"CFBundleVersion"] forHTTPHeaderField:RTBuildHTTPHeader];
+  NSDictionary *infoDict = [[NSBundle bundleForClass:NSClassFromString(@"MessageAPI")] infoDictionary];
+  [self setValue:[infoDict objectForKey:@"CFBundleVersion"] forHTTPHeaderField:BuildHTTPHeader];
 }
 
 @end

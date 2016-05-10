@@ -19,16 +19,16 @@ class MessageSendSystemOperation: MessageAPIGroupOperation, MessageResolveContex
   
   var recipients : Set<String>
   
-  var recipientInformation : [String: RTUserInfo]?
+  var recipientInformation : [String: UserInfo]?
   
-  var msgPack : RTMsgPack?
+  var msgPack : MsgPack?
   
   var encryptedData : DataReference?
   
-  var sentAt : RTTimeStamp?
+  var sentAt : TimeStamp?
   
   
-  init(msgType: RTMsgType, chat: RTChat, metaData: [String: String], target: SystemMsgTarget, api: MessageAPI) {
+  init(msgType: MsgType, chat: Chat, metaData: [String: String], target: SystemMsgTarget, api: MessageAPI) {
     
     var recipients : Set<String>
     

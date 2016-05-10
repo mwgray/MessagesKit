@@ -8,20 +8,20 @@
 
 @import FMDB;
 
-#import "RTMessages.h"
+#import "Messages.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@class RTDBManager;
+@class DBManager;
 @protocol DataReference;
 
 
 @interface FMResultSet (Model)
 
--(RTId *) idForColumn:(NSString *)columnName;
--(RTId *) idForColumnIndex:(int)columnIdx;
+-(Id *) idForColumn:(NSString *)columnName;
+-(Id *) idForColumnIndex:(int)columnIdx;
 
 -(NSURL *) URLForColumn:(NSString *)columnName;
 -(NSURL *) URLForColumnIndex:(int)columnIdx;
@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(CGSize) sizeForColumn:(NSString *)columnName;
 -(CGSize) sizeForColumnIndex:(int)columnIdx;
 
--(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(RTDBManager *)db;
--(id<DataReference>) dataReferenceForColumnIndex:(int)columnIdx forOwner:(NSString *)owner usingDB:(RTDBManager *)db;
+-(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(DBManager *)db;
+-(id<DataReference>) dataReferenceForColumnIndex:(int)columnIdx forOwner:(NSString *)owner usingDB:(DBManager *)db;
 
 -(id) nillableObjectForColumnIndex:(int)columnIndex;
 

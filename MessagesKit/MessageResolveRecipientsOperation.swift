@@ -33,7 +33,7 @@ class MessageRecipientResolveOperation: MessageAPIOperation {
   
   override func execute() {
     
-    var recipientsInfo = [String: RTUserInfo]()
+    var recipientsInfo = [String: UserInfo]()
     
     for recipientAlias in context.recipients {
       
