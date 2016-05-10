@@ -19,9 +19,9 @@
 
 #import <PromiseKit/PromiseKit.h>
 
-#import "RTMessages.h"
+#import "Messages.h"
 
-@implementation RTId
+@implementation Id
 
 - (instancetype) init
 {
@@ -78,10 +78,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTId class]]) {
+  if (![anObject isKindOfClass:[Id class]]) {
     return NO;
   }
-  RTId *other = (RTId *)anObject;
+  Id *other = (Id *)anObject;
   if ((_dataIsSet != other->_dataIsSet) ||
       (_dataIsSet && ((_data || other->_data) && ![_data isEqual:other->_data]))) {
     return NO;
@@ -91,7 +91,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTId * val = [RTId new];
+  Id * val = [Id new];
   val.data = [self.data copy];
   return val;
 }
@@ -170,9 +170,17 @@
   return YES;
 }
 
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"Id("];
+  [ms appendString: @"data:"];
+  [ms appendFormat: @"\"%@\"", _data];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
 @end
 
-@implementation RTGroup
+@implementation Group
 
 - (instancetype) init
 {
@@ -182,7 +190,7 @@
   return self;
 }
 
-- (instancetype) initWithChat: (RTId *) chat members: (RTAliasSet) members
+- (instancetype) initWithChat: (Id *) chat members: (AliasSet) members
 {
   self = [super init];
   if (self)  {
@@ -245,10 +253,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTGroup class]]) {
+  if (![anObject isKindOfClass:[Group class]]) {
     return NO;
   }
-  RTGroup *other = (RTGroup *)anObject;
+  Group *other = (Group *)anObject;
   if ((_chatIsSet != other->_chatIsSet) ||
       (_chatIsSet && ((_chat || other->_chat) && ![_chat isEqual:other->_chat]))) {
     return NO;
@@ -262,13 +270,13 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTGroup * val = [RTGroup new];
+  Group * val = [Group new];
   val.chat = [self.chat copy];
   val.members = [self.members copy];
   return val;
 }
 
-- (void) setChat: (RTId *) chat {
+- (void) setChat: (Id *) chat {
   _chat = chat;
   _chatIsSet = YES;
 }
@@ -278,7 +286,7 @@
   _chatIsSet = NO;
 }
 
-- (void) setMembers: (NSMutableSet<RTAlias> *) members {
+- (void) setMembers: (NSMutableSet<Alias> *) members {
   _members = members;
   _membersIsSet = YES;
 }
@@ -305,7 +313,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.chat = fieldValue;
         } else { 
@@ -396,7 +404,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTGroup("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Group("];
   [ms appendString: @"chat:"];
   [ms appendFormat: @"%@", _chat];
   [ms appendString: @",members:"];
@@ -407,7 +415,7 @@
 
 @end
 
-@implementation RTMsg
+@implementation Msg
 
 - (instancetype) init
 {
@@ -417,7 +425,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id type: (RTMsgType) type sender: (RTAlias) sender recipient: (RTAlias) recipient group: (RTGroup *) group key: (NSData *) key signature: (NSData *) signature data: (NSData *) data metaData: (NSDictionary<NSString *, NSString *> *) metaData sent: (RTTimeStamp) sent flags: (SInt8) flags
+- (instancetype) initWithId: (Id *) id type: (MsgType) type sender: (Alias) sender recipient: (Alias) recipient group: (Group *) group key: (NSData *) key signature: (NSData *) signature data: (NSData *) data metaData: (NSDictionary<NSString *, NSString *> *) metaData sent: (TimeStamp) sent flags: (SInt8) flags
 {
   self = [super init];
   if (self)  {
@@ -624,10 +632,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTMsg class]]) {
+  if (![anObject isKindOfClass:[Msg class]]) {
     return NO;
   }
-  RTMsg *other = (RTMsg *)anObject;
+  Msg *other = (Msg *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -677,7 +685,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTMsg * val = [RTMsg new];
+  Msg * val = [Msg new];
   val.id = [self.id copy];
   val.type = self.type;
   val.sender = [self.sender copy];
@@ -692,7 +700,7 @@
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -702,7 +710,7 @@
   _idIsSet = NO;
 }
 
-- (void) setType: (RTMsgType) type {
+- (void) setType: (MsgType) type {
   _type = type;
   _typeIsSet = YES;
 }
@@ -731,7 +739,7 @@
   _recipientIsSet = NO;
 }
 
-- (void) setGroup: (RTGroup *) group {
+- (void) setGroup: (Group *) group {
   _group = group;
   _groupIsSet = YES;
 }
@@ -816,7 +824,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -826,7 +834,7 @@
         break;
       case 2:
         if (fieldType == TTypeI32) {
-          RTMsgType fieldValue;
+          MsgType fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.type = fieldValue;
         } else { 
@@ -856,7 +864,7 @@
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTGroup *fieldValue = [[RTGroup alloc] init];
+          Group *fieldValue = [[Group alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.group = fieldValue;
         } else { 
@@ -1089,7 +1097,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTMsg("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Msg("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",type:"];
@@ -1118,7 +1126,7 @@
 
 @end
 
-@implementation RTEnvelope
+@implementation Envelope
 
 - (instancetype) init
 {
@@ -1128,7 +1136,7 @@
   return self;
 }
 
-- (instancetype) initWithRecipient: (RTAlias) recipient key: (NSData *) key signature: (NSData *) signature fingerprint: (NSData *) fingerprint
+- (instancetype) initWithRecipient: (Alias) recipient key: (NSData *) key signature: (NSData *) signature fingerprint: (NSData *) fingerprint
 {
   self = [super init];
   if (self)  {
@@ -1223,10 +1231,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTEnvelope class]]) {
+  if (![anObject isKindOfClass:[Envelope class]]) {
     return NO;
   }
-  RTEnvelope *other = (RTEnvelope *)anObject;
+  Envelope *other = (Envelope *)anObject;
   if ((_recipientIsSet != other->_recipientIsSet) ||
       (_recipientIsSet && ((_recipient || other->_recipient) && ![_recipient isEqual:other->_recipient]))) {
     return NO;
@@ -1248,7 +1256,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTEnvelope * val = [RTEnvelope new];
+  Envelope * val = [Envelope new];
   val.recipient = [self.recipient copy];
   val.key = [self.key copy];
   val.signature = [self.signature copy];
@@ -1412,7 +1420,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTEnvelope("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Envelope("];
   [ms appendString: @"recipient:"];
   [ms appendFormat: @"\"%@\"", _recipient];
   [ms appendString: @",key:"];
@@ -1427,7 +1435,7 @@
 
 @end
 
-@implementation RTDirectMsg
+@implementation DirectMsg
 
 - (instancetype) init
 {
@@ -1437,7 +1445,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id type: (NSString *) type sender: (RTAlias) sender senderDevice: (RTId *) senderDevice key: (NSData *) key signature: (NSData *) signature data: (NSData *) data
+- (instancetype) initWithId: (Id *) id type: (NSString *) type sender: (Alias) sender senderDevice: (Id *) senderDevice key: (NSData *) key signature: (NSData *) signature data: (NSData *) data
 {
   self = [super init];
   if (self)  {
@@ -1580,10 +1588,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDirectMsg class]]) {
+  if (![anObject isKindOfClass:[DirectMsg class]]) {
     return NO;
   }
-  RTDirectMsg *other = (RTDirectMsg *)anObject;
+  DirectMsg *other = (DirectMsg *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -1617,7 +1625,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDirectMsg * val = [RTDirectMsg new];
+  DirectMsg * val = [DirectMsg new];
   val.id = [self.id copy];
   val.type = [self.type copy];
   val.sender = [self.sender copy];
@@ -1628,7 +1636,7 @@
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -1658,7 +1666,7 @@
   _senderIsSet = NO;
 }
 
-- (void) setSenderDevice: (RTId *) senderDevice {
+- (void) setSenderDevice: (Id *) senderDevice {
   _senderDevice = senderDevice;
   _senderDeviceIsSet = YES;
 }
@@ -1715,7 +1723,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -1745,7 +1753,7 @@
         break;
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.senderDevice = fieldValue;
         } else { 
@@ -1897,7 +1905,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDirectMsg("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DirectMsg("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",type:"];
@@ -1918,7 +1926,7 @@
 
 @end
 
-@implementation RTDirectEnvelope
+@implementation DirectEnvelope
 
 - (instancetype) init
 {
@@ -1928,7 +1936,7 @@
   return self;
 }
 
-- (instancetype) initWithRecipient: (RTAlias) recipient device: (RTId *) device key: (NSData *) key signature: (NSData *) signature fingerprint: (NSData *) fingerprint
+- (instancetype) initWithRecipient: (Alias) recipient device: (Id *) device key: (NSData *) key signature: (NSData *) signature fingerprint: (NSData *) fingerprint
 {
   self = [super init];
   if (self)  {
@@ -2039,10 +2047,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDirectEnvelope class]]) {
+  if (![anObject isKindOfClass:[DirectEnvelope class]]) {
     return NO;
   }
-  RTDirectEnvelope *other = (RTDirectEnvelope *)anObject;
+  DirectEnvelope *other = (DirectEnvelope *)anObject;
   if ((_recipientIsSet != other->_recipientIsSet) ||
       (_recipientIsSet && ((_recipient || other->_recipient) && ![_recipient isEqual:other->_recipient]))) {
     return NO;
@@ -2068,7 +2076,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDirectEnvelope * val = [RTDirectEnvelope new];
+  DirectEnvelope * val = [DirectEnvelope new];
   val.recipient = [self.recipient copy];
   val.device = [self.device copy];
   val.key = [self.key copy];
@@ -2087,7 +2095,7 @@
   _recipientIsSet = NO;
 }
 
-- (void) setDevice: (RTId *) device {
+- (void) setDevice: (Id *) device {
   _device = device;
   _deviceIsSet = YES;
 }
@@ -2154,7 +2162,7 @@
         break;
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.device = fieldValue;
         } else { 
@@ -2268,7 +2276,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDirectEnvelope("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DirectEnvelope("];
   [ms appendString: @"recipient:"];
   [ms appendFormat: @"\"%@\"", _recipient];
   [ms appendString: @",device:"];
@@ -2285,7 +2293,7 @@
 
 @end
 
-@implementation RTMsgPack
+@implementation MsgPack
 
 - (instancetype) init
 {
@@ -2295,7 +2303,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id type: (RTMsgType) type sender: (RTAlias) sender envelopes: (RTEnvelopeList) envelopes chat: (RTId *) chat metaData: (NSDictionary<NSString *, NSString *> *) metaData data: (NSData *) data
+- (instancetype) initWithId: (Id *) id type: (MsgType) type sender: (Alias) sender envelopes: (EnvelopeList) envelopes chat: (Id *) chat metaData: (NSDictionary<NSString *, NSString *> *) metaData data: (NSData *) data
 {
   self = [super init];
   if (self)  {
@@ -2438,10 +2446,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTMsgPack class]]) {
+  if (![anObject isKindOfClass:[MsgPack class]]) {
     return NO;
   }
-  RTMsgPack *other = (RTMsgPack *)anObject;
+  MsgPack *other = (MsgPack *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -2475,7 +2483,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTMsgPack * val = [RTMsgPack new];
+  MsgPack * val = [MsgPack new];
   val.id = [self.id copy];
   val.type = self.type;
   val.sender = [self.sender copy];
@@ -2486,7 +2494,7 @@
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -2496,7 +2504,7 @@
   _idIsSet = NO;
 }
 
-- (void) setType: (RTMsgType) type {
+- (void) setType: (MsgType) type {
   _type = type;
   _typeIsSet = YES;
 }
@@ -2515,7 +2523,7 @@
   _senderIsSet = NO;
 }
 
-- (void) setEnvelopes: (NSMutableArray<RTEnvelope *> *) envelopes {
+- (void) setEnvelopes: (NSMutableArray<Envelope *> *) envelopes {
   _envelopes = envelopes;
   _envelopesIsSet = YES;
 }
@@ -2525,7 +2533,7 @@
   _envelopesIsSet = NO;
 }
 
-- (void) setChat: (RTId *) chat {
+- (void) setChat: (Id *) chat {
   _chat = chat;
   _chatIsSet = YES;
 }
@@ -2572,7 +2580,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -2582,7 +2590,7 @@
         break;
       case 2:
         if (fieldType == TTypeI32) {
-          RTMsgType fieldValue;
+          MsgType fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.type = fieldValue;
         } else { 
@@ -2608,7 +2616,7 @@
           int _i12;
           for (_i12 = 0; _i12 < _size11; ++_i12)
           {
-            RTEnvelope *_elem13 = [[RTEnvelope alloc] init];
+            Envelope *_elem13 = [[Envelope alloc] init];
             if (![_elem13 read: inProtocol error: __thriftError]) return NO;
             [fieldValue addObject: _elem13];
           }
@@ -2621,7 +2629,7 @@
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.chat = fieldValue;
         } else { 
@@ -2782,7 +2790,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTMsgPack("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"MsgPack("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",type:"];
@@ -2803,7 +2811,7 @@
 
 @end
 
-@implementation RTMsgHdr
+@implementation MsgHdr
 
 - (instancetype) init
 {
@@ -2813,7 +2821,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id type: (RTMsgType) type dataLength: (SInt32) dataLength
+- (instancetype) initWithId: (Id *) id type: (MsgType) type dataLength: (SInt32) dataLength
 {
   self = [super init];
   if (self)  {
@@ -2892,10 +2900,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTMsgHdr class]]) {
+  if (![anObject isKindOfClass:[MsgHdr class]]) {
     return NO;
   }
-  RTMsgHdr *other = (RTMsgHdr *)anObject;
+  MsgHdr *other = (MsgHdr *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -2913,14 +2921,14 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTMsgHdr * val = [RTMsgHdr new];
+  MsgHdr * val = [MsgHdr new];
   val.id = [self.id copy];
   val.type = self.type;
   val.dataLength = self.dataLength;
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -2930,7 +2938,7 @@
   _idIsSet = NO;
 }
 
-- (void) setType: (RTMsgType) type {
+- (void) setType: (MsgType) type {
   _type = type;
   _typeIsSet = YES;
 }
@@ -2965,7 +2973,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -2975,7 +2983,7 @@
         break;
       case 2:
         if (fieldType == TTypeI32) {
-          RTMsgType fieldValue;
+          MsgType fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.type = fieldValue;
         } else { 
@@ -3059,7 +3067,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTMsgHdr("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"MsgHdr("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",type:"];
@@ -3072,7 +3080,7 @@
 
 @end
 
-@implementation RTDeviceInfo
+@implementation DeviceInfo
 
 - (instancetype) init
 {
@@ -3082,7 +3090,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id name: (NSString *) name manufacturer: (NSString *) manufacturer model: (NSString *) model version: (NSString *) version osVersion: (NSString *) osVersion activeAliases: (RTAliasSet) activeAliases
+- (instancetype) initWithId: (Id *) id name: (NSString *) name manufacturer: (NSString *) manufacturer model: (NSString *) model version: (NSString *) version osVersion: (NSString *) osVersion activeAliases: (AliasSet) activeAliases
 {
   self = [super init];
   if (self)  {
@@ -3225,10 +3233,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceInfo class]]) {
+  if (![anObject isKindOfClass:[DeviceInfo class]]) {
     return NO;
   }
-  RTDeviceInfo *other = (RTDeviceInfo *)anObject;
+  DeviceInfo *other = (DeviceInfo *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -3262,7 +3270,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceInfo * val = [RTDeviceInfo new];
+  DeviceInfo * val = [DeviceInfo new];
   val.id = [self.id copy];
   val.name = [self.name copy];
   val.manufacturer = [self.manufacturer copy];
@@ -3273,7 +3281,7 @@
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -3333,7 +3341,7 @@
   _osVersionIsSet = NO;
 }
 
-- (void) setActiveAliases: (NSMutableSet<RTAlias> *) activeAliases {
+- (void) setActiveAliases: (NSMutableSet<Alias> *) activeAliases {
   _activeAliases = activeAliases;
   _activeAliasesIsSet = YES;
 }
@@ -3360,7 +3368,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -3520,7 +3528,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceInfo("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceInfo("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",name:"];
@@ -3541,7 +3549,7 @@
 
 @end
 
-@implementation RTImage
+@implementation Image
 
 - (instancetype) init
 {
@@ -3614,10 +3622,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTImage class]]) {
+  if (![anObject isKindOfClass:[Image class]]) {
     return NO;
   }
-  RTImage *other = (RTImage *)anObject;
+  Image *other = (Image *)anObject;
   if ((_mimeTypeIsSet != other->_mimeTypeIsSet) ||
       (_mimeTypeIsSet && ((_mimeType || other->_mimeType) && ![_mimeType isEqual:other->_mimeType]))) {
     return NO;
@@ -3631,7 +3639,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTImage * val = [RTImage new];
+  Image * val = [Image new];
   val.mimeType = [self.mimeType copy];
   val.data = [self.data copy];
   return val;
@@ -3731,7 +3739,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTImage("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Image("];
   [ms appendString: @"mimeType:"];
   [ms appendFormat: @"\"%@\"", _mimeType];
   [ms appendString: @",data:"];
@@ -3742,7 +3750,7 @@
 
 @end
 
-@implementation RTUserInfo
+@implementation UserInfo
 
 - (instancetype) init
 {
@@ -3752,7 +3760,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id aliases: (RTAliasSet) aliases encryptionCert: (NSData *) encryptionCert signingCert: (NSData *) signingCert avatar: (RTImage *) avatar
+- (instancetype) initWithId: (Id *) id aliases: (AliasSet) aliases encryptionCert: (NSData *) encryptionCert signingCert: (NSData *) signingCert avatar: (Image *) avatar
 {
   self = [super init];
   if (self)  {
@@ -3863,10 +3871,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserInfo class]]) {
+  if (![anObject isKindOfClass:[UserInfo class]]) {
     return NO;
   }
-  RTUserInfo *other = (RTUserInfo *)anObject;
+  UserInfo *other = (UserInfo *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -3892,7 +3900,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserInfo * val = [RTUserInfo new];
+  UserInfo * val = [UserInfo new];
   val.id = [self.id copy];
   val.aliases = [self.aliases copy];
   val.encryptionCert = [self.encryptionCert copy];
@@ -3901,7 +3909,7 @@
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -3911,7 +3919,7 @@
   _idIsSet = NO;
 }
 
-- (void) setAliases: (NSMutableSet<RTAlias> *) aliases {
+- (void) setAliases: (NSMutableSet<Alias> *) aliases {
   _aliases = aliases;
   _aliasesIsSet = YES;
 }
@@ -3941,7 +3949,7 @@
   _signingCertIsSet = NO;
 }
 
-- (void) setAvatar: (RTImage *) avatar {
+- (void) setAvatar: (Image *) avatar {
   _avatar = avatar;
   _avatarIsSet = YES;
 }
@@ -3968,7 +3976,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -4017,7 +4025,7 @@
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTImage *fieldValue = [[RTImage alloc] init];
+          Image *fieldValue = [[Image alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.avatar = fieldValue;
         } else { 
@@ -4094,7 +4102,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserInfo("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserInfo("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",aliases:"];
@@ -4111,7 +4119,7 @@
 
 @end
 
-@implementation RTUserProfile
+@implementation UserProfile
 
 - (instancetype) init
 {
@@ -4121,7 +4129,7 @@
   return self;
 }
 
-- (instancetype) initWithId: (RTId *) id aliases: (RTAliasSet) aliases encryptionCert: (NSData *) encryptionCert signingCert: (NSData *) signingCert devices: (NSArray<RTDeviceInfo *> *) devices avatar: (RTImage *) avatar
+- (instancetype) initWithId: (Id *) id aliases: (AliasSet) aliases encryptionCert: (NSData *) encryptionCert signingCert: (NSData *) signingCert devices: (NSArray<DeviceInfo *> *) devices avatar: (Image *) avatar
 {
   self = [super init];
   if (self)  {
@@ -4248,10 +4256,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserProfile class]]) {
+  if (![anObject isKindOfClass:[UserProfile class]]) {
     return NO;
   }
-  RTUserProfile *other = (RTUserProfile *)anObject;
+  UserProfile *other = (UserProfile *)anObject;
   if ((_idIsSet != other->_idIsSet) ||
       (_idIsSet && ((_id || other->_id) && ![_id isEqual:other->_id]))) {
     return NO;
@@ -4281,7 +4289,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserProfile * val = [RTUserProfile new];
+  UserProfile * val = [UserProfile new];
   val.id = [self.id copy];
   val.aliases = [self.aliases copy];
   val.encryptionCert = [self.encryptionCert copy];
@@ -4291,7 +4299,7 @@
   return val;
 }
 
-- (void) setId: (RTId *) id {
+- (void) setId: (Id *) id {
   _id = id;
   _idIsSet = YES;
 }
@@ -4301,7 +4309,7 @@
   _idIsSet = NO;
 }
 
-- (void) setAliases: (NSMutableSet<RTAlias> *) aliases {
+- (void) setAliases: (NSMutableSet<Alias> *) aliases {
   _aliases = aliases;
   _aliasesIsSet = YES;
 }
@@ -4331,7 +4339,7 @@
   _signingCertIsSet = NO;
 }
 
-- (void) setDevices: (NSMutableArray<RTDeviceInfo *> *) devices {
+- (void) setDevices: (NSMutableArray<DeviceInfo *> *) devices {
   _devices = devices;
   _devicesIsSet = YES;
 }
@@ -4341,7 +4349,7 @@
   _devicesIsSet = NO;
 }
 
-- (void) setAvatar: (RTImage *) avatar {
+- (void) setAvatar: (Image *) avatar {
   _avatar = avatar;
   _avatarIsSet = YES;
 }
@@ -4368,7 +4376,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.id = fieldValue;
         } else { 
@@ -4423,7 +4431,7 @@
           int _i36;
           for (_i36 = 0; _i36 < _size35; ++_i36)
           {
-            RTDeviceInfo *_elem37 = [[RTDeviceInfo alloc] init];
+            DeviceInfo *_elem37 = [[DeviceInfo alloc] init];
             if (![_elem37 read: inProtocol error: __thriftError]) return NO;
             [fieldValue addObject: _elem37];
           }
@@ -4436,7 +4444,7 @@
         break;
       case 6:
         if (fieldType == TTypeSTRUCT) {
-          RTImage *fieldValue = [[RTImage alloc] init];
+          Image *fieldValue = [[Image alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.avatar = fieldValue;
         } else { 
@@ -4528,7 +4536,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserProfile("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserProfile("];
   [ms appendString: @"id:"];
   [ms appendFormat: @"%@", _id];
   [ms appendString: @",aliases:"];
@@ -4547,12 +4555,12 @@
 
 @end
 
-@implementation RTInvalidUser
+@implementation InvalidUser
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorInvalidUser
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorInvalidUser
                       userInfo: nil];
 }
 
@@ -4589,7 +4597,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvalidUser * val = [RTInvalidUser errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  InvalidUser * val = [InvalidUser errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   return val;
 }
 
@@ -4633,19 +4641,19 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvalidUser("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"InvalidUser("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation RTInvalidDevice
+@implementation InvalidDevice
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorInvalidDevice
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorInvalidDevice
                       userInfo: nil];
 }
 
@@ -4682,7 +4690,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvalidDevice * val = [RTInvalidDevice errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  InvalidDevice * val = [InvalidDevice errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   return val;
 }
 
@@ -4726,23 +4734,23 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvalidDevice("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"InvalidDevice("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation RTInvalidSender
+@implementation InvalidSender
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorInvalidSender
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorInvalidSender
                       userInfo: nil];
 }
 
-- (instancetype) initWithOffender: (RTAlias) offender
+- (instancetype) initWithOffender: (Alias) offender
 {
   self = [self init];
   if (self)  {
@@ -4794,7 +4802,7 @@
     return NO;
   }
 
-  RTInvalidSender *other = (RTInvalidSender *)anObject;
+  InvalidSender *other = (InvalidSender *)anObject;
   if ((_offenderIsSet != other->_offenderIsSet) ||
       (_offenderIsSet && ((_offender || other->_offender) && ![_offender isEqual:other->_offender]))) {
     return NO;
@@ -4804,7 +4812,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvalidSender * val = [RTInvalidSender errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  InvalidSender * val = [InvalidSender errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.offender = [self.offender copy];
   return val;
 }
@@ -4876,7 +4884,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvalidSender("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"InvalidSender("];
   [ms appendString: @"offender:"];
   [ms appendFormat: @"\"%@\"", _offender];
   [ms appendString: @")"];
@@ -4885,16 +4893,16 @@
 
 @end
 
-@implementation RTInvalidRecipient
+@implementation InvalidRecipient
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorInvalidRecipient
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorInvalidRecipient
                       userInfo: nil];
 }
 
-- (instancetype) initWithOffender: (RTAlias) offender
+- (instancetype) initWithOffender: (Alias) offender
 {
   self = [self init];
   if (self)  {
@@ -4946,7 +4954,7 @@
     return NO;
   }
 
-  RTInvalidRecipient *other = (RTInvalidRecipient *)anObject;
+  InvalidRecipient *other = (InvalidRecipient *)anObject;
   if ((_offenderIsSet != other->_offenderIsSet) ||
       (_offenderIsSet && ((_offender || other->_offender) && ![_offender isEqual:other->_offender]))) {
     return NO;
@@ -4956,7 +4964,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvalidRecipient * val = [RTInvalidRecipient errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  InvalidRecipient * val = [InvalidRecipient errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.offender = [self.offender copy];
   return val;
 }
@@ -5028,7 +5036,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvalidRecipient("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"InvalidRecipient("];
   [ms appendString: @"offender:"];
   [ms appendFormat: @"\"%@\"", _offender];
   [ms appendString: @")"];
@@ -5037,16 +5045,16 @@
 
 @end
 
-@implementation RTInvalidAlias
+@implementation InvalidAlias
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorInvalidAlias
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorInvalidAlias
                       userInfo: nil];
 }
 
-- (instancetype) initWithOffender: (RTAlias) offender
+- (instancetype) initWithOffender: (Alias) offender
 {
   self = [self init];
   if (self)  {
@@ -5098,7 +5106,7 @@
     return NO;
   }
 
-  RTInvalidAlias *other = (RTInvalidAlias *)anObject;
+  InvalidAlias *other = (InvalidAlias *)anObject;
   if ((_offenderIsSet != other->_offenderIsSet) ||
       (_offenderIsSet && ((_offender || other->_offender) && ![_offender isEqual:other->_offender]))) {
     return NO;
@@ -5108,7 +5116,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvalidAlias * val = [RTInvalidAlias errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  InvalidAlias * val = [InvalidAlias errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.offender = [self.offender copy];
   return val;
 }
@@ -5180,7 +5188,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvalidAlias("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"InvalidAlias("];
   [ms appendString: @"offender:"];
   [ms appendFormat: @"\"%@\"", _offender];
   [ms appendString: @")"];
@@ -5189,16 +5197,16 @@
 
 @end
 
-@implementation RTInvalidCredentials
+@implementation InvalidCredentials
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorInvalidCredentials
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorInvalidCredentials
                       userInfo: nil];
 }
 
-- (instancetype) initWithRecipient: (RTAlias) recipient
+- (instancetype) initWithRecipient: (Alias) recipient
 {
   self = [self init];
   if (self)  {
@@ -5250,7 +5258,7 @@
     return NO;
   }
 
-  RTInvalidCredentials *other = (RTInvalidCredentials *)anObject;
+  InvalidCredentials *other = (InvalidCredentials *)anObject;
   if ((_recipientIsSet != other->_recipientIsSet) ||
       (_recipientIsSet && ((_recipient || other->_recipient) && ![_recipient isEqual:other->_recipient]))) {
     return NO;
@@ -5260,7 +5268,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvalidCredentials * val = [RTInvalidCredentials errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  InvalidCredentials * val = [InvalidCredentials errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.recipient = [self.recipient copy];
   return val;
 }
@@ -5332,7 +5340,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvalidCredentials("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"InvalidCredentials("];
   [ms appendString: @"recipient:"];
   [ms appendFormat: @"\"%@\"", _recipient];
   [ms appendString: @")"];
@@ -5341,12 +5349,12 @@
 
 @end
 
-@implementation RTDeviceInUse
+@implementation DeviceInUse
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorDeviceInUse
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorDeviceInUse
                       userInfo: nil];
 }
 
@@ -5383,7 +5391,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceInUse * val = [RTDeviceInUse errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  DeviceInUse * val = [DeviceInUse errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   return val;
 }
 
@@ -5427,19 +5435,19 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceInUse("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceInUse("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation RTMessageUndeliverable
+@implementation MessageUndeliverable
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorMessageUndeliverable
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorMessageUndeliverable
                       userInfo: nil];
 }
 
@@ -5495,7 +5503,7 @@
     return NO;
   }
 
-  RTMessageUndeliverable *other = (RTMessageUndeliverable *)anObject;
+  MessageUndeliverable *other = (MessageUndeliverable *)anObject;
   if ((_reasonIsSet != other->_reasonIsSet) ||
       (_reasonIsSet && ((_reason || other->_reason) && ![_reason isEqual:other->_reason]))) {
     return NO;
@@ -5505,7 +5513,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTMessageUndeliverable * val = [RTMessageUndeliverable errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  MessageUndeliverable * val = [MessageUndeliverable errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.reason = [self.reason copy];
   return val;
 }
@@ -5577,7 +5585,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTMessageUndeliverable("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"MessageUndeliverable("];
   [ms appendString: @"reason:"];
   [ms appendFormat: @"\"%@\"", _reason];
   [ms appendString: @")"];
@@ -5586,7 +5594,7 @@
 
 @end
 
-@implementation RTAuthenticatedAlias
+@implementation AuthenticatedAlias
 
 - (instancetype) init
 {
@@ -5659,10 +5667,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTAuthenticatedAlias class]]) {
+  if (![anObject isKindOfClass:[AuthenticatedAlias class]]) {
     return NO;
   }
-  RTAuthenticatedAlias *other = (RTAuthenticatedAlias *)anObject;
+  AuthenticatedAlias *other = (AuthenticatedAlias *)anObject;
   if ((_nameIsSet != other->_nameIsSet) ||
       (_nameIsSet && ((_name || other->_name) && ![_name isEqual:other->_name]))) {
     return NO;
@@ -5676,7 +5684,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTAuthenticatedAlias * val = [RTAuthenticatedAlias new];
+  AuthenticatedAlias * val = [AuthenticatedAlias new];
   val.name = [self.name copy];
   val.pin = [self.pin copy];
   return val;
@@ -5776,7 +5784,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTAuthenticatedAlias("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthenticatedAlias("];
   [ms appendString: @"name:"];
   [ms appendFormat: @"\"%@\"", _name];
   [ms appendString: @",pin:"];
@@ -5787,16 +5795,16 @@
 
 @end
 
-@implementation RTAliasInUse
+@implementation AliasInUse
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorAliasInUse
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorAliasInUse
                       userInfo: nil];
 }
 
-- (instancetype) initWithProblemAlias: (RTAlias) problemAlias
+- (instancetype) initWithProblemAlias: (Alias) problemAlias
 {
   self = [self init];
   if (self)  {
@@ -5848,7 +5856,7 @@
     return NO;
   }
 
-  RTAliasInUse *other = (RTAliasInUse *)anObject;
+  AliasInUse *other = (AliasInUse *)anObject;
   if ((_problemAliasIsSet != other->_problemAliasIsSet) ||
       (_problemAliasIsSet && ((_problemAlias || other->_problemAlias) && ![_problemAlias isEqual:other->_problemAlias]))) {
     return NO;
@@ -5858,7 +5866,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTAliasInUse * val = [RTAliasInUse errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  AliasInUse * val = [AliasInUse errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.problemAlias = [self.problemAlias copy];
   return val;
 }
@@ -5930,7 +5938,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTAliasInUse("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AliasInUse("];
   [ms appendString: @"problemAlias:"];
   [ms appendFormat: @"\"%@\"", _problemAlias];
   [ms appendString: @")"];
@@ -5939,16 +5947,16 @@
 
 @end
 
-@implementation RTAliasPinInvalid
+@implementation AliasPinInvalid
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorAliasPinInvalid
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorAliasPinInvalid
                       userInfo: nil];
 }
 
-- (instancetype) initWithProblemAlias: (RTAlias) problemAlias
+- (instancetype) initWithProblemAlias: (Alias) problemAlias
 {
   self = [self init];
   if (self)  {
@@ -6000,7 +6008,7 @@
     return NO;
   }
 
-  RTAliasPinInvalid *other = (RTAliasPinInvalid *)anObject;
+  AliasPinInvalid *other = (AliasPinInvalid *)anObject;
   if ((_problemAliasIsSet != other->_problemAliasIsSet) ||
       (_problemAliasIsSet && ((_problemAlias || other->_problemAlias) && ![_problemAlias isEqual:other->_problemAlias]))) {
     return NO;
@@ -6010,7 +6018,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTAliasPinInvalid * val = [RTAliasPinInvalid errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  AliasPinInvalid * val = [AliasPinInvalid errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.problemAlias = [self.problemAlias copy];
   return val;
 }
@@ -6082,7 +6090,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTAliasPinInvalid("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AliasPinInvalid("];
   [ms appendString: @"problemAlias:"];
   [ms appendFormat: @"\"%@\"", _problemAlias];
   [ms appendString: @")"];
@@ -6091,16 +6099,16 @@
 
 @end
 
-@implementation RTAliasNotAuthenticated
+@implementation AliasNotAuthenticated
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorAliasNotAuthenticated
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorAliasNotAuthenticated
                       userInfo: nil];
 }
 
-- (instancetype) initWithProblemAlias: (RTAlias) problemAlias
+- (instancetype) initWithProblemAlias: (Alias) problemAlias
 {
   self = [self init];
   if (self)  {
@@ -6152,7 +6160,7 @@
     return NO;
   }
 
-  RTAliasNotAuthenticated *other = (RTAliasNotAuthenticated *)anObject;
+  AliasNotAuthenticated *other = (AliasNotAuthenticated *)anObject;
   if ((_problemAliasIsSet != other->_problemAliasIsSet) ||
       (_problemAliasIsSet && ((_problemAlias || other->_problemAlias) && ![_problemAlias isEqual:other->_problemAlias]))) {
     return NO;
@@ -6162,7 +6170,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTAliasNotAuthenticated * val = [RTAliasNotAuthenticated errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  AliasNotAuthenticated * val = [AliasNotAuthenticated errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.problemAlias = [self.problemAlias copy];
   return val;
 }
@@ -6234,7 +6242,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTAliasNotAuthenticated("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AliasNotAuthenticated("];
   [ms appendString: @"problemAlias:"];
   [ms appendFormat: @"\"%@\"", _problemAlias];
   [ms appendString: @")"];
@@ -6243,12 +6251,12 @@
 
 @end
 
-@implementation RTUnableToAuthenticate
+@implementation UnableToAuthenticate
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorUnableToAuthenticate
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorUnableToAuthenticate
                       userInfo: nil];
 }
 
@@ -6285,7 +6293,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUnableToAuthenticate * val = [RTUnableToAuthenticate errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  UnableToAuthenticate * val = [UnableToAuthenticate errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   return val;
 }
 
@@ -6329,19 +6337,19 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUnableToAuthenticate("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UnableToAuthenticate("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@implementation RTSignInDisallowed
+@implementation SignInDisallowed
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorSignInDisallowed
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorSignInDisallowed
                       userInfo: nil];
 }
 
@@ -6397,7 +6405,7 @@
     return NO;
   }
 
-  RTSignInDisallowed *other = (RTSignInDisallowed *)anObject;
+  SignInDisallowed *other = (SignInDisallowed *)anObject;
   if ((_messageIsSet != other->_messageIsSet) ||
       (_messageIsSet && ((_message || other->_message) && ![_message isEqual:other->_message]))) {
     return NO;
@@ -6407,7 +6415,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTSignInDisallowed * val = [RTSignInDisallowed errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  SignInDisallowed * val = [SignInDisallowed errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.message = [self.message copy];
   return val;
 }
@@ -6479,7 +6487,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTSignInDisallowed("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"SignInDisallowed("];
   [ms appendString: @"message:"];
   [ms appendFormat: @"\"%@\"", _message];
   [ms appendString: @")"];
@@ -6488,7 +6496,7 @@
 
 @end
 
-@implementation RTInvite
+@implementation Invite
 
 - (instancetype) init
 {
@@ -6577,10 +6585,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTInvite class]]) {
+  if (![anObject isKindOfClass:[Invite class]]) {
     return NO;
   }
-  RTInvite *other = (RTInvite *)anObject;
+  Invite *other = (Invite *)anObject;
   if ((_bodyTextIsSet != other->_bodyTextIsSet) ||
       (_bodyTextIsSet && ((_bodyText || other->_bodyText) && ![_bodyText isEqual:other->_bodyText]))) {
     return NO;
@@ -6598,7 +6606,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTInvite * val = [RTInvite new];
+  Invite * val = [Invite new];
   val.bodyText = [self.bodyText copy];
   val.bodyHtml = [self.bodyHtml copy];
   val.subject = [self.subject copy];
@@ -6734,7 +6742,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTInvite("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Invite("];
   [ms appendString: @"bodyText:"];
   [ms appendFormat: @"\"%@\"", _bodyText];
   [ms appendString: @",bodyHtml:"];
@@ -6747,12 +6755,12 @@
 
 @end
 
-@implementation RTAliasAlreadyInvited
+@implementation AliasAlreadyInvited
 
 - (instancetype) init
 {
-  return [super initWithDomain: RTMessagesErrorDomain
-                          code: RTMessagesErrorAliasAlreadyInvited
+  return [super initWithDomain: MessagesErrorDomain
+                          code: MessagesErrorAliasAlreadyInvited
                       userInfo: nil];
 }
 
@@ -6808,7 +6816,7 @@
     return NO;
   }
 
-  RTAliasAlreadyInvited *other = (RTAliasAlreadyInvited *)anObject;
+  AliasAlreadyInvited *other = (AliasAlreadyInvited *)anObject;
   if ((_problemAliasIsSet != other->_problemAliasIsSet) ||
       (_problemAliasIsSet && ((_problemAlias || other->_problemAlias) && ![_problemAlias isEqual:other->_problemAlias]))) {
     return NO;
@@ -6818,7 +6826,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTAliasAlreadyInvited * val = [RTAliasAlreadyInvited errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
+  AliasAlreadyInvited * val = [AliasAlreadyInvited errorWithDomain: self.domain code: self.code userInfo: self.userInfo];
   val.problemAlias = [self.problemAlias copy];
   return val;
 }
@@ -6890,7 +6898,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTAliasAlreadyInvited("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AliasAlreadyInvited("];
   [ms appendString: @"problemAlias:"];
   [ms appendFormat: @"\"%@\"", _problemAlias];
   [ms appendString: @")"];
@@ -6899,7 +6907,7 @@
 
 @end
 
-@implementation RTCertificateSet
+@implementation CertificateSet
 
 - (instancetype) init
 {
@@ -6972,10 +6980,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTCertificateSet class]]) {
+  if (![anObject isKindOfClass:[CertificateSet class]]) {
     return NO;
   }
-  RTCertificateSet *other = (RTCertificateSet *)anObject;
+  CertificateSet *other = (CertificateSet *)anObject;
   if ((_encryptionCertIsSet != other->_encryptionCertIsSet) ||
       (_encryptionCertIsSet && ((_encryptionCert || other->_encryptionCert) && ![_encryptionCert isEqual:other->_encryptionCert]))) {
     return NO;
@@ -6989,7 +6997,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTCertificateSet * val = [RTCertificateSet new];
+  CertificateSet * val = [CertificateSet new];
   val.encryptionCert = [self.encryptionCert copy];
   val.signingCert = [self.signingCert copy];
   return val;
@@ -7089,7 +7097,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTCertificateSet("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"CertificateSet("];
   [ms appendString: @"encryptionCert:"];
   [ms appendFormat: @"\"%@\"", _encryptionCert];
   [ms appendString: @",signingCert:"];
@@ -7100,7 +7108,7 @@
 
 @end
 
-@implementation RTLocation
+@implementation Location
 
 - (instancetype) init
 {
@@ -7189,10 +7197,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTLocation class]]) {
+  if (![anObject isKindOfClass:[Location class]]) {
     return NO;
   }
-  RTLocation *other = (RTLocation *)anObject;
+  Location *other = (Location *)anObject;
   if ((_titleIsSet != other->_titleIsSet) ||
       (_titleIsSet && ((_title || other->_title) && ![_title isEqual:other->_title]))) {
     return NO;
@@ -7210,7 +7218,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTLocation * val = [RTLocation new];
+  Location * val = [Location new];
   val.title = [self.title copy];
   val.longitude = self.longitude;
   val.latitude = self.latitude;
@@ -7332,7 +7340,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTLocation("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Location("];
   [ms appendString: @"title:"];
   [ms appendFormat: @"\"%@\"", _title];
   [ms appendString: @",longitude:"];
@@ -7345,7 +7353,7 @@
 
 @end
 
-@implementation RTConference
+@implementation Conference
 
 - (instancetype) init
 {
@@ -7355,7 +7363,7 @@
   return self;
 }
 
-- (instancetype) initWithCallingDeviceId: (RTId *) callingDeviceId status: (RTConferenceStatus) status message: (NSString *) message
+- (instancetype) initWithCallingDeviceId: (Id *) callingDeviceId status: (ConferenceStatus) status message: (NSString *) message
 {
   self = [super init];
   if (self)  {
@@ -7434,10 +7442,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTConference class]]) {
+  if (![anObject isKindOfClass:[Conference class]]) {
     return NO;
   }
-  RTConference *other = (RTConference *)anObject;
+  Conference *other = (Conference *)anObject;
   if ((_callingDeviceIdIsSet != other->_callingDeviceIdIsSet) ||
       (_callingDeviceIdIsSet && ((_callingDeviceId || other->_callingDeviceId) && ![_callingDeviceId isEqual:other->_callingDeviceId]))) {
     return NO;
@@ -7455,14 +7463,14 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTConference * val = [RTConference new];
+  Conference * val = [Conference new];
   val.callingDeviceId = [self.callingDeviceId copy];
   val.status = self.status;
   val.message = [self.message copy];
   return val;
 }
 
-- (void) setCallingDeviceId: (RTId *) callingDeviceId {
+- (void) setCallingDeviceId: (Id *) callingDeviceId {
   _callingDeviceId = callingDeviceId;
   _callingDeviceIdIsSet = YES;
 }
@@ -7472,7 +7480,7 @@
   _callingDeviceIdIsSet = NO;
 }
 
-- (void) setStatus: (RTConferenceStatus) status {
+- (void) setStatus: (ConferenceStatus) status {
   _status = status;
   _statusIsSet = YES;
 }
@@ -7508,7 +7516,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.callingDeviceId = fieldValue;
         } else { 
@@ -7518,7 +7526,7 @@
         break;
       case 2:
         if (fieldType == TTypeI32) {
-          RTConferenceStatus fieldValue;
+          ConferenceStatus fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.status = fieldValue;
         } else { 
@@ -7596,7 +7604,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTConference("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"Conference("];
   [ms appendString: @"callingDeviceId:"];
   [ms appendFormat: @"%@", _callingDeviceId];
   [ms appendString: @",status:"];
@@ -7609,7 +7617,7 @@
 
 @end
 
-@implementation RTAuthorizeRequest
+@implementation AuthorizeRequest
 
 - (instancetype) init
 {
@@ -7619,7 +7627,7 @@
   return self;
 }
 
-- (instancetype) initWithDeviceId: (RTId *) deviceId deviceName: (NSString *) deviceName deviceEncryptionCert: (NSData *) deviceEncryptionCert deviceSigningCert: (NSData *) deviceSigningCert requestor: (NSString *) requestor
+- (instancetype) initWithDeviceId: (Id *) deviceId deviceName: (NSString *) deviceName deviceEncryptionCert: (NSData *) deviceEncryptionCert deviceSigningCert: (NSData *) deviceSigningCert requestor: (NSString *) requestor
 {
   self = [super init];
   if (self)  {
@@ -7730,10 +7738,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTAuthorizeRequest class]]) {
+  if (![anObject isKindOfClass:[AuthorizeRequest class]]) {
     return NO;
   }
-  RTAuthorizeRequest *other = (RTAuthorizeRequest *)anObject;
+  AuthorizeRequest *other = (AuthorizeRequest *)anObject;
   if ((_deviceIdIsSet != other->_deviceIdIsSet) ||
       (_deviceIdIsSet && ((_deviceId || other->_deviceId) && ![_deviceId isEqual:other->_deviceId]))) {
     return NO;
@@ -7759,7 +7767,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTAuthorizeRequest * val = [RTAuthorizeRequest new];
+  AuthorizeRequest * val = [AuthorizeRequest new];
   val.deviceId = [self.deviceId copy];
   val.deviceName = [self.deviceName copy];
   val.deviceEncryptionCert = [self.deviceEncryptionCert copy];
@@ -7768,7 +7776,7 @@
   return val;
 }
 
-- (void) setDeviceId: (RTId *) deviceId {
+- (void) setDeviceId: (Id *) deviceId {
   _deviceId = deviceId;
   _deviceIdIsSet = YES;
 }
@@ -7835,7 +7843,7 @@
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceId = fieldValue;
         } else { 
@@ -7943,7 +7951,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTAuthorizeRequest("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthorizeRequest("];
   [ms appendString: @"deviceId:"];
   [ms appendFormat: @"%@", _deviceId];
   [ms appendString: @",deviceName:"];
@@ -7960,7 +7968,7 @@
 
 @end
 
-@implementation RTKeySet
+@implementation KeySet
 
 - (instancetype) init
 {
@@ -8033,10 +8041,10 @@
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTKeySet class]]) {
+  if (![anObject isKindOfClass:[KeySet class]]) {
     return NO;
   }
-  RTKeySet *other = (RTKeySet *)anObject;
+  KeySet *other = (KeySet *)anObject;
   if ((_encryptionKeyPairIsSet != other->_encryptionKeyPairIsSet) ||
       (_encryptionKeyPairIsSet && ((_encryptionKeyPair || other->_encryptionKeyPair) && ![_encryptionKeyPair isEqual:other->_encryptionKeyPair]))) {
     return NO;
@@ -8050,7 +8058,7 @@
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTKeySet * val = [RTKeySet new];
+  KeySet * val = [KeySet new];
   val.encryptionKeyPair = [self.encryptionKeyPair copy];
   val.signingKeyPair = [self.signingKeyPair copy];
   return val;
@@ -8150,7 +8158,7 @@
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTKeySet("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"KeySet("];
   [ms appendString: @"encryptionKeyPair:"];
   [ms appendFormat: @"\"%@\"", _encryptionKeyPair];
   [ms appendString: @",signingKeyPair:"];
@@ -8161,27 +8169,27 @@
 
 @end
 
-NSString *RTMessagesErrorDomain = @"RTMessagesErrorDomain";
+NSString *MessagesErrorDomain = @"MessagesErrorDomain";
 
-SInt8 RTMsgFlagCC = 1;
-SInt8 RTMsgFlagSilent = 2;
-NSString * RTMetaDataKey_MimeType = @"mime-type";
-NSString * RTMetaDataKey_Title = @"title";
-NSString * RTMetaDataKey_ThumbnailFrameTime = @"thumbnail-frame-time";
-NSString * RTVideoType_MP4 = @"video/mp4";
-NSString * RTAudioType_WAV = @"audio/wav";
-NSString * RTAudioType_MP3 = @"audio/mpeg";
-NSString * RTAudioType_MP4 = @"audio/mp4";
-NSString * RTImageType_PNG = @"image/png";
-NSString * RTImageType_JPG = @"image/jpeg";
-NSString * RTMetaDataKey_TargetMessageId = @"msgId";
-NSString * RTMetaDataKey_DeleteType = @"type";
-NSString * RTDeleteType_Message = @"message";
-NSString * RTDeleteType_Chat = @"chat";
+SInt8 MsgFlagCC = 1;
+SInt8 MsgFlagSilent = 2;
+NSString * MetaDataKey_MimeType = @"mime-type";
+NSString * MetaDataKey_Title = @"title";
+NSString * MetaDataKey_ThumbnailFrameTime = @"thumbnail-frame-time";
+NSString * VideoType_MP4 = @"video/mp4";
+NSString * AudioType_WAV = @"audio/wav";
+NSString * AudioType_MP3 = @"audio/mpeg";
+NSString * AudioType_MP4 = @"audio/mp4";
+NSString * ImageType_PNG = @"image/png";
+NSString * ImageType_JPG = @"image/jpeg";
+NSString * MetaDataKey_TargetMessageId = @"msgId";
+NSString * MetaDataKey_DeleteType = @"type";
+NSString * DeleteType_Message = @"message";
+NSString * DeleteType_Chat = @"chat";
 
-@interface RTUserAPI_registerNotifications_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_registerNotifications_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (assign, nonatomic) RTNotificationType type;
+@property (assign, nonatomic) NotificationType type;
 @property (assign, nonatomic) BOOL typeIsSet;
 - (void) unsetType;
 
@@ -8194,11 +8202,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetToken;
 
 
-- (instancetype) initWithType: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token;
+- (instancetype) initWithType: (NotificationType) type platform: (NSString *) platform token: (NSData *) token;
 
 @end
 
-@implementation RTUserAPI_registerNotifications_args
+@implementation UserAPI_registerNotifications_args
 
 - (instancetype) init
 {
@@ -8208,7 +8216,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithType: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token
+- (instancetype) initWithType: (NotificationType) type platform: (NSString *) platform token: (NSData *) token
 {
   self = [super init];
   if (self)  {
@@ -8287,10 +8295,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_registerNotifications_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_registerNotifications_args class]]) {
     return NO;
   }
-  RTUserAPI_registerNotifications_args *other = (RTUserAPI_registerNotifications_args *)anObject;
+  UserAPI_registerNotifications_args *other = (UserAPI_registerNotifications_args *)anObject;
   if ((_typeIsSet != other->_typeIsSet) ||
       (_typeIsSet && (_type != other->_type))) {
     return NO;
@@ -8308,14 +8316,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_registerNotifications_args * val = [RTUserAPI_registerNotifications_args new];
+  UserAPI_registerNotifications_args * val = [UserAPI_registerNotifications_args new];
   val.type = self.type;
   val.platform = [self.platform copy];
   val.token = [self.token copy];
   return val;
 }
 
-- (void) setType: (RTNotificationType) type {
+- (void) setType: (NotificationType) type {
   _type = type;
   _typeIsSet = YES;
 }
@@ -8361,7 +8369,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeI32) {
-          RTNotificationType fieldValue;
+          NotificationType fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.type = fieldValue;
         } else { 
@@ -8433,7 +8441,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_registerNotifications_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_registerNotifications_args("];
   [ms appendString: @"type:"];
   [ms appendFormat: @"%i", (int)_type];
   [ms appendString: @",platform:"];
@@ -8446,13 +8454,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_registerNotifications_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_registerNotifications_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_registerNotifications_result
+@implementation UserAPI_registerNotifications_result
 
 - (instancetype) init
 {
@@ -8485,7 +8493,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_registerNotifications_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_registerNotifications_result class]]) {
     return NO;
   }
   return YES;
@@ -8493,7 +8501,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_registerNotifications_result * val = [RTUserAPI_registerNotifications_result new];
+  UserAPI_registerNotifications_result * val = [UserAPI_registerNotifications_result new];
   return val;
 }
 
@@ -8538,14 +8546,14 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_registerNotifications_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_registerNotifications_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_updateCertificates_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateCertificates_args : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSData * encryptionCSR;
 @property (assign, nonatomic) BOOL encryptionCSRIsSet;
@@ -8560,7 +8568,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTUserAPI_updateCertificates_args
+@implementation UserAPI_updateCertificates_args
 
 - (instancetype) init
 {
@@ -8633,10 +8641,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateCertificates_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateCertificates_args class]]) {
     return NO;
   }
-  RTUserAPI_updateCertificates_args *other = (RTUserAPI_updateCertificates_args *)anObject;
+  UserAPI_updateCertificates_args *other = (UserAPI_updateCertificates_args *)anObject;
   if ((_encryptionCSRIsSet != other->_encryptionCSRIsSet) ||
       (_encryptionCSRIsSet && ((_encryptionCSR || other->_encryptionCSR) && ![_encryptionCSR isEqual:other->_encryptionCSR]))) {
     return NO;
@@ -8650,7 +8658,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateCertificates_args * val = [RTUserAPI_updateCertificates_args new];
+  UserAPI_updateCertificates_args * val = [UserAPI_updateCertificates_args new];
   val.encryptionCSR = [self.encryptionCSR copy];
   val.signingCSR = [self.signingCSR copy];
   return val;
@@ -8750,7 +8758,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateCertificates_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateCertificates_args("];
   [ms appendString: @"encryptionCSR:"];
   [ms appendFormat: @"\"%@\"", _encryptionCSR];
   [ms appendString: @",signingCSR:"];
@@ -8761,18 +8769,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateCertificates_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateCertificates_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTCertificateSet * success;
+@property (strong, nonatomic) CertificateSet * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTCertificateSet *) success;
+- (instancetype) initWithSuccess: (CertificateSet *) success;
 
 @end
 
-@implementation RTUserAPI_updateCertificates_result
+@implementation UserAPI_updateCertificates_result
 
 - (instancetype) init
 {
@@ -8782,7 +8790,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTCertificateSet *) success
+- (instancetype) initWithSuccess: (CertificateSet *) success
 {
   self = [super init];
   if (self)  {
@@ -8829,10 +8837,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateCertificates_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateCertificates_result class]]) {
     return NO;
   }
-  RTUserAPI_updateCertificates_result *other = (RTUserAPI_updateCertificates_result *)anObject;
+  UserAPI_updateCertificates_result *other = (UserAPI_updateCertificates_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -8842,12 +8850,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateCertificates_result * val = [RTUserAPI_updateCertificates_result new];
+  UserAPI_updateCertificates_result * val = [UserAPI_updateCertificates_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTCertificateSet *) success {
+- (void) setSuccess: (CertificateSet *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -8874,7 +8882,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTCertificateSet *fieldValue = [[RTCertificateSet alloc] init];
+          CertificateSet *fieldValue = [[CertificateSet alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -8915,7 +8923,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateCertificates_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateCertificates_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -8924,18 +8932,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateAvatar_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateAvatar_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTImage * avatar;
+@property (strong, nonatomic) Image * avatar;
 @property (assign, nonatomic) BOOL avatarIsSet;
 - (void) unsetAvatar;
 
 
-- (instancetype) initWithAvatar: (RTImage *) avatar;
+- (instancetype) initWithAvatar: (Image *) avatar;
 
 @end
 
-@implementation RTUserAPI_updateAvatar_args
+@implementation UserAPI_updateAvatar_args
 
 - (instancetype) init
 {
@@ -8945,7 +8953,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithAvatar: (RTImage *) avatar
+- (instancetype) initWithAvatar: (Image *) avatar
 {
   self = [super init];
   if (self)  {
@@ -8992,10 +9000,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateAvatar_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateAvatar_args class]]) {
     return NO;
   }
-  RTUserAPI_updateAvatar_args *other = (RTUserAPI_updateAvatar_args *)anObject;
+  UserAPI_updateAvatar_args *other = (UserAPI_updateAvatar_args *)anObject;
   if ((_avatarIsSet != other->_avatarIsSet) ||
       (_avatarIsSet && ((_avatar || other->_avatar) && ![_avatar isEqual:other->_avatar]))) {
     return NO;
@@ -9005,12 +9013,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateAvatar_args * val = [RTUserAPI_updateAvatar_args new];
+  UserAPI_updateAvatar_args * val = [UserAPI_updateAvatar_args new];
   val.avatar = [self.avatar copy];
   return val;
 }
 
-- (void) setAvatar: (RTImage *) avatar {
+- (void) setAvatar: (Image *) avatar {
   _avatar = avatar;
   _avatarIsSet = YES;
 }
@@ -9037,7 +9045,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTImage *fieldValue = [[RTImage alloc] init];
+          Image *fieldValue = [[Image alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.avatar = fieldValue;
         } else { 
@@ -9077,7 +9085,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateAvatar_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateAvatar_args("];
   [ms appendString: @"avatar:"];
   [ms appendFormat: @"%@", _avatar];
   [ms appendString: @")"];
@@ -9086,13 +9094,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateAvatar_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateAvatar_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_updateAvatar_result
+@implementation UserAPI_updateAvatar_result
 
 - (instancetype) init
 {
@@ -9125,7 +9133,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateAvatar_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateAvatar_result class]]) {
     return NO;
   }
   return YES;
@@ -9133,7 +9141,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateAvatar_result * val = [RTUserAPI_updateAvatar_result new];
+  UserAPI_updateAvatar_result * val = [UserAPI_updateAvatar_result new];
   return val;
 }
 
@@ -9178,20 +9186,20 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateAvatar_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateAvatar_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_listAliases_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_listAliases_args : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_listAliases_args
+@implementation UserAPI_listAliases_args
 
 - (instancetype) init
 {
@@ -9224,7 +9232,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_listAliases_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_listAliases_args class]]) {
     return NO;
   }
   return YES;
@@ -9232,7 +9240,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_listAliases_args * val = [RTUserAPI_listAliases_args new];
+  UserAPI_listAliases_args * val = [UserAPI_listAliases_args new];
   return val;
 }
 
@@ -9276,25 +9284,25 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_listAliases_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_listAliases_args("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_listAliases_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_listAliases_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTMutableAliasSet success;
+@property (strong, nonatomic) MutableAliasSet success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTAliasSet) success;
+- (instancetype) initWithSuccess: (AliasSet) success;
 
 @end
 
-@implementation RTUserAPI_listAliases_result
+@implementation UserAPI_listAliases_result
 
 - (instancetype) init
 {
@@ -9304,7 +9312,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTAliasSet) success
+- (instancetype) initWithSuccess: (AliasSet) success
 {
   self = [super init];
   if (self)  {
@@ -9351,10 +9359,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_listAliases_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_listAliases_result class]]) {
     return NO;
   }
-  RTUserAPI_listAliases_result *other = (RTUserAPI_listAliases_result *)anObject;
+  UserAPI_listAliases_result *other = (UserAPI_listAliases_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -9364,12 +9372,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_listAliases_result * val = [RTUserAPI_listAliases_result new];
+  UserAPI_listAliases_result * val = [UserAPI_listAliases_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (NSMutableSet<RTAlias> *) success {
+- (void) setSuccess: (NSMutableSet<Alias> *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -9455,7 +9463,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_listAliases_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_listAliases_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -9464,18 +9472,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_registerAlias_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_registerAlias_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAuthenticatedAlias * authenticatedAlias;
+@property (strong, nonatomic) AuthenticatedAlias * authenticatedAlias;
 @property (assign, nonatomic) BOOL authenticatedAliasIsSet;
 - (void) unsetAuthenticatedAlias;
 
 
-- (instancetype) initWithAuthenticatedAlias: (RTAuthenticatedAlias *) authenticatedAlias;
+- (instancetype) initWithAuthenticatedAlias: (AuthenticatedAlias *) authenticatedAlias;
 
 @end
 
-@implementation RTUserAPI_registerAlias_args
+@implementation UserAPI_registerAlias_args
 
 - (instancetype) init
 {
@@ -9485,7 +9493,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithAuthenticatedAlias: (RTAuthenticatedAlias *) authenticatedAlias
+- (instancetype) initWithAuthenticatedAlias: (AuthenticatedAlias *) authenticatedAlias
 {
   self = [super init];
   if (self)  {
@@ -9532,10 +9540,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_registerAlias_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_registerAlias_args class]]) {
     return NO;
   }
-  RTUserAPI_registerAlias_args *other = (RTUserAPI_registerAlias_args *)anObject;
+  UserAPI_registerAlias_args *other = (UserAPI_registerAlias_args *)anObject;
   if ((_authenticatedAliasIsSet != other->_authenticatedAliasIsSet) ||
       (_authenticatedAliasIsSet && ((_authenticatedAlias || other->_authenticatedAlias) && ![_authenticatedAlias isEqual:other->_authenticatedAlias]))) {
     return NO;
@@ -9545,12 +9553,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_registerAlias_args * val = [RTUserAPI_registerAlias_args new];
+  UserAPI_registerAlias_args * val = [UserAPI_registerAlias_args new];
   val.authenticatedAlias = [self.authenticatedAlias copy];
   return val;
 }
 
-- (void) setAuthenticatedAlias: (RTAuthenticatedAlias *) authenticatedAlias {
+- (void) setAuthenticatedAlias: (AuthenticatedAlias *) authenticatedAlias {
   _authenticatedAlias = authenticatedAlias;
   _authenticatedAliasIsSet = YES;
 }
@@ -9577,7 +9585,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTAuthenticatedAlias *fieldValue = [[RTAuthenticatedAlias alloc] init];
+          AuthenticatedAlias *fieldValue = [[AuthenticatedAlias alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.authenticatedAlias = fieldValue;
         } else { 
@@ -9617,7 +9625,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_registerAlias_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_registerAlias_args("];
   [ms appendString: @"authenticatedAlias:"];
   [ms appendFormat: @"%@", _authenticatedAlias];
   [ms appendString: @")"];
@@ -9626,26 +9634,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_registerAlias_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_registerAlias_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAliasInUse * aliasInUse;
+@property (strong, nonatomic) AliasInUse * aliasInUse;
 @property (assign, nonatomic) BOOL aliasInUseIsSet;
 - (void) unsetAliasInUse;
 
-@property (strong, nonatomic) RTAliasPinInvalid * aliasPinInvalid;
+@property (strong, nonatomic) AliasPinInvalid * aliasPinInvalid;
 @property (assign, nonatomic) BOOL aliasPinInvalidIsSet;
 - (void) unsetAliasPinInvalid;
 
-@property (strong, nonatomic) RTAliasNotAuthenticated * aliasNoAuth;
+@property (strong, nonatomic) AliasNotAuthenticated * aliasNoAuth;
 @property (assign, nonatomic) BOOL aliasNoAuthIsSet;
 - (void) unsetAliasNoAuth;
 
 
-- (instancetype) initWithAliasInUse: (RTAliasInUse *) aliasInUse aliasPinInvalid: (RTAliasPinInvalid *) aliasPinInvalid aliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth;
+- (instancetype) initWithAliasInUse: (AliasInUse *) aliasInUse aliasPinInvalid: (AliasPinInvalid *) aliasPinInvalid aliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth;
 
 @end
 
-@implementation RTUserAPI_registerAlias_result
+@implementation UserAPI_registerAlias_result
 
 - (instancetype) init
 {
@@ -9655,7 +9663,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithAliasInUse: (RTAliasInUse *) aliasInUse aliasPinInvalid: (RTAliasPinInvalid *) aliasPinInvalid aliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth
+- (instancetype) initWithAliasInUse: (AliasInUse *) aliasInUse aliasPinInvalid: (AliasPinInvalid *) aliasPinInvalid aliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth
 {
   self = [super init];
   if (self)  {
@@ -9734,10 +9742,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_registerAlias_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_registerAlias_result class]]) {
     return NO;
   }
-  RTUserAPI_registerAlias_result *other = (RTUserAPI_registerAlias_result *)anObject;
+  UserAPI_registerAlias_result *other = (UserAPI_registerAlias_result *)anObject;
   if ((_aliasInUseIsSet != other->_aliasInUseIsSet) ||
       (_aliasInUseIsSet && ((_aliasInUse || other->_aliasInUse) && ![_aliasInUse isEqual:other->_aliasInUse]))) {
     return NO;
@@ -9755,14 +9763,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_registerAlias_result * val = [RTUserAPI_registerAlias_result new];
+  UserAPI_registerAlias_result * val = [UserAPI_registerAlias_result new];
   val.aliasInUse = [self.aliasInUse copy];
   val.aliasPinInvalid = [self.aliasPinInvalid copy];
   val.aliasNoAuth = [self.aliasNoAuth copy];
   return val;
 }
 
-- (void) setAliasInUse: (RTAliasInUse *) aliasInUse {
+- (void) setAliasInUse: (AliasInUse *) aliasInUse {
   _aliasInUse = aliasInUse;
   _aliasInUseIsSet = YES;
 }
@@ -9772,7 +9780,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasInUseIsSet = NO;
 }
 
-- (void) setAliasPinInvalid: (RTAliasPinInvalid *) aliasPinInvalid {
+- (void) setAliasPinInvalid: (AliasPinInvalid *) aliasPinInvalid {
   _aliasPinInvalid = aliasPinInvalid;
   _aliasPinInvalidIsSet = YES;
 }
@@ -9782,7 +9790,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasPinInvalidIsSet = NO;
 }
 
-- (void) setAliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth {
+- (void) setAliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth {
   _aliasNoAuth = aliasNoAuth;
   _aliasNoAuthIsSet = YES;
 }
@@ -9809,7 +9817,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasInUse *fieldValue = [[RTAliasInUse alloc] init];
+          AliasInUse *fieldValue = [[AliasInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasInUse = fieldValue;
         } else { 
@@ -9819,7 +9827,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasPinInvalid *fieldValue = [[RTAliasPinInvalid alloc] init];
+          AliasPinInvalid *fieldValue = [[AliasPinInvalid alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasPinInvalid = fieldValue;
         } else { 
@@ -9829,7 +9837,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasNotAuthenticated *fieldValue = [[RTAliasNotAuthenticated alloc] init];
+          AliasNotAuthenticated *fieldValue = [[AliasNotAuthenticated alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasNoAuth = fieldValue;
         } else { 
@@ -9882,7 +9890,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_registerAlias_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_registerAlias_result("];
   [ms appendString: @"aliasInUse:"];
   [ms appendFormat: @"%@", _aliasInUse];
   [ms appendString: @",aliasPinInvalid:"];
@@ -9895,18 +9903,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_unregisterAlias_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_unregisterAlias_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias name;
+@property (strong, nonatomic) Alias name;
 @property (assign, nonatomic) BOOL nameIsSet;
 - (void) unsetName;
 
 
-- (instancetype) initWithName: (RTAlias) name;
+- (instancetype) initWithName: (Alias) name;
 
 @end
 
-@implementation RTUserAPI_unregisterAlias_args
+@implementation UserAPI_unregisterAlias_args
 
 - (instancetype) init
 {
@@ -9916,7 +9924,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithName: (RTAlias) name
+- (instancetype) initWithName: (Alias) name
 {
   self = [super init];
   if (self)  {
@@ -9963,10 +9971,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_unregisterAlias_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_unregisterAlias_args class]]) {
     return NO;
   }
-  RTUserAPI_unregisterAlias_args *other = (RTUserAPI_unregisterAlias_args *)anObject;
+  UserAPI_unregisterAlias_args *other = (UserAPI_unregisterAlias_args *)anObject;
   if ((_nameIsSet != other->_nameIsSet) ||
       (_nameIsSet && ((_name || other->_name) && ![_name isEqual:other->_name]))) {
     return NO;
@@ -9976,7 +9984,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_unregisterAlias_args * val = [RTUserAPI_unregisterAlias_args new];
+  UserAPI_unregisterAlias_args * val = [UserAPI_unregisterAlias_args new];
   val.name = [self.name copy];
   return val;
 }
@@ -10048,7 +10056,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_unregisterAlias_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_unregisterAlias_args("];
   [ms appendString: @"name:"];
   [ms appendFormat: @"\"%@\"", _name];
   [ms appendString: @")"];
@@ -10057,13 +10065,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_unregisterAlias_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_unregisterAlias_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_unregisterAlias_result
+@implementation UserAPI_unregisterAlias_result
 
 - (instancetype) init
 {
@@ -10096,7 +10104,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_unregisterAlias_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_unregisterAlias_result class]]) {
     return NO;
   }
   return YES;
@@ -10104,7 +10112,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_unregisterAlias_result * val = [RTUserAPI_unregisterAlias_result new];
+  UserAPI_unregisterAlias_result * val = [UserAPI_unregisterAlias_result new];
   return val;
 }
 
@@ -10149,20 +10157,20 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_unregisterAlias_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_unregisterAlias_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_listDevices_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_listDevices_args : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_listDevices_args
+@implementation UserAPI_listDevices_args
 
 - (instancetype) init
 {
@@ -10195,7 +10203,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_listDevices_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_listDevices_args class]]) {
     return NO;
   }
   return YES;
@@ -10203,7 +10211,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_listDevices_args * val = [RTUserAPI_listDevices_args new];
+  UserAPI_listDevices_args * val = [UserAPI_listDevices_args new];
   return val;
 }
 
@@ -10247,25 +10255,25 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_listDevices_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_listDevices_args("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_listDevices_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_listDevices_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) NSMutableArray<RTDeviceInfo *> * success;
+@property (strong, nonatomic) NSMutableArray<DeviceInfo *> * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (NSArray<RTDeviceInfo *> *) success;
+- (instancetype) initWithSuccess: (NSArray<DeviceInfo *> *) success;
 
 @end
 
-@implementation RTUserAPI_listDevices_result
+@implementation UserAPI_listDevices_result
 
 - (instancetype) init
 {
@@ -10275,7 +10283,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (NSArray<RTDeviceInfo *> *) success
+- (instancetype) initWithSuccess: (NSArray<DeviceInfo *> *) success
 {
   self = [super init];
   if (self)  {
@@ -10322,10 +10330,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_listDevices_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_listDevices_result class]]) {
     return NO;
   }
-  RTUserAPI_listDevices_result *other = (RTUserAPI_listDevices_result *)anObject;
+  UserAPI_listDevices_result *other = (UserAPI_listDevices_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -10335,12 +10343,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_listDevices_result * val = [RTUserAPI_listDevices_result new];
+  UserAPI_listDevices_result * val = [UserAPI_listDevices_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (NSMutableArray<RTDeviceInfo *> *) success {
+- (void) setSuccess: (NSMutableArray<DeviceInfo *> *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -10373,7 +10381,7 @@ NSString * RTDeleteType_Chat = @"chat";
           int _i48;
           for (_i48 = 0; _i48 < _size47; ++_i48)
           {
-            RTDeviceInfo *_elem49 = [[RTDeviceInfo alloc] init];
+            DeviceInfo *_elem49 = [[DeviceInfo alloc] init];
             if (![_elem49 read: inProtocol error: __thriftError]) return NO;
             [fieldValue addObject: _elem49];
           }
@@ -10425,7 +10433,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_listDevices_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_listDevices_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -10434,22 +10442,22 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateDeviceActiveAliases_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateDeviceActiveAliases_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * deviceId;
+@property (strong, nonatomic) Id * deviceId;
 @property (assign, nonatomic) BOOL deviceIdIsSet;
 - (void) unsetDeviceId;
 
-@property (strong, nonatomic) RTMutableAliasSet activeAliases;
+@property (strong, nonatomic) MutableAliasSet activeAliases;
 @property (assign, nonatomic) BOOL activeAliasesIsSet;
 - (void) unsetActiveAliases;
 
 
-- (instancetype) initWithDeviceId: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases;
+- (instancetype) initWithDeviceId: (Id *) deviceId activeAliases: (AliasSet) activeAliases;
 
 @end
 
-@implementation RTUserAPI_updateDeviceActiveAliases_args
+@implementation UserAPI_updateDeviceActiveAliases_args
 
 - (instancetype) init
 {
@@ -10459,7 +10467,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithDeviceId: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases
+- (instancetype) initWithDeviceId: (Id *) deviceId activeAliases: (AliasSet) activeAliases
 {
   self = [super init];
   if (self)  {
@@ -10522,10 +10530,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateDeviceActiveAliases_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateDeviceActiveAliases_args class]]) {
     return NO;
   }
-  RTUserAPI_updateDeviceActiveAliases_args *other = (RTUserAPI_updateDeviceActiveAliases_args *)anObject;
+  UserAPI_updateDeviceActiveAliases_args *other = (UserAPI_updateDeviceActiveAliases_args *)anObject;
   if ((_deviceIdIsSet != other->_deviceIdIsSet) ||
       (_deviceIdIsSet && ((_deviceId || other->_deviceId) && ![_deviceId isEqual:other->_deviceId]))) {
     return NO;
@@ -10539,13 +10547,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateDeviceActiveAliases_args * val = [RTUserAPI_updateDeviceActiveAliases_args new];
+  UserAPI_updateDeviceActiveAliases_args * val = [UserAPI_updateDeviceActiveAliases_args new];
   val.deviceId = [self.deviceId copy];
   val.activeAliases = [self.activeAliases copy];
   return val;
 }
 
-- (void) setDeviceId: (RTId *) deviceId {
+- (void) setDeviceId: (Id *) deviceId {
   _deviceId = deviceId;
   _deviceIdIsSet = YES;
 }
@@ -10555,7 +10563,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _deviceIdIsSet = NO;
 }
 
-- (void) setActiveAliases: (NSMutableSet<RTAlias> *) activeAliases {
+- (void) setActiveAliases: (NSMutableSet<Alias> *) activeAliases {
   _activeAliases = activeAliases;
   _activeAliasesIsSet = YES;
 }
@@ -10582,7 +10590,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceId = fieldValue;
         } else { 
@@ -10657,7 +10665,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateDeviceActiveAliases_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateDeviceActiveAliases_args("];
   [ms appendString: @"deviceId:"];
   [ms appendFormat: @"%@", _deviceId];
   [ms appendString: @",activeAliases:"];
@@ -10668,13 +10676,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateDeviceActiveAliases_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateDeviceActiveAliases_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_updateDeviceActiveAliases_result
+@implementation UserAPI_updateDeviceActiveAliases_result
 
 - (instancetype) init
 {
@@ -10707,7 +10715,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateDeviceActiveAliases_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateDeviceActiveAliases_result class]]) {
     return NO;
   }
   return YES;
@@ -10715,7 +10723,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateDeviceActiveAliases_result * val = [RTUserAPI_updateDeviceActiveAliases_result new];
+  UserAPI_updateDeviceActiveAliases_result * val = [UserAPI_updateDeviceActiveAliases_result new];
   return val;
 }
 
@@ -10760,20 +10768,20 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateDeviceActiveAliases_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateDeviceActiveAliases_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_fetchWaiting_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_fetchWaiting_args : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_fetchWaiting_args
+@implementation UserAPI_fetchWaiting_args
 
 - (instancetype) init
 {
@@ -10806,7 +10814,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_fetchWaiting_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_fetchWaiting_args class]]) {
     return NO;
   }
   return YES;
@@ -10814,7 +10822,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_fetchWaiting_args * val = [RTUserAPI_fetchWaiting_args new];
+  UserAPI_fetchWaiting_args * val = [UserAPI_fetchWaiting_args new];
   return val;
 }
 
@@ -10858,25 +10866,25 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_fetchWaiting_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_fetchWaiting_args("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_fetchWaiting_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_fetchWaiting_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) NSMutableArray<RTMsgHdr *> * success;
+@property (strong, nonatomic) NSMutableArray<MsgHdr *> * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (NSArray<RTMsgHdr *> *) success;
+- (instancetype) initWithSuccess: (NSArray<MsgHdr *> *) success;
 
 @end
 
-@implementation RTUserAPI_fetchWaiting_result
+@implementation UserAPI_fetchWaiting_result
 
 - (instancetype) init
 {
@@ -10886,7 +10894,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (NSArray<RTMsgHdr *> *) success
+- (instancetype) initWithSuccess: (NSArray<MsgHdr *> *) success
 {
   self = [super init];
   if (self)  {
@@ -10933,10 +10941,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_fetchWaiting_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_fetchWaiting_result class]]) {
     return NO;
   }
-  RTUserAPI_fetchWaiting_result *other = (RTUserAPI_fetchWaiting_result *)anObject;
+  UserAPI_fetchWaiting_result *other = (UserAPI_fetchWaiting_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -10946,12 +10954,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_fetchWaiting_result * val = [RTUserAPI_fetchWaiting_result new];
+  UserAPI_fetchWaiting_result * val = [UserAPI_fetchWaiting_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (NSMutableArray<RTMsgHdr *> *) success {
+- (void) setSuccess: (NSMutableArray<MsgHdr *> *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -10984,7 +10992,7 @@ NSString * RTDeleteType_Chat = @"chat";
           int _i58;
           for (_i58 = 0; _i58 < _size57; ++_i58)
           {
-            RTMsgHdr *_elem59 = [[RTMsgHdr alloc] init];
+            MsgHdr *_elem59 = [[MsgHdr alloc] init];
             if (![_elem59 read: inProtocol error: __thriftError]) return NO;
             [fieldValue addObject: _elem59];
           }
@@ -11036,7 +11044,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_fetchWaiting_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_fetchWaiting_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -11045,18 +11053,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_fetch_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_fetch_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * msgId;
+@property (strong, nonatomic) Id * msgId;
 @property (assign, nonatomic) BOOL msgIdIsSet;
 - (void) unsetMsgId;
 
 
-- (instancetype) initWithMsgId: (RTId *) msgId;
+- (instancetype) initWithMsgId: (Id *) msgId;
 
 @end
 
-@implementation RTUserAPI_fetch_args
+@implementation UserAPI_fetch_args
 
 - (instancetype) init
 {
@@ -11066,7 +11074,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsgId: (RTId *) msgId
+- (instancetype) initWithMsgId: (Id *) msgId
 {
   self = [super init];
   if (self)  {
@@ -11113,10 +11121,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_fetch_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_fetch_args class]]) {
     return NO;
   }
-  RTUserAPI_fetch_args *other = (RTUserAPI_fetch_args *)anObject;
+  UserAPI_fetch_args *other = (UserAPI_fetch_args *)anObject;
   if ((_msgIdIsSet != other->_msgIdIsSet) ||
       (_msgIdIsSet && ((_msgId || other->_msgId) && ![_msgId isEqual:other->_msgId]))) {
     return NO;
@@ -11126,12 +11134,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_fetch_args * val = [RTUserAPI_fetch_args new];
+  UserAPI_fetch_args * val = [UserAPI_fetch_args new];
   val.msgId = [self.msgId copy];
   return val;
 }
 
-- (void) setMsgId: (RTId *) msgId {
+- (void) setMsgId: (Id *) msgId {
   _msgId = msgId;
   _msgIdIsSet = YES;
 }
@@ -11158,7 +11166,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msgId = fieldValue;
         } else { 
@@ -11198,7 +11206,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_fetch_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_fetch_args("];
   [ms appendString: @"msgId:"];
   [ms appendFormat: @"%@", _msgId];
   [ms appendString: @")"];
@@ -11207,18 +11215,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_fetch_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_fetch_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTMsg * success;
+@property (strong, nonatomic) Msg * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTMsg *) success;
+- (instancetype) initWithSuccess: (Msg *) success;
 
 @end
 
-@implementation RTUserAPI_fetch_result
+@implementation UserAPI_fetch_result
 
 - (instancetype) init
 {
@@ -11228,7 +11236,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTMsg *) success
+- (instancetype) initWithSuccess: (Msg *) success
 {
   self = [super init];
   if (self)  {
@@ -11275,10 +11283,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_fetch_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_fetch_result class]]) {
     return NO;
   }
-  RTUserAPI_fetch_result *other = (RTUserAPI_fetch_result *)anObject;
+  UserAPI_fetch_result *other = (UserAPI_fetch_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -11288,12 +11296,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_fetch_result * val = [RTUserAPI_fetch_result new];
+  UserAPI_fetch_result * val = [UserAPI_fetch_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTMsg *) success {
+- (void) setSuccess: (Msg *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -11320,7 +11328,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTMsg *fieldValue = [[RTMsg alloc] init];
+          Msg *fieldValue = [[Msg alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -11361,7 +11369,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_fetch_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_fetch_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -11370,22 +11378,22 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_ack_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_ack_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * msgId;
+@property (strong, nonatomic) Id * msgId;
 @property (assign, nonatomic) BOOL msgIdIsSet;
 - (void) unsetMsgId;
 
-@property (assign, nonatomic) RTTimeStamp sent;
+@property (assign, nonatomic) TimeStamp sent;
 @property (assign, nonatomic) BOOL sentIsSet;
 - (void) unsetSent;
 
 
-- (instancetype) initWithMsgId: (RTId *) msgId sent: (RTTimeStamp) sent;
+- (instancetype) initWithMsgId: (Id *) msgId sent: (TimeStamp) sent;
 
 @end
 
-@implementation RTUserAPI_ack_args
+@implementation UserAPI_ack_args
 
 - (instancetype) init
 {
@@ -11395,7 +11403,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsgId: (RTId *) msgId sent: (RTTimeStamp) sent
+- (instancetype) initWithMsgId: (Id *) msgId sent: (TimeStamp) sent
 {
   self = [super init];
   if (self)  {
@@ -11458,10 +11466,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_ack_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_ack_args class]]) {
     return NO;
   }
-  RTUserAPI_ack_args *other = (RTUserAPI_ack_args *)anObject;
+  UserAPI_ack_args *other = (UserAPI_ack_args *)anObject;
   if ((_msgIdIsSet != other->_msgIdIsSet) ||
       (_msgIdIsSet && ((_msgId || other->_msgId) && ![_msgId isEqual:other->_msgId]))) {
     return NO;
@@ -11475,13 +11483,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_ack_args * val = [RTUserAPI_ack_args new];
+  UserAPI_ack_args * val = [UserAPI_ack_args new];
   val.msgId = [self.msgId copy];
   val.sent = self.sent;
   return val;
 }
 
-- (void) setMsgId: (RTId *) msgId {
+- (void) setMsgId: (Id *) msgId {
   _msgId = msgId;
   _msgIdIsSet = YES;
 }
@@ -11517,7 +11525,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msgId = fieldValue;
         } else { 
@@ -11572,7 +11580,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_ack_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_ack_args("];
   [ms appendString: @"msgId:"];
   [ms appendFormat: @"%@", _msgId];
   [ms appendString: @",sent:"];
@@ -11583,18 +11591,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_send_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_send_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTMsgPack * msgPack;
+@property (strong, nonatomic) MsgPack * msgPack;
 @property (assign, nonatomic) BOOL msgPackIsSet;
 - (void) unsetMsgPack;
 
 
-- (instancetype) initWithMsgPack: (RTMsgPack *) msgPack;
+- (instancetype) initWithMsgPack: (MsgPack *) msgPack;
 
 @end
 
-@implementation RTUserAPI_send_args
+@implementation UserAPI_send_args
 
 - (instancetype) init
 {
@@ -11604,7 +11612,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsgPack: (RTMsgPack *) msgPack
+- (instancetype) initWithMsgPack: (MsgPack *) msgPack
 {
   self = [super init];
   if (self)  {
@@ -11651,10 +11659,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_send_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_send_args class]]) {
     return NO;
   }
-  RTUserAPI_send_args *other = (RTUserAPI_send_args *)anObject;
+  UserAPI_send_args *other = (UserAPI_send_args *)anObject;
   if ((_msgPackIsSet != other->_msgPackIsSet) ||
       (_msgPackIsSet && ((_msgPack || other->_msgPack) && ![_msgPack isEqual:other->_msgPack]))) {
     return NO;
@@ -11664,12 +11672,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_send_args * val = [RTUserAPI_send_args new];
+  UserAPI_send_args * val = [UserAPI_send_args new];
   val.msgPack = [self.msgPack copy];
   return val;
 }
 
-- (void) setMsgPack: (RTMsgPack *) msgPack {
+- (void) setMsgPack: (MsgPack *) msgPack {
   _msgPack = msgPack;
   _msgPackIsSet = YES;
 }
@@ -11696,7 +11704,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTMsgPack *fieldValue = [[RTMsgPack alloc] init];
+          MsgPack *fieldValue = [[MsgPack alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msgPack = fieldValue;
         } else { 
@@ -11736,7 +11744,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_send_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_send_args("];
   [ms appendString: @"msgPack:"];
   [ms appendFormat: @"%@", _msgPack];
   [ms appendString: @")"];
@@ -11745,30 +11753,30 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_send_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_send_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (assign, nonatomic) RTTimeStamp success;
+@property (assign, nonatomic) TimeStamp success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
-@property (strong, nonatomic) RTInvalidSender * invalidSender;
+@property (strong, nonatomic) InvalidSender * invalidSender;
 @property (assign, nonatomic) BOOL invalidSenderIsSet;
 - (void) unsetInvalidSender;
 
-@property (strong, nonatomic) RTInvalidRecipient * invalidRecipient;
+@property (strong, nonatomic) InvalidRecipient * invalidRecipient;
 @property (assign, nonatomic) BOOL invalidRecipientIsSet;
 - (void) unsetInvalidRecipient;
 
-@property (strong, nonatomic) RTInvalidCredentials * invalidCredentials;
+@property (strong, nonatomic) InvalidCredentials * invalidCredentials;
 @property (assign, nonatomic) BOOL invalidCredentialsIsSet;
 - (void) unsetInvalidCredentials;
 
 
-- (instancetype) initWithSuccess: (RTTimeStamp) success invalidSender: (RTInvalidSender *) invalidSender invalidRecipient: (RTInvalidRecipient *) invalidRecipient invalidCredentials: (RTInvalidCredentials *) invalidCredentials;
+- (instancetype) initWithSuccess: (TimeStamp) success invalidSender: (InvalidSender *) invalidSender invalidRecipient: (InvalidRecipient *) invalidRecipient invalidCredentials: (InvalidCredentials *) invalidCredentials;
 
 @end
 
-@implementation RTUserAPI_send_result
+@implementation UserAPI_send_result
 
 - (instancetype) init
 {
@@ -11778,7 +11786,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTTimeStamp) success invalidSender: (RTInvalidSender *) invalidSender invalidRecipient: (RTInvalidRecipient *) invalidRecipient invalidCredentials: (RTInvalidCredentials *) invalidCredentials
+- (instancetype) initWithSuccess: (TimeStamp) success invalidSender: (InvalidSender *) invalidSender invalidRecipient: (InvalidRecipient *) invalidRecipient invalidCredentials: (InvalidCredentials *) invalidCredentials
 {
   self = [super init];
   if (self)  {
@@ -11873,10 +11881,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_send_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_send_result class]]) {
     return NO;
   }
-  RTUserAPI_send_result *other = (RTUserAPI_send_result *)anObject;
+  UserAPI_send_result *other = (UserAPI_send_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && (_success != other->_success))) {
     return NO;
@@ -11898,7 +11906,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_send_result * val = [RTUserAPI_send_result new];
+  UserAPI_send_result * val = [UserAPI_send_result new];
   val.success = self.success;
   val.invalidSender = [self.invalidSender copy];
   val.invalidRecipient = [self.invalidRecipient copy];
@@ -11915,7 +11923,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _successIsSet = NO;
 }
 
-- (void) setInvalidSender: (RTInvalidSender *) invalidSender {
+- (void) setInvalidSender: (InvalidSender *) invalidSender {
   _invalidSender = invalidSender;
   _invalidSenderIsSet = YES;
 }
@@ -11925,7 +11933,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _invalidSenderIsSet = NO;
 }
 
-- (void) setInvalidRecipient: (RTInvalidRecipient *) invalidRecipient {
+- (void) setInvalidRecipient: (InvalidRecipient *) invalidRecipient {
   _invalidRecipient = invalidRecipient;
   _invalidRecipientIsSet = YES;
 }
@@ -11935,7 +11943,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _invalidRecipientIsSet = NO;
 }
 
-- (void) setInvalidCredentials: (RTInvalidCredentials *) invalidCredentials {
+- (void) setInvalidCredentials: (InvalidCredentials *) invalidCredentials {
   _invalidCredentials = invalidCredentials;
   _invalidCredentialsIsSet = YES;
 }
@@ -11972,7 +11980,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidSender *fieldValue = [[RTInvalidSender alloc] init];
+          InvalidSender *fieldValue = [[InvalidSender alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidSender = fieldValue;
         } else { 
@@ -11982,7 +11990,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidRecipient *fieldValue = [[RTInvalidRecipient alloc] init];
+          InvalidRecipient *fieldValue = [[InvalidRecipient alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidRecipient = fieldValue;
         } else { 
@@ -11992,7 +12000,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidCredentials *fieldValue = [[RTInvalidCredentials alloc] init];
+          InvalidCredentials *fieldValue = [[InvalidCredentials alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidCredentials = fieldValue;
         } else { 
@@ -12049,7 +12057,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_send_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_send_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%qi", _success];
   [ms appendString: @",invalidSender:"];
@@ -12064,26 +12072,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_sendUserStatus_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_sendUserStatus_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias sender;
+@property (strong, nonatomic) Alias sender;
 @property (assign, nonatomic) BOOL senderIsSet;
 - (void) unsetSender;
 
-@property (strong, nonatomic) RTAlias recipient;
+@property (strong, nonatomic) Alias recipient;
 @property (assign, nonatomic) BOOL recipientIsSet;
 - (void) unsetRecipient;
 
-@property (assign, nonatomic) RTUserStatus status;
+@property (assign, nonatomic) UserStatus status;
 @property (assign, nonatomic) BOOL statusIsSet;
 - (void) unsetStatus;
 
 
-- (instancetype) initWithSender: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status;
+- (instancetype) initWithSender: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status;
 
 @end
 
-@implementation RTUserAPI_sendUserStatus_args
+@implementation UserAPI_sendUserStatus_args
 
 - (instancetype) init
 {
@@ -12093,7 +12101,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSender: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status
+- (instancetype) initWithSender: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status
 {
   self = [super init];
   if (self)  {
@@ -12172,10 +12180,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_sendUserStatus_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_sendUserStatus_args class]]) {
     return NO;
   }
-  RTUserAPI_sendUserStatus_args *other = (RTUserAPI_sendUserStatus_args *)anObject;
+  UserAPI_sendUserStatus_args *other = (UserAPI_sendUserStatus_args *)anObject;
   if ((_senderIsSet != other->_senderIsSet) ||
       (_senderIsSet && ((_sender || other->_sender) && ![_sender isEqual:other->_sender]))) {
     return NO;
@@ -12193,7 +12201,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_sendUserStatus_args * val = [RTUserAPI_sendUserStatus_args new];
+  UserAPI_sendUserStatus_args * val = [UserAPI_sendUserStatus_args new];
   val.sender = [self.sender copy];
   val.recipient = [self.recipient copy];
   val.status = self.status;
@@ -12220,7 +12228,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _recipientIsSet = NO;
 }
 
-- (void) setStatus: (RTUserStatus) status {
+- (void) setStatus: (UserStatus) status {
   _status = status;
   _statusIsSet = YES;
 }
@@ -12266,7 +12274,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeI32) {
-          RTUserStatus fieldValue;
+          UserStatus fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.status = fieldValue;
         } else { 
@@ -12318,7 +12326,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_sendUserStatus_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_sendUserStatus_args("];
   [ms appendString: @"sender:"];
   [ms appendFormat: @"\"%@\"", _sender];
   [ms appendString: @",recipient:"];
@@ -12331,26 +12339,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_sendGroupStatus_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_sendGroupStatus_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias sender;
+@property (strong, nonatomic) Alias sender;
 @property (assign, nonatomic) BOOL senderIsSet;
 - (void) unsetSender;
 
-@property (strong, nonatomic) RTGroup * group;
+@property (strong, nonatomic) Group * group;
 @property (assign, nonatomic) BOOL groupIsSet;
 - (void) unsetGroup;
 
-@property (assign, nonatomic) RTUserStatus status;
+@property (assign, nonatomic) UserStatus status;
 @property (assign, nonatomic) BOOL statusIsSet;
 - (void) unsetStatus;
 
 
-- (instancetype) initWithSender: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status;
+- (instancetype) initWithSender: (Alias) sender group: (Group *) group status: (UserStatus) status;
 
 @end
 
-@implementation RTUserAPI_sendGroupStatus_args
+@implementation UserAPI_sendGroupStatus_args
 
 - (instancetype) init
 {
@@ -12360,7 +12368,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSender: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status
+- (instancetype) initWithSender: (Alias) sender group: (Group *) group status: (UserStatus) status
 {
   self = [super init];
   if (self)  {
@@ -12439,10 +12447,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_sendGroupStatus_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_sendGroupStatus_args class]]) {
     return NO;
   }
-  RTUserAPI_sendGroupStatus_args *other = (RTUserAPI_sendGroupStatus_args *)anObject;
+  UserAPI_sendGroupStatus_args *other = (UserAPI_sendGroupStatus_args *)anObject;
   if ((_senderIsSet != other->_senderIsSet) ||
       (_senderIsSet && ((_sender || other->_sender) && ![_sender isEqual:other->_sender]))) {
     return NO;
@@ -12460,7 +12468,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_sendGroupStatus_args * val = [RTUserAPI_sendGroupStatus_args new];
+  UserAPI_sendGroupStatus_args * val = [UserAPI_sendGroupStatus_args new];
   val.sender = [self.sender copy];
   val.group = [self.group copy];
   val.status = self.status;
@@ -12477,7 +12485,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _senderIsSet = NO;
 }
 
-- (void) setGroup: (RTGroup *) group {
+- (void) setGroup: (Group *) group {
   _group = group;
   _groupIsSet = YES;
 }
@@ -12487,7 +12495,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _groupIsSet = NO;
 }
 
-- (void) setStatus: (RTUserStatus) status {
+- (void) setStatus: (UserStatus) status {
   _status = status;
   _statusIsSet = YES;
 }
@@ -12523,7 +12531,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTGroup *fieldValue = [[RTGroup alloc] init];
+          Group *fieldValue = [[Group alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.group = fieldValue;
         } else { 
@@ -12533,7 +12541,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeI32) {
-          RTUserStatus fieldValue;
+          UserStatus fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.status = fieldValue;
         } else { 
@@ -12585,7 +12593,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_sendGroupStatus_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_sendGroupStatus_args("];
   [ms appendString: @"sender:"];
   [ms appendFormat: @"\"%@\"", _sender];
   [ms appendString: @",group:"];
@@ -12598,9 +12606,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_sendDirect_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_sendDirect_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * msgId;
+@property (strong, nonatomic) Id * msgId;
 @property (assign, nonatomic) BOOL msgIdIsSet;
 - (void) unsetMsgId;
 
@@ -12616,16 +12624,16 @@ NSString * RTDeleteType_Chat = @"chat";
 @property (assign, nonatomic) BOOL senderIsSet;
 - (void) unsetSender;
 
-@property (strong, nonatomic) RTMutableDirectEnvelopeList envelopes;
+@property (strong, nonatomic) MutableDirectEnvelopeList envelopes;
 @property (assign, nonatomic) BOOL envelopesIsSet;
 - (void) unsetEnvelopes;
 
 
-- (instancetype) initWithMsgId: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes;
+- (instancetype) initWithMsgId: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes;
 
 @end
 
-@implementation RTUserAPI_sendDirect_args
+@implementation UserAPI_sendDirect_args
 
 - (instancetype) init
 {
@@ -12635,7 +12643,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsgId: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes
+- (instancetype) initWithMsgId: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes
 {
   self = [super init];
   if (self)  {
@@ -12746,10 +12754,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_sendDirect_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_sendDirect_args class]]) {
     return NO;
   }
-  RTUserAPI_sendDirect_args *other = (RTUserAPI_sendDirect_args *)anObject;
+  UserAPI_sendDirect_args *other = (UserAPI_sendDirect_args *)anObject;
   if ((_msgIdIsSet != other->_msgIdIsSet) ||
       (_msgIdIsSet && ((_msgId || other->_msgId) && ![_msgId isEqual:other->_msgId]))) {
     return NO;
@@ -12775,7 +12783,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_sendDirect_args * val = [RTUserAPI_sendDirect_args new];
+  UserAPI_sendDirect_args * val = [UserAPI_sendDirect_args new];
   val.msgId = [self.msgId copy];
   val.msgType = [self.msgType copy];
   val.msgData = [self.msgData copy];
@@ -12784,7 +12792,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return val;
 }
 
-- (void) setMsgId: (RTId *) msgId {
+- (void) setMsgId: (Id *) msgId {
   _msgId = msgId;
   _msgIdIsSet = YES;
 }
@@ -12824,7 +12832,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _senderIsSet = NO;
 }
 
-- (void) setEnvelopes: (NSMutableArray<RTDirectEnvelope *> *) envelopes {
+- (void) setEnvelopes: (NSMutableArray<DirectEnvelope *> *) envelopes {
   _envelopes = envelopes;
   _envelopesIsSet = YES;
 }
@@ -12851,7 +12859,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msgId = fieldValue;
         } else { 
@@ -12897,7 +12905,7 @@ NSString * RTDeleteType_Chat = @"chat";
           int _i63;
           for (_i63 = 0; _i63 < _size62; ++_i63)
           {
-            RTDirectEnvelope *_elem64 = [[RTDirectEnvelope alloc] init];
+            DirectEnvelope *_elem64 = [[DirectEnvelope alloc] init];
             if (![_elem64 read: inProtocol error: __thriftError]) return NO;
             [fieldValue addObject: _elem64];
           }
@@ -12976,7 +12984,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_sendDirect_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_sendDirect_args("];
   [ms appendString: @"msgId:"];
   [ms appendFormat: @"%@", _msgId];
   [ms appendString: @",msgType:"];
@@ -12993,26 +13001,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_sendDirect_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_sendDirect_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTInvalidSender * invalidSender;
+@property (strong, nonatomic) InvalidSender * invalidSender;
 @property (assign, nonatomic) BOOL invalidSenderIsSet;
 - (void) unsetInvalidSender;
 
-@property (strong, nonatomic) RTInvalidRecipient * invalidRecipient;
+@property (strong, nonatomic) InvalidRecipient * invalidRecipient;
 @property (assign, nonatomic) BOOL invalidRecipientIsSet;
 - (void) unsetInvalidRecipient;
 
-@property (strong, nonatomic) RTInvalidCredentials * invalidCredentials;
+@property (strong, nonatomic) InvalidCredentials * invalidCredentials;
 @property (assign, nonatomic) BOOL invalidCredentialsIsSet;
 - (void) unsetInvalidCredentials;
 
 
-- (instancetype) initWithInvalidSender: (RTInvalidSender *) invalidSender invalidRecipient: (RTInvalidRecipient *) invalidRecipient invalidCredentials: (RTInvalidCredentials *) invalidCredentials;
+- (instancetype) initWithInvalidSender: (InvalidSender *) invalidSender invalidRecipient: (InvalidRecipient *) invalidRecipient invalidCredentials: (InvalidCredentials *) invalidCredentials;
 
 @end
 
-@implementation RTUserAPI_sendDirect_result
+@implementation UserAPI_sendDirect_result
 
 - (instancetype) init
 {
@@ -13022,7 +13030,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithInvalidSender: (RTInvalidSender *) invalidSender invalidRecipient: (RTInvalidRecipient *) invalidRecipient invalidCredentials: (RTInvalidCredentials *) invalidCredentials
+- (instancetype) initWithInvalidSender: (InvalidSender *) invalidSender invalidRecipient: (InvalidRecipient *) invalidRecipient invalidCredentials: (InvalidCredentials *) invalidCredentials
 {
   self = [super init];
   if (self)  {
@@ -13101,10 +13109,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_sendDirect_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_sendDirect_result class]]) {
     return NO;
   }
-  RTUserAPI_sendDirect_result *other = (RTUserAPI_sendDirect_result *)anObject;
+  UserAPI_sendDirect_result *other = (UserAPI_sendDirect_result *)anObject;
   if ((_invalidSenderIsSet != other->_invalidSenderIsSet) ||
       (_invalidSenderIsSet && ((_invalidSender || other->_invalidSender) && ![_invalidSender isEqual:other->_invalidSender]))) {
     return NO;
@@ -13122,14 +13130,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_sendDirect_result * val = [RTUserAPI_sendDirect_result new];
+  UserAPI_sendDirect_result * val = [UserAPI_sendDirect_result new];
   val.invalidSender = [self.invalidSender copy];
   val.invalidRecipient = [self.invalidRecipient copy];
   val.invalidCredentials = [self.invalidCredentials copy];
   return val;
 }
 
-- (void) setInvalidSender: (RTInvalidSender *) invalidSender {
+- (void) setInvalidSender: (InvalidSender *) invalidSender {
   _invalidSender = invalidSender;
   _invalidSenderIsSet = YES;
 }
@@ -13139,7 +13147,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _invalidSenderIsSet = NO;
 }
 
-- (void) setInvalidRecipient: (RTInvalidRecipient *) invalidRecipient {
+- (void) setInvalidRecipient: (InvalidRecipient *) invalidRecipient {
   _invalidRecipient = invalidRecipient;
   _invalidRecipientIsSet = YES;
 }
@@ -13149,7 +13157,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _invalidRecipientIsSet = NO;
 }
 
-- (void) setInvalidCredentials: (RTInvalidCredentials *) invalidCredentials {
+- (void) setInvalidCredentials: (InvalidCredentials *) invalidCredentials {
   _invalidCredentials = invalidCredentials;
   _invalidCredentialsIsSet = YES;
 }
@@ -13176,7 +13184,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 6:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidSender *fieldValue = [[RTInvalidSender alloc] init];
+          InvalidSender *fieldValue = [[InvalidSender alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidSender = fieldValue;
         } else { 
@@ -13186,7 +13194,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 7:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidRecipient *fieldValue = [[RTInvalidRecipient alloc] init];
+          InvalidRecipient *fieldValue = [[InvalidRecipient alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidRecipient = fieldValue;
         } else { 
@@ -13196,7 +13204,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 8:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidCredentials *fieldValue = [[RTInvalidCredentials alloc] init];
+          InvalidCredentials *fieldValue = [[InvalidCredentials alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidCredentials = fieldValue;
         } else { 
@@ -13249,7 +13257,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_sendDirect_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_sendDirect_result("];
   [ms appendString: @"invalidSender:"];
   [ms appendFormat: @"%@", _invalidSender];
   [ms appendString: @",invalidRecipient:"];
@@ -13262,7 +13270,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateConnections_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateConnections_args : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSMutableSet<NSData *> * newPeers;
 - (NSSet<NSData *> *) newPeers __attribute__((objc_method_family(none)));
@@ -13278,7 +13286,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTUserAPI_updateConnections_args
+@implementation UserAPI_updateConnections_args
 
 - (instancetype) init
 {
@@ -13351,10 +13359,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateConnections_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateConnections_args class]]) {
     return NO;
   }
-  RTUserAPI_updateConnections_args *other = (RTUserAPI_updateConnections_args *)anObject;
+  UserAPI_updateConnections_args *other = (UserAPI_updateConnections_args *)anObject;
   if ((_newPeersIsSet != other->_newPeersIsSet) ||
       (_newPeersIsSet && ((_newPeers || other->_newPeers) && ![_newPeers isEqual:other->_newPeers]))) {
     return NO;
@@ -13368,7 +13376,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateConnections_args * val = [RTUserAPI_updateConnections_args new];
+  UserAPI_updateConnections_args * val = [UserAPI_updateConnections_args new];
   val.newPeers = [self.newPeers copy];
   val.oldPeers = [self.oldPeers copy];
   return val;
@@ -13504,7 +13512,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateConnections_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateConnections_args("];
   [ms appendString: @"newPeers:"];
   [ms appendFormat: @"%@", _newPeers];
   [ms appendString: @",oldPeers:"];
@@ -13515,18 +13523,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_updateConnections_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_updateConnections_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTMutableAliasSet success;
+@property (strong, nonatomic) MutableAliasSet success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTAliasSet) success;
+- (instancetype) initWithSuccess: (AliasSet) success;
 
 @end
 
-@implementation RTUserAPI_updateConnections_result
+@implementation UserAPI_updateConnections_result
 
 - (instancetype) init
 {
@@ -13536,7 +13544,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTAliasSet) success
+- (instancetype) initWithSuccess: (AliasSet) success
 {
   self = [super init];
   if (self)  {
@@ -13583,10 +13591,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_updateConnections_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_updateConnections_result class]]) {
     return NO;
   }
-  RTUserAPI_updateConnections_result *other = (RTUserAPI_updateConnections_result *)anObject;
+  UserAPI_updateConnections_result *other = (UserAPI_updateConnections_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -13596,12 +13604,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_updateConnections_result * val = [RTUserAPI_updateConnections_result new];
+  UserAPI_updateConnections_result * val = [UserAPI_updateConnections_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (NSMutableSet<RTAlias> *) success {
+- (void) setSuccess: (NSMutableSet<Alias> *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -13687,7 +13695,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_updateConnections_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_updateConnections_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -13696,13 +13704,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_clearConnections_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_clearConnections_args : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_clearConnections_args
+@implementation UserAPI_clearConnections_args
 
 - (instancetype) init
 {
@@ -13735,7 +13743,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_clearConnections_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_clearConnections_args class]]) {
     return NO;
   }
   return YES;
@@ -13743,7 +13751,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_clearConnections_args * val = [RTUserAPI_clearConnections_args new];
+  UserAPI_clearConnections_args * val = [UserAPI_clearConnections_args new];
   return val;
 }
 
@@ -13787,20 +13795,20 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_clearConnections_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_clearConnections_args("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_clearConnections_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_clearConnections_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTUserAPI_clearConnections_result
+@implementation UserAPI_clearConnections_result
 
 - (instancetype) init
 {
@@ -13833,7 +13841,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_clearConnections_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_clearConnections_result class]]) {
     return NO;
   }
   return YES;
@@ -13841,7 +13849,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_clearConnections_result * val = [RTUserAPI_clearConnections_result new];
+  UserAPI_clearConnections_result * val = [UserAPI_clearConnections_result new];
   return val;
 }
 
@@ -13886,14 +13894,14 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_clearConnections_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_clearConnections_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTUserAPI_generateInvite_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_generateInvite_args : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSString * inviteeAlias;
 @property (assign, nonatomic) BOOL inviteeAliasIsSet;
@@ -13912,7 +13920,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTUserAPI_generateInvite_args
+@implementation UserAPI_generateInvite_args
 
 - (instancetype) init
 {
@@ -14001,10 +14009,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_generateInvite_args class]]) {
+  if (![anObject isKindOfClass:[UserAPI_generateInvite_args class]]) {
     return NO;
   }
-  RTUserAPI_generateInvite_args *other = (RTUserAPI_generateInvite_args *)anObject;
+  UserAPI_generateInvite_args *other = (UserAPI_generateInvite_args *)anObject;
   if ((_inviteeAliasIsSet != other->_inviteeAliasIsSet) ||
       (_inviteeAliasIsSet && ((_inviteeAlias || other->_inviteeAlias) && ![_inviteeAlias isEqual:other->_inviteeAlias]))) {
     return NO;
@@ -14022,7 +14030,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_generateInvite_args * val = [RTUserAPI_generateInvite_args new];
+  UserAPI_generateInvite_args * val = [UserAPI_generateInvite_args new];
   val.inviteeAlias = [self.inviteeAlias copy];
   val.inviteeName = [self.inviteeName copy];
   val.params = [self.params copy];
@@ -14171,7 +14179,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_generateInvite_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_generateInvite_args("];
   [ms appendString: @"inviteeAlias:"];
   [ms appendFormat: @"\"%@\"", _inviteeAlias];
   [ms appendString: @",inviteeName:"];
@@ -14184,30 +14192,30 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPI_generateInvite_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface UserAPI_generateInvite_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTInvite * success;
+@property (strong, nonatomic) Invite * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
-@property (strong, nonatomic) RTAliasInUse * aliasInUse;
+@property (strong, nonatomic) AliasInUse * aliasInUse;
 @property (assign, nonatomic) BOOL aliasInUseIsSet;
 - (void) unsetAliasInUse;
 
-@property (strong, nonatomic) RTAliasAlreadyInvited * aliasAlreadyInvited;
+@property (strong, nonatomic) AliasAlreadyInvited * aliasAlreadyInvited;
 @property (assign, nonatomic) BOOL aliasAlreadyInvitedIsSet;
 - (void) unsetAliasAlreadyInvited;
 
-@property (strong, nonatomic) RTInvalidAlias * invalidAlias;
+@property (strong, nonatomic) InvalidAlias * invalidAlias;
 @property (assign, nonatomic) BOOL invalidAliasIsSet;
 - (void) unsetInvalidAlias;
 
 
-- (instancetype) initWithSuccess: (RTInvite *) success aliasInUse: (RTAliasInUse *) aliasInUse aliasAlreadyInvited: (RTAliasAlreadyInvited *) aliasAlreadyInvited invalidAlias: (RTInvalidAlias *) invalidAlias;
+- (instancetype) initWithSuccess: (Invite *) success aliasInUse: (AliasInUse *) aliasInUse aliasAlreadyInvited: (AliasAlreadyInvited *) aliasAlreadyInvited invalidAlias: (InvalidAlias *) invalidAlias;
 
 @end
 
-@implementation RTUserAPI_generateInvite_result
+@implementation UserAPI_generateInvite_result
 
 - (instancetype) init
 {
@@ -14217,7 +14225,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTInvite *) success aliasInUse: (RTAliasInUse *) aliasInUse aliasAlreadyInvited: (RTAliasAlreadyInvited *) aliasAlreadyInvited invalidAlias: (RTInvalidAlias *) invalidAlias
+- (instancetype) initWithSuccess: (Invite *) success aliasInUse: (AliasInUse *) aliasInUse aliasAlreadyInvited: (AliasAlreadyInvited *) aliasAlreadyInvited invalidAlias: (InvalidAlias *) invalidAlias
 {
   self = [super init];
   if (self)  {
@@ -14312,10 +14320,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTUserAPI_generateInvite_result class]]) {
+  if (![anObject isKindOfClass:[UserAPI_generateInvite_result class]]) {
     return NO;
   }
-  RTUserAPI_generateInvite_result *other = (RTUserAPI_generateInvite_result *)anObject;
+  UserAPI_generateInvite_result *other = (UserAPI_generateInvite_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -14337,7 +14345,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTUserAPI_generateInvite_result * val = [RTUserAPI_generateInvite_result new];
+  UserAPI_generateInvite_result * val = [UserAPI_generateInvite_result new];
   val.success = [self.success copy];
   val.aliasInUse = [self.aliasInUse copy];
   val.aliasAlreadyInvited = [self.aliasAlreadyInvited copy];
@@ -14345,7 +14353,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return val;
 }
 
-- (void) setSuccess: (RTInvite *) success {
+- (void) setSuccess: (Invite *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -14355,7 +14363,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _successIsSet = NO;
 }
 
-- (void) setAliasInUse: (RTAliasInUse *) aliasInUse {
+- (void) setAliasInUse: (AliasInUse *) aliasInUse {
   _aliasInUse = aliasInUse;
   _aliasInUseIsSet = YES;
 }
@@ -14365,7 +14373,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasInUseIsSet = NO;
 }
 
-- (void) setAliasAlreadyInvited: (RTAliasAlreadyInvited *) aliasAlreadyInvited {
+- (void) setAliasAlreadyInvited: (AliasAlreadyInvited *) aliasAlreadyInvited {
   _aliasAlreadyInvited = aliasAlreadyInvited;
   _aliasAlreadyInvitedIsSet = YES;
 }
@@ -14375,7 +14383,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasAlreadyInvitedIsSet = NO;
 }
 
-- (void) setInvalidAlias: (RTInvalidAlias *) invalidAlias {
+- (void) setInvalidAlias: (InvalidAlias *) invalidAlias {
   _invalidAlias = invalidAlias;
   _invalidAliasIsSet = YES;
 }
@@ -14402,7 +14410,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTInvite *fieldValue = [[RTInvite alloc] init];
+          Invite *fieldValue = [[Invite alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -14412,7 +14420,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasInUse *fieldValue = [[RTAliasInUse alloc] init];
+          AliasInUse *fieldValue = [[AliasInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasInUse = fieldValue;
         } else { 
@@ -14422,7 +14430,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 6:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasAlreadyInvited *fieldValue = [[RTAliasAlreadyInvited alloc] init];
+          AliasAlreadyInvited *fieldValue = [[AliasAlreadyInvited alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasAlreadyInvited = fieldValue;
         } else { 
@@ -14432,7 +14440,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 7:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidAlias *fieldValue = [[RTInvalidAlias alloc] init];
+          InvalidAlias *fieldValue = [[InvalidAlias alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidAlias = fieldValue;
         } else { 
@@ -14491,7 +14499,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTUserAPI_generateInvite_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"UserAPI_generateInvite_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @",aliasInUse:"];
@@ -14506,7 +14514,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTUserAPIClient () {
+@interface UserAPIClient () {
 
   id<TProtocol> inProtocol;
   id<TProtocol> outProtocol;
@@ -14515,7 +14523,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTUserAPIClient
+@implementation UserAPIClient
 - (id) initWithProtocol: (id <TProtocol>) protocol
 {
   return [self initWithInProtocol: protocol outProtocol: protocol];
@@ -14531,7 +14539,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (BOOL) send_registerNotifications: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerNotifications: (NotificationType) type platform: (NSString *) platform token: (NSData *) token error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerNotifications" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_registerNotifications_args" error: __thriftError]) return NO;
@@ -14563,13 +14571,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_registerNotifications_result * resulter = [RTUserAPI_registerNotifications_result new];
+  UserAPI_registerNotifications_result * resulter = [UserAPI_registerNotifications_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) registerNotifications: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) registerNotifications: (NotificationType) type platform: (NSString *) platform token: (NSData *) token error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_registerNotifications : type platform: platform token: token error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -14597,7 +14605,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_updateCertificates: (RTCertificateSet * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_updateCertificates: (CertificateSet * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -14606,7 +14614,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateCertificates_result * resulter = [RTUserAPI_updateCertificates_result new];
+  UserAPI_updateCertificates_result * resulter = [UserAPI_updateCertificates_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -14621,16 +14629,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTCertificateSet *) updateCertificates: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR error: (NSError *__autoreleasing *)__thriftError
+- (CertificateSet *) updateCertificates: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_updateCertificates : encryptionCSR signingCSR: signingCSR error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTCertificateSet * __result;
+  CertificateSet * __result;
   if (![self recv_updateCertificates: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_updateAvatar: (RTImage *) avatar error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_updateAvatar: (Image *) avatar error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"updateAvatar" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_updateAvatar_args" error: __thriftError]) return NO;
@@ -14654,13 +14662,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateAvatar_result * resulter = [RTUserAPI_updateAvatar_result new];
+  UserAPI_updateAvatar_result * resulter = [UserAPI_updateAvatar_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) updateAvatar: (RTImage *) avatar error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) updateAvatar: (Image *) avatar error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_updateAvatar : avatar error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -14678,7 +14686,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_listAliases: (RTMutableAliasSet *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_listAliases: (MutableAliasSet *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -14687,7 +14695,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_listAliases_result * resulter = [RTUserAPI_listAliases_result new];
+  UserAPI_listAliases_result * resulter = [UserAPI_listAliases_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -14702,16 +14710,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTAliasSet) listAliases: (NSError *__autoreleasing *)__thriftError
+- (AliasSet) listAliases: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_listAliases: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTMutableAliasSet __result;
+  MutableAliasSet __result;
   if (![self recv_listAliases: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_registerAlias: (RTAuthenticatedAlias *) authenticatedAlias error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerAlias: (AuthenticatedAlias *) authenticatedAlias error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerAlias" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_registerAlias_args" error: __thriftError]) return NO;
@@ -14735,7 +14743,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_registerAlias_result * resulter = [RTUserAPI_registerAlias_result new];
+  UserAPI_registerAlias_result * resulter = [UserAPI_registerAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.aliasInUseIsSet)  {
@@ -14759,7 +14767,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) registerAlias: (RTAuthenticatedAlias *) authenticatedAlias error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) registerAlias: (AuthenticatedAlias *) authenticatedAlias error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_registerAlias : authenticatedAlias error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -14767,7 +14775,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) send_unregisterAlias: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_unregisterAlias: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"unregisterAlias" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_unregisterAlias_args" error: __thriftError]) return NO;
@@ -14791,13 +14799,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_unregisterAlias_result * resulter = [RTUserAPI_unregisterAlias_result new];
+  UserAPI_unregisterAlias_result * resulter = [UserAPI_unregisterAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) unregisterAlias: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) unregisterAlias: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_unregisterAlias : name error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -14815,7 +14823,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_listDevices: (NSMutableArray<RTDeviceInfo *> * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_listDevices: (NSMutableArray<DeviceInfo *> * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -14824,7 +14832,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_listDevices_result * resulter = [RTUserAPI_listDevices_result new];
+  UserAPI_listDevices_result * resulter = [UserAPI_listDevices_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -14839,16 +14847,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSArray<RTDeviceInfo *> *) listDevices: (NSError *__autoreleasing *)__thriftError
+- (NSArray<DeviceInfo *> *) listDevices: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_listDevices: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  NSMutableArray<RTDeviceInfo *> * __result;
+  NSMutableArray<DeviceInfo *> * __result;
   if (![self recv_listDevices: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_updateDeviceActiveAliases: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_updateDeviceActiveAliases: (Id *) deviceId activeAliases: (AliasSet) activeAliases error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"updateDeviceActiveAliases" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_updateDeviceActiveAliases_args" error: __thriftError]) return NO;
@@ -14886,13 +14894,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateDeviceActiveAliases_result * resulter = [RTUserAPI_updateDeviceActiveAliases_result new];
+  UserAPI_updateDeviceActiveAliases_result * resulter = [UserAPI_updateDeviceActiveAliases_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) updateDeviceActiveAliases: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) updateDeviceActiveAliases: (Id *) deviceId activeAliases: (AliasSet) activeAliases error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_updateDeviceActiveAliases : deviceId activeAliases: activeAliases error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -14910,7 +14918,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_fetchWaiting: (NSMutableArray<RTMsgHdr *> * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_fetchWaiting: (NSMutableArray<MsgHdr *> * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -14919,7 +14927,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_fetchWaiting_result * resulter = [RTUserAPI_fetchWaiting_result new];
+  UserAPI_fetchWaiting_result * resulter = [UserAPI_fetchWaiting_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -14934,16 +14942,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSArray<RTMsgHdr *> *) fetchWaiting: (NSError *__autoreleasing *)__thriftError
+- (NSArray<MsgHdr *> *) fetchWaiting: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_fetchWaiting: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  NSMutableArray<RTMsgHdr *> * __result;
+  NSMutableArray<MsgHdr *> * __result;
   if (![self recv_fetchWaiting: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_fetch: (RTId *) msgId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_fetch: (Id *) msgId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"fetch" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_fetch_args" error: __thriftError]) return NO;
@@ -14958,7 +14966,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_fetch: (RTMsg * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_fetch: (Msg * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -14967,7 +14975,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_fetch_result * resulter = [RTUserAPI_fetch_result new];
+  UserAPI_fetch_result * resulter = [UserAPI_fetch_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -14982,16 +14990,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTMsg *) fetch: (RTId *) msgId error: (NSError *__autoreleasing *)__thriftError
+- (Msg *) fetch: (Id *) msgId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_fetch : msgId error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTMsg * __result;
+  Msg * __result;
   if (![self recv_fetch: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_ack: (RTId *) msgId sent: (RTTimeStamp) sent error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_ack: (Id *) msgId sent: (TimeStamp) sent error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"ack" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_ack_args" error: __thriftError]) return NO;
@@ -15009,14 +15017,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) ack: (RTId *) msgId sent: (RTTimeStamp) sent error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) ack: (Id *) msgId sent: (TimeStamp) sent error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_ack : msgId sent: sent error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_send: (RTMsgPack *) msgPack error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_send: (MsgPack *) msgPack error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"send" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_send_args" error: __thriftError]) return NO;
@@ -15031,7 +15039,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_send: (RTTimeStamp *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_send: (TimeStamp *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -15040,7 +15048,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_send_result * resulter = [RTUserAPI_send_result new];
+  UserAPI_send_result * resulter = [UserAPI_send_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -15073,16 +15081,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSNumber *) send: (RTMsgPack *) msgPack error: (NSError *__autoreleasing *)__thriftError
+- (NSNumber *) send: (MsgPack *) msgPack error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_send : msgPack error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTTimeStamp __result;
+  TimeStamp __result;
   if (![self recv_send: &__result error: __thriftError]) return nil;
   return @(__result);
 }
 
-- (BOOL) send_sendUserStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_sendUserStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"sendUserStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_sendUserStatus_args" error: __thriftError]) return NO;
@@ -15105,14 +15113,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) sendUserStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) sendUserStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_sendUserStatus : sender recipient: recipient status: status error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_sendGroupStatus: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_sendGroupStatus: (Alias) sender group: (Group *) group status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"sendGroupStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_sendGroupStatus_args" error: __thriftError]) return NO;
@@ -15135,14 +15143,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) sendGroupStatus: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) sendGroupStatus: (Alias) sender group: (Group *) group status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_sendGroupStatus : sender group: group status: status error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_sendDirect: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_sendDirect: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"sendDirect" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_sendDirect_args" error: __thriftError]) return NO;
@@ -15194,7 +15202,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_sendDirect_result * resulter = [RTUserAPI_sendDirect_result new];
+  UserAPI_sendDirect_result * resulter = [UserAPI_sendDirect_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.invalidSenderIsSet)  {
@@ -15218,7 +15226,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) sendDirect: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) sendDirect: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_sendDirect : msgId msgType: msgType msgData: msgData sender: sender envelopes: envelopes error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -15264,7 +15272,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_updateConnections: (RTMutableAliasSet *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_updateConnections: (MutableAliasSet *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -15273,7 +15281,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateConnections_result * resulter = [RTUserAPI_updateConnections_result new];
+  UserAPI_updateConnections_result * resulter = [UserAPI_updateConnections_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -15288,11 +15296,11 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTAliasSet) updateConnections: (NSSet<NSData *> *) newPeers oldPeers: (NSSet<NSData *> *) oldPeers error: (NSError *__autoreleasing *)__thriftError
+- (AliasSet) updateConnections: (NSSet<NSData *> *) newPeers oldPeers: (NSSet<NSData *> *) oldPeers error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_updateConnections : newPeers oldPeers: oldPeers error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTMutableAliasSet __result;
+  MutableAliasSet __result;
   if (![self recv_updateConnections: &__result error: __thriftError]) return nil;
   return __result;
 }
@@ -15316,7 +15324,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_clearConnections_result * resulter = [RTUserAPI_clearConnections_result new];
+  UserAPI_clearConnections_result * resulter = [UserAPI_clearConnections_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
@@ -15365,7 +15373,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_generateInvite: (RTInvite * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_generateInvite: (Invite * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -15374,7 +15382,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_generateInvite_result * resulter = [RTUserAPI_generateInvite_result new];
+  UserAPI_generateInvite_result * resulter = [UserAPI_generateInvite_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -15407,26 +15415,26 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTInvite *) generateInvite: (NSString *) inviteeAlias inviteeName: (NSString *) inviteeName params: (NSDictionary<NSString *, NSString *> *) params error: (NSError *__autoreleasing *)__thriftError
+- (Invite *) generateInvite: (NSString *) inviteeAlias inviteeName: (NSString *) inviteeName params: (NSDictionary<NSString *, NSString *> *) params error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_generateInvite : inviteeAlias inviteeName: inviteeName params: params error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTInvite * __result;
+  Invite * __result;
   if (![self recv_generateInvite: &__result error: __thriftError]) return nil;
   return __result;
 }
 
 @end
 
-@interface RTUserAPIProcessor () {
-  id <RTUserAPI> service;
+@interface UserAPIProcessor () {
+  id <UserAPI> service;
   NSDictionary * methodMap;
 }
 @end
 
-@implementation RTUserAPIProcessor
+@implementation UserAPIProcessor
 
-- (id) initWithUserAPI: (id <RTUserAPI>) aService
+- (id) initWithUserAPI: (id <UserAPI>) aService
 {
   self = [super init];
   if (self)   {
@@ -15580,7 +15588,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (id<RTUserAPI>) service
+- (id<UserAPI>) service
 {
   return service;
 }
@@ -15626,10 +15634,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_registerNotifications_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_registerNotifications_args * args = [RTUserAPI_registerNotifications_args new];
+  UserAPI_registerNotifications_args * args = [UserAPI_registerNotifications_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_registerNotifications_result * result = [RTUserAPI_registerNotifications_result new];
+  UserAPI_registerNotifications_result * result = [UserAPI_registerNotifications_result new];
   BOOL serviceResult = [service registerNotifications: [args type] platform: [args platform] token: [args token] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"registerNotifications"
@@ -15644,11 +15652,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_updateCertificates_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_updateCertificates_args * args = [RTUserAPI_updateCertificates_args new];
+  UserAPI_updateCertificates_args * args = [UserAPI_updateCertificates_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_updateCertificates_result * result = [RTUserAPI_updateCertificates_result new];
-  RTCertificateSet * serviceResult = [service updateCertificates: [args encryptionCSR] signingCSR: [args signingCSR] error: __thriftError];
+  UserAPI_updateCertificates_result * result = [UserAPI_updateCertificates_result new];
+  CertificateSet * serviceResult = [service updateCertificates: [args encryptionCSR] signingCSR: [args signingCSR] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"updateCertificates"
@@ -15663,10 +15671,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_updateAvatar_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_updateAvatar_args * args = [RTUserAPI_updateAvatar_args new];
+  UserAPI_updateAvatar_args * args = [UserAPI_updateAvatar_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_updateAvatar_result * result = [RTUserAPI_updateAvatar_result new];
+  UserAPI_updateAvatar_result * result = [UserAPI_updateAvatar_result new];
   BOOL serviceResult = [service updateAvatar: [args avatar] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"updateAvatar"
@@ -15681,11 +15689,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_listAliases_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_listAliases_args * args = [RTUserAPI_listAliases_args new];
+  UserAPI_listAliases_args * args = [UserAPI_listAliases_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_listAliases_result * result = [RTUserAPI_listAliases_result new];
-  RTMutableAliasSet serviceResult = (RTMutableAliasSet)[service listAliases: __thriftError];
+  UserAPI_listAliases_result * result = [UserAPI_listAliases_result new];
+  MutableAliasSet serviceResult = (MutableAliasSet)[service listAliases: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"listAliases"
@@ -15700,10 +15708,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_registerAlias_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_registerAlias_args * args = [RTUserAPI_registerAlias_args new];
+  UserAPI_registerAlias_args * args = [UserAPI_registerAlias_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_registerAlias_result * result = [RTUserAPI_registerAlias_result new];
+  UserAPI_registerAlias_result * result = [UserAPI_registerAlias_result new];
   BOOL serviceResult = [service registerAlias: [args authenticatedAlias] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"registerAlias"
@@ -15718,10 +15726,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_unregisterAlias_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_unregisterAlias_args * args = [RTUserAPI_unregisterAlias_args new];
+  UserAPI_unregisterAlias_args * args = [UserAPI_unregisterAlias_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_unregisterAlias_result * result = [RTUserAPI_unregisterAlias_result new];
+  UserAPI_unregisterAlias_result * result = [UserAPI_unregisterAlias_result new];
   BOOL serviceResult = [service unregisterAlias: [args name] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"unregisterAlias"
@@ -15736,11 +15744,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_listDevices_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_listDevices_args * args = [RTUserAPI_listDevices_args new];
+  UserAPI_listDevices_args * args = [UserAPI_listDevices_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_listDevices_result * result = [RTUserAPI_listDevices_result new];
-  NSMutableArray<RTDeviceInfo *> * serviceResult = (NSMutableArray<RTDeviceInfo *> *)[service listDevices: __thriftError];
+  UserAPI_listDevices_result * result = [UserAPI_listDevices_result new];
+  NSMutableArray<DeviceInfo *> * serviceResult = (NSMutableArray<DeviceInfo *> *)[service listDevices: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"listDevices"
@@ -15755,10 +15763,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_updateDeviceActiveAliases_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_updateDeviceActiveAliases_args * args = [RTUserAPI_updateDeviceActiveAliases_args new];
+  UserAPI_updateDeviceActiveAliases_args * args = [UserAPI_updateDeviceActiveAliases_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_updateDeviceActiveAliases_result * result = [RTUserAPI_updateDeviceActiveAliases_result new];
+  UserAPI_updateDeviceActiveAliases_result * result = [UserAPI_updateDeviceActiveAliases_result new];
   BOOL serviceResult = [service updateDeviceActiveAliases: [args deviceId] activeAliases: [args activeAliases] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"updateDeviceActiveAliases"
@@ -15773,11 +15781,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_fetchWaiting_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_fetchWaiting_args * args = [RTUserAPI_fetchWaiting_args new];
+  UserAPI_fetchWaiting_args * args = [UserAPI_fetchWaiting_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_fetchWaiting_result * result = [RTUserAPI_fetchWaiting_result new];
-  NSMutableArray<RTMsgHdr *> * serviceResult = (NSMutableArray<RTMsgHdr *> *)[service fetchWaiting: __thriftError];
+  UserAPI_fetchWaiting_result * result = [UserAPI_fetchWaiting_result new];
+  NSMutableArray<MsgHdr *> * serviceResult = (NSMutableArray<MsgHdr *> *)[service fetchWaiting: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"fetchWaiting"
@@ -15792,11 +15800,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_fetch_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_fetch_args * args = [RTUserAPI_fetch_args new];
+  UserAPI_fetch_args * args = [UserAPI_fetch_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_fetch_result * result = [RTUserAPI_fetch_result new];
-  RTMsg * serviceResult = [service fetch: [args msgId] error: __thriftError];
+  UserAPI_fetch_result * result = [UserAPI_fetch_result new];
+  Msg * serviceResult = [service fetch: [args msgId] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"fetch"
@@ -15811,7 +15819,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_ack_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_ack_args * args = [RTUserAPI_ack_args new];
+  UserAPI_ack_args * args = [UserAPI_ack_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service ack: [args msgId] sent: [args sent] error: __thriftError];
@@ -15821,10 +15829,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_send_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_send_args * args = [RTUserAPI_send_args new];
+  UserAPI_send_args * args = [UserAPI_send_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_send_result * result = [RTUserAPI_send_result new];
+  UserAPI_send_result * result = [UserAPI_send_result new];
   NSNumber * serviceResult = [service send: [args msgPack] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: ((SInt64)[serviceResult longLongValue])];
@@ -15840,7 +15848,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_sendUserStatus_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_sendUserStatus_args * args = [RTUserAPI_sendUserStatus_args new];
+  UserAPI_sendUserStatus_args * args = [UserAPI_sendUserStatus_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service sendUserStatus: [args sender] recipient: [args recipient] status: [args status] error: __thriftError];
@@ -15850,7 +15858,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_sendGroupStatus_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_sendGroupStatus_args * args = [RTUserAPI_sendGroupStatus_args new];
+  UserAPI_sendGroupStatus_args * args = [UserAPI_sendGroupStatus_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service sendGroupStatus: [args sender] group: [args group] status: [args status] error: __thriftError];
@@ -15860,10 +15868,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_sendDirect_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_sendDirect_args * args = [RTUserAPI_sendDirect_args new];
+  UserAPI_sendDirect_args * args = [UserAPI_sendDirect_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_sendDirect_result * result = [RTUserAPI_sendDirect_result new];
+  UserAPI_sendDirect_result * result = [UserAPI_sendDirect_result new];
   BOOL serviceResult = [service sendDirect: [args msgId] msgType: [args msgType] msgData: [args msgData] sender: [args sender] envelopes: [args envelopes] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"sendDirect"
@@ -15878,11 +15886,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_updateConnections_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_updateConnections_args * args = [RTUserAPI_updateConnections_args new];
+  UserAPI_updateConnections_args * args = [UserAPI_updateConnections_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_updateConnections_result * result = [RTUserAPI_updateConnections_result new];
-  RTMutableAliasSet serviceResult = (RTMutableAliasSet)[service updateConnections: [args newPeers] oldPeers: [args oldPeers] error: __thriftError];
+  UserAPI_updateConnections_result * result = [UserAPI_updateConnections_result new];
+  MutableAliasSet serviceResult = (MutableAliasSet)[service updateConnections: [args newPeers] oldPeers: [args oldPeers] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"updateConnections"
@@ -15897,10 +15905,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_clearConnections_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_clearConnections_args * args = [RTUserAPI_clearConnections_args new];
+  UserAPI_clearConnections_args * args = [UserAPI_clearConnections_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_clearConnections_result * result = [RTUserAPI_clearConnections_result new];
+  UserAPI_clearConnections_result * result = [UserAPI_clearConnections_result new];
   BOOL serviceResult = [service clearConnections: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"clearConnections"
@@ -15915,11 +15923,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_generateInvite_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTUserAPI_generateInvite_args * args = [RTUserAPI_generateInvite_args new];
+  UserAPI_generateInvite_args * args = [UserAPI_generateInvite_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTUserAPI_generateInvite_result * result = [RTUserAPI_generateInvite_result new];
-  RTInvite * serviceResult = [service generateInvite: [args inviteeAlias] inviteeName: [args inviteeName] params: [args params] error: __thriftError];
+  UserAPI_generateInvite_result * result = [UserAPI_generateInvite_result new];
+  Invite * serviceResult = [service generateInvite: [args inviteeAlias] inviteeName: [args inviteeName] params: [args params] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"generateInvite"
@@ -15933,7 +15941,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 @end
 
-@interface RTUserAPIClientAsync () {
+@interface UserAPIClientAsync () {
 
   id<TProtocolFactory> protocolFactory;
   id<TAsyncTransportFactory> transportFactory;
@@ -15942,7 +15950,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTUserAPIClientAsync
+@implementation UserAPIClientAsync
 
 - (id) initWithProtocolFactory: (id <TProtocolFactory>) aProtocolFactory transportFactory: (id <TAsyncTransportFactory>) aTransportFactory;
 {
@@ -15954,7 +15962,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (BOOL) send_registerNotifications: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerNotifications: (NotificationType) type platform: (NSString *) platform token: (NSData *) token protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerNotifications" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_registerNotifications_args" error: __thriftError]) return NO;
@@ -15986,13 +15994,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_registerNotifications_result * resulter = [RTUserAPI_registerNotifications_result new];
+  UserAPI_registerNotifications_result * resulter = [UserAPI_registerNotifications_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (void) registerNotifications: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) registerNotifications: (NotificationType) type platform: (NSString *) platform token: (NSData *) token response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16012,7 +16020,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) registerNotifications: (RTNotificationType) type platform: (NSString *) platform token: (NSData *) token
+- (AnyPromise *) registerNotifications: (NotificationType) type platform: (NSString *) platform token: (NSData *) token
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16056,7 +16064,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_updateCertificates: (RTCertificateSet * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_updateCertificates: (CertificateSet * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -16065,7 +16073,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateCertificates_result * resulter = [RTUserAPI_updateCertificates_result new];
+  UserAPI_updateCertificates_result * resulter = [UserAPI_updateCertificates_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -16080,7 +16088,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) updateCertificates: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR response: (void (^)(RTCertificateSet *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) updateCertificates: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR response: (void (^)(CertificateSet *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16092,7 +16100,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTCertificateSet * result;
+    CertificateSet * result;
     if (![self recv_updateCertificates: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -16114,7 +16122,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTCertificateSet * result;
+      CertificateSet * result;
       if (![self recv_updateCertificates: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -16126,7 +16134,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_updateAvatar: (RTImage *) avatar protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_updateAvatar: (Image *) avatar protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"updateAvatar" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_updateAvatar_args" error: __thriftError]) return NO;
@@ -16150,13 +16158,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateAvatar_result * resulter = [RTUserAPI_updateAvatar_result new];
+  UserAPI_updateAvatar_result * resulter = [UserAPI_updateAvatar_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (void) updateAvatar: (RTImage *) avatar response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) updateAvatar: (Image *) avatar response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16176,7 +16184,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) updateAvatar: (RTImage *) avatar
+- (AnyPromise *) updateAvatar: (Image *) avatar
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16210,7 +16218,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_listAliases: (RTMutableAliasSet *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_listAliases: (MutableAliasSet *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -16219,7 +16227,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_listAliases_result * resulter = [RTUserAPI_listAliases_result new];
+  UserAPI_listAliases_result * resulter = [UserAPI_listAliases_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -16234,7 +16242,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) listAliases: (void (^)(RTAliasSet)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) listAliases: (void (^)(AliasSet)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16246,7 +16254,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTAliasSet result;
+    AliasSet result;
     if (![self recv_listAliases: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -16268,7 +16276,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTAliasSet result;
+      AliasSet result;
       if (![self recv_listAliases: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -16280,7 +16288,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_registerAlias: (RTAuthenticatedAlias *) authenticatedAlias protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerAlias: (AuthenticatedAlias *) authenticatedAlias protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerAlias" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_registerAlias_args" error: __thriftError]) return NO;
@@ -16304,7 +16312,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_registerAlias_result * resulter = [RTUserAPI_registerAlias_result new];
+  UserAPI_registerAlias_result * resulter = [UserAPI_registerAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.aliasInUseIsSet)  {
@@ -16328,7 +16336,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) registerAlias: (RTAuthenticatedAlias *) authenticatedAlias response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) registerAlias: (AuthenticatedAlias *) authenticatedAlias response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16348,7 +16356,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) registerAlias: (RTAuthenticatedAlias *) authenticatedAlias
+- (AnyPromise *) registerAlias: (AuthenticatedAlias *) authenticatedAlias
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16372,7 +16380,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_unregisterAlias: (RTAlias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_unregisterAlias: (Alias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"unregisterAlias" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_unregisterAlias_args" error: __thriftError]) return NO;
@@ -16396,13 +16404,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_unregisterAlias_result * resulter = [RTUserAPI_unregisterAlias_result new];
+  UserAPI_unregisterAlias_result * resulter = [UserAPI_unregisterAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (void) unregisterAlias: (RTAlias) name response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) unregisterAlias: (Alias) name response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16422,7 +16430,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) unregisterAlias: (RTAlias) name
+- (AnyPromise *) unregisterAlias: (Alias) name
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16456,7 +16464,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_listDevices: (NSMutableArray<RTDeviceInfo *> * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_listDevices: (NSMutableArray<DeviceInfo *> * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -16465,7 +16473,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_listDevices_result * resulter = [RTUserAPI_listDevices_result new];
+  UserAPI_listDevices_result * resulter = [UserAPI_listDevices_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -16480,7 +16488,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) listDevices: (void (^)(NSArray<RTDeviceInfo *> *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) listDevices: (void (^)(NSArray<DeviceInfo *> *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16492,7 +16500,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    NSArray<RTDeviceInfo *> * result;
+    NSArray<DeviceInfo *> * result;
     if (![self recv_listDevices: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -16514,7 +16522,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      NSArray<RTDeviceInfo *> * result;
+      NSArray<DeviceInfo *> * result;
       if (![self recv_listDevices: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -16526,7 +16534,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_updateDeviceActiveAliases: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_updateDeviceActiveAliases: (Id *) deviceId activeAliases: (AliasSet) activeAliases protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"updateDeviceActiveAliases" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_updateDeviceActiveAliases_args" error: __thriftError]) return NO;
@@ -16564,13 +16572,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateDeviceActiveAliases_result * resulter = [RTUserAPI_updateDeviceActiveAliases_result new];
+  UserAPI_updateDeviceActiveAliases_result * resulter = [UserAPI_updateDeviceActiveAliases_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (void) updateDeviceActiveAliases: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) updateDeviceActiveAliases: (Id *) deviceId activeAliases: (AliasSet) activeAliases response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16590,7 +16598,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) updateDeviceActiveAliases: (RTId *) deviceId activeAliases: (RTAliasSet) activeAliases
+- (AnyPromise *) updateDeviceActiveAliases: (Id *) deviceId activeAliases: (AliasSet) activeAliases
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16624,7 +16632,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_fetchWaiting: (NSMutableArray<RTMsgHdr *> * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_fetchWaiting: (NSMutableArray<MsgHdr *> * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -16633,7 +16641,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_fetchWaiting_result * resulter = [RTUserAPI_fetchWaiting_result new];
+  UserAPI_fetchWaiting_result * resulter = [UserAPI_fetchWaiting_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -16648,7 +16656,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) fetchWaiting: (void (^)(NSArray<RTMsgHdr *> *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) fetchWaiting: (void (^)(NSArray<MsgHdr *> *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16660,7 +16668,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    NSArray<RTMsgHdr *> * result;
+    NSArray<MsgHdr *> * result;
     if (![self recv_fetchWaiting: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -16682,7 +16690,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      NSArray<RTMsgHdr *> * result;
+      NSArray<MsgHdr *> * result;
       if (![self recv_fetchWaiting: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -16694,7 +16702,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_fetch: (RTId *) msgId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_fetch: (Id *) msgId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"fetch" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_fetch_args" error: __thriftError]) return NO;
@@ -16709,7 +16717,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_fetch: (RTMsg * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_fetch: (Msg * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -16718,7 +16726,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_fetch_result * resulter = [RTUserAPI_fetch_result new];
+  UserAPI_fetch_result * resulter = [UserAPI_fetch_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -16733,7 +16741,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) fetch: (RTId *) msgId response: (void (^)(RTMsg *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) fetch: (Id *) msgId response: (void (^)(Msg *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16745,7 +16753,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTMsg * result;
+    Msg * result;
     if (![self recv_fetch: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -16754,7 +16762,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) fetch: (RTId *) msgId
+- (AnyPromise *) fetch: (Id *) msgId
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16767,7 +16775,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTMsg * result;
+      Msg * result;
       if (![self recv_fetch: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -16779,7 +16787,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_ack: (RTId *) msgId sent: (RTTimeStamp) sent protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_ack: (Id *) msgId sent: (TimeStamp) sent protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"ack" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_ack_args" error: __thriftError]) return NO;
@@ -16797,7 +16805,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) ack: (RTId *) msgId sent: (RTTimeStamp) sent response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) ack: (Id *) msgId sent: (TimeStamp) sent response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16812,7 +16820,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) ack: (RTId *) msgId sent: (RTTimeStamp) sent
+- (AnyPromise *) ack: (Id *) msgId sent: (TimeStamp) sent
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16831,7 +16839,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_send: (RTMsgPack *) msgPack protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_send: (MsgPack *) msgPack protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"send" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_send_args" error: __thriftError]) return NO;
@@ -16846,7 +16854,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_send: (RTTimeStamp *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_send: (TimeStamp *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -16855,7 +16863,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_send_result * resulter = [RTUserAPI_send_result new];
+  UserAPI_send_result * resulter = [UserAPI_send_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -16888,7 +16896,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) send: (RTMsgPack *) msgPack response: (void (^)(RTTimeStamp)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) send: (MsgPack *) msgPack response: (void (^)(TimeStamp)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16900,7 +16908,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTTimeStamp result;
+    TimeStamp result;
     if (![self recv_send: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -16909,7 +16917,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) send: (RTMsgPack *) msgPack
+- (AnyPromise *) send: (MsgPack *) msgPack
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16922,7 +16930,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTTimeStamp result;
+      TimeStamp result;
       if (![self recv_send: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -16934,7 +16942,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_sendUserStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_sendUserStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"sendUserStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_sendUserStatus_args" error: __thriftError]) return NO;
@@ -16957,7 +16965,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) sendUserStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) sendUserStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -16972,7 +16980,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) sendUserStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status
+- (AnyPromise *) sendUserStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -16991,7 +16999,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_sendGroupStatus: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_sendGroupStatus: (Alias) sender group: (Group *) group status: (UserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"sendGroupStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_sendGroupStatus_args" error: __thriftError]) return NO;
@@ -17014,7 +17022,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) sendGroupStatus: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) sendGroupStatus: (Alias) sender group: (Group *) group status: (UserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -17029,7 +17037,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) sendGroupStatus: (RTAlias) sender group: (RTGroup *) group status: (RTUserStatus) status
+- (AnyPromise *) sendGroupStatus: (Alias) sender group: (Group *) group status: (UserStatus) status
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -17048,7 +17056,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_sendDirect: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_sendDirect: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"sendDirect" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"UserAPI_sendDirect_args" error: __thriftError]) return NO;
@@ -17100,7 +17108,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_sendDirect_result * resulter = [RTUserAPI_sendDirect_result new];
+  UserAPI_sendDirect_result * resulter = [UserAPI_sendDirect_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.invalidSenderIsSet)  {
@@ -17124,7 +17132,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) sendDirect: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) sendDirect: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -17144,7 +17152,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) sendDirect: (RTId *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (RTDirectEnvelopeList) envelopes
+- (AnyPromise *) sendDirect: (Id *) msgId msgType: (NSString *) msgType msgData: (NSData *) msgData sender: (NSString *) sender envelopes: (DirectEnvelopeList) envelopes
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -17206,7 +17214,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_updateConnections: (RTMutableAliasSet *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_updateConnections: (MutableAliasSet *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -17215,7 +17223,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_updateConnections_result * resulter = [RTUserAPI_updateConnections_result new];
+  UserAPI_updateConnections_result * resulter = [UserAPI_updateConnections_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -17230,7 +17238,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) updateConnections: (NSSet<NSData *> *) newPeers oldPeers: (NSSet<NSData *> *) oldPeers response: (void (^)(RTAliasSet)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) updateConnections: (NSSet<NSData *> *) newPeers oldPeers: (NSSet<NSData *> *) oldPeers response: (void (^)(AliasSet)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -17242,7 +17250,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTAliasSet result;
+    AliasSet result;
     if (![self recv_updateConnections: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -17264,7 +17272,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTAliasSet result;
+      AliasSet result;
       if (![self recv_updateConnections: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -17295,7 +17303,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_clearConnections_result * resulter = [RTUserAPI_clearConnections_result new];
+  UserAPI_clearConnections_result * resulter = [UserAPI_clearConnections_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
@@ -17380,7 +17388,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_generateInvite: (RTInvite * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_generateInvite: (Invite * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -17389,7 +17397,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTUserAPI_generateInvite_result * resulter = [RTUserAPI_generateInvite_result new];
+  UserAPI_generateInvite_result * resulter = [UserAPI_generateInvite_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -17422,7 +17430,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) generateInvite: (NSString *) inviteeAlias inviteeName: (NSString *) inviteeName params: (NSDictionary<NSString *, NSString *> *) params response: (void (^)(RTInvite *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) generateInvite: (NSString *) inviteeAlias inviteeName: (NSString *) inviteeName params: (NSDictionary<NSString *, NSString *> *) params response: (void (^)(Invite *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -17434,7 +17442,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTInvite * result;
+    Invite * result;
     if (![self recv_generateInvite: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -17456,7 +17464,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTInvite * result;
+      Invite * result;
       if (![self recv_generateInvite: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -17470,18 +17478,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findUserWithAlias_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findUserWithAlias_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias name;
+@property (strong, nonatomic) Alias name;
 @property (assign, nonatomic) BOOL nameIsSet;
 - (void) unsetName;
 
 
-- (instancetype) initWithName: (RTAlias) name;
+- (instancetype) initWithName: (Alias) name;
 
 @end
 
-@implementation RTPublicAPI_findUserWithAlias_args
+@implementation PublicAPI_findUserWithAlias_args
 
 - (instancetype) init
 {
@@ -17491,7 +17499,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithName: (RTAlias) name
+- (instancetype) initWithName: (Alias) name
 {
   self = [super init];
   if (self)  {
@@ -17538,10 +17546,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findUserWithAlias_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findUserWithAlias_args class]]) {
     return NO;
   }
-  RTPublicAPI_findUserWithAlias_args *other = (RTPublicAPI_findUserWithAlias_args *)anObject;
+  PublicAPI_findUserWithAlias_args *other = (PublicAPI_findUserWithAlias_args *)anObject;
   if ((_nameIsSet != other->_nameIsSet) ||
       (_nameIsSet && ((_name || other->_name) && ![_name isEqual:other->_name]))) {
     return NO;
@@ -17551,7 +17559,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findUserWithAlias_args * val = [RTPublicAPI_findUserWithAlias_args new];
+  PublicAPI_findUserWithAlias_args * val = [PublicAPI_findUserWithAlias_args new];
   val.name = [self.name copy];
   return val;
 }
@@ -17623,7 +17631,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findUserWithAlias_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findUserWithAlias_args("];
   [ms appendString: @"name:"];
   [ms appendFormat: @"\"%@\"", _name];
   [ms appendString: @")"];
@@ -17632,18 +17640,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findUserWithAlias_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findUserWithAlias_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTUserInfo * success;
+@property (strong, nonatomic) UserInfo * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTUserInfo *) success;
+- (instancetype) initWithSuccess: (UserInfo *) success;
 
 @end
 
-@implementation RTPublicAPI_findUserWithAlias_result
+@implementation PublicAPI_findUserWithAlias_result
 
 - (instancetype) init
 {
@@ -17653,7 +17661,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTUserInfo *) success
+- (instancetype) initWithSuccess: (UserInfo *) success
 {
   self = [super init];
   if (self)  {
@@ -17700,10 +17708,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findUserWithAlias_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findUserWithAlias_result class]]) {
     return NO;
   }
-  RTPublicAPI_findUserWithAlias_result *other = (RTPublicAPI_findUserWithAlias_result *)anObject;
+  PublicAPI_findUserWithAlias_result *other = (PublicAPI_findUserWithAlias_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -17713,12 +17721,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findUserWithAlias_result * val = [RTPublicAPI_findUserWithAlias_result new];
+  PublicAPI_findUserWithAlias_result * val = [PublicAPI_findUserWithAlias_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTUserInfo *) success {
+- (void) setSuccess: (UserInfo *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -17745,7 +17753,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTUserInfo *fieldValue = [[RTUserInfo alloc] init];
+          UserInfo *fieldValue = [[UserInfo alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -17786,7 +17794,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findUserWithAlias_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findUserWithAlias_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -17795,18 +17803,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findUserWithId_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findUserWithId_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
 
-- (instancetype) initWithUserId: (RTId *) userId;
+- (instancetype) initWithUserId: (Id *) userId;
 
 @end
 
-@implementation RTPublicAPI_findUserWithId_args
+@implementation PublicAPI_findUserWithId_args
 
 - (instancetype) init
 {
@@ -17816,7 +17824,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId
+- (instancetype) initWithUserId: (Id *) userId
 {
   self = [super init];
   if (self)  {
@@ -17863,10 +17871,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findUserWithId_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findUserWithId_args class]]) {
     return NO;
   }
-  RTPublicAPI_findUserWithId_args *other = (RTPublicAPI_findUserWithId_args *)anObject;
+  PublicAPI_findUserWithId_args *other = (PublicAPI_findUserWithId_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -17876,12 +17884,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findUserWithId_args * val = [RTPublicAPI_findUserWithId_args new];
+  PublicAPI_findUserWithId_args * val = [PublicAPI_findUserWithId_args new];
   val.userId = [self.userId copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -17908,7 +17916,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -17948,7 +17956,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findUserWithId_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findUserWithId_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @")"];
@@ -17957,18 +17965,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findUserWithId_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findUserWithId_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTUserInfo * success;
+@property (strong, nonatomic) UserInfo * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTUserInfo *) success;
+- (instancetype) initWithSuccess: (UserInfo *) success;
 
 @end
 
-@implementation RTPublicAPI_findUserWithId_result
+@implementation PublicAPI_findUserWithId_result
 
 - (instancetype) init
 {
@@ -17978,7 +17986,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTUserInfo *) success
+- (instancetype) initWithSuccess: (UserInfo *) success
 {
   self = [super init];
   if (self)  {
@@ -18025,10 +18033,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findUserWithId_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findUserWithId_result class]]) {
     return NO;
   }
-  RTPublicAPI_findUserWithId_result *other = (RTPublicAPI_findUserWithId_result *)anObject;
+  PublicAPI_findUserWithId_result *other = (PublicAPI_findUserWithId_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -18038,12 +18046,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findUserWithId_result * val = [RTPublicAPI_findUserWithId_result new];
+  PublicAPI_findUserWithId_result * val = [PublicAPI_findUserWithId_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTUserInfo *) success {
+- (void) setSuccess: (UserInfo *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -18070,7 +18078,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTUserInfo *fieldValue = [[RTUserInfo alloc] init];
+          UserInfo *fieldValue = [[UserInfo alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -18111,7 +18119,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findUserWithId_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findUserWithId_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -18120,18 +18128,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_requestAliasAuthentication_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_requestAliasAuthentication_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias name;
+@property (strong, nonatomic) Alias name;
 @property (assign, nonatomic) BOOL nameIsSet;
 - (void) unsetName;
 
 
-- (instancetype) initWithName: (RTAlias) name;
+- (instancetype) initWithName: (Alias) name;
 
 @end
 
-@implementation RTPublicAPI_requestAliasAuthentication_args
+@implementation PublicAPI_requestAliasAuthentication_args
 
 - (instancetype) init
 {
@@ -18141,7 +18149,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithName: (RTAlias) name
+- (instancetype) initWithName: (Alias) name
 {
   self = [super init];
   if (self)  {
@@ -18188,10 +18196,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_requestAliasAuthentication_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_requestAliasAuthentication_args class]]) {
     return NO;
   }
-  RTPublicAPI_requestAliasAuthentication_args *other = (RTPublicAPI_requestAliasAuthentication_args *)anObject;
+  PublicAPI_requestAliasAuthentication_args *other = (PublicAPI_requestAliasAuthentication_args *)anObject;
   if ((_nameIsSet != other->_nameIsSet) ||
       (_nameIsSet && ((_name || other->_name) && ![_name isEqual:other->_name]))) {
     return NO;
@@ -18201,7 +18209,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_requestAliasAuthentication_args * val = [RTPublicAPI_requestAliasAuthentication_args new];
+  PublicAPI_requestAliasAuthentication_args * val = [PublicAPI_requestAliasAuthentication_args new];
   val.name = [self.name copy];
   return val;
 }
@@ -18273,7 +18281,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_requestAliasAuthentication_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_requestAliasAuthentication_args("];
   [ms appendString: @"name:"];
   [ms appendFormat: @"\"%@\"", _name];
   [ms appendString: @")"];
@@ -18282,22 +18290,22 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_requestAliasAuthentication_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_requestAliasAuthentication_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAliasInUse * aliasInUse;
+@property (strong, nonatomic) AliasInUse * aliasInUse;
 @property (assign, nonatomic) BOOL aliasInUseIsSet;
 - (void) unsetAliasInUse;
 
-@property (strong, nonatomic) RTUnableToAuthenticate * auth;
+@property (strong, nonatomic) UnableToAuthenticate * auth;
 @property (assign, nonatomic) BOOL authIsSet;
 - (void) unsetAuth;
 
 
-- (instancetype) initWithAliasInUse: (RTAliasInUse *) aliasInUse auth: (RTUnableToAuthenticate *) auth;
+- (instancetype) initWithAliasInUse: (AliasInUse *) aliasInUse auth: (UnableToAuthenticate *) auth;
 
 @end
 
-@implementation RTPublicAPI_requestAliasAuthentication_result
+@implementation PublicAPI_requestAliasAuthentication_result
 
 - (instancetype) init
 {
@@ -18307,7 +18315,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithAliasInUse: (RTAliasInUse *) aliasInUse auth: (RTUnableToAuthenticate *) auth
+- (instancetype) initWithAliasInUse: (AliasInUse *) aliasInUse auth: (UnableToAuthenticate *) auth
 {
   self = [super init];
   if (self)  {
@@ -18370,10 +18378,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_requestAliasAuthentication_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_requestAliasAuthentication_result class]]) {
     return NO;
   }
-  RTPublicAPI_requestAliasAuthentication_result *other = (RTPublicAPI_requestAliasAuthentication_result *)anObject;
+  PublicAPI_requestAliasAuthentication_result *other = (PublicAPI_requestAliasAuthentication_result *)anObject;
   if ((_aliasInUseIsSet != other->_aliasInUseIsSet) ||
       (_aliasInUseIsSet && ((_aliasInUse || other->_aliasInUse) && ![_aliasInUse isEqual:other->_aliasInUse]))) {
     return NO;
@@ -18387,13 +18395,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_requestAliasAuthentication_result * val = [RTPublicAPI_requestAliasAuthentication_result new];
+  PublicAPI_requestAliasAuthentication_result * val = [PublicAPI_requestAliasAuthentication_result new];
   val.aliasInUse = [self.aliasInUse copy];
   val.auth = [self.auth copy];
   return val;
 }
 
-- (void) setAliasInUse: (RTAliasInUse *) aliasInUse {
+- (void) setAliasInUse: (AliasInUse *) aliasInUse {
   _aliasInUse = aliasInUse;
   _aliasInUseIsSet = YES;
 }
@@ -18403,7 +18411,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasInUseIsSet = NO;
 }
 
-- (void) setAuth: (RTUnableToAuthenticate *) auth {
+- (void) setAuth: (UnableToAuthenticate *) auth {
   _auth = auth;
   _authIsSet = YES;
 }
@@ -18430,7 +18438,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasInUse *fieldValue = [[RTAliasInUse alloc] init];
+          AliasInUse *fieldValue = [[AliasInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasInUse = fieldValue;
         } else { 
@@ -18440,7 +18448,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTUnableToAuthenticate *fieldValue = [[RTUnableToAuthenticate alloc] init];
+          UnableToAuthenticate *fieldValue = [[UnableToAuthenticate alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.auth = fieldValue;
         } else { 
@@ -18487,7 +18495,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_requestAliasAuthentication_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_requestAliasAuthentication_result("];
   [ms appendString: @"aliasInUse:"];
   [ms appendFormat: @"%@", _aliasInUse];
   [ms appendString: @",auth:"];
@@ -18498,9 +18506,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_checkAliasAuthentication_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_checkAliasAuthentication_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias name;
+@property (strong, nonatomic) Alias name;
 @property (assign, nonatomic) BOOL nameIsSet;
 - (void) unsetName;
 
@@ -18509,11 +18517,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetPin;
 
 
-- (instancetype) initWithName: (RTAlias) name pin: (NSString *) pin;
+- (instancetype) initWithName: (Alias) name pin: (NSString *) pin;
 
 @end
 
-@implementation RTPublicAPI_checkAliasAuthentication_args
+@implementation PublicAPI_checkAliasAuthentication_args
 
 - (instancetype) init
 {
@@ -18523,7 +18531,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithName: (RTAlias) name pin: (NSString *) pin
+- (instancetype) initWithName: (Alias) name pin: (NSString *) pin
 {
   self = [super init];
   if (self)  {
@@ -18586,10 +18594,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_checkAliasAuthentication_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_checkAliasAuthentication_args class]]) {
     return NO;
   }
-  RTPublicAPI_checkAliasAuthentication_args *other = (RTPublicAPI_checkAliasAuthentication_args *)anObject;
+  PublicAPI_checkAliasAuthentication_args *other = (PublicAPI_checkAliasAuthentication_args *)anObject;
   if ((_nameIsSet != other->_nameIsSet) ||
       (_nameIsSet && ((_name || other->_name) && ![_name isEqual:other->_name]))) {
     return NO;
@@ -18603,7 +18611,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_checkAliasAuthentication_args * val = [RTPublicAPI_checkAliasAuthentication_args new];
+  PublicAPI_checkAliasAuthentication_args * val = [PublicAPI_checkAliasAuthentication_args new];
   val.name = [self.name copy];
   val.pin = [self.pin copy];
   return val;
@@ -18703,7 +18711,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_checkAliasAuthentication_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_checkAliasAuthentication_args("];
   [ms appendString: @"name:"];
   [ms appendFormat: @"\"%@\"", _name];
   [ms appendString: @",pin:"];
@@ -18714,22 +18722,22 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_checkAliasAuthentication_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_checkAliasAuthentication_result : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (assign, nonatomic) BOOL success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
-@property (strong, nonatomic) RTAliasNotAuthenticated * aliasNoAuth;
+@property (strong, nonatomic) AliasNotAuthenticated * aliasNoAuth;
 @property (assign, nonatomic) BOOL aliasNoAuthIsSet;
 - (void) unsetAliasNoAuth;
 
 
-- (instancetype) initWithSuccess: (BOOL) success aliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth;
+- (instancetype) initWithSuccess: (BOOL) success aliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth;
 
 @end
 
-@implementation RTPublicAPI_checkAliasAuthentication_result
+@implementation PublicAPI_checkAliasAuthentication_result
 
 - (instancetype) init
 {
@@ -18739,7 +18747,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (BOOL) success aliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth
+- (instancetype) initWithSuccess: (BOOL) success aliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth
 {
   self = [super init];
   if (self)  {
@@ -18802,10 +18810,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_checkAliasAuthentication_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_checkAliasAuthentication_result class]]) {
     return NO;
   }
-  RTPublicAPI_checkAliasAuthentication_result *other = (RTPublicAPI_checkAliasAuthentication_result *)anObject;
+  PublicAPI_checkAliasAuthentication_result *other = (PublicAPI_checkAliasAuthentication_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && (_success != other->_success))) {
     return NO;
@@ -18819,7 +18827,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_checkAliasAuthentication_result * val = [RTPublicAPI_checkAliasAuthentication_result new];
+  PublicAPI_checkAliasAuthentication_result * val = [PublicAPI_checkAliasAuthentication_result new];
   val.success = self.success;
   val.aliasNoAuth = [self.aliasNoAuth copy];
   return val;
@@ -18834,7 +18842,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _successIsSet = NO;
 }
 
-- (void) setAliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth {
+- (void) setAliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth {
   _aliasNoAuth = aliasNoAuth;
   _aliasNoAuthIsSet = YES;
 }
@@ -18871,7 +18879,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasNotAuthenticated *fieldValue = [[RTAliasNotAuthenticated alloc] init];
+          AliasNotAuthenticated *fieldValue = [[AliasNotAuthenticated alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasNoAuth = fieldValue;
         } else { 
@@ -18916,7 +18924,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_checkAliasAuthentication_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_checkAliasAuthentication_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%i", _success];
   [ms appendString: @",aliasNoAuth:"];
@@ -18927,9 +18935,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findProfileWithId_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findProfileWithId_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -18938,11 +18946,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetPassword;
 
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password;
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password;
 
 @end
 
-@implementation RTPublicAPI_findProfileWithId_args
+@implementation PublicAPI_findProfileWithId_args
 
 - (instancetype) init
 {
@@ -18952,7 +18960,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password
 {
   self = [super init];
   if (self)  {
@@ -19015,10 +19023,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findProfileWithId_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findProfileWithId_args class]]) {
     return NO;
   }
-  RTPublicAPI_findProfileWithId_args *other = (RTPublicAPI_findProfileWithId_args *)anObject;
+  PublicAPI_findProfileWithId_args *other = (PublicAPI_findProfileWithId_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -19032,13 +19040,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findProfileWithId_args * val = [RTPublicAPI_findProfileWithId_args new];
+  PublicAPI_findProfileWithId_args * val = [PublicAPI_findProfileWithId_args new];
   val.userId = [self.userId copy];
   val.password = [self.password copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -19075,7 +19083,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -19132,7 +19140,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findProfileWithId_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findProfileWithId_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",password:"];
@@ -19143,18 +19151,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findProfileWithId_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findProfileWithId_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTUserProfile * success;
+@property (strong, nonatomic) UserProfile * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTUserProfile *) success;
+- (instancetype) initWithSuccess: (UserProfile *) success;
 
 @end
 
-@implementation RTPublicAPI_findProfileWithId_result
+@implementation PublicAPI_findProfileWithId_result
 
 - (instancetype) init
 {
@@ -19164,7 +19172,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTUserProfile *) success
+- (instancetype) initWithSuccess: (UserProfile *) success
 {
   self = [super init];
   if (self)  {
@@ -19211,10 +19219,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findProfileWithId_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findProfileWithId_result class]]) {
     return NO;
   }
-  RTPublicAPI_findProfileWithId_result *other = (RTPublicAPI_findProfileWithId_result *)anObject;
+  PublicAPI_findProfileWithId_result *other = (PublicAPI_findProfileWithId_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -19224,12 +19232,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findProfileWithId_result * val = [RTPublicAPI_findProfileWithId_result new];
+  PublicAPI_findProfileWithId_result * val = [PublicAPI_findProfileWithId_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTUserProfile *) success {
+- (void) setSuccess: (UserProfile *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -19256,7 +19264,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTUserProfile *fieldValue = [[RTUserProfile alloc] init];
+          UserProfile *fieldValue = [[UserProfile alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -19297,7 +19305,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findProfileWithId_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findProfileWithId_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -19306,7 +19314,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findProfileWithAlias_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findProfileWithAlias_args : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSString * userAlias;
 @property (assign, nonatomic) BOOL userAliasIsSet;
@@ -19321,7 +19329,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTPublicAPI_findProfileWithAlias_args
+@implementation PublicAPI_findProfileWithAlias_args
 
 - (instancetype) init
 {
@@ -19394,10 +19402,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findProfileWithAlias_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findProfileWithAlias_args class]]) {
     return NO;
   }
-  RTPublicAPI_findProfileWithAlias_args *other = (RTPublicAPI_findProfileWithAlias_args *)anObject;
+  PublicAPI_findProfileWithAlias_args *other = (PublicAPI_findProfileWithAlias_args *)anObject;
   if ((_userAliasIsSet != other->_userAliasIsSet) ||
       (_userAliasIsSet && ((_userAlias || other->_userAlias) && ![_userAlias isEqual:other->_userAlias]))) {
     return NO;
@@ -19411,7 +19419,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findProfileWithAlias_args * val = [RTPublicAPI_findProfileWithAlias_args new];
+  PublicAPI_findProfileWithAlias_args * val = [PublicAPI_findProfileWithAlias_args new];
   val.userAlias = [self.userAlias copy];
   val.password = [self.password copy];
   return val;
@@ -19511,7 +19519,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findProfileWithAlias_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findProfileWithAlias_args("];
   [ms appendString: @"userAlias:"];
   [ms appendFormat: @"\"%@\"", _userAlias];
   [ms appendString: @",password:"];
@@ -19522,18 +19530,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_findProfileWithAlias_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_findProfileWithAlias_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTUserProfile * success;
+@property (strong, nonatomic) UserProfile * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTUserProfile *) success;
+- (instancetype) initWithSuccess: (UserProfile *) success;
 
 @end
 
-@implementation RTPublicAPI_findProfileWithAlias_result
+@implementation PublicAPI_findProfileWithAlias_result
 
 - (instancetype) init
 {
@@ -19543,7 +19551,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTUserProfile *) success
+- (instancetype) initWithSuccess: (UserProfile *) success
 {
   self = [super init];
   if (self)  {
@@ -19590,10 +19598,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_findProfileWithAlias_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_findProfileWithAlias_result class]]) {
     return NO;
   }
-  RTPublicAPI_findProfileWithAlias_result *other = (RTPublicAPI_findProfileWithAlias_result *)anObject;
+  PublicAPI_findProfileWithAlias_result *other = (PublicAPI_findProfileWithAlias_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -19603,12 +19611,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_findProfileWithAlias_result * val = [RTPublicAPI_findProfileWithAlias_result new];
+  PublicAPI_findProfileWithAlias_result * val = [PublicAPI_findProfileWithAlias_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTUserProfile *) success {
+- (void) setSuccess: (UserProfile *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -19635,7 +19643,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTUserProfile *fieldValue = [[RTUserProfile alloc] init];
+          UserProfile *fieldValue = [[UserProfile alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -19676,7 +19684,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_findProfileWithAlias_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_findProfileWithAlias_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -19685,7 +19693,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_registerUser_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_registerUser_args : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSString * password;
 @property (assign, nonatomic) BOOL passwordIsSet;
@@ -19699,20 +19707,20 @@ NSString * RTDeleteType_Chat = @"chat";
 @property (assign, nonatomic) BOOL signingCSRIsSet;
 - (void) unsetSigningCSR;
 
-@property (strong, nonatomic) NSMutableArray<RTAuthenticatedAlias *> * authenticatedAliases;
+@property (strong, nonatomic) NSMutableArray<AuthenticatedAlias *> * authenticatedAliases;
 @property (assign, nonatomic) BOOL authenticatedAliasesIsSet;
 - (void) unsetAuthenticatedAliases;
 
-@property (strong, nonatomic) RTDeviceInfo * deviceInfo;
+@property (strong, nonatomic) DeviceInfo * deviceInfo;
 @property (assign, nonatomic) BOOL deviceInfoIsSet;
 - (void) unsetDeviceInfo;
 
 
-- (instancetype) initWithPassword: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo;
+- (instancetype) initWithPassword: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo;
 
 @end
 
-@implementation RTPublicAPI_registerUser_args
+@implementation PublicAPI_registerUser_args
 
 - (instancetype) init
 {
@@ -19722,7 +19730,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithPassword: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo
+- (instancetype) initWithPassword: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo
 {
   self = [super init];
   if (self)  {
@@ -19833,10 +19841,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_registerUser_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_registerUser_args class]]) {
     return NO;
   }
-  RTPublicAPI_registerUser_args *other = (RTPublicAPI_registerUser_args *)anObject;
+  PublicAPI_registerUser_args *other = (PublicAPI_registerUser_args *)anObject;
   if ((_passwordIsSet != other->_passwordIsSet) ||
       (_passwordIsSet && ((_password || other->_password) && ![_password isEqual:other->_password]))) {
     return NO;
@@ -19862,7 +19870,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_registerUser_args * val = [RTPublicAPI_registerUser_args new];
+  PublicAPI_registerUser_args * val = [PublicAPI_registerUser_args new];
   val.password = [self.password copy];
   val.encryptionCSR = [self.encryptionCSR copy];
   val.signingCSR = [self.signingCSR copy];
@@ -19901,7 +19909,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _signingCSRIsSet = NO;
 }
 
-- (void) setAuthenticatedAliases: (NSMutableArray<RTAuthenticatedAlias *> *) authenticatedAliases {
+- (void) setAuthenticatedAliases: (NSMutableArray<AuthenticatedAlias *> *) authenticatedAliases {
   _authenticatedAliases = authenticatedAliases;
   _authenticatedAliasesIsSet = YES;
 }
@@ -19911,7 +19919,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _authenticatedAliasesIsSet = NO;
 }
 
-- (void) setDeviceInfo: (RTDeviceInfo *) deviceInfo {
+- (void) setDeviceInfo: (DeviceInfo *) deviceInfo {
   _deviceInfo = deviceInfo;
   _deviceInfoIsSet = YES;
 }
@@ -19974,7 +19982,7 @@ NSString * RTDeleteType_Chat = @"chat";
           int _i109;
           for (_i109 = 0; _i109 < _size108; ++_i109)
           {
-            RTAuthenticatedAlias *_elem110 = [[RTAuthenticatedAlias alloc] init];
+            AuthenticatedAlias *_elem110 = [[AuthenticatedAlias alloc] init];
             if (![_elem110 read: inProtocol error: __thriftError]) return NO;
             [fieldValue addObject: _elem110];
           }
@@ -19987,7 +19995,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTDeviceInfo *fieldValue = [[RTDeviceInfo alloc] init];
+          DeviceInfo *fieldValue = [[DeviceInfo alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceInfo = fieldValue;
         } else { 
@@ -20063,7 +20071,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_registerUser_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_registerUser_args("];
   [ms appendString: @"password:"];
   [ms appendFormat: @"\"%@\"", _password];
   [ms appendString: @",encryptionCSR:"];
@@ -20080,34 +20088,34 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_registerUser_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_registerUser_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTUserProfile * success;
+@property (strong, nonatomic) UserProfile * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
-@property (strong, nonatomic) RTAliasInUse * aliasInUse;
+@property (strong, nonatomic) AliasInUse * aliasInUse;
 @property (assign, nonatomic) BOOL aliasInUseIsSet;
 - (void) unsetAliasInUse;
 
-@property (strong, nonatomic) RTAliasNotAuthenticated * aliasNoAuth;
+@property (strong, nonatomic) AliasNotAuthenticated * aliasNoAuth;
 @property (assign, nonatomic) BOOL aliasNoAuthIsSet;
 - (void) unsetAliasNoAuth;
 
-@property (strong, nonatomic) RTAliasPinInvalid * aliasPinInvalid;
+@property (strong, nonatomic) AliasPinInvalid * aliasPinInvalid;
 @property (assign, nonatomic) BOOL aliasPinInvalidIsSet;
 - (void) unsetAliasPinInvalid;
 
-@property (strong, nonatomic) RTDeviceInUse * deviceInUse;
+@property (strong, nonatomic) DeviceInUse * deviceInUse;
 @property (assign, nonatomic) BOOL deviceInUseIsSet;
 - (void) unsetDeviceInUse;
 
 
-- (instancetype) initWithSuccess: (RTUserProfile *) success aliasInUse: (RTAliasInUse *) aliasInUse aliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth aliasPinInvalid: (RTAliasPinInvalid *) aliasPinInvalid deviceInUse: (RTDeviceInUse *) deviceInUse;
+- (instancetype) initWithSuccess: (UserProfile *) success aliasInUse: (AliasInUse *) aliasInUse aliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth aliasPinInvalid: (AliasPinInvalid *) aliasPinInvalid deviceInUse: (DeviceInUse *) deviceInUse;
 
 @end
 
-@implementation RTPublicAPI_registerUser_result
+@implementation PublicAPI_registerUser_result
 
 - (instancetype) init
 {
@@ -20117,7 +20125,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTUserProfile *) success aliasInUse: (RTAliasInUse *) aliasInUse aliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth aliasPinInvalid: (RTAliasPinInvalid *) aliasPinInvalid deviceInUse: (RTDeviceInUse *) deviceInUse
+- (instancetype) initWithSuccess: (UserProfile *) success aliasInUse: (AliasInUse *) aliasInUse aliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth aliasPinInvalid: (AliasPinInvalid *) aliasPinInvalid deviceInUse: (DeviceInUse *) deviceInUse
 {
   self = [super init];
   if (self)  {
@@ -20228,10 +20236,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_registerUser_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_registerUser_result class]]) {
     return NO;
   }
-  RTPublicAPI_registerUser_result *other = (RTPublicAPI_registerUser_result *)anObject;
+  PublicAPI_registerUser_result *other = (PublicAPI_registerUser_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -20257,7 +20265,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_registerUser_result * val = [RTPublicAPI_registerUser_result new];
+  PublicAPI_registerUser_result * val = [PublicAPI_registerUser_result new];
   val.success = [self.success copy];
   val.aliasInUse = [self.aliasInUse copy];
   val.aliasNoAuth = [self.aliasNoAuth copy];
@@ -20266,7 +20274,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return val;
 }
 
-- (void) setSuccess: (RTUserProfile *) success {
+- (void) setSuccess: (UserProfile *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -20276,7 +20284,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _successIsSet = NO;
 }
 
-- (void) setAliasInUse: (RTAliasInUse *) aliasInUse {
+- (void) setAliasInUse: (AliasInUse *) aliasInUse {
   _aliasInUse = aliasInUse;
   _aliasInUseIsSet = YES;
 }
@@ -20286,7 +20294,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasInUseIsSet = NO;
 }
 
-- (void) setAliasNoAuth: (RTAliasNotAuthenticated *) aliasNoAuth {
+- (void) setAliasNoAuth: (AliasNotAuthenticated *) aliasNoAuth {
   _aliasNoAuth = aliasNoAuth;
   _aliasNoAuthIsSet = YES;
 }
@@ -20296,7 +20304,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasNoAuthIsSet = NO;
 }
 
-- (void) setAliasPinInvalid: (RTAliasPinInvalid *) aliasPinInvalid {
+- (void) setAliasPinInvalid: (AliasPinInvalid *) aliasPinInvalid {
   _aliasPinInvalid = aliasPinInvalid;
   _aliasPinInvalidIsSet = YES;
 }
@@ -20306,7 +20314,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _aliasPinInvalidIsSet = NO;
 }
 
-- (void) setDeviceInUse: (RTDeviceInUse *) deviceInUse {
+- (void) setDeviceInUse: (DeviceInUse *) deviceInUse {
   _deviceInUse = deviceInUse;
   _deviceInUseIsSet = YES;
 }
@@ -20333,7 +20341,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTUserProfile *fieldValue = [[RTUserProfile alloc] init];
+          UserProfile *fieldValue = [[UserProfile alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -20343,7 +20351,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 7:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasInUse *fieldValue = [[RTAliasInUse alloc] init];
+          AliasInUse *fieldValue = [[AliasInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasInUse = fieldValue;
         } else { 
@@ -20353,7 +20361,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 8:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasNotAuthenticated *fieldValue = [[RTAliasNotAuthenticated alloc] init];
+          AliasNotAuthenticated *fieldValue = [[AliasNotAuthenticated alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasNoAuth = fieldValue;
         } else { 
@@ -20363,7 +20371,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 9:
         if (fieldType == TTypeSTRUCT) {
-          RTAliasPinInvalid *fieldValue = [[RTAliasPinInvalid alloc] init];
+          AliasPinInvalid *fieldValue = [[AliasPinInvalid alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.aliasPinInvalid = fieldValue;
         } else { 
@@ -20373,7 +20381,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 10:
         if (fieldType == TTypeSTRUCT) {
-          RTDeviceInUse *fieldValue = [[RTDeviceInUse alloc] init];
+          DeviceInUse *fieldValue = [[DeviceInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceInUse = fieldValue;
         } else { 
@@ -20438,7 +20446,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_registerUser_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_registerUser_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @",aliasInUse:"];
@@ -20455,9 +20463,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_signIn_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_signIn_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -20465,16 +20473,16 @@ NSString * RTDeleteType_Chat = @"chat";
 @property (assign, nonatomic) BOOL passwordIsSet;
 - (void) unsetPassword;
 
-@property (strong, nonatomic) RTId * deviceId;
+@property (strong, nonatomic) Id * deviceId;
 @property (assign, nonatomic) BOOL deviceIdIsSet;
 - (void) unsetDeviceId;
 
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId;
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId;
 
 @end
 
-@implementation RTPublicAPI_signIn_args
+@implementation PublicAPI_signIn_args
 
 - (instancetype) init
 {
@@ -20484,7 +20492,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId
 {
   self = [super init];
   if (self)  {
@@ -20563,10 +20571,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_signIn_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_signIn_args class]]) {
     return NO;
   }
-  RTPublicAPI_signIn_args *other = (RTPublicAPI_signIn_args *)anObject;
+  PublicAPI_signIn_args *other = (PublicAPI_signIn_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -20584,14 +20592,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_signIn_args * val = [RTPublicAPI_signIn_args new];
+  PublicAPI_signIn_args * val = [PublicAPI_signIn_args new];
   val.userId = [self.userId copy];
   val.password = [self.password copy];
   val.deviceId = [self.deviceId copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -20611,7 +20619,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _passwordIsSet = NO;
 }
 
-- (void) setDeviceId: (RTId *) deviceId {
+- (void) setDeviceId: (Id *) deviceId {
   _deviceId = deviceId;
   _deviceIdIsSet = YES;
 }
@@ -20638,7 +20646,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -20658,7 +20666,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceId = fieldValue;
         } else { 
@@ -20712,7 +20720,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_signIn_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_signIn_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",password:"];
@@ -20725,26 +20733,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_signIn_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_signIn_result : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSData * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
-@property (strong, nonatomic) RTInvalidDevice * device;
+@property (strong, nonatomic) InvalidDevice * device;
 @property (assign, nonatomic) BOOL deviceIsSet;
 - (void) unsetDevice;
 
-@property (strong, nonatomic) RTSignInDisallowed * signInDisallowed;
+@property (strong, nonatomic) SignInDisallowed * signInDisallowed;
 @property (assign, nonatomic) BOOL signInDisallowedIsSet;
 - (void) unsetSignInDisallowed;
 
 
-- (instancetype) initWithSuccess: (NSData *) success device: (RTInvalidDevice *) device signInDisallowed: (RTSignInDisallowed *) signInDisallowed;
+- (instancetype) initWithSuccess: (NSData *) success device: (InvalidDevice *) device signInDisallowed: (SignInDisallowed *) signInDisallowed;
 
 @end
 
-@implementation RTPublicAPI_signIn_result
+@implementation PublicAPI_signIn_result
 
 - (instancetype) init
 {
@@ -20754,7 +20762,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (NSData *) success device: (RTInvalidDevice *) device signInDisallowed: (RTSignInDisallowed *) signInDisallowed
+- (instancetype) initWithSuccess: (NSData *) success device: (InvalidDevice *) device signInDisallowed: (SignInDisallowed *) signInDisallowed
 {
   self = [super init];
   if (self)  {
@@ -20833,10 +20841,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_signIn_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_signIn_result class]]) {
     return NO;
   }
-  RTPublicAPI_signIn_result *other = (RTPublicAPI_signIn_result *)anObject;
+  PublicAPI_signIn_result *other = (PublicAPI_signIn_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -20854,7 +20862,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_signIn_result * val = [RTPublicAPI_signIn_result new];
+  PublicAPI_signIn_result * val = [PublicAPI_signIn_result new];
   val.success = [self.success copy];
   val.device = [self.device copy];
   val.signInDisallowed = [self.signInDisallowed copy];
@@ -20871,7 +20879,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _successIsSet = NO;
 }
 
-- (void) setDevice: (RTInvalidDevice *) device {
+- (void) setDevice: (InvalidDevice *) device {
   _device = device;
   _deviceIsSet = YES;
 }
@@ -20881,7 +20889,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _deviceIsSet = NO;
 }
 
-- (void) setSignInDisallowed: (RTSignInDisallowed *) signInDisallowed {
+- (void) setSignInDisallowed: (SignInDisallowed *) signInDisallowed {
   _signInDisallowed = signInDisallowed;
   _signInDisallowedIsSet = YES;
 }
@@ -20918,7 +20926,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidDevice *fieldValue = [[RTInvalidDevice alloc] init];
+          InvalidDevice *fieldValue = [[InvalidDevice alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.device = fieldValue;
         } else { 
@@ -20928,7 +20936,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTSignInDisallowed *fieldValue = [[RTSignInDisallowed alloc] init];
+          SignInDisallowed *fieldValue = [[SignInDisallowed alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.signInDisallowed = fieldValue;
         } else { 
@@ -20981,7 +20989,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_signIn_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_signIn_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"\"%@\"", _success];
   [ms appendString: @",device:"];
@@ -20994,13 +21002,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_generateAccessToken_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_generateAccessToken_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
-@property (strong, nonatomic) RTId * deviceId;
+@property (strong, nonatomic) Id * deviceId;
 @property (assign, nonatomic) BOOL deviceIdIsSet;
 - (void) unsetDeviceId;
 
@@ -21009,11 +21017,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetRefreshToken;
 
 
-- (instancetype) initWithUserId: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken;
+- (instancetype) initWithUserId: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken;
 
 @end
 
-@implementation RTPublicAPI_generateAccessToken_args
+@implementation PublicAPI_generateAccessToken_args
 
 - (instancetype) init
 {
@@ -21023,7 +21031,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken
+- (instancetype) initWithUserId: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken
 {
   self = [super init];
   if (self)  {
@@ -21102,10 +21110,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_generateAccessToken_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_generateAccessToken_args class]]) {
     return NO;
   }
-  RTPublicAPI_generateAccessToken_args *other = (RTPublicAPI_generateAccessToken_args *)anObject;
+  PublicAPI_generateAccessToken_args *other = (PublicAPI_generateAccessToken_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -21123,14 +21131,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_generateAccessToken_args * val = [RTPublicAPI_generateAccessToken_args new];
+  PublicAPI_generateAccessToken_args * val = [PublicAPI_generateAccessToken_args new];
   val.userId = [self.userId copy];
   val.deviceId = [self.deviceId copy];
   val.refreshToken = [self.refreshToken copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -21140,7 +21148,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _userIdIsSet = NO;
 }
 
-- (void) setDeviceId: (RTId *) deviceId {
+- (void) setDeviceId: (Id *) deviceId {
   _deviceId = deviceId;
   _deviceIdIsSet = YES;
 }
@@ -21177,7 +21185,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -21187,7 +21195,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceId = fieldValue;
         } else { 
@@ -21251,7 +21259,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_generateAccessToken_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_generateAccessToken_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",deviceId:"];
@@ -21264,26 +21272,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_generateAccessToken_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_generateAccessToken_result : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (strong, nonatomic) NSString * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
-@property (strong, nonatomic) RTInvalidUser * invalidUser;
+@property (strong, nonatomic) InvalidUser * invalidUser;
 @property (assign, nonatomic) BOOL invalidUserIsSet;
 - (void) unsetInvalidUser;
 
-@property (strong, nonatomic) RTInvalidDevice * invalidDevice;
+@property (strong, nonatomic) InvalidDevice * invalidDevice;
 @property (assign, nonatomic) BOOL invalidDeviceIsSet;
 - (void) unsetInvalidDevice;
 
 
-- (instancetype) initWithSuccess: (NSString *) success invalidUser: (RTInvalidUser *) invalidUser invalidDevice: (RTInvalidDevice *) invalidDevice;
+- (instancetype) initWithSuccess: (NSString *) success invalidUser: (InvalidUser *) invalidUser invalidDevice: (InvalidDevice *) invalidDevice;
 
 @end
 
-@implementation RTPublicAPI_generateAccessToken_result
+@implementation PublicAPI_generateAccessToken_result
 
 - (instancetype) init
 {
@@ -21293,7 +21301,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (NSString *) success invalidUser: (RTInvalidUser *) invalidUser invalidDevice: (RTInvalidDevice *) invalidDevice
+- (instancetype) initWithSuccess: (NSString *) success invalidUser: (InvalidUser *) invalidUser invalidDevice: (InvalidDevice *) invalidDevice
 {
   self = [super init];
   if (self)  {
@@ -21372,10 +21380,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_generateAccessToken_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_generateAccessToken_result class]]) {
     return NO;
   }
-  RTPublicAPI_generateAccessToken_result *other = (RTPublicAPI_generateAccessToken_result *)anObject;
+  PublicAPI_generateAccessToken_result *other = (PublicAPI_generateAccessToken_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -21393,7 +21401,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_generateAccessToken_result * val = [RTPublicAPI_generateAccessToken_result new];
+  PublicAPI_generateAccessToken_result * val = [PublicAPI_generateAccessToken_result new];
   val.success = [self.success copy];
   val.invalidUser = [self.invalidUser copy];
   val.invalidDevice = [self.invalidDevice copy];
@@ -21410,7 +21418,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _successIsSet = NO;
 }
 
-- (void) setInvalidUser: (RTInvalidUser *) invalidUser {
+- (void) setInvalidUser: (InvalidUser *) invalidUser {
   _invalidUser = invalidUser;
   _invalidUserIsSet = YES;
 }
@@ -21420,7 +21428,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _invalidUserIsSet = NO;
 }
 
-- (void) setInvalidDevice: (RTInvalidDevice *) invalidDevice {
+- (void) setInvalidDevice: (InvalidDevice *) invalidDevice {
   _invalidDevice = invalidDevice;
   _invalidDeviceIsSet = YES;
 }
@@ -21457,7 +21465,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidUser *fieldValue = [[RTInvalidUser alloc] init];
+          InvalidUser *fieldValue = [[InvalidUser alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidUser = fieldValue;
         } else { 
@@ -21467,7 +21475,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidDevice *fieldValue = [[RTInvalidDevice alloc] init];
+          InvalidDevice *fieldValue = [[InvalidDevice alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidDevice = fieldValue;
         } else { 
@@ -21520,7 +21528,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_generateAccessToken_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_generateAccessToken_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"\"%@\"", _success];
   [ms appendString: @",invalidUser:"];
@@ -21533,9 +21541,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_registerDevice_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_registerDevice_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -21543,16 +21551,16 @@ NSString * RTDeleteType_Chat = @"chat";
 @property (assign, nonatomic) BOOL passwordIsSet;
 - (void) unsetPassword;
 
-@property (strong, nonatomic) RTDeviceInfo * deviceInfo;
+@property (strong, nonatomic) DeviceInfo * deviceInfo;
 @property (assign, nonatomic) BOOL deviceInfoIsSet;
 - (void) unsetDeviceInfo;
 
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo;
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo;
 
 @end
 
-@implementation RTPublicAPI_registerDevice_args
+@implementation PublicAPI_registerDevice_args
 
 - (instancetype) init
 {
@@ -21562,7 +21570,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo
 {
   self = [super init];
   if (self)  {
@@ -21641,10 +21649,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_registerDevice_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_registerDevice_args class]]) {
     return NO;
   }
-  RTPublicAPI_registerDevice_args *other = (RTPublicAPI_registerDevice_args *)anObject;
+  PublicAPI_registerDevice_args *other = (PublicAPI_registerDevice_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -21662,14 +21670,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_registerDevice_args * val = [RTPublicAPI_registerDevice_args new];
+  PublicAPI_registerDevice_args * val = [PublicAPI_registerDevice_args new];
   val.userId = [self.userId copy];
   val.password = [self.password copy];
   val.deviceInfo = [self.deviceInfo copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -21689,7 +21697,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _passwordIsSet = NO;
 }
 
-- (void) setDeviceInfo: (RTDeviceInfo *) deviceInfo {
+- (void) setDeviceInfo: (DeviceInfo *) deviceInfo {
   _deviceInfo = deviceInfo;
   _deviceInfoIsSet = YES;
 }
@@ -21716,7 +21724,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -21736,7 +21744,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTDeviceInfo *fieldValue = [[RTDeviceInfo alloc] init];
+          DeviceInfo *fieldValue = [[DeviceInfo alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceInfo = fieldValue;
         } else { 
@@ -21790,7 +21798,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_registerDevice_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_registerDevice_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",password:"];
@@ -21803,18 +21811,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_registerDevice_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_registerDevice_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTDeviceInUse * deviceInUse;
+@property (strong, nonatomic) DeviceInUse * deviceInUse;
 @property (assign, nonatomic) BOOL deviceInUseIsSet;
 - (void) unsetDeviceInUse;
 
 
-- (instancetype) initWithDeviceInUse: (RTDeviceInUse *) deviceInUse;
+- (instancetype) initWithDeviceInUse: (DeviceInUse *) deviceInUse;
 
 @end
 
-@implementation RTPublicAPI_registerDevice_result
+@implementation PublicAPI_registerDevice_result
 
 - (instancetype) init
 {
@@ -21824,7 +21832,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithDeviceInUse: (RTDeviceInUse *) deviceInUse
+- (instancetype) initWithDeviceInUse: (DeviceInUse *) deviceInUse
 {
   self = [super init];
   if (self)  {
@@ -21871,10 +21879,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_registerDevice_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_registerDevice_result class]]) {
     return NO;
   }
-  RTPublicAPI_registerDevice_result *other = (RTPublicAPI_registerDevice_result *)anObject;
+  PublicAPI_registerDevice_result *other = (PublicAPI_registerDevice_result *)anObject;
   if ((_deviceInUseIsSet != other->_deviceInUseIsSet) ||
       (_deviceInUseIsSet && ((_deviceInUse || other->_deviceInUse) && ![_deviceInUse isEqual:other->_deviceInUse]))) {
     return NO;
@@ -21884,12 +21892,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_registerDevice_result * val = [RTPublicAPI_registerDevice_result new];
+  PublicAPI_registerDevice_result * val = [PublicAPI_registerDevice_result new];
   val.deviceInUse = [self.deviceInUse copy];
   return val;
 }
 
-- (void) setDeviceInUse: (RTDeviceInUse *) deviceInUse {
+- (void) setDeviceInUse: (DeviceInUse *) deviceInUse {
   _deviceInUse = deviceInUse;
   _deviceInUseIsSet = YES;
 }
@@ -21916,7 +21924,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTDeviceInUse *fieldValue = [[RTDeviceInUse alloc] init];
+          DeviceInUse *fieldValue = [[DeviceInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceInUse = fieldValue;
         } else { 
@@ -21957,7 +21965,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_registerDevice_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_registerDevice_result("];
   [ms appendString: @"deviceInUse:"];
   [ms appendFormat: @"%@", _deviceInUse];
   [ms appendString: @")"];
@@ -21966,9 +21974,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_replaceRegisteredDevice_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_replaceRegisteredDevice_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -21976,20 +21984,20 @@ NSString * RTDeleteType_Chat = @"chat";
 @property (assign, nonatomic) BOOL passwordIsSet;
 - (void) unsetPassword;
 
-@property (strong, nonatomic) RTDeviceInfo * deviceInfo;
+@property (strong, nonatomic) DeviceInfo * deviceInfo;
 @property (assign, nonatomic) BOOL deviceInfoIsSet;
 - (void) unsetDeviceInfo;
 
-@property (strong, nonatomic) RTId * currentDeviceId;
+@property (strong, nonatomic) Id * currentDeviceId;
 @property (assign, nonatomic) BOOL currentDeviceIdIsSet;
 - (void) unsetCurrentDeviceId;
 
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId;
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId;
 
 @end
 
-@implementation RTPublicAPI_replaceRegisteredDevice_args
+@implementation PublicAPI_replaceRegisteredDevice_args
 
 - (instancetype) init
 {
@@ -21999,7 +22007,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId
 {
   self = [super init];
   if (self)  {
@@ -22094,10 +22102,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_replaceRegisteredDevice_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_replaceRegisteredDevice_args class]]) {
     return NO;
   }
-  RTPublicAPI_replaceRegisteredDevice_args *other = (RTPublicAPI_replaceRegisteredDevice_args *)anObject;
+  PublicAPI_replaceRegisteredDevice_args *other = (PublicAPI_replaceRegisteredDevice_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -22119,7 +22127,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_replaceRegisteredDevice_args * val = [RTPublicAPI_replaceRegisteredDevice_args new];
+  PublicAPI_replaceRegisteredDevice_args * val = [PublicAPI_replaceRegisteredDevice_args new];
   val.userId = [self.userId copy];
   val.password = [self.password copy];
   val.deviceInfo = [self.deviceInfo copy];
@@ -22127,7 +22135,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -22147,7 +22155,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _passwordIsSet = NO;
 }
 
-- (void) setDeviceInfo: (RTDeviceInfo *) deviceInfo {
+- (void) setDeviceInfo: (DeviceInfo *) deviceInfo {
   _deviceInfo = deviceInfo;
   _deviceInfoIsSet = YES;
 }
@@ -22157,7 +22165,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _deviceInfoIsSet = NO;
 }
 
-- (void) setCurrentDeviceId: (RTId *) currentDeviceId {
+- (void) setCurrentDeviceId: (Id *) currentDeviceId {
   _currentDeviceId = currentDeviceId;
   _currentDeviceIdIsSet = YES;
 }
@@ -22184,7 +22192,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -22204,7 +22212,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTDeviceInfo *fieldValue = [[RTDeviceInfo alloc] init];
+          DeviceInfo *fieldValue = [[DeviceInfo alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceInfo = fieldValue;
         } else { 
@@ -22214,7 +22222,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 4:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.currentDeviceId = fieldValue;
         } else { 
@@ -22275,7 +22283,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_replaceRegisteredDevice_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_replaceRegisteredDevice_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",password:"];
@@ -22290,22 +22298,22 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_replaceRegisteredDevice_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_replaceRegisteredDevice_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTDeviceInUse * deviceInUse;
+@property (strong, nonatomic) DeviceInUse * deviceInUse;
 @property (assign, nonatomic) BOOL deviceInUseIsSet;
 - (void) unsetDeviceInUse;
 
-@property (strong, nonatomic) RTInvalidDevice * invalidDevice;
+@property (strong, nonatomic) InvalidDevice * invalidDevice;
 @property (assign, nonatomic) BOOL invalidDeviceIsSet;
 - (void) unsetInvalidDevice;
 
 
-- (instancetype) initWithDeviceInUse: (RTDeviceInUse *) deviceInUse invalidDevice: (RTInvalidDevice *) invalidDevice;
+- (instancetype) initWithDeviceInUse: (DeviceInUse *) deviceInUse invalidDevice: (InvalidDevice *) invalidDevice;
 
 @end
 
-@implementation RTPublicAPI_replaceRegisteredDevice_result
+@implementation PublicAPI_replaceRegisteredDevice_result
 
 - (instancetype) init
 {
@@ -22315,7 +22323,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithDeviceInUse: (RTDeviceInUse *) deviceInUse invalidDevice: (RTInvalidDevice *) invalidDevice
+- (instancetype) initWithDeviceInUse: (DeviceInUse *) deviceInUse invalidDevice: (InvalidDevice *) invalidDevice
 {
   self = [super init];
   if (self)  {
@@ -22378,10 +22386,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_replaceRegisteredDevice_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_replaceRegisteredDevice_result class]]) {
     return NO;
   }
-  RTPublicAPI_replaceRegisteredDevice_result *other = (RTPublicAPI_replaceRegisteredDevice_result *)anObject;
+  PublicAPI_replaceRegisteredDevice_result *other = (PublicAPI_replaceRegisteredDevice_result *)anObject;
   if ((_deviceInUseIsSet != other->_deviceInUseIsSet) ||
       (_deviceInUseIsSet && ((_deviceInUse || other->_deviceInUse) && ![_deviceInUse isEqual:other->_deviceInUse]))) {
     return NO;
@@ -22395,13 +22403,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_replaceRegisteredDevice_result * val = [RTPublicAPI_replaceRegisteredDevice_result new];
+  PublicAPI_replaceRegisteredDevice_result * val = [PublicAPI_replaceRegisteredDevice_result new];
   val.deviceInUse = [self.deviceInUse copy];
   val.invalidDevice = [self.invalidDevice copy];
   return val;
 }
 
-- (void) setDeviceInUse: (RTDeviceInUse *) deviceInUse {
+- (void) setDeviceInUse: (DeviceInUse *) deviceInUse {
   _deviceInUse = deviceInUse;
   _deviceInUseIsSet = YES;
 }
@@ -22411,7 +22419,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _deviceInUseIsSet = NO;
 }
 
-- (void) setInvalidDevice: (RTInvalidDevice *) invalidDevice {
+- (void) setInvalidDevice: (InvalidDevice *) invalidDevice {
   _invalidDevice = invalidDevice;
   _invalidDeviceIsSet = YES;
 }
@@ -22438,7 +22446,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 5:
         if (fieldType == TTypeSTRUCT) {
-          RTDeviceInUse *fieldValue = [[RTDeviceInUse alloc] init];
+          DeviceInUse *fieldValue = [[DeviceInUse alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceInUse = fieldValue;
         } else { 
@@ -22448,7 +22456,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 6:
         if (fieldType == TTypeSTRUCT) {
-          RTInvalidDevice *fieldValue = [[RTInvalidDevice alloc] init];
+          InvalidDevice *fieldValue = [[InvalidDevice alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.invalidDevice = fieldValue;
         } else { 
@@ -22495,7 +22503,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_replaceRegisteredDevice_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_replaceRegisteredDevice_result("];
   [ms appendString: @"deviceInUse:"];
   [ms appendFormat: @"%@", _deviceInUse];
   [ms appendString: @",invalidDevice:"];
@@ -22506,9 +22514,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_unregisterDevice_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_unregisterDevice_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -22516,16 +22524,16 @@ NSString * RTDeleteType_Chat = @"chat";
 @property (assign, nonatomic) BOOL passwordIsSet;
 - (void) unsetPassword;
 
-@property (strong, nonatomic) RTId * deviceId;
+@property (strong, nonatomic) Id * deviceId;
 @property (assign, nonatomic) BOOL deviceIdIsSet;
 - (void) unsetDeviceId;
 
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId;
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId;
 
 @end
 
-@implementation RTPublicAPI_unregisterDevice_args
+@implementation PublicAPI_unregisterDevice_args
 
 - (instancetype) init
 {
@@ -22535,7 +22543,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId
+- (instancetype) initWithUserId: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId
 {
   self = [super init];
   if (self)  {
@@ -22614,10 +22622,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_unregisterDevice_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_unregisterDevice_args class]]) {
     return NO;
   }
-  RTPublicAPI_unregisterDevice_args *other = (RTPublicAPI_unregisterDevice_args *)anObject;
+  PublicAPI_unregisterDevice_args *other = (PublicAPI_unregisterDevice_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -22635,14 +22643,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_unregisterDevice_args * val = [RTPublicAPI_unregisterDevice_args new];
+  PublicAPI_unregisterDevice_args * val = [PublicAPI_unregisterDevice_args new];
   val.userId = [self.userId copy];
   val.password = [self.password copy];
   val.deviceId = [self.deviceId copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -22662,7 +22670,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _passwordIsSet = NO;
 }
 
-- (void) setDeviceId: (RTId *) deviceId {
+- (void) setDeviceId: (Id *) deviceId {
   _deviceId = deviceId;
   _deviceIdIsSet = YES;
 }
@@ -22689,7 +22697,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -22709,7 +22717,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.deviceId = fieldValue;
         } else { 
@@ -22763,7 +22771,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_unregisterDevice_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_unregisterDevice_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",password:"];
@@ -22776,13 +22784,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_unregisterDevice_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_unregisterDevice_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTPublicAPI_unregisterDevice_result
+@implementation PublicAPI_unregisterDevice_result
 
 - (instancetype) init
 {
@@ -22815,7 +22823,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_unregisterDevice_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_unregisterDevice_result class]]) {
     return NO;
   }
   return YES;
@@ -22823,7 +22831,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_unregisterDevice_result * val = [RTPublicAPI_unregisterDevice_result new];
+  PublicAPI_unregisterDevice_result * val = [PublicAPI_unregisterDevice_result new];
   return val;
 }
 
@@ -22868,16 +22876,16 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_unregisterDevice_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_unregisterDevice_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTPublicAPI_changePassword_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_changePassword_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -22891,11 +22899,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetNewPassword;
 
 
-- (instancetype) initWithUserId: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword;
+- (instancetype) initWithUserId: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword;
 
 @end
 
-@implementation RTPublicAPI_changePassword_args
+@implementation PublicAPI_changePassword_args
 
 - (instancetype) init
 {
@@ -22905,7 +22913,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword
+- (instancetype) initWithUserId: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword
 {
   self = [super init];
   if (self)  {
@@ -22984,10 +22992,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_changePassword_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_changePassword_args class]]) {
     return NO;
   }
-  RTPublicAPI_changePassword_args *other = (RTPublicAPI_changePassword_args *)anObject;
+  PublicAPI_changePassword_args *other = (PublicAPI_changePassword_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -23005,14 +23013,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_changePassword_args * val = [RTPublicAPI_changePassword_args new];
+  PublicAPI_changePassword_args * val = [PublicAPI_changePassword_args new];
   val.userId = [self.userId copy];
   val.oldPassword = [self.oldPassword copy];
   val.newPassword = [self.newPassword copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -23059,7 +23067,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -23133,7 +23141,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_changePassword_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_changePassword_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",oldPassword:"];
@@ -23146,7 +23154,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_changePassword_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_changePassword_result : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (assign, nonatomic) BOOL success;
 @property (assign, nonatomic) BOOL successIsSet;
@@ -23157,7 +23165,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTPublicAPI_changePassword_result
+@implementation PublicAPI_changePassword_result
 
 - (instancetype) init
 {
@@ -23214,10 +23222,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_changePassword_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_changePassword_result class]]) {
     return NO;
   }
-  RTPublicAPI_changePassword_result *other = (RTPublicAPI_changePassword_result *)anObject;
+  PublicAPI_changePassword_result *other = (PublicAPI_changePassword_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && (_success != other->_success))) {
     return NO;
@@ -23227,7 +23235,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_changePassword_result * val = [RTPublicAPI_changePassword_result new];
+  PublicAPI_changePassword_result * val = [PublicAPI_changePassword_result new];
   val.success = self.success;
   return val;
 }
@@ -23297,7 +23305,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_changePassword_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_changePassword_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%i", _success];
   [ms appendString: @")"];
@@ -23306,18 +23314,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_requestTemporaryPassword_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_requestTemporaryPassword_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias name;
+@property (strong, nonatomic) Alias name;
 @property (assign, nonatomic) BOOL nameIsSet;
 - (void) unsetName;
 
 
-- (instancetype) initWithName: (RTAlias) name;
+- (instancetype) initWithName: (Alias) name;
 
 @end
 
-@implementation RTPublicAPI_requestTemporaryPassword_args
+@implementation PublicAPI_requestTemporaryPassword_args
 
 - (instancetype) init
 {
@@ -23327,7 +23335,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithName: (RTAlias) name
+- (instancetype) initWithName: (Alias) name
 {
   self = [super init];
   if (self)  {
@@ -23374,10 +23382,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_requestTemporaryPassword_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_requestTemporaryPassword_args class]]) {
     return NO;
   }
-  RTPublicAPI_requestTemporaryPassword_args *other = (RTPublicAPI_requestTemporaryPassword_args *)anObject;
+  PublicAPI_requestTemporaryPassword_args *other = (PublicAPI_requestTemporaryPassword_args *)anObject;
   if ((_nameIsSet != other->_nameIsSet) ||
       (_nameIsSet && ((_name || other->_name) && ![_name isEqual:other->_name]))) {
     return NO;
@@ -23387,7 +23395,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_requestTemporaryPassword_args * val = [RTPublicAPI_requestTemporaryPassword_args new];
+  PublicAPI_requestTemporaryPassword_args * val = [PublicAPI_requestTemporaryPassword_args new];
   val.name = [self.name copy];
   return val;
 }
@@ -23459,7 +23467,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_requestTemporaryPassword_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_requestTemporaryPassword_args("];
   [ms appendString: @"name:"];
   [ms appendFormat: @"\"%@\"", _name];
   [ms appendString: @")"];
@@ -23468,18 +23476,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_requestTemporaryPassword_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_requestTemporaryPassword_result : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * success;
+@property (strong, nonatomic) Id * success;
 @property (assign, nonatomic) BOOL successIsSet;
 - (void) unsetSuccess;
 
 
-- (instancetype) initWithSuccess: (RTId *) success;
+- (instancetype) initWithSuccess: (Id *) success;
 
 @end
 
-@implementation RTPublicAPI_requestTemporaryPassword_result
+@implementation PublicAPI_requestTemporaryPassword_result
 
 - (instancetype) init
 {
@@ -23489,7 +23497,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSuccess: (RTId *) success
+- (instancetype) initWithSuccess: (Id *) success
 {
   self = [super init];
   if (self)  {
@@ -23536,10 +23544,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_requestTemporaryPassword_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_requestTemporaryPassword_result class]]) {
     return NO;
   }
-  RTPublicAPI_requestTemporaryPassword_result *other = (RTPublicAPI_requestTemporaryPassword_result *)anObject;
+  PublicAPI_requestTemporaryPassword_result *other = (PublicAPI_requestTemporaryPassword_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && ((_success || other->_success) && ![_success isEqual:other->_success]))) {
     return NO;
@@ -23549,12 +23557,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_requestTemporaryPassword_result * val = [RTPublicAPI_requestTemporaryPassword_result new];
+  PublicAPI_requestTemporaryPassword_result * val = [PublicAPI_requestTemporaryPassword_result new];
   val.success = [self.success copy];
   return val;
 }
 
-- (void) setSuccess: (RTId *) success {
+- (void) setSuccess: (Id *) success {
   _success = success;
   _successIsSet = YES;
 }
@@ -23581,7 +23589,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 0:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.success = fieldValue;
         } else { 
@@ -23622,7 +23630,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_requestTemporaryPassword_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_requestTemporaryPassword_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", _success];
   [ms appendString: @")"];
@@ -23631,9 +23639,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_checkTemporaryPassword_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_checkTemporaryPassword_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -23642,11 +23650,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetTempPassword;
 
 
-- (instancetype) initWithUserId: (RTId *) userId tempPassword: (NSString *) tempPassword;
+- (instancetype) initWithUserId: (Id *) userId tempPassword: (NSString *) tempPassword;
 
 @end
 
-@implementation RTPublicAPI_checkTemporaryPassword_args
+@implementation PublicAPI_checkTemporaryPassword_args
 
 - (instancetype) init
 {
@@ -23656,7 +23664,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId tempPassword: (NSString *) tempPassword
+- (instancetype) initWithUserId: (Id *) userId tempPassword: (NSString *) tempPassword
 {
   self = [super init];
   if (self)  {
@@ -23719,10 +23727,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_checkTemporaryPassword_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_checkTemporaryPassword_args class]]) {
     return NO;
   }
-  RTPublicAPI_checkTemporaryPassword_args *other = (RTPublicAPI_checkTemporaryPassword_args *)anObject;
+  PublicAPI_checkTemporaryPassword_args *other = (PublicAPI_checkTemporaryPassword_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -23736,13 +23744,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_checkTemporaryPassword_args * val = [RTPublicAPI_checkTemporaryPassword_args new];
+  PublicAPI_checkTemporaryPassword_args * val = [PublicAPI_checkTemporaryPassword_args new];
   val.userId = [self.userId copy];
   val.tempPassword = [self.tempPassword copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -23779,7 +23787,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -23836,7 +23844,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_checkTemporaryPassword_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_checkTemporaryPassword_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",tempPassword:"];
@@ -23847,7 +23855,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_checkTemporaryPassword_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_checkTemporaryPassword_result : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (assign, nonatomic) BOOL success;
 @property (assign, nonatomic) BOOL successIsSet;
@@ -23858,7 +23866,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTPublicAPI_checkTemporaryPassword_result
+@implementation PublicAPI_checkTemporaryPassword_result
 
 - (instancetype) init
 {
@@ -23915,10 +23923,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_checkTemporaryPassword_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_checkTemporaryPassword_result class]]) {
     return NO;
   }
-  RTPublicAPI_checkTemporaryPassword_result *other = (RTPublicAPI_checkTemporaryPassword_result *)anObject;
+  PublicAPI_checkTemporaryPassword_result *other = (PublicAPI_checkTemporaryPassword_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && (_success != other->_success))) {
     return NO;
@@ -23928,7 +23936,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_checkTemporaryPassword_result * val = [RTPublicAPI_checkTemporaryPassword_result new];
+  PublicAPI_checkTemporaryPassword_result * val = [PublicAPI_checkTemporaryPassword_result new];
   val.success = self.success;
   return val;
 }
@@ -23998,7 +24006,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_checkTemporaryPassword_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_checkTemporaryPassword_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%i", _success];
   [ms appendString: @")"];
@@ -24007,9 +24015,9 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_resetPassword_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_resetPassword_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * userId;
+@property (strong, nonatomic) Id * userId;
 @property (assign, nonatomic) BOOL userIdIsSet;
 - (void) unsetUserId;
 
@@ -24022,11 +24030,11 @@ NSString * RTDeleteType_Chat = @"chat";
 - (void) unsetPassword;
 
 
-- (instancetype) initWithUserId: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password;
+- (instancetype) initWithUserId: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password;
 
 @end
 
-@implementation RTPublicAPI_resetPassword_args
+@implementation PublicAPI_resetPassword_args
 
 - (instancetype) init
 {
@@ -24036,7 +24044,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithUserId: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password
+- (instancetype) initWithUserId: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password
 {
   self = [super init];
   if (self)  {
@@ -24115,10 +24123,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_resetPassword_args class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_resetPassword_args class]]) {
     return NO;
   }
-  RTPublicAPI_resetPassword_args *other = (RTPublicAPI_resetPassword_args *)anObject;
+  PublicAPI_resetPassword_args *other = (PublicAPI_resetPassword_args *)anObject;
   if ((_userIdIsSet != other->_userIdIsSet) ||
       (_userIdIsSet && ((_userId || other->_userId) && ![_userId isEqual:other->_userId]))) {
     return NO;
@@ -24136,14 +24144,14 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_resetPassword_args * val = [RTPublicAPI_resetPassword_args new];
+  PublicAPI_resetPassword_args * val = [PublicAPI_resetPassword_args new];
   val.userId = [self.userId copy];
   val.tempPassword = [self.tempPassword copy];
   val.password = [self.password copy];
   return val;
 }
 
-- (void) setUserId: (RTId *) userId {
+- (void) setUserId: (Id *) userId {
   _userId = userId;
   _userIdIsSet = YES;
 }
@@ -24190,7 +24198,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.userId = fieldValue;
         } else { 
@@ -24264,7 +24272,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_resetPassword_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_resetPassword_args("];
   [ms appendString: @"userId:"];
   [ms appendFormat: @"%@", _userId];
   [ms appendString: @",tempPassword:"];
@@ -24277,7 +24285,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPI_resetPassword_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface PublicAPI_resetPassword_result : NSObject <TBase, NSCoding, NSCopying> 
 
 @property (assign, nonatomic) BOOL success;
 @property (assign, nonatomic) BOOL successIsSet;
@@ -24288,7 +24296,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTPublicAPI_resetPassword_result
+@implementation PublicAPI_resetPassword_result
 
 - (instancetype) init
 {
@@ -24345,10 +24353,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTPublicAPI_resetPassword_result class]]) {
+  if (![anObject isKindOfClass:[PublicAPI_resetPassword_result class]]) {
     return NO;
   }
-  RTPublicAPI_resetPassword_result *other = (RTPublicAPI_resetPassword_result *)anObject;
+  PublicAPI_resetPassword_result *other = (PublicAPI_resetPassword_result *)anObject;
   if ((_successIsSet != other->_successIsSet) ||
       (_successIsSet && (_success != other->_success))) {
     return NO;
@@ -24358,7 +24366,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTPublicAPI_resetPassword_result * val = [RTPublicAPI_resetPassword_result new];
+  PublicAPI_resetPassword_result * val = [PublicAPI_resetPassword_result new];
   val.success = self.success;
   return val;
 }
@@ -24428,7 +24436,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTPublicAPI_resetPassword_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"PublicAPI_resetPassword_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%i", _success];
   [ms appendString: @")"];
@@ -24437,7 +24445,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPIClient () {
+@interface PublicAPIClient () {
 
   id<TProtocol> inProtocol;
   id<TProtocol> outProtocol;
@@ -24446,7 +24454,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTPublicAPIClient
+@implementation PublicAPIClient
 - (id) initWithProtocol: (id <TProtocol>) protocol
 {
   return [self initWithInProtocol: protocol outProtocol: protocol];
@@ -24462,7 +24470,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (BOOL) send_findUserWithAlias: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_findUserWithAlias: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"findUserWithAlias" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_findUserWithAlias_args" error: __thriftError]) return NO;
@@ -24477,7 +24485,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findUserWithAlias: (RTUserInfo * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findUserWithAlias: (UserInfo * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -24486,7 +24494,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findUserWithAlias_result * resulter = [RTPublicAPI_findUserWithAlias_result new];
+  PublicAPI_findUserWithAlias_result * resulter = [PublicAPI_findUserWithAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24501,16 +24509,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTUserInfo *) findUserWithAlias: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (UserInfo *) findUserWithAlias: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_findUserWithAlias : name error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTUserInfo * __result;
+  UserInfo * __result;
   if (![self recv_findUserWithAlias: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_findUserWithId: (RTId *) userId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_findUserWithId: (Id *) userId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"findUserWithId" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_findUserWithId_args" error: __thriftError]) return NO;
@@ -24525,7 +24533,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findUserWithId: (RTUserInfo * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findUserWithId: (UserInfo * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -24534,7 +24542,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findUserWithId_result * resulter = [RTPublicAPI_findUserWithId_result new];
+  PublicAPI_findUserWithId_result * resulter = [PublicAPI_findUserWithId_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24549,16 +24557,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTUserInfo *) findUserWithId: (RTId *) userId error: (NSError *__autoreleasing *)__thriftError
+- (UserInfo *) findUserWithId: (Id *) userId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_findUserWithId : userId error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTUserInfo * __result;
+  UserInfo * __result;
   if (![self recv_findUserWithId: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_requestAliasAuthentication: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_requestAliasAuthentication: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"requestAliasAuthentication" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_requestAliasAuthentication_args" error: __thriftError]) return NO;
@@ -24582,7 +24590,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_requestAliasAuthentication_result * resulter = [RTPublicAPI_requestAliasAuthentication_result new];
+  PublicAPI_requestAliasAuthentication_result * resulter = [PublicAPI_requestAliasAuthentication_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.aliasInUseIsSet)  {
@@ -24600,7 +24608,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) requestAliasAuthentication: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) requestAliasAuthentication: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_requestAliasAuthentication : name error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -24608,7 +24616,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) send_checkAliasAuthentication: (RTAlias) name pin: (NSString *) pin error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_checkAliasAuthentication: (Alias) name pin: (NSString *) pin error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"checkAliasAuthentication" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_checkAliasAuthentication_args" error: __thriftError]) return NO;
@@ -24637,7 +24645,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_checkAliasAuthentication_result * resulter = [RTPublicAPI_checkAliasAuthentication_result new];
+  PublicAPI_checkAliasAuthentication_result * resulter = [PublicAPI_checkAliasAuthentication_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24658,7 +24666,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSNumber *) checkAliasAuthentication: (RTAlias) name pin: (NSString *) pin error: (NSError *__autoreleasing *)__thriftError
+- (NSNumber *) checkAliasAuthentication: (Alias) name pin: (NSString *) pin error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_checkAliasAuthentication : name pin: pin error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
@@ -24667,7 +24675,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return @(__result);
 }
 
-- (BOOL) send_findProfileWithId: (RTId *) userId password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_findProfileWithId: (Id *) userId password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"findProfileWithId" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_findProfileWithId_args" error: __thriftError]) return NO;
@@ -24687,7 +24695,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findProfileWithId: (RTUserProfile * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findProfileWithId: (UserProfile * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -24696,7 +24704,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findProfileWithId_result * resulter = [RTPublicAPI_findProfileWithId_result new];
+  PublicAPI_findProfileWithId_result * resulter = [PublicAPI_findProfileWithId_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24711,11 +24719,11 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTUserProfile *) findProfileWithId: (RTId *) userId password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
+- (UserProfile *) findProfileWithId: (Id *) userId password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_findProfileWithId : userId password: password error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTUserProfile * __result;
+  UserProfile * __result;
   if (![self recv_findProfileWithId: &__result error: __thriftError]) return nil;
   return __result;
 }
@@ -24740,7 +24748,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findProfileWithAlias: (RTUserProfile * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findProfileWithAlias: (UserProfile * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -24749,7 +24757,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findProfileWithAlias_result * resulter = [RTPublicAPI_findProfileWithAlias_result new];
+  PublicAPI_findProfileWithAlias_result * resulter = [PublicAPI_findProfileWithAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24764,16 +24772,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTUserProfile *) findProfileWithAlias: (NSString *) userAlias password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
+- (UserProfile *) findProfileWithAlias: (NSString *) userAlias password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_findProfileWithAlias : userAlias password: password error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTUserProfile * __result;
+  UserProfile * __result;
   if (![self recv_findProfileWithAlias: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerUser" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_registerUser_args" error: __thriftError]) return NO;
@@ -24816,7 +24824,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_registerUser: (RTUserProfile * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_registerUser: (UserProfile * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -24825,7 +24833,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_registerUser_result * resulter = [RTPublicAPI_registerUser_result new];
+  PublicAPI_registerUser_result * resulter = [PublicAPI_registerUser_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24864,16 +24872,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTUserProfile *) registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
+- (UserProfile *) registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_registerUser : password encryptionCSR: encryptionCSR signingCSR: signingCSR authenticatedAliases: authenticatedAliases deviceInfo: deviceInfo error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTUserProfile * __result;
+  UserProfile * __result;
   if (![self recv_registerUser: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_signIn: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_signIn: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"signIn" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_signIn_args" error: __thriftError]) return NO;
@@ -24907,7 +24915,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_signIn_result * resulter = [RTPublicAPI_signIn_result new];
+  PublicAPI_signIn_result * resulter = [PublicAPI_signIn_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -24934,7 +24942,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSData *) signIn: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId error: (NSError *__autoreleasing *)__thriftError
+- (NSData *) signIn: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_signIn : userId password: password deviceId: deviceId error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
@@ -24943,7 +24951,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return __result;
 }
 
-- (BOOL) send_generateAccessToken: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_generateAccessToken: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"generateAccessToken" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_generateAccessToken_args" error: __thriftError]) return NO;
@@ -24977,7 +24985,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_generateAccessToken_result * resulter = [RTPublicAPI_generateAccessToken_result new];
+  PublicAPI_generateAccessToken_result * resulter = [PublicAPI_generateAccessToken_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -25004,7 +25012,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSString *) generateAccessToken: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken error: (NSError *__autoreleasing *)__thriftError
+- (NSString *) generateAccessToken: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_generateAccessToken : userId deviceId: deviceId refreshToken: refreshToken error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
@@ -25013,7 +25021,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return __result;
 }
 
-- (BOOL) send_registerDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerDevice" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_registerDevice_args" error: __thriftError]) return NO;
@@ -25047,7 +25055,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_registerDevice_result * resulter = [RTPublicAPI_registerDevice_result new];
+  PublicAPI_registerDevice_result * resulter = [PublicAPI_registerDevice_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.deviceInUseIsSet)  {
@@ -25059,7 +25067,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) registerDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) registerDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_registerDevice : userId password: password deviceInfo: deviceInfo error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -25067,7 +25075,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) send_replaceRegisteredDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_replaceRegisteredDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"replaceRegisteredDevice" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_replaceRegisteredDevice_args" error: __thriftError]) return NO;
@@ -25106,7 +25114,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_replaceRegisteredDevice_result * resulter = [RTPublicAPI_replaceRegisteredDevice_result new];
+  PublicAPI_replaceRegisteredDevice_result * resulter = [PublicAPI_replaceRegisteredDevice_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.deviceInUseIsSet)  {
@@ -25124,7 +25132,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) replaceRegisteredDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) replaceRegisteredDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_replaceRegisteredDevice : userId password: password deviceInfo: deviceInfo currentDeviceId: currentDeviceId error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -25132,7 +25140,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) send_unregisterDevice: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_unregisterDevice: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"unregisterDevice" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_unregisterDevice_args" error: __thriftError]) return NO;
@@ -25166,13 +25174,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_unregisterDevice_result * resulter = [RTPublicAPI_unregisterDevice_result new];
+  PublicAPI_unregisterDevice_result * resulter = [PublicAPI_unregisterDevice_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) unregisterDevice: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) unregisterDevice: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_unregisterDevice : userId password: password deviceId: deviceId error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -25180,7 +25188,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) send_changePassword: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_changePassword: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"changePassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_changePassword_args" error: __thriftError]) return NO;
@@ -25214,7 +25222,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_changePassword_result * resulter = [RTPublicAPI_changePassword_result new];
+  PublicAPI_changePassword_result * resulter = [PublicAPI_changePassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -25229,7 +25237,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSNumber *) changePassword: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword error: (NSError *__autoreleasing *)__thriftError
+- (NSNumber *) changePassword: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_changePassword : userId oldPassword: oldPassword newPassword: newPassword error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
@@ -25238,7 +25246,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return @(__result);
 }
 
-- (BOOL) send_requestTemporaryPassword: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_requestTemporaryPassword: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"requestTemporaryPassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_requestTemporaryPassword_args" error: __thriftError]) return NO;
@@ -25253,7 +25261,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_requestTemporaryPassword: (RTId * *) result error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_requestTemporaryPassword: (Id * *) result error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -25262,7 +25270,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_requestTemporaryPassword_result * resulter = [RTPublicAPI_requestTemporaryPassword_result new];
+  PublicAPI_requestTemporaryPassword_result * resulter = [PublicAPI_requestTemporaryPassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -25277,16 +25285,16 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (RTId *) requestTemporaryPassword: (RTAlias) name error: (NSError *__autoreleasing *)__thriftError
+- (Id *) requestTemporaryPassword: (Alias) name error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_requestTemporaryPassword : name error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
-  RTId * __result;
+  Id * __result;
   if (![self recv_requestTemporaryPassword: &__result error: __thriftError]) return nil;
   return __result;
 }
 
-- (BOOL) send_checkTemporaryPassword: (RTId *) userId tempPassword: (NSString *) tempPassword error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_checkTemporaryPassword: (Id *) userId tempPassword: (NSString *) tempPassword error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"checkTemporaryPassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_checkTemporaryPassword_args" error: __thriftError]) return NO;
@@ -25315,7 +25323,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_checkTemporaryPassword_result * resulter = [RTPublicAPI_checkTemporaryPassword_result new];
+  PublicAPI_checkTemporaryPassword_result * resulter = [PublicAPI_checkTemporaryPassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -25330,7 +25338,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSNumber *) checkTemporaryPassword: (RTId *) userId tempPassword: (NSString *) tempPassword error: (NSError *__autoreleasing *)__thriftError
+- (NSNumber *) checkTemporaryPassword: (Id *) userId tempPassword: (NSString *) tempPassword error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_checkTemporaryPassword : userId tempPassword: tempPassword error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
@@ -25339,7 +25347,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return @(__result);
 }
 
-- (BOOL) send_resetPassword: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_resetPassword: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"resetPassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_resetPassword_args" error: __thriftError]) return NO;
@@ -25373,7 +25381,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_resetPassword_result * resulter = [RTPublicAPI_resetPassword_result new];
+  PublicAPI_resetPassword_result * resulter = [PublicAPI_resetPassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -25388,7 +25396,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (NSNumber *) resetPassword: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
+- (NSNumber *) resetPassword: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_resetPassword : userId tempPassword: tempPassword password: password error: __thriftError]) return nil;
   if (![[outProtocol transport] flush: __thriftError]) return nil;
@@ -25399,15 +25407,15 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTPublicAPIProcessor () {
-  id <RTPublicAPI> service;
+@interface PublicAPIProcessor () {
+  id <PublicAPI> service;
   NSDictionary * methodMap;
 }
 @end
 
-@implementation RTPublicAPIProcessor
+@implementation PublicAPIProcessor
 
-- (id) initWithPublicAPI: (id <RTPublicAPI>) aService
+- (id) initWithPublicAPI: (id <PublicAPI>) aService
 {
   self = [super init];
   if (self)   {
@@ -25545,7 +25553,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (id<RTPublicAPI>) service
+- (id<PublicAPI>) service
 {
   return service;
 }
@@ -25591,11 +25599,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_findUserWithAlias_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_findUserWithAlias_args * args = [RTPublicAPI_findUserWithAlias_args new];
+  PublicAPI_findUserWithAlias_args * args = [PublicAPI_findUserWithAlias_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_findUserWithAlias_result * result = [RTPublicAPI_findUserWithAlias_result new];
-  RTUserInfo * serviceResult = [service findUserWithAlias: [args name] error: __thriftError];
+  PublicAPI_findUserWithAlias_result * result = [PublicAPI_findUserWithAlias_result new];
+  UserInfo * serviceResult = [service findUserWithAlias: [args name] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"findUserWithAlias"
@@ -25610,11 +25618,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_findUserWithId_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_findUserWithId_args * args = [RTPublicAPI_findUserWithId_args new];
+  PublicAPI_findUserWithId_args * args = [PublicAPI_findUserWithId_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_findUserWithId_result * result = [RTPublicAPI_findUserWithId_result new];
-  RTUserInfo * serviceResult = [service findUserWithId: [args userId] error: __thriftError];
+  PublicAPI_findUserWithId_result * result = [PublicAPI_findUserWithId_result new];
+  UserInfo * serviceResult = [service findUserWithId: [args userId] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"findUserWithId"
@@ -25629,10 +25637,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_requestAliasAuthentication_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_requestAliasAuthentication_args * args = [RTPublicAPI_requestAliasAuthentication_args new];
+  PublicAPI_requestAliasAuthentication_args * args = [PublicAPI_requestAliasAuthentication_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_requestAliasAuthentication_result * result = [RTPublicAPI_requestAliasAuthentication_result new];
+  PublicAPI_requestAliasAuthentication_result * result = [PublicAPI_requestAliasAuthentication_result new];
   BOOL serviceResult = [service requestAliasAuthentication: [args name] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"requestAliasAuthentication"
@@ -25647,10 +25655,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_checkAliasAuthentication_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_checkAliasAuthentication_args * args = [RTPublicAPI_checkAliasAuthentication_args new];
+  PublicAPI_checkAliasAuthentication_args * args = [PublicAPI_checkAliasAuthentication_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_checkAliasAuthentication_result * result = [RTPublicAPI_checkAliasAuthentication_result new];
+  PublicAPI_checkAliasAuthentication_result * result = [PublicAPI_checkAliasAuthentication_result new];
   NSNumber * serviceResult = [service checkAliasAuthentication: [args name] pin: [args pin] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: [serviceResult boolValue]];
@@ -25666,11 +25674,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_findProfileWithId_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_findProfileWithId_args * args = [RTPublicAPI_findProfileWithId_args new];
+  PublicAPI_findProfileWithId_args * args = [PublicAPI_findProfileWithId_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_findProfileWithId_result * result = [RTPublicAPI_findProfileWithId_result new];
-  RTUserProfile * serviceResult = [service findProfileWithId: [args userId] password: [args password] error: __thriftError];
+  PublicAPI_findProfileWithId_result * result = [PublicAPI_findProfileWithId_result new];
+  UserProfile * serviceResult = [service findProfileWithId: [args userId] password: [args password] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"findProfileWithId"
@@ -25685,11 +25693,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_findProfileWithAlias_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_findProfileWithAlias_args * args = [RTPublicAPI_findProfileWithAlias_args new];
+  PublicAPI_findProfileWithAlias_args * args = [PublicAPI_findProfileWithAlias_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_findProfileWithAlias_result * result = [RTPublicAPI_findProfileWithAlias_result new];
-  RTUserProfile * serviceResult = [service findProfileWithAlias: [args userAlias] password: [args password] error: __thriftError];
+  PublicAPI_findProfileWithAlias_result * result = [PublicAPI_findProfileWithAlias_result new];
+  UserProfile * serviceResult = [service findProfileWithAlias: [args userAlias] password: [args password] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"findProfileWithAlias"
@@ -25704,11 +25712,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_registerUser_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_registerUser_args * args = [RTPublicAPI_registerUser_args new];
+  PublicAPI_registerUser_args * args = [PublicAPI_registerUser_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_registerUser_result * result = [RTPublicAPI_registerUser_result new];
-  RTUserProfile * serviceResult = [service registerUser: [args password] encryptionCSR: [args encryptionCSR] signingCSR: [args signingCSR] authenticatedAliases: [args authenticatedAliases] deviceInfo: [args deviceInfo] error: __thriftError];
+  PublicAPI_registerUser_result * result = [PublicAPI_registerUser_result new];
+  UserProfile * serviceResult = [service registerUser: [args password] encryptionCSR: [args encryptionCSR] signingCSR: [args signingCSR] authenticatedAliases: [args authenticatedAliases] deviceInfo: [args deviceInfo] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"registerUser"
@@ -25723,10 +25731,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_signIn_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_signIn_args * args = [RTPublicAPI_signIn_args new];
+  PublicAPI_signIn_args * args = [PublicAPI_signIn_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_signIn_result * result = [RTPublicAPI_signIn_result new];
+  PublicAPI_signIn_result * result = [PublicAPI_signIn_result new];
   NSData * serviceResult = [service signIn: [args userId] password: [args password] deviceId: [args deviceId] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
@@ -25742,10 +25750,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_generateAccessToken_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_generateAccessToken_args * args = [RTPublicAPI_generateAccessToken_args new];
+  PublicAPI_generateAccessToken_args * args = [PublicAPI_generateAccessToken_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_generateAccessToken_result * result = [RTPublicAPI_generateAccessToken_result new];
+  PublicAPI_generateAccessToken_result * result = [PublicAPI_generateAccessToken_result new];
   NSString * serviceResult = [service generateAccessToken: [args userId] deviceId: [args deviceId] refreshToken: [args refreshToken] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
@@ -25761,10 +25769,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_registerDevice_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_registerDevice_args * args = [RTPublicAPI_registerDevice_args new];
+  PublicAPI_registerDevice_args * args = [PublicAPI_registerDevice_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_registerDevice_result * result = [RTPublicAPI_registerDevice_result new];
+  PublicAPI_registerDevice_result * result = [PublicAPI_registerDevice_result new];
   BOOL serviceResult = [service registerDevice: [args userId] password: [args password] deviceInfo: [args deviceInfo] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"registerDevice"
@@ -25779,10 +25787,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_replaceRegisteredDevice_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_replaceRegisteredDevice_args * args = [RTPublicAPI_replaceRegisteredDevice_args new];
+  PublicAPI_replaceRegisteredDevice_args * args = [PublicAPI_replaceRegisteredDevice_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_replaceRegisteredDevice_result * result = [RTPublicAPI_replaceRegisteredDevice_result new];
+  PublicAPI_replaceRegisteredDevice_result * result = [PublicAPI_replaceRegisteredDevice_result new];
   BOOL serviceResult = [service replaceRegisteredDevice: [args userId] password: [args password] deviceInfo: [args deviceInfo] currentDeviceId: [args currentDeviceId] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"replaceRegisteredDevice"
@@ -25797,10 +25805,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_unregisterDevice_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_unregisterDevice_args * args = [RTPublicAPI_unregisterDevice_args new];
+  PublicAPI_unregisterDevice_args * args = [PublicAPI_unregisterDevice_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_unregisterDevice_result * result = [RTPublicAPI_unregisterDevice_result new];
+  PublicAPI_unregisterDevice_result * result = [PublicAPI_unregisterDevice_result new];
   BOOL serviceResult = [service unregisterDevice: [args userId] password: [args password] deviceId: [args deviceId] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"unregisterDevice"
@@ -25815,10 +25823,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_changePassword_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_changePassword_args * args = [RTPublicAPI_changePassword_args new];
+  PublicAPI_changePassword_args * args = [PublicAPI_changePassword_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_changePassword_result * result = [RTPublicAPI_changePassword_result new];
+  PublicAPI_changePassword_result * result = [PublicAPI_changePassword_result new];
   NSNumber * serviceResult = [service changePassword: [args userId] oldPassword: [args oldPassword] newPassword: [args newPassword] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: [serviceResult boolValue]];
@@ -25834,11 +25842,11 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_requestTemporaryPassword_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_requestTemporaryPassword_args * args = [RTPublicAPI_requestTemporaryPassword_args new];
+  PublicAPI_requestTemporaryPassword_args * args = [PublicAPI_requestTemporaryPassword_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_requestTemporaryPassword_result * result = [RTPublicAPI_requestTemporaryPassword_result new];
-  RTId * serviceResult = [service requestTemporaryPassword: [args name] error: __thriftError];
+  PublicAPI_requestTemporaryPassword_result * result = [PublicAPI_requestTemporaryPassword_result new];
+  Id * serviceResult = [service requestTemporaryPassword: [args name] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: serviceResult];
   if (![outProtocol writeMessageBeginWithName: @"requestTemporaryPassword"
@@ -25853,10 +25861,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_checkTemporaryPassword_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_checkTemporaryPassword_args * args = [RTPublicAPI_checkTemporaryPassword_args new];
+  PublicAPI_checkTemporaryPassword_args * args = [PublicAPI_checkTemporaryPassword_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_checkTemporaryPassword_result * result = [RTPublicAPI_checkTemporaryPassword_result new];
+  PublicAPI_checkTemporaryPassword_result * result = [PublicAPI_checkTemporaryPassword_result new];
   NSNumber * serviceResult = [service checkTemporaryPassword: [args userId] tempPassword: [args tempPassword] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: [serviceResult boolValue]];
@@ -25872,10 +25880,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_resetPassword_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTPublicAPI_resetPassword_args * args = [RTPublicAPI_resetPassword_args new];
+  PublicAPI_resetPassword_args * args = [PublicAPI_resetPassword_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTPublicAPI_resetPassword_result * result = [RTPublicAPI_resetPassword_result new];
+  PublicAPI_resetPassword_result * result = [PublicAPI_resetPassword_result new];
   NSNumber * serviceResult = [service resetPassword: [args userId] tempPassword: [args tempPassword] password: [args password] error: __thriftError];
   if (!serviceResult) return NO;
   [result setSuccess: [serviceResult boolValue]];
@@ -25890,7 +25898,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 @end
 
-@interface RTPublicAPIClientAsync () {
+@interface PublicAPIClientAsync () {
 
   id<TProtocolFactory> protocolFactory;
   id<TAsyncTransportFactory> transportFactory;
@@ -25899,7 +25907,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTPublicAPIClientAsync
+@implementation PublicAPIClientAsync
 
 - (id) initWithProtocolFactory: (id <TProtocolFactory>) aProtocolFactory transportFactory: (id <TAsyncTransportFactory>) aTransportFactory;
 {
@@ -25911,7 +25919,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (BOOL) send_findUserWithAlias: (RTAlias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_findUserWithAlias: (Alias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"findUserWithAlias" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_findUserWithAlias_args" error: __thriftError]) return NO;
@@ -25926,7 +25934,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findUserWithAlias: (RTUserInfo * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findUserWithAlias: (UserInfo * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -25935,7 +25943,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findUserWithAlias_result * resulter = [RTPublicAPI_findUserWithAlias_result new];
+  PublicAPI_findUserWithAlias_result * resulter = [PublicAPI_findUserWithAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -25950,7 +25958,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) findUserWithAlias: (RTAlias) name response: (void (^)(RTUserInfo *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) findUserWithAlias: (Alias) name response: (void (^)(UserInfo *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -25962,7 +25970,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTUserInfo * result;
+    UserInfo * result;
     if (![self recv_findUserWithAlias: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -25971,7 +25979,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) findUserWithAlias: (RTAlias) name
+- (AnyPromise *) findUserWithAlias: (Alias) name
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -25984,7 +25992,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTUserInfo * result;
+      UserInfo * result;
       if (![self recv_findUserWithAlias: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -25996,7 +26004,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_findUserWithId: (RTId *) userId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_findUserWithId: (Id *) userId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"findUserWithId" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_findUserWithId_args" error: __thriftError]) return NO;
@@ -26011,7 +26019,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findUserWithId: (RTUserInfo * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findUserWithId: (UserInfo * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -26020,7 +26028,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findUserWithId_result * resulter = [RTPublicAPI_findUserWithId_result new];
+  PublicAPI_findUserWithId_result * resulter = [PublicAPI_findUserWithId_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26035,7 +26043,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) findUserWithId: (RTId *) userId response: (void (^)(RTUserInfo *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) findUserWithId: (Id *) userId response: (void (^)(UserInfo *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26047,7 +26055,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTUserInfo * result;
+    UserInfo * result;
     if (![self recv_findUserWithId: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -26056,7 +26064,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) findUserWithId: (RTId *) userId
+- (AnyPromise *) findUserWithId: (Id *) userId
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26069,7 +26077,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTUserInfo * result;
+      UserInfo * result;
       if (![self recv_findUserWithId: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -26081,7 +26089,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_requestAliasAuthentication: (RTAlias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_requestAliasAuthentication: (Alias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"requestAliasAuthentication" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_requestAliasAuthentication_args" error: __thriftError]) return NO;
@@ -26105,7 +26113,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_requestAliasAuthentication_result * resulter = [RTPublicAPI_requestAliasAuthentication_result new];
+  PublicAPI_requestAliasAuthentication_result * resulter = [PublicAPI_requestAliasAuthentication_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.aliasInUseIsSet)  {
@@ -26123,7 +26131,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) requestAliasAuthentication: (RTAlias) name response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) requestAliasAuthentication: (Alias) name response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26143,7 +26151,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) requestAliasAuthentication: (RTAlias) name
+- (AnyPromise *) requestAliasAuthentication: (Alias) name
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26167,7 +26175,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_checkAliasAuthentication: (RTAlias) name pin: (NSString *) pin protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_checkAliasAuthentication: (Alias) name pin: (NSString *) pin protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"checkAliasAuthentication" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_checkAliasAuthentication_args" error: __thriftError]) return NO;
@@ -26196,7 +26204,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_checkAliasAuthentication_result * resulter = [RTPublicAPI_checkAliasAuthentication_result new];
+  PublicAPI_checkAliasAuthentication_result * resulter = [PublicAPI_checkAliasAuthentication_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26217,7 +26225,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) checkAliasAuthentication: (RTAlias) name pin: (NSString *) pin response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) checkAliasAuthentication: (Alias) name pin: (NSString *) pin response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26238,7 +26246,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) checkAliasAuthentication: (RTAlias) name pin: (NSString *) pin
+- (AnyPromise *) checkAliasAuthentication: (Alias) name pin: (NSString *) pin
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26263,7 +26271,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_findProfileWithId: (RTId *) userId password: (NSString *) password protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_findProfileWithId: (Id *) userId password: (NSString *) password protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"findProfileWithId" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_findProfileWithId_args" error: __thriftError]) return NO;
@@ -26283,7 +26291,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findProfileWithId: (RTUserProfile * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findProfileWithId: (UserProfile * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -26292,7 +26300,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findProfileWithId_result * resulter = [RTPublicAPI_findProfileWithId_result new];
+  PublicAPI_findProfileWithId_result * resulter = [PublicAPI_findProfileWithId_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26307,7 +26315,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) findProfileWithId: (RTId *) userId password: (NSString *) password response: (void (^)(RTUserProfile *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) findProfileWithId: (Id *) userId password: (NSString *) password response: (void (^)(UserProfile *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26319,7 +26327,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTUserProfile * result;
+    UserProfile * result;
     if (![self recv_findProfileWithId: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -26328,7 +26336,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) findProfileWithId: (RTId *) userId password: (NSString *) password
+- (AnyPromise *) findProfileWithId: (Id *) userId password: (NSString *) password
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26341,7 +26349,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTUserProfile * result;
+      UserProfile * result;
       if (![self recv_findProfileWithId: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -26373,7 +26381,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_findProfileWithAlias: (RTUserProfile * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_findProfileWithAlias: (UserProfile * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -26382,7 +26390,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_findProfileWithAlias_result * resulter = [RTPublicAPI_findProfileWithAlias_result new];
+  PublicAPI_findProfileWithAlias_result * resulter = [PublicAPI_findProfileWithAlias_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26397,7 +26405,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) findProfileWithAlias: (NSString *) userAlias password: (NSString *) password response: (void (^)(RTUserProfile *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) findProfileWithAlias: (NSString *) userAlias password: (NSString *) password response: (void (^)(UserProfile *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26409,7 +26417,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTUserProfile * result;
+    UserProfile * result;
     if (![self recv_findProfileWithAlias: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -26431,7 +26439,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTUserProfile * result;
+      UserProfile * result;
       if (![self recv_findProfileWithAlias: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -26443,7 +26451,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerUser" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_registerUser_args" error: __thriftError]) return NO;
@@ -26486,7 +26494,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_registerUser: (RTUserProfile * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_registerUser: (UserProfile * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -26495,7 +26503,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_registerUser_result * resulter = [RTPublicAPI_registerUser_result new];
+  PublicAPI_registerUser_result * resulter = [PublicAPI_registerUser_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26534,7 +26542,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo response: (void (^)(RTUserProfile *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo response: (void (^)(UserProfile *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26546,7 +26554,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTUserProfile * result;
+    UserProfile * result;
     if (![self recv_registerUser: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -26555,7 +26563,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<RTAuthenticatedAlias *> *) authenticatedAliases deviceInfo: (RTDeviceInfo *) deviceInfo
+- (AnyPromise *) registerUser: (NSString *) password encryptionCSR: (NSData *) encryptionCSR signingCSR: (NSData *) signingCSR authenticatedAliases: (NSArray<AuthenticatedAlias *> *) authenticatedAliases deviceInfo: (DeviceInfo *) deviceInfo
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26568,7 +26576,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTUserProfile * result;
+      UserProfile * result;
       if (![self recv_registerUser: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -26580,7 +26588,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_signIn: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_signIn: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"signIn" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_signIn_args" error: __thriftError]) return NO;
@@ -26614,7 +26622,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_signIn_result * resulter = [RTPublicAPI_signIn_result new];
+  PublicAPI_signIn_result * resulter = [PublicAPI_signIn_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26641,7 +26649,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) signIn: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId response: (void (^)(NSData *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) signIn: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId response: (void (^)(NSData *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26662,7 +26670,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) signIn: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId
+- (AnyPromise *) signIn: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26687,7 +26695,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_generateAccessToken: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_generateAccessToken: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"generateAccessToken" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_generateAccessToken_args" error: __thriftError]) return NO;
@@ -26721,7 +26729,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_generateAccessToken_result * resulter = [RTPublicAPI_generateAccessToken_result new];
+  PublicAPI_generateAccessToken_result * resulter = [PublicAPI_generateAccessToken_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -26748,7 +26756,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) generateAccessToken: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken response: (void (^)(NSString *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) generateAccessToken: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken response: (void (^)(NSString *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26769,7 +26777,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) generateAccessToken: (RTId *) userId deviceId: (RTId *) deviceId refreshToken: (NSData *) refreshToken
+- (AnyPromise *) generateAccessToken: (Id *) userId deviceId: (Id *) deviceId refreshToken: (NSData *) refreshToken
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26794,7 +26802,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_registerDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_registerDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"registerDevice" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_registerDevice_args" error: __thriftError]) return NO;
@@ -26828,7 +26836,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_registerDevice_result * resulter = [RTPublicAPI_registerDevice_result new];
+  PublicAPI_registerDevice_result * resulter = [PublicAPI_registerDevice_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.deviceInUseIsSet)  {
@@ -26840,7 +26848,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) registerDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) registerDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26860,7 +26868,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) registerDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo
+- (AnyPromise *) registerDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26884,7 +26892,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_replaceRegisteredDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_replaceRegisteredDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"replaceRegisteredDevice" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_replaceRegisteredDevice_args" error: __thriftError]) return NO;
@@ -26923,7 +26931,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_replaceRegisteredDevice_result * resulter = [RTPublicAPI_replaceRegisteredDevice_result new];
+  PublicAPI_replaceRegisteredDevice_result * resulter = [PublicAPI_replaceRegisteredDevice_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.deviceInUseIsSet)  {
@@ -26941,7 +26949,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) replaceRegisteredDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) replaceRegisteredDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -26961,7 +26969,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) replaceRegisteredDevice: (RTId *) userId password: (NSString *) password deviceInfo: (RTDeviceInfo *) deviceInfo currentDeviceId: (RTId *) currentDeviceId
+- (AnyPromise *) replaceRegisteredDevice: (Id *) userId password: (NSString *) password deviceInfo: (DeviceInfo *) deviceInfo currentDeviceId: (Id *) currentDeviceId
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -26985,7 +26993,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_unregisterDevice: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_unregisterDevice: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"unregisterDevice" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_unregisterDevice_args" error: __thriftError]) return NO;
@@ -27019,13 +27027,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_unregisterDevice_result * resulter = [RTPublicAPI_unregisterDevice_result new];
+  PublicAPI_unregisterDevice_result * resulter = [PublicAPI_unregisterDevice_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (void) unregisterDevice: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) unregisterDevice: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -27045,7 +27053,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) unregisterDevice: (RTId *) userId password: (NSString *) password deviceId: (RTId *) deviceId
+- (AnyPromise *) unregisterDevice: (Id *) userId password: (NSString *) password deviceId: (Id *) deviceId
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -27069,7 +27077,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_changePassword: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_changePassword: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"changePassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_changePassword_args" error: __thriftError]) return NO;
@@ -27103,7 +27111,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_changePassword_result * resulter = [RTPublicAPI_changePassword_result new];
+  PublicAPI_changePassword_result * resulter = [PublicAPI_changePassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -27118,7 +27126,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) changePassword: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) changePassword: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -27139,7 +27147,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) changePassword: (RTId *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword
+- (AnyPromise *) changePassword: (Id *) userId oldPassword: (NSString *) oldPassword newPassword: (NSString *) newPassword
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -27164,7 +27172,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_requestTemporaryPassword: (RTAlias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_requestTemporaryPassword: (Alias) name protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"requestTemporaryPassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_requestTemporaryPassword_args" error: __thriftError]) return NO;
@@ -27179,7 +27187,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) recv_requestTemporaryPassword: (RTId * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) recv_requestTemporaryPassword: (Id * *) result protocol: (id<TProtocol>) inProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   NSError *incomingException = [self checkIncomingMessageException: inProtocol];
   if (incomingException)  {
@@ -27188,7 +27196,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_requestTemporaryPassword_result * resulter = [RTPublicAPI_requestTemporaryPassword_result new];
+  PublicAPI_requestTemporaryPassword_result * resulter = [PublicAPI_requestTemporaryPassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -27203,7 +27211,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) requestTemporaryPassword: (RTAlias) name response: (void (^)(RTId *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) requestTemporaryPassword: (Alias) name response: (void (^)(Id *)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -27215,7 +27223,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }
   [transport flushWithCompletion:^{
     NSError *thriftError;
-    RTId * result;
+    Id * result;
     if (![self recv_requestTemporaryPassword: &result protocol: protocol error: &thriftError])     {
       failureBlock(thriftError);
       return;
@@ -27224,7 +27232,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) requestTemporaryPassword: (RTAlias) name
+- (AnyPromise *) requestTemporaryPassword: (Alias) name
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -27237,7 +27245,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     [transport flushWithCompletion:^{
       NSError *thriftError;
-      RTId * result;
+      Id * result;
       if (![self recv_requestTemporaryPassword: &result protocol: protocol error: &thriftError])       {
         resolver(thriftError);
         return;
@@ -27249,7 +27257,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_checkTemporaryPassword: (RTId *) userId tempPassword: (NSString *) tempPassword protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_checkTemporaryPassword: (Id *) userId tempPassword: (NSString *) tempPassword protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"checkTemporaryPassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_checkTemporaryPassword_args" error: __thriftError]) return NO;
@@ -27278,7 +27286,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_checkTemporaryPassword_result * resulter = [RTPublicAPI_checkTemporaryPassword_result new];
+  PublicAPI_checkTemporaryPassword_result * resulter = [PublicAPI_checkTemporaryPassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -27293,7 +27301,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) checkTemporaryPassword: (RTId *) userId tempPassword: (NSString *) tempPassword response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) checkTemporaryPassword: (Id *) userId tempPassword: (NSString *) tempPassword response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -27314,7 +27322,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) checkTemporaryPassword: (RTId *) userId tempPassword: (NSString *) tempPassword
+- (AnyPromise *) checkTemporaryPassword: (Id *) userId tempPassword: (NSString *) tempPassword
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -27339,7 +27347,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_resetPassword: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_resetPassword: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"resetPassword" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"PublicAPI_resetPassword_args" error: __thriftError]) return NO;
@@ -27373,7 +27381,7 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTPublicAPI_resetPassword_result * resulter = [RTPublicAPI_resetPassword_result new];
+  PublicAPI_resetPassword_result * resulter = [PublicAPI_resetPassword_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   if (resulter.successIsSet)  {
@@ -27388,7 +27396,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return NO;
 }
 
-- (void) resetPassword: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) resetPassword: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password response: (void (^)(BOOL)) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -27409,7 +27417,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) resetPassword: (RTId *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password
+- (AnyPromise *) resetPassword: (Id *) userId tempPassword: (NSString *) tempPassword password: (NSString *) password
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -27436,26 +27444,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceService_userStatus_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_userStatus_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias sender;
+@property (strong, nonatomic) Alias sender;
 @property (assign, nonatomic) BOOL senderIsSet;
 - (void) unsetSender;
 
-@property (strong, nonatomic) RTAlias recipient;
+@property (strong, nonatomic) Alias recipient;
 @property (assign, nonatomic) BOOL recipientIsSet;
 - (void) unsetRecipient;
 
-@property (assign, nonatomic) RTUserStatus status;
+@property (assign, nonatomic) UserStatus status;
 @property (assign, nonatomic) BOOL statusIsSet;
 - (void) unsetStatus;
 
 
-- (instancetype) initWithSender: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status;
+- (instancetype) initWithSender: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status;
 
 @end
 
-@implementation RTDeviceService_userStatus_args
+@implementation DeviceService_userStatus_args
 
 - (instancetype) init
 {
@@ -27465,7 +27473,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSender: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status
+- (instancetype) initWithSender: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status
 {
   self = [super init];
   if (self)  {
@@ -27544,10 +27552,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_userStatus_args class]]) {
+  if (![anObject isKindOfClass:[DeviceService_userStatus_args class]]) {
     return NO;
   }
-  RTDeviceService_userStatus_args *other = (RTDeviceService_userStatus_args *)anObject;
+  DeviceService_userStatus_args *other = (DeviceService_userStatus_args *)anObject;
   if ((_senderIsSet != other->_senderIsSet) ||
       (_senderIsSet && ((_sender || other->_sender) && ![_sender isEqual:other->_sender]))) {
     return NO;
@@ -27565,7 +27573,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_userStatus_args * val = [RTDeviceService_userStatus_args new];
+  DeviceService_userStatus_args * val = [DeviceService_userStatus_args new];
   val.sender = [self.sender copy];
   val.recipient = [self.recipient copy];
   val.status = self.status;
@@ -27592,7 +27600,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _recipientIsSet = NO;
 }
 
-- (void) setStatus: (RTUserStatus) status {
+- (void) setStatus: (UserStatus) status {
   _status = status;
   _statusIsSet = YES;
 }
@@ -27638,7 +27646,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeI32) {
-          RTUserStatus fieldValue;
+          UserStatus fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.status = fieldValue;
         } else { 
@@ -27690,7 +27698,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_userStatus_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_userStatus_args("];
   [ms appendString: @"sender:"];
   [ms appendFormat: @"\"%@\"", _sender];
   [ms appendString: @",recipient:"];
@@ -27703,26 +27711,26 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceService_groupStatus_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_groupStatus_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTAlias sender;
+@property (strong, nonatomic) Alias sender;
 @property (assign, nonatomic) BOOL senderIsSet;
 - (void) unsetSender;
 
-@property (strong, nonatomic) RTId * chatId;
+@property (strong, nonatomic) Id * chatId;
 @property (assign, nonatomic) BOOL chatIdIsSet;
 - (void) unsetChatId;
 
-@property (assign, nonatomic) RTUserStatus status;
+@property (assign, nonatomic) UserStatus status;
 @property (assign, nonatomic) BOOL statusIsSet;
 - (void) unsetStatus;
 
 
-- (instancetype) initWithSender: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status;
+- (instancetype) initWithSender: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status;
 
 @end
 
-@implementation RTDeviceService_groupStatus_args
+@implementation DeviceService_groupStatus_args
 
 - (instancetype) init
 {
@@ -27732,7 +27740,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithSender: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status
+- (instancetype) initWithSender: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status
 {
   self = [super init];
   if (self)  {
@@ -27811,10 +27819,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_groupStatus_args class]]) {
+  if (![anObject isKindOfClass:[DeviceService_groupStatus_args class]]) {
     return NO;
   }
-  RTDeviceService_groupStatus_args *other = (RTDeviceService_groupStatus_args *)anObject;
+  DeviceService_groupStatus_args *other = (DeviceService_groupStatus_args *)anObject;
   if ((_senderIsSet != other->_senderIsSet) ||
       (_senderIsSet && ((_sender || other->_sender) && ![_sender isEqual:other->_sender]))) {
     return NO;
@@ -27832,7 +27840,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_groupStatus_args * val = [RTDeviceService_groupStatus_args new];
+  DeviceService_groupStatus_args * val = [DeviceService_groupStatus_args new];
   val.sender = [self.sender copy];
   val.chatId = [self.chatId copy];
   val.status = self.status;
@@ -27849,7 +27857,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _senderIsSet = NO;
 }
 
-- (void) setChatId: (RTId *) chatId {
+- (void) setChatId: (Id *) chatId {
   _chatId = chatId;
   _chatIdIsSet = YES;
 }
@@ -27859,7 +27867,7 @@ NSString * RTDeleteType_Chat = @"chat";
   _chatIdIsSet = NO;
 }
 
-- (void) setStatus: (RTUserStatus) status {
+- (void) setStatus: (UserStatus) status {
   _status = status;
   _statusIsSet = YES;
 }
@@ -27895,7 +27903,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 2:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.chatId = fieldValue;
         } else { 
@@ -27905,7 +27913,7 @@ NSString * RTDeleteType_Chat = @"chat";
         break;
       case 3:
         if (fieldType == TTypeI32) {
-          RTUserStatus fieldValue;
+          UserStatus fieldValue;
           if (![inProtocol readI32:&fieldValue error: __thriftError]) return NO;
           self.status = fieldValue;
         } else { 
@@ -27957,7 +27965,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_groupStatus_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_groupStatus_args("];
   [ms appendString: @"sender:"];
   [ms appendFormat: @"\"%@\"", _sender];
   [ms appendString: @",chatId:"];
@@ -27970,18 +27978,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceService_msgDelivery_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_msgDelivery_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTMsg * msg;
+@property (strong, nonatomic) Msg * msg;
 @property (assign, nonatomic) BOOL msgIsSet;
 - (void) unsetMsg;
 
 
-- (instancetype) initWithMsg: (RTMsg *) msg;
+- (instancetype) initWithMsg: (Msg *) msg;
 
 @end
 
-@implementation RTDeviceService_msgDelivery_args
+@implementation DeviceService_msgDelivery_args
 
 - (instancetype) init
 {
@@ -27991,7 +27999,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsg: (RTMsg *) msg
+- (instancetype) initWithMsg: (Msg *) msg
 {
   self = [super init];
   if (self)  {
@@ -28038,10 +28046,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_msgDelivery_args class]]) {
+  if (![anObject isKindOfClass:[DeviceService_msgDelivery_args class]]) {
     return NO;
   }
-  RTDeviceService_msgDelivery_args *other = (RTDeviceService_msgDelivery_args *)anObject;
+  DeviceService_msgDelivery_args *other = (DeviceService_msgDelivery_args *)anObject;
   if ((_msgIsSet != other->_msgIsSet) ||
       (_msgIsSet && ((_msg || other->_msg) && ![_msg isEqual:other->_msg]))) {
     return NO;
@@ -28051,12 +28059,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_msgDelivery_args * val = [RTDeviceService_msgDelivery_args new];
+  DeviceService_msgDelivery_args * val = [DeviceService_msgDelivery_args new];
   val.msg = [self.msg copy];
   return val;
 }
 
-- (void) setMsg: (RTMsg *) msg {
+- (void) setMsg: (Msg *) msg {
   _msg = msg;
   _msgIsSet = YES;
 }
@@ -28083,7 +28091,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTMsg *fieldValue = [[RTMsg alloc] init];
+          Msg *fieldValue = [[Msg alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msg = fieldValue;
         } else { 
@@ -28123,7 +28131,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_msgDelivery_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_msgDelivery_args("];
   [ms appendString: @"msg:"];
   [ms appendFormat: @"%@", _msg];
   [ms appendString: @")"];
@@ -28132,13 +28140,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceService_msgDelivery_result : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_msgDelivery_result : NSObject <TBase, NSCoding, NSCopying> 
 
 
 
 @end
 
-@implementation RTDeviceService_msgDelivery_result
+@implementation DeviceService_msgDelivery_result
 
 - (instancetype) init
 {
@@ -28171,7 +28179,7 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_msgDelivery_result class]]) {
+  if (![anObject isKindOfClass:[DeviceService_msgDelivery_result class]]) {
     return NO;
   }
   return YES;
@@ -28179,7 +28187,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_msgDelivery_result * val = [RTDeviceService_msgDelivery_result new];
+  DeviceService_msgDelivery_result * val = [DeviceService_msgDelivery_result new];
   return val;
 }
 
@@ -28224,25 +28232,25 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_msgDelivery_result("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_msgDelivery_result("];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
 
 @end
 
-@interface RTDeviceService_msgReady_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_msgReady_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTMsgHdr * msgHdr;
+@property (strong, nonatomic) MsgHdr * msgHdr;
 @property (assign, nonatomic) BOOL msgHdrIsSet;
 - (void) unsetMsgHdr;
 
 
-- (instancetype) initWithMsgHdr: (RTMsgHdr *) msgHdr;
+- (instancetype) initWithMsgHdr: (MsgHdr *) msgHdr;
 
 @end
 
-@implementation RTDeviceService_msgReady_args
+@implementation DeviceService_msgReady_args
 
 - (instancetype) init
 {
@@ -28252,7 +28260,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsgHdr: (RTMsgHdr *) msgHdr
+- (instancetype) initWithMsgHdr: (MsgHdr *) msgHdr
 {
   self = [super init];
   if (self)  {
@@ -28299,10 +28307,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_msgReady_args class]]) {
+  if (![anObject isKindOfClass:[DeviceService_msgReady_args class]]) {
     return NO;
   }
-  RTDeviceService_msgReady_args *other = (RTDeviceService_msgReady_args *)anObject;
+  DeviceService_msgReady_args *other = (DeviceService_msgReady_args *)anObject;
   if ((_msgHdrIsSet != other->_msgHdrIsSet) ||
       (_msgHdrIsSet && ((_msgHdr || other->_msgHdr) && ![_msgHdr isEqual:other->_msgHdr]))) {
     return NO;
@@ -28312,12 +28320,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_msgReady_args * val = [RTDeviceService_msgReady_args new];
+  DeviceService_msgReady_args * val = [DeviceService_msgReady_args new];
   val.msgHdr = [self.msgHdr copy];
   return val;
 }
 
-- (void) setMsgHdr: (RTMsgHdr *) msgHdr {
+- (void) setMsgHdr: (MsgHdr *) msgHdr {
   _msgHdr = msgHdr;
   _msgHdrIsSet = YES;
 }
@@ -28344,7 +28352,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTMsgHdr *fieldValue = [[RTMsgHdr alloc] init];
+          MsgHdr *fieldValue = [[MsgHdr alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msgHdr = fieldValue;
         } else { 
@@ -28384,7 +28392,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_msgReady_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_msgReady_args("];
   [ms appendString: @"msgHdr:"];
   [ms appendFormat: @"%@", _msgHdr];
   [ms appendString: @")"];
@@ -28393,22 +28401,22 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceService_msgDelivered_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_msgDelivered_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTId * msgId;
+@property (strong, nonatomic) Id * msgId;
 @property (assign, nonatomic) BOOL msgIdIsSet;
 - (void) unsetMsgId;
 
-@property (strong, nonatomic) RTAlias recipient;
+@property (strong, nonatomic) Alias recipient;
 @property (assign, nonatomic) BOOL recipientIsSet;
 - (void) unsetRecipient;
 
 
-- (instancetype) initWithMsgId: (RTId *) msgId recipient: (RTAlias) recipient;
+- (instancetype) initWithMsgId: (Id *) msgId recipient: (Alias) recipient;
 
 @end
 
-@implementation RTDeviceService_msgDelivered_args
+@implementation DeviceService_msgDelivered_args
 
 - (instancetype) init
 {
@@ -28418,7 +28426,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsgId: (RTId *) msgId recipient: (RTAlias) recipient
+- (instancetype) initWithMsgId: (Id *) msgId recipient: (Alias) recipient
 {
   self = [super init];
   if (self)  {
@@ -28481,10 +28489,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_msgDelivered_args class]]) {
+  if (![anObject isKindOfClass:[DeviceService_msgDelivered_args class]]) {
     return NO;
   }
-  RTDeviceService_msgDelivered_args *other = (RTDeviceService_msgDelivered_args *)anObject;
+  DeviceService_msgDelivered_args *other = (DeviceService_msgDelivered_args *)anObject;
   if ((_msgIdIsSet != other->_msgIdIsSet) ||
       (_msgIdIsSet && ((_msgId || other->_msgId) && ![_msgId isEqual:other->_msgId]))) {
     return NO;
@@ -28498,13 +28506,13 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_msgDelivered_args * val = [RTDeviceService_msgDelivered_args new];
+  DeviceService_msgDelivered_args * val = [DeviceService_msgDelivered_args new];
   val.msgId = [self.msgId copy];
   val.recipient = [self.recipient copy];
   return val;
 }
 
-- (void) setMsgId: (RTId *) msgId {
+- (void) setMsgId: (Id *) msgId {
   _msgId = msgId;
   _msgIdIsSet = YES;
 }
@@ -28541,7 +28549,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTId *fieldValue = [[RTId alloc] init];
+          Id *fieldValue = [[Id alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msgId = fieldValue;
         } else { 
@@ -28598,7 +28606,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_msgDelivered_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_msgDelivered_args("];
   [ms appendString: @"msgId:"];
   [ms appendFormat: @"%@", _msgId];
   [ms appendString: @",recipient:"];
@@ -28609,18 +28617,18 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceService_msgDirect_args : NSObject <TBase, NSCoding, NSCopying> 
+@interface DeviceService_msgDirect_args : NSObject <TBase, NSCoding, NSCopying> 
 
-@property (strong, nonatomic) RTDirectMsg * msg;
+@property (strong, nonatomic) DirectMsg * msg;
 @property (assign, nonatomic) BOOL msgIsSet;
 - (void) unsetMsg;
 
 
-- (instancetype) initWithMsg: (RTDirectMsg *) msg;
+- (instancetype) initWithMsg: (DirectMsg *) msg;
 
 @end
 
-@implementation RTDeviceService_msgDirect_args
+@implementation DeviceService_msgDirect_args
 
 - (instancetype) init
 {
@@ -28630,7 +28638,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (instancetype) initWithMsg: (RTDirectMsg *) msg
+- (instancetype) initWithMsg: (DirectMsg *) msg
 {
   self = [super init];
   if (self)  {
@@ -28677,10 +28685,10 @@ NSString * RTDeleteType_Chat = @"chat";
   if (self == anObject) {
     return YES;
   }
-  if (![anObject isKindOfClass:[RTDeviceService_msgDirect_args class]]) {
+  if (![anObject isKindOfClass:[DeviceService_msgDirect_args class]]) {
     return NO;
   }
-  RTDeviceService_msgDirect_args *other = (RTDeviceService_msgDirect_args *)anObject;
+  DeviceService_msgDirect_args *other = (DeviceService_msgDirect_args *)anObject;
   if ((_msgIsSet != other->_msgIsSet) ||
       (_msgIsSet && ((_msg || other->_msg) && ![_msg isEqual:other->_msg]))) {
     return NO;
@@ -28690,12 +28698,12 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (instancetype) copyWithZone:(NSZone *)zone
 {
-  RTDeviceService_msgDirect_args * val = [RTDeviceService_msgDirect_args new];
+  DeviceService_msgDirect_args * val = [DeviceService_msgDirect_args new];
   val.msg = [self.msg copy];
   return val;
 }
 
-- (void) setMsg: (RTDirectMsg *) msg {
+- (void) setMsg: (DirectMsg *) msg {
   _msg = msg;
   _msgIsSet = YES;
 }
@@ -28722,7 +28730,7 @@ NSString * RTDeleteType_Chat = @"chat";
     {
       case 1:
         if (fieldType == TTypeSTRUCT) {
-          RTDirectMsg *fieldValue = [[RTDirectMsg alloc] init];
+          DirectMsg *fieldValue = [[DirectMsg alloc] init];
           if (![fieldValue read: inProtocol error: __thriftError]) return NO;
           self.msg = fieldValue;
         } else { 
@@ -28762,7 +28770,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 
 - (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"RTDeviceService_msgDirect_args("];
+  NSMutableString * ms = [NSMutableString stringWithString: @"DeviceService_msgDirect_args("];
   [ms appendString: @"msg:"];
   [ms appendFormat: @"%@", _msg];
   [ms appendString: @")"];
@@ -28771,7 +28779,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceServiceClient () {
+@interface DeviceServiceClient () {
 
   id<TProtocol> inProtocol;
   id<TProtocol> outProtocol;
@@ -28780,7 +28788,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTDeviceServiceClient
+@implementation DeviceServiceClient
 - (id) initWithProtocol: (id <TProtocol>) protocol
 {
   return [self initWithInProtocol: protocol outProtocol: protocol];
@@ -28796,7 +28804,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (BOOL) send_userStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_userStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"userStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_userStatus_args" error: __thriftError]) return NO;
@@ -28819,14 +28827,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) userStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) userStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_userStatus : sender recipient: recipient status: status error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_groupStatus: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_groupStatus: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"groupStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_groupStatus_args" error: __thriftError]) return NO;
@@ -28849,14 +28857,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) groupStatus: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) groupStatus: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_groupStatus : sender chatId: chatId status: status error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_msgDelivery: (RTMsg *) msg error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgDelivery: (Msg *) msg error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgDelivery" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgDelivery_args" error: __thriftError]) return NO;
@@ -28880,13 +28888,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTDeviceService_msgDelivery_result * resulter = [RTDeviceService_msgDelivery_result new];
+  DeviceService_msgDelivery_result * resulter = [DeviceService_msgDelivery_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) msgDelivery: (RTMsg *) msg error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) msgDelivery: (Msg *) msg error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_msgDelivery : msg error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -28894,7 +28902,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) send_msgReady: (RTMsgHdr *) msgHdr error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgReady: (MsgHdr *) msgHdr error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgReady" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgReady_args" error: __thriftError]) return NO;
@@ -28909,14 +28917,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) msgReady: (RTMsgHdr *) msgHdr error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) msgReady: (MsgHdr *) msgHdr error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_msgReady : msgHdr error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_msgDelivered: (RTId *) msgId recipient: (RTAlias) recipient error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgDelivered: (Id *) msgId recipient: (Alias) recipient error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgDelivered" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgDelivered_args" error: __thriftError]) return NO;
@@ -28936,14 +28944,14 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) msgDelivered: (RTId *) msgId recipient: (RTAlias) recipient error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) msgDelivered: (Id *) msgId recipient: (Alias) recipient error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_msgDelivered : msgId recipient: recipient error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
   return YES;
 }
 
-- (BOOL) send_msgDirect: (RTDirectMsg *) msg error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgDirect: (DirectMsg *) msg error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgDirect" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgDirect_args" error: __thriftError]) return NO;
@@ -28958,7 +28966,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (BOOL) msgDirect: (RTDirectMsg *) msg error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) msgDirect: (DirectMsg *) msg error: (NSError *__autoreleasing *)__thriftError
 {
   if (![self send_msgDirect : msg error: __thriftError]) return NO;
   if (![[outProtocol transport] flush: __thriftError]) return NO;
@@ -28967,15 +28975,15 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@interface RTDeviceServiceProcessor () {
-  id <RTDeviceService> service;
+@interface DeviceServiceProcessor () {
+  id <DeviceService> service;
   NSDictionary * methodMap;
 }
 @end
 
-@implementation RTDeviceServiceProcessor
+@implementation DeviceServiceProcessor
 
-- (id) initWithDeviceService: (id <RTDeviceService>) aService
+- (id) initWithDeviceService: (id <DeviceService>) aService
 {
   self = [super init];
   if (self)   {
@@ -29033,7 +29041,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (id<RTDeviceService>) service
+- (id<DeviceService>) service
 {
   return service;
 }
@@ -29079,7 +29087,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_userStatus_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTDeviceService_userStatus_args * args = [RTDeviceService_userStatus_args new];
+  DeviceService_userStatus_args * args = [DeviceService_userStatus_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service userStatus: [args sender] recipient: [args recipient] status: [args status] error: __thriftError];
@@ -29089,7 +29097,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_groupStatus_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTDeviceService_groupStatus_args * args = [RTDeviceService_groupStatus_args new];
+  DeviceService_groupStatus_args * args = [DeviceService_groupStatus_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service groupStatus: [args sender] chatId: [args chatId] status: [args status] error: __thriftError];
@@ -29099,10 +29107,10 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_msgDelivery_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTDeviceService_msgDelivery_args * args = [RTDeviceService_msgDelivery_args new];
+  DeviceService_msgDelivery_args * args = [DeviceService_msgDelivery_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
-  RTDeviceService_msgDelivery_result * result = [RTDeviceService_msgDelivery_result new];
+  DeviceService_msgDelivery_result * result = [DeviceService_msgDelivery_result new];
   BOOL serviceResult = [service msgDelivery: [args msg] error: __thriftError];
   if (!serviceResult) return NO;
   if (![outProtocol writeMessageBeginWithName: @"msgDelivery"
@@ -29117,7 +29125,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_msgReady_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTDeviceService_msgReady_args * args = [RTDeviceService_msgReady_args new];
+  DeviceService_msgReady_args * args = [DeviceService_msgReady_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service msgReady: [args msgHdr] error: __thriftError];
@@ -29127,7 +29135,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_msgDelivered_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTDeviceService_msgDelivered_args * args = [RTDeviceService_msgDelivered_args new];
+  DeviceService_msgDelivered_args * args = [DeviceService_msgDelivered_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service msgDelivered: [args msgId] recipient: [args recipient] error: __thriftError];
@@ -29137,7 +29145,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 - (BOOL) process_msgDirect_withSequenceID: (SInt32) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol error:(NSError *__autoreleasing *)__thriftError
 {
-  RTDeviceService_msgDirect_args * args = [RTDeviceService_msgDirect_args new];
+  DeviceService_msgDirect_args * args = [DeviceService_msgDirect_args new];
   if (![args read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   BOOL serviceResult = [service msgDirect: [args msg] error: __thriftError];
@@ -29146,7 +29154,7 @@ NSString * RTDeleteType_Chat = @"chat";
 }
 @end
 
-@interface RTDeviceServiceClientAsync () {
+@interface DeviceServiceClientAsync () {
 
   id<TProtocolFactory> protocolFactory;
   id<TAsyncTransportFactory> transportFactory;
@@ -29155,7 +29163,7 @@ NSString * RTDeleteType_Chat = @"chat";
 
 @end
 
-@implementation RTDeviceServiceClientAsync
+@implementation DeviceServiceClientAsync
 
 - (id) initWithProtocolFactory: (id <TProtocolFactory>) aProtocolFactory transportFactory: (id <TAsyncTransportFactory>) aTransportFactory;
 {
@@ -29167,7 +29175,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return self;
 }
 
-- (BOOL) send_userStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_userStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"userStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_userStatus_args" error: __thriftError]) return NO;
@@ -29190,7 +29198,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) userStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) userStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -29205,7 +29213,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) userStatus: (RTAlias) sender recipient: (RTAlias) recipient status: (RTUserStatus) status
+- (AnyPromise *) userStatus: (Alias) sender recipient: (Alias) recipient status: (UserStatus) status
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -29224,7 +29232,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_groupStatus: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_groupStatus: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"groupStatus" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_groupStatus_args" error: __thriftError]) return NO;
@@ -29247,7 +29255,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) groupStatus: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) groupStatus: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -29262,7 +29270,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) groupStatus: (RTAlias) sender chatId: (RTId *) chatId status: (RTUserStatus) status
+- (AnyPromise *) groupStatus: (Alias) sender chatId: (Id *) chatId status: (UserStatus) status
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -29281,7 +29289,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_msgDelivery: (RTMsg *) msg protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgDelivery: (Msg *) msg protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgDelivery" type: TMessageTypeCALL sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgDelivery_args" error: __thriftError]) return NO;
@@ -29305,13 +29313,13 @@ NSString * RTDeleteType_Chat = @"chat";
     }
     return NO;
   }
-  RTDeviceService_msgDelivery_result * resulter = [RTDeviceService_msgDelivery_result new];
+  DeviceService_msgDelivery_result * resulter = [DeviceService_msgDelivery_result new];
   if (![resulter read: inProtocol error: __thriftError]) return NO;
   if (![inProtocol readMessageEnd: __thriftError]) return NO;
   return YES;
 }
 
-- (void) msgDelivery: (RTMsg *) msg response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) msgDelivery: (Msg *) msg response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -29331,7 +29339,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) msgDelivery: (RTMsg *) msg
+- (AnyPromise *) msgDelivery: (Msg *) msg
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -29355,7 +29363,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_msgReady: (RTMsgHdr *) msgHdr protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgReady: (MsgHdr *) msgHdr protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgReady" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgReady_args" error: __thriftError]) return NO;
@@ -29370,7 +29378,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) msgReady: (RTMsgHdr *) msgHdr response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) msgReady: (MsgHdr *) msgHdr response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -29385,7 +29393,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) msgReady: (RTMsgHdr *) msgHdr
+- (AnyPromise *) msgReady: (MsgHdr *) msgHdr
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -29404,7 +29412,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_msgDelivered: (RTId *) msgId recipient: (RTAlias) recipient protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgDelivered: (Id *) msgId recipient: (Alias) recipient protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgDelivered" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgDelivered_args" error: __thriftError]) return NO;
@@ -29424,7 +29432,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) msgDelivered: (RTId *) msgId recipient: (RTAlias) recipient response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) msgDelivered: (Id *) msgId recipient: (Alias) recipient response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -29439,7 +29447,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) msgDelivered: (RTId *) msgId recipient: (RTAlias) recipient
+- (AnyPromise *) msgDelivered: (Id *) msgId recipient: (Alias) recipient
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;
@@ -29458,7 +29466,7 @@ NSString * RTDeleteType_Chat = @"chat";
   }];
 }
 
-- (BOOL) send_msgDirect: (RTDirectMsg *) msg protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
+- (BOOL) send_msgDirect: (DirectMsg *) msg protocol: (id<TProtocol>) outProtocol error: (NSError *__autoreleasing *)__thriftError
 {
   if (![outProtocol writeMessageBeginWithName: @"msgDirect" type: TMessageTypeONEWAY sequenceID: 0 error: __thriftError]) return NO;
   if (![outProtocol writeStructBeginWithName: @"DeviceService_msgDirect_args" error: __thriftError]) return NO;
@@ -29473,7 +29481,7 @@ NSString * RTDeleteType_Chat = @"chat";
   return YES;
 }
 
-- (void) msgDirect: (RTDirectMsg *) msg response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
+- (void) msgDirect: (DirectMsg *) msg response: (void (^)()) responseBlock failure : (TAsyncFailureBlock) failureBlock
 {
   NSError *thriftError;
   id<TAsyncTransport> transport = [transportFactory newTransport];
@@ -29488,7 +29496,7 @@ NSString * RTDeleteType_Chat = @"chat";
   } failure:failureBlock];
 }
 
-- (AnyPromise *) msgDirect: (RTDirectMsg *) msg
+- (AnyPromise *) msgDirect: (DirectMsg *) msg
 {
   return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolver) {
     NSError *thriftError;

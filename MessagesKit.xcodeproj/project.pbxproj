@@ -33,6 +33,8 @@
 		AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D25B1CCABCB00051039E /* CGSize+Utils.m */; };
 		AA05D25E1CCABCB00051039E /* CGSize+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D25C1CCABCB00051039E /* CGSize+Utils.h */; };
 		AA09E9B71CD9ABB900566778 /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */; };
+		AA18686A1CE1828E0017B11B /* Messages.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868681CE1828E0017B11B /* Messages.h */; };
+		AA18686B1CE1828E0017B11B /* Messages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1868691CE1828E0017B11B /* Messages.m */; };
 		AA490DAD1CCAF1970010FC17 /* RTAPIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* RTAPIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* RTUserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* RTUserStatusInfo.m */; };
 		AA490DAF1CCAF1A80010FC17 /* RTWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BC1CC163B400F1A3B0 /* RTWebSocket.m */; };
@@ -223,8 +225,6 @@
 		AAFDFB761CC5FDA200066707 /* RTDBCodeMigrations.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918481CC1642300F1A3B0 /* RTDBCodeMigrations.m */; };
 		AAFDFB771CC5FDA200066707 /* RTRecipient.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918491CC1642300F1A3B0 /* RTRecipient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB781CC5FDA200066707 /* RTRecipient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA99184A1CC1642300F1A3B0 /* RTRecipient.m */; };
-		AAFDFB791CC5FF0200066707 /* RTMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917AD1CC163B400F1A3B0 /* RTMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAFDFB7A1CC5FF0200066707 /* RTMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917AE1CC163B400F1A3B0 /* RTMessages.m */; };
 		AAFDFB7B1CC5FF0200066707 /* RTMessages+Exts.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917AF1CC163B400F1A3B0 /* RTMessages+Exts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB7C1CC5FF0200066707 /* RTMessages+Exts.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B01CC163B400F1A3B0 /* RTMessages+Exts.m */; };
 		AAFDFB7D1CC5FF0E00066707 /* RTServerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B71CC163B400F1A3B0 /* RTServerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -288,6 +288,8 @@
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CGSize+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "CGSize+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
+		AA1868681CE1828E0017B11B /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Messages.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AA1868691CE1828E0017B11B /* Messages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messages.m; sourceTree = "<group>"; };
 		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocketOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectWebsocketOperation.swift; sourceTree = "<group>"; };
@@ -342,8 +344,6 @@
 		AA61CD971CCB37930029B5F2 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Promise+Utils.swift"; sourceTree = "<group>"; };
 		AA8DE0CE1CDD5F0400056E17 /* RegisterNotificationTokenOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterNotificationTokenOperation.swift; sourceTree = "<group>"; };
-		AA9917AD1CC163B400F1A3B0 /* RTMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTMessages.h; sourceTree = "<group>"; };
-		AA9917AE1CC163B400F1A3B0 /* RTMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTMessages.m; sourceTree = "<group>"; };
 		AA9917AF1CC163B400F1A3B0 /* RTMessages+Exts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "RTMessages+Exts.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA9917B01CC163B400F1A3B0 /* RTMessages+Exts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "RTMessages+Exts.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA9917B51CC163B400F1A3B0 /* RTAPIError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RTAPIError.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -793,8 +793,8 @@
 				AA9918131CC1641200F1A3B0 /* DB */,
 				AA9918821CC1644A00F1A3B0 /* Security */,
 				AA58500F1CC1C02E0034C46D /* Utils */,
-				AA9917AD1CC163B400F1A3B0 /* RTMessages.h */,
-				AA9917AE1CC163B400F1A3B0 /* RTMessages.m */,
+				AA1868681CE1828E0017B11B /* Messages.h */,
+				AA1868691CE1828E0017B11B /* Messages.m */,
 				AA9917AF1CC163B400F1A3B0 /* RTMessages+Exts.h */,
 				AA9917B01CC163B400F1A3B0 /* RTMessages+Exts.m */,
 				AA9917B51CC163B400F1A3B0 /* RTAPIError.h */,
@@ -932,6 +932,7 @@
 				AAFDFB5D1CC5FDA200066707 /* RTAudioMessage.h in Headers */,
 				AA05D2421CC8572A0051039E /* UIFont+Utils.h in Headers */,
 				AA4FD04E1CCCAF9D00C0DE2A /* FileDataReference.h in Headers */,
+				AA18686A1CE1828E0017B11B /* Messages.h in Headers */,
 				AA05D2221CC829810051039E /* NSString+PropertyKVC.h in Headers */,
 				AAB481D31CCAD81000EBFC5E /* RTOpenSSLCertificateSet.h in Headers */,
 				AAFDFB801CC5FF2200066707 /* RTUserStatusInfo.h in Headers */,
@@ -941,7 +942,6 @@
 				AAB481D01CCAD81000EBFC5E /* RTOpenSSL.h in Headers */,
 				AA5850421CC1E1B10034C46D /* NSData+CommonDigest.h in Headers */,
 				AAFDFB771CC5FDA200066707 /* RTRecipient.h in Headers */,
-				AAFDFB791CC5FF0200066707 /* RTMessages.h in Headers */,
 				AAFDFB421CC5FDA200066707 /* RTDBManager.h in Headers */,
 				AAFDFB691CC5FDA200066707 /* RTExitMessage.h in Headers */,
 				AAB481D81CCAD81000EBFC5E /* RTX509Utils.h in Headers */,
@@ -1190,6 +1190,7 @@
 				AA490DB71CCAF1D30010FC17 /* RTHTTPSessionTransportFactory.m in Sources */,
 				AA490DD11CCAF5A30010FC17 /* RequireAccessToken.swift in Sources */,
 				AA05D2301CC84CA70051039E /* FMResultSet+Utils.m in Sources */,
+				AA18686B1CE1828E0017B11B /* Messages.m in Sources */,
 				AA490DC31CCAF59E0010FC17 /* MessageTransmitAPIOperation.swift in Sources */,
 				AAB481F31CCADEC400EBFC5E /* RTMsgSigner.m in Sources */,
 				AA5850191CC1C4510034C46D /* NSArray+Utils.m in Sources */,
@@ -1270,7 +1271,6 @@
 				AA58501B1CC1C4510034C46D /* NSValue+Utils.m in Sources */,
 				AAB481CE1CCAC51C00EBFC5E /* RTDAO.swift in Sources */,
 				AA61CD9B1CCB3D2B0029B5F2 /* Promise+Utils.swift in Sources */,
-				AAFDFB7A1CC5FF0200066707 /* RTMessages.m in Sources */,
 				AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocketOperation.swift in Sources */,
 				AAFDFB7C1CC5FF0200066707 /* RTMessages+Exts.m in Sources */,
 				AA05D23F1CC856830051039E /* NSString+Utils.m in Sources */,
