@@ -117,4 +117,13 @@ extension AnyPromise {
     }
   }
   
+  
+  convenience public init<T: AnyObject>(bound: Promise<Set<T>>) {
+    self.init(bound: bound.then(on: zalgo) { $0 as NSSet })
+  }
+  
+  convenience public init(bound: Promise<Set<String>>) {
+    self.init(bound: bound.then(on: zalgo) { $0 as NSSet })
+  }
+
 }

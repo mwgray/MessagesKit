@@ -83,7 +83,7 @@ extension ServerTargetScheme : CustomStringConvertible {
 
 extension ServerTarget {
   
-  var baseURL : NSURL {
+  public var baseURL : NSURL {
     
     let comps = NSURLComponents()
     comps.scheme = scheme.description
@@ -93,23 +93,23 @@ extension ServerTarget {
     return comps.URL!.URLByAppendingPathComponent("api")
   }
   
-  var publicURL : NSURL {
+  public var publicURL : NSURL {
     return baseURL.URLByAppendingPathComponent("public")
   }
   
-  var userURL : NSURL {
+  public var userURL : NSURL {
     return baseURL.URLByAppendingPathComponent("user")
   }
   
-  var userSendURL : NSURL {
+  public var userSendURL : NSURL {
     return userURL.URLByAppendingPathComponent("send")
   }
   
-  var userFetchURL : NSURL {
+  public var userFetchURL : NSURL {
     return userURL.URLByAppendingPathComponent("fetch")
   }
   
-  var userConnectURL : NSURL {
+  public var userConnectURL : NSURL {
     return userURL.URLByAppendingPathComponent("connect")
   }
   

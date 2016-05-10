@@ -27,14 +27,14 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
 @objc public class MessageAPI : NSObject {
   
-  internal static var target : ServerTarget!
+  public internal(set) static var target : ServerTarget!
   
   private static var _publicAPI : RTPublicAPIAsync!
   private static var _publicAPIInit = dispatch_once_t()
 
   public static var publicAPI = MessageAPI.makePublicAPI()
   
-  public let credentials : RTCredentials
+  public var credentials : RTCredentials
   
   private(set) var accessToken : String?
 
@@ -330,7 +330,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     return dispatch_promise(block as! AnyObject)
   }
   
-  @nonobjc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) throws -> Promise<[RTMessage]> {
+  @nonobjc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> Promise<[RTMessage]> {
     
     return dispatch_promise {
       
@@ -341,7 +341,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   }
   
   @available(*, unavailable)
-  @objc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) throws -> AnyPromise {
+  @objc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> AnyPromise {
     
     let block : @convention(block) () -> AnyObject = {
       do {
@@ -500,6 +500,24 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   @available(*, unavailable)
   @objc public func deleteMessage(message: RTMessage) -> AnyPromise {
     return AnyPromise(bound: deleteMessage(message))
+  }
+  
+  @nonobjc public func sendDirectMessageFromSender(senderAlias: String, toRecipientDevices recipientDevices: [String: RTId], withId msgId: RTId?, type: String, dataObject: AnyObject) -> Promise<Void> {
+    
+    return firstly {
+      
+      let data = try NSJSONSerialization.dataWithJSONObject(dataObject, options: [])
+     
+      let send = MessageSendDirectOperation(sender: senderAlias, recipientDevices: recipientDevices, msgId: msgId, msgType: type, msgData: data, api: self)
+      self.queue.addOperation(send)
+      
+      return send.promise().asVoid()
+    }
+  }
+  
+  @available(*, unavailable)
+  @objc public func sendDirectMessageFromSender(senderAlias: String, toRecipientDevices recipientDevices: [String: RTId], withId msgId: RTId?, type: String, dataObject: AnyObject) -> AnyPromise {
+    return AnyPromise(bound: sendDirectMessageFromSender(senderAlias, toRecipientDevices: recipientDevices, withId: msgId, type: type, dataObject: dataObject))
   }
   
   @objc public func loadUserChatForAlias(alias: String, localAlias: String) throws -> RTUserChat {
@@ -786,6 +804,151 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     GCD.userInitiatedQueue.async {
       self.clearUnreadMessageCount()
     }
+  }
+  
+  @nonobjc public func listAliases() -> Promise<Set<String>> {
+    
+    return userAPI.listAliases().toPromise(Set<String>)
+      .recover { error -> Set<String> in
+        throw translateError(error as NSError)
+      }
+  }
+
+  @available(*, unavailable)
+  @objc public func listAliases() -> AnyPromise {
+    return AnyPromise(bound: listAliases())
+  }
+
+  @nonobjc public func addAlias(alias: String, pin: String) -> Promise<Void> {
+  
+    let aliasAndPin = RTAuthenticatedAlias(name: alias, pin: pin)
+    
+    return userAPI.registerAlias(aliasAndPin).toPromise(NSNumber)
+      .then { value -> Void in
+        self.credentials = self.credentials.updateAllAliases(self.credentials.allAliases + [alias], preferredAlias: self.credentials.preferredAlias)
+      }
+      .recover { error -> Void in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public func addAlias(alias: String, pin: String) -> AnyPromise {
+    return AnyPromise(bound: addAlias(alias, pin: pin))
+  }
+
+  @nonobjc public func removeAlias(alias: String) -> Promise<Void> {
+    
+    return userAPI.unregisterAlias(alias).toPromise(NSNumber)
+      .then { value -> Void in
+        let preferredAlias : String
+        if self.credentials.preferredAlias == alias {
+          preferredAlias = MessageAPI.selectPreferredAlias(self.credentials.allAliases)
+        }
+        else {
+          preferredAlias = self.credentials.preferredAlias
+        }
+        self.credentials = self.credentials.updateAllAliases(self.credentials.allAliases.filter { $0 != alias }, preferredAlias: preferredAlias)
+      }
+      .recover { error -> Void in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public func removeAlias(alias: String) -> AnyPromise {
+    return AnyPromise(bound: removeAlias(alias))
+  }
+  
+  @nonobjc public class func isCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> Promise<Bool> {
+    
+    return MessageAPI.discoverDeviceId().then { id -> Bool in
+      let devices = profile.devices as NSArray as! [RTDeviceInfo]
+      return !devices.filter { $0.id == id }.isEmpty
+    }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func isCurrentDeviceRegisteredInProfile(profile: RTUserProfile) -> AnyPromise {
+    return AnyPromise(bound: isCurrentDeviceRegisteredInProfile(profile))
+  }
+  
+  @nonobjc public func listDevices() -> Promise<[RTDeviceInfo]> {
+    
+    return userAPI.listDevices().toPromise([RTDeviceInfo])
+      .recover { error -> [RTDeviceInfo] in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public func listDevices() -> AnyPromise {
+    return AnyPromise(bound: listDevices())
+  }
+  
+  @nonobjc public func updateActiveAliases(activeAliases: Set<String>, onDeviceWithId deviceId: RTId) -> Promise<Void> {
+    
+    return userAPI.updateDeviceActiveAliases(deviceId, activeAliases: activeAliases).toPromise(NSNumber).asVoid()
+      .recover { error -> Void in
+        throw translateError(error as NSError)
+      }
+  }
+
+  @available(*, unavailable)
+  @objc public func updateActiveAliases(activeAliases: Set<String>, onDeviceWithId deviceId: RTId) -> AnyPromise {
+    return AnyPromise(bound: updateActiveAliases(activeAliases, onDeviceWithId: deviceId))
+  }
+  
+  @nonobjc public func requestAuthorization() -> Promise<Void> {
+    
+    let requestAuth = RequestAuthorizationOperation(alias: credentials.preferredAlias,
+                                                    deviceId: credentials.deviceId,
+                                                    deviceName: UIDevice.currentDevice().name,
+                                                    api: self)
+    queue.addOperation(requestAuth)
+    
+    return requestAuth.promise().asVoid()
+  }
+  
+  @available(*, unavailable)
+  @objc public func requestAuthorization() -> AnyPromise {
+    return AnyPromise(bound: requestAuthorization())
+  }
+  
+  @nonobjc public func resetKeys() -> Promise<RTCredentials> {
+    
+    return firstly {
+      
+      let encryptionIdentityRequest =
+        try RTAsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Encryption",
+          withKeySize: 2048,
+          usage: [.KeyEncipherment, .NonRepudiation])
+      
+      let signingIdentityRequest =
+        try RTAsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Signing",
+          withKeySize: 2048,
+          usage: [.DigitalSignature, .NonRepudiation])
+      
+      return userAPI.updateCertificates(encryptionIdentityRequest.certificateSigningRequest.encoded, signingCSR: signingIdentityRequest.certificateSigningRequest.encoded)
+        .toPromise(RTCertificateSet)
+        .then { certs -> RTCredentials in
+          
+          let encryptionCert = try RTOpenSSLCertificate(DEREncodedData: certs.encryptionCert, validatedWithTrust: self.certificateTrust)
+          let encryptionIdent = encryptionIdentityRequest.buildIdentityWithCertificate(encryptionCert)
+          
+          let signingCert = try RTOpenSSLCertificate(DEREncodedData: certs.signingCert, validatedWithTrust: self.certificateTrust)
+          let signingIdent = signingIdentityRequest.buildIdentityWithCertificate(signingCert)
+        
+          return self.credentials.authorizeWithEncryptionIdentity(encryptionIdent, signingIdentity: signingIdent)
+        }
+      
+    }
+    
+  }
+  
+  @available(*, unavailable)
+  @objc public func resetKeys() -> AnyPromise {
+    return AnyPromise(bound: resetKeys())
   }
   
   @nonobjc public class func findUserInfoWithAlias(alias: String) -> Promise<RTUserInfo?> {
@@ -1145,28 +1308,65 @@ extension MessageAPI {
     return AnyPromise(bound: registerUserWithAliases(aliasesAndPins, password: password))
   }
   
-  @nonobjc public class func updateKeysForUserId(id: RTId, password: String, encryptionCSR: NSData, signingCSR: NSData) -> Promise<AnyObject> {
-    //TODO
-    return Promise<AnyObject>(NSNumber(bool: false))
+  @nonobjc public class func requestTemporaryPasswordForAlias(alias: String) -> Promise<RTId?> {
+    
+    return publicAPI.requestTemporaryPassword(alias).toPromise(RTId)
+      .then { foundId -> RTId? in
+        
+        if foundId.isNull() {
+          return nil
+        }
+        
+        return foundId
+      }
+      .recover { error -> RTId? in
+        throw translateError(error as NSError)
+      }
+    
   }
   
-  @nonobjc public class func requestTemporaryPasswordForUser(alias: String) {
-    //TODO
+  @available(*, unavailable)
+  @objc public class func requestTemporaryPasswordForAlias(alias: String) -> AnyPromise {
+    return AnyPromise(bound: requestTemporaryPasswordForAlias(alias))
   }
   
-  @nonobjc public class func checkTemporaryPasswordForUser(alias: String, temporaryPassword: String) -> Promise<Bool> {
-    //TODO
-    return Promise<Bool>(false)
+  @nonobjc public class func checkTemporaryPasswordForUser(userId: RTId, temporaryPassword: String) -> Promise<Bool> {
+
+    return publicAPI.checkTemporaryPassword(userId, tempPassword: temporaryPassword).toPromise(NSNumber).to()
+      .recover { error -> Bool in
+        throw translateError(error as NSError)
+      }
   }
   
-  @nonobjc public class func resetPasswordForUser(alias: String, temporaryPassword: String, password: String) -> Promise<Bool> {
-    //TODO
-    return Promise<Bool>(false)
+  @available(*, unavailable)
+  @objc public class func checkTemporaryPasswordForUser(userId: RTId, temporaryPassword: String) -> AnyPromise {
+    return AnyPromise(bound: checkTemporaryPasswordForUser(userId, temporaryPassword: temporaryPassword))
+  }
+  
+  @nonobjc public class func resetPasswordForUser(userId: RTId, temporaryPassword: String, password: String) -> Promise<Bool> {
+    
+    return publicAPI.resetPassword(userId, tempPassword: temporaryPassword, password: password).toPromise(NSNumber).to()
+      .recover { error -> Bool in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func resetPasswordForUser(userId: RTId, temporaryPassword: String, password: String) -> AnyPromise {
+    return AnyPromise(bound: resetPasswordForUser(userId, temporaryPassword: temporaryPassword, password: password))
   }
   
   @nonobjc public func changePasswordWithOldPassword(oldPassword: String, newPassword: String) -> Promise<Bool> {
-    //TODO
-    return Promise<Bool>(false)
+  
+    return publicAPI.changePassword(credentials.userId, oldPassword: oldPassword, newPassword: newPassword).toPromise(NSNumber).to()
+      .recover { error -> Bool in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public func changePasswordWithOldPassword(oldPassword: String, newPassword: String) -> AnyPromise {
+    return AnyPromise(bound: changePasswordWithOldPassword(oldPassword, newPassword: newPassword))
   }
   
   @objc public class func selectPreferredAlias(aliases: [String], withSuggestedAlias suggested: String) -> String {
@@ -1176,6 +1376,57 @@ extension MessageAPI {
     }
     
     return selectPreferredAlias(aliases)
+  }
+  
+  @nonobjc public class func addDeviceNamed(deviceName: String?, toProfile profile: RTUserProfile, withPassword password: String) -> Promise<Void> {
+    
+    return MessageAPI.discoverDeviceInfoWithAliases(profile.aliases.allObjects as! [String])
+      .then { deviceInfo in
+        
+        deviceInfo.name = deviceName ?? deviceInfo.name
+        
+        return self.publicAPI.registerDevice(profile.id, password: password, deviceInfo: deviceInfo).toPromise(NSNumber).asVoid()
+      }
+      .recover { error -> Void in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func addDeviceNamed(deviceName: String?, toProfile profile: RTUserProfile, withPassword password: String) -> AnyPromise {
+    return AnyPromise(bound: addDeviceNamed(deviceName, toProfile: profile, withPassword: password))
+  }
+
+  @nonobjc public class func replaceDeviceWithId(deviceId: RTId, withDeviceNamed deviceName: String?, inProfile profile: RTUserProfile, withPassword password: String) -> Promise<Void> {
+
+    return MessageAPI.discoverDeviceInfoWithAliases(profile.aliases.allObjects as! [String])
+      .then { deviceInfo in
+        
+        deviceInfo.name = deviceName ?? deviceInfo.name
+        
+        return self.publicAPI.replaceRegisteredDevice(profile.id, password: password, deviceInfo: deviceInfo, currentDeviceId: deviceId).toPromise(NSNumber).asVoid()
+      }
+      .recover { error -> Void in
+        throw translateError(error as NSError)
+      }
+  }
+
+  @available(*, unavailable)
+  @objc public class func replaceDeviceWithId(deviceId: RTId, withDeviceNamed deviceName: String?, inProfile profile: RTUserProfile, withPassword password: String) -> AnyPromise {
+    return AnyPromise(bound: replaceDeviceWithId(deviceId, withDeviceNamed: deviceName, inProfile: profile, withPassword: password))
+  }
+  
+  @nonobjc public class func removeDeviceWithId(deviceId: RTId, fromProfile profile: RTUserProfile, withPassword password: String) -> Promise<Void> {
+
+    return publicAPI.unregisterDevice(profile.id, password: password, deviceId: deviceId).toPromise(NSNumber).asVoid()
+      .recover { error -> Void in
+        throw translateError(error as NSError)
+      }
+  }
+  
+  @available(*, unavailable)
+  @objc public class func removeDeviceWithId(deviceId: RTId, fromProfile profile: RTUserProfile, withPassword password: String) -> AnyPromise {
+    return AnyPromise(bound: removeDeviceWithId(deviceId, fromProfile: profile, withPassword: password))
   }
   
   @objc public class func selectPreferredAlias(aliases: [String]) -> String {
