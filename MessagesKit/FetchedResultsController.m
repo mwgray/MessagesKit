@@ -14,6 +14,17 @@
 
 @implementation FetchRequest
 
+-(instancetype)init
+{
+  self = [super init];
+  if (self) {
+    
+    _liveResults = YES;
+    
+  }
+  return self;
+}
+
 @end
 
 
@@ -26,6 +37,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
 
 @interface FetchedResultsController () <DBManagerDelegate> {
   DBManager *_dbManager;
+  DAO *_dao;
   FetchRequest *_request;
   NSMutableArray *_results;
   NSMutableArray *_resultsPending;
@@ -84,14 +96,14 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
     };
   }
 
-  DAO *dao = [_dbManager daoForClass:_request.resultClass];
+  _dao = [_dbManager daoForClass:_request.resultClass];
 
   NSError *error = nil;
-  NSArray *results = [dao fetchAllObjectsMatching:_request.predicate
-                                           offset:_request.fetchOffset
-                                            limit:_request.fetchLimit
-                                         sortedBy:_request.sortDescriptors
-                                            error:&error];
+  NSArray *results = [_dao fetchAllObjectsMatching:_request.predicate
+                                            offset:_request.fetchOffset
+                                             limit:_request.fetchLimit
+                                          sortedBy:_request.sortDescriptors
+                                             error:&error];
   if (!results) {
     //FIXME handle error - add error handling to interface
     return;
@@ -144,7 +156,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
 
   @synchronized(self) {
 
-    [_changeSet addObject:@[@0, model]];
+    [_changeSet addObject:@[@0, model.copy]];
 
   }
 }
@@ -163,7 +175,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
 
   @synchronized(self) {
 
-    [_changeSet addObject:@[@1, model]];
+    [_changeSet addObject:@[@1, model.copy]];
 
   }
 }
@@ -180,7 +192,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
 
   @synchronized(self) {
 
-    [_changeSet addObject:@[@2, model]];
+    [_changeSet addObject:@[@2, model.copy]];
 
   }
 }
@@ -224,6 +236,8 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
       }
 
       [self _fireDidChange];
+      
+      NSAssert([_resultsPending isEqualToArray:[_resultsPending sortedArrayUsingComparator:_sortComparator]], @"Pending results not sorted");
 
     });
 
@@ -242,7 +256,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
                  object:model
                   index:NSNotFound
                newIndex:insertionIndex
-             applicator:^{
+             applicator:^(Model *model){
     [_results insertObject:model atIndex:insertionIndex];
   }];
 
@@ -287,7 +301,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
                  object:model
                   index:currentIndex
                newIndex:newIndex
-             applicator:^{
+             applicator:^(Model *model) {
     [_results removeObjectAtIndex:currentIndex];
     [_results insertObject:model atIndex:newIndex];
   }];
@@ -310,7 +324,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
                  object:model
                   index:currentIndex
                newIndex:NSNotFound
-             applicator:^{
+             applicator:^(Model *model) {
     [_results removeObjectAtIndex:currentIndex];
   }];
 
@@ -335,16 +349,18 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
   }
 }
 
--(void) _fireChangeType:(FetchedResultsChangeType)type object:(id)object index:(NSUInteger)index newIndex:(NSUInteger)newIndex applicator:(void (^)())applicator
+-(void) _fireChangeType:(FetchedResultsChangeType)type object:(Model *)object index:(NSUInteger)index newIndex:(NSUInteger)newIndex applicator:(void (^)(Model *object))applicator
 {
   dispatch_sync(dispatch_get_main_queue(), ^{
-
-    applicator();
+    
+    Model *result = _request.liveResults ? [_dao refreshObject:object] : object;
+    
+    applicator(result);
 
     if ([self.delegate respondsToSelector:@selector(controller:didChangeObject:atIndex:forChangeType:newIndex:)]) {
       dispatch_async(_dispatchQueue, ^{
         [self.delegate controller:self
-                  didChangeObject:object
+                  didChangeObject:result
                           atIndex:index
                     forChangeType:type
                          newIndex:newIndex];

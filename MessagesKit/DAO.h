@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
                                                 sortedBy:(nullable NSArray<NSSortDescriptor *> *)sortDescriptors
                                                    error:(NSError **)error;;
 
+-(nullable __kindof ObjectType) refreshObject:(ObjectType)object;
+
 -(BOOL) insertObject:(ObjectType)model error:(NSError **)error;
 -(BOOL) updateObject:(ObjectType)model error:(NSError **)error;
 -(BOOL) upsertObject:(ObjectType)model error:(NSError **)error;

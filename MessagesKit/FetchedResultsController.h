@@ -49,6 +49,7 @@ typedef NS_ENUM (NSInteger, FetchedResultsChangeType) {
 @property (assign, nonatomic) NSUInteger fetchLimit;
 @property (assign, nonatomic) NSUInteger fetchBatchSize;
 @property (strong, nonatomic) NSArray *sortDescriptors;
+@property (assign, nonatomic) BOOL liveResults;
 
 @end
 

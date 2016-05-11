@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 reTXT Labs, LLC. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+@import XCTest;
+@import FMDB;
 
 #import "ChatDAO.h"
 #import "MessageDAO.h"
@@ -30,6 +31,7 @@
 
 @end
 
+
 @implementation FetchedResultsControllerTests
 
 -(void) setUp
@@ -39,7 +41,7 @@
   self.expectations = [NSMutableArray array];
 
   NSString *dbPath = [NSTemporaryDirectory() stringByAppendingString:@"temp.sqlite"];
-  [[NSFileManager defaultManager] removeItemAtPath:dbPath error:nil];
+  [NSFileManager.defaultManager removeItemAtPath:dbPath error:nil];
 
   self.dbManager = [[DBManager alloc] initWithPath:dbPath kind:@"Message" daoClasses:@[[MessageDAO class],
                                                                                          [ChatDAO class]]
@@ -179,6 +181,7 @@
   request.includeSubentities = YES;
   request.predicate = [NSPredicate predicateWithFormat:@"chat = %@", self.chat];
   request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sent" ascending:NO]];
+  request.liveResults = NO;
 
   FetchedResultsController *controller = [[FetchedResultsController alloc] initWithDBManager:self.dbManager
                                                                                          request:request];
@@ -199,40 +202,33 @@
 
     [self.messageDAO insertObject:msg error:nil];
 
-    [self waitForExpectationsWithTimeout:10 handler:NULL];
-
-    [self assertSorted:controller];
   }
 
-  self.results = [NSMutableArray arrayWithCapacity:controller.numberOfObjects];
-  for (int d=0; d < controller.numberOfObjects; ++d) {
-    [self.results addObject:controller[d]];
-  }
+  [self waitForExpectationsWithTimeout:10 handler:NULL];
+  
+  [self assertSorted:controller];
 
+  for (int tests=1; tests < 3001; ++tests) {
 
-  for (int tests=0; tests < 20; ++tests) {
-
-    XCTestExpectation *updates = [self expectationWithDescription:@"Update thread"];
+    [self.expectations addObject:[self expectationWithDescription:@"Move|Update"]];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-
-      for (int c=0; c < 100; ++c) {
-        [self.messageDAO updateMessage:msgs[(int)(drand48()*100)] withSent:[NSDate dateWithTimeIntervalSinceNow:-2000-(c*100)] error:nil];
-      }
-
-      [updates fulfill];
+        [self.messageDAO updateMessage:msgs[(int)(drand48()*100)] withSent:[NSDate dateWithTimeIntervalSinceNow:-2000-(tests*100)] error:nil];
     });
+    
+    if (tests % 100 == 0) {
+      
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self.dbManager.pool inWritableDatabase:^(FMDatabase *db){
+          [self assertSorted:controller];
+        }];
+      });
 
-    [self waitForExpectationsWithTimeout:100 handler:^(NSError *error) {
-    }];
-
-    NSMutableArray *tester = [NSMutableArray arrayWithCapacity:controller.numberOfObjects];
-    for (int d=0; d < controller.numberOfObjects; ++d) {
-      [tester addObject:controller[d]];
+      [self waitForExpectationsWithTimeout:100 handler:NULL];
     }
-
-    XCTAssertEqualObjects(self.results, tester);
   }
+  
+  [self assertSorted:controller];
 
 }
 
@@ -257,7 +253,6 @@
 
 -(void) controllerWillChangeResults:(FetchedResultsController *)controller
 {
-  [self fulfillAll:@"Will"];
 }
 
 -(void) controller:(FetchedResultsController *)controller
@@ -301,21 +296,23 @@
     break;
   }
 
-  [self fulfillAll:type];
+  [self fulfill:type max:1];
 }
 
 -(void) controllerDidChangeResults:(FetchedResultsController *)controller
 {
-  [self fulfillAll:@"Did"];
 }
 
--(void) fulfillAll:(NSString *)type
+-(void) fulfill:(NSString *)type max:(NSUInteger)maxFulfilled
 {
   NSMutableArray *fulfilled = [NSMutableArray array];
   for (XCTestExpectation *exp in self.expectations) {
     if ([exp.description containsString:type]) {
       [exp fulfill];
       [fulfilled addObject:exp];
+      if (fulfilled.count == maxFulfilled) {
+        break;
+      }
     }
   }
   [self.expectations removeObjectsInArray:fulfilled];

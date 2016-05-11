@@ -298,6 +298,11 @@ CL_DECLARE_LOG_LEVEL()
   return res;
 }
 
+-(Model *) refreshObject:(Model *)object
+{
+  return [self fetchObjectWithId:object.id];
+}
+
 -(BOOL) insertObject:(Model *)model error:(NSError **)error
 {
   NSMutableDictionary *values = [self save:model error:error];
