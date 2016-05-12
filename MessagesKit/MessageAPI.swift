@@ -22,7 +22,8 @@ private let UnreadMessageCountKey = "io.retxt.UnreadMessageCount"
 
 // Debugging
 private let ClearDataDebugKey = "io.retxt.debug.ClearData"
-private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
+private let RandomUniqueDeviceIdDebugKey = "io.retxt.debug.RandomUniqueDeviceId"
+private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDeviceId"
 
 
 @objc public class MessageAPI : NSObject {
@@ -1488,8 +1489,11 @@ extension MessageAPI {
     return dispatch_promise {
       
       #if !RELEASE
-        if NSUserDefaults.standardUserDefaults().boolForKey(UniqueDeviceIdDebugKey) {
+        if NSUserDefaults.standardUserDefaults().boolForKey(RandomUniqueDeviceIdDebugKey) {
           return __fakeUniqueDeviceId
+        }
+        if let injectedDeviceId = NSUserDefaults.standardUserDefaults().stringForKey(InjectedUniqueDeviceIdDebugKey) {
+          return Id(string: injectedDeviceId)!
         }
       #endif
       
