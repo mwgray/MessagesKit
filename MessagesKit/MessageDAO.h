@@ -43,8 +43,8 @@ typedef NS_ENUM (int32_t, MessageType) {
 -(void) failAllSendingMessagesExcluding:(NSArray<Id *> *)excludedMessageIds;
 -(nullable NSArray<__kindof Message *> *) fetchUnsentMessagesAndReturnError:(NSError **)error;
 
--(nullable Message *) fetchLastMessageForChat:(Chat *)chat;
--(nullable Message *) fetchLatestUnviewedMessageForChat:(Chat *)chat;
+-(BOOL) fetchLastMessage:(Message *__nullable *__nonnull)returnedMessage forChat:(Chat *)chat error:(NSError **)error NS_REFINED_FOR_SWIFT;
+-(BOOL) fetchLatestUnviewedMessage:(Message *__nullable *__nonnull)returnedMessage forChat:(Chat *)chat error:(NSError **)error NS_REFINED_FOR_SWIFT;
 
 -(BOOL) viewAllMessagesForChat:(Chat *)chat before:(NSDate *)sent error:(NSError **)error;
 -(BOOL) readAllMessagesForChat:(Chat *)chat error:(NSError **)error;

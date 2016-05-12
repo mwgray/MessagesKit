@@ -74,7 +74,7 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
   [_dbManager removeDelegatesObject:self];
 }
 
--(void) execute
+-(BOOL) executeAndReturnError:(NSError **)error
 {
   _isMatchingInstanceSEL = _request.includeSubentities ? @selector(isKindOfClass:) : @selector(isMemberOfClass:);
   _isMatchingInstanceIMP = [_request.resultClass methodForSelector:_isMatchingInstanceSEL];
@@ -98,21 +98,21 @@ NSComparisonResult sortObjects(NSArray *sortDescriptors, id obj1, id obj2);
 
   _dao = [_dbManager daoForClass:_request.resultClass];
 
-  NSError *error = nil;
   NSArray *results = [_dao fetchAllObjectsMatching:_request.predicate
                                             offset:_request.fetchOffset
                                              limit:_request.fetchLimit
                                           sortedBy:_request.sortDescriptors
-                                             error:&error];
+                                             error:error];
   if (!results) {
-    //FIXME handle error - add error handling to interface
-    return;
+    return NO;
   }
 
   _resultsPending = [results mutableCopy];
   _results = [results mutableCopy];
 
   [_dbManager addDelegatesObject:self];
+  
+  return YES;
 }
 
 -(NSInteger) numberOfObjects

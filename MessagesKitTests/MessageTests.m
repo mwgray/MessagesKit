@@ -442,7 +442,8 @@
 
   [dao clearCache];
 
-  Message *msg2 = [dao fetchLatestUnviewedMessageForChat:msg.chat];
+  Message *msg2;
+  [dao fetchLatestUnviewedMessage:&msg2 forChat:msg.chat error:nil];
 
   XCTAssertEqualObjects(msg, msg2);
 }

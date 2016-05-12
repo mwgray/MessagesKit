@@ -64,7 +64,7 @@ typedef NS_ENUM (NSInteger, FetchedResultsChangeType) {
 
 @property (weak, nonatomic, nullable) NSObject<FetchedResultsControllerDelegate> *delegate;
 
--(void) execute;
+-(BOOL) executeAndReturnError:(NSError **)error;
 
 -(NSInteger) numberOfObjects;
 -(NSInteger) lastIndex;

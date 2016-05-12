@@ -119,7 +119,7 @@
                                                                                          request:request];
   controller.delegate = self;
 
-  [controller execute];
+  [controller executeAndReturnError:nil];
 
   int inserted = [self insertMessages];
 
@@ -141,7 +141,7 @@
                                                                                          request:request];
   controller.delegate = self;
 
-  [controller execute];
+  [controller executeAndReturnError:nil];
 
   NSMutableArray *msgs = [NSMutableArray new];
 
@@ -187,7 +187,7 @@
                                                                                          request:request];
   controller.delegate = self;
 
-  [controller execute];
+  [controller executeAndReturnError:nil];
 
   NSMutableArray *msgs = [NSMutableArray new];
 

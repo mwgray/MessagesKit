@@ -471,7 +471,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     if message == message.chat.lastMessage {
       
-      let newLastMessage = self.messageDAO.fetchLastMessageForChat(message.chat)
+      let newLastMessage = try self.messageDAO.fetchLastMessageForChat(message.chat)
       
       try self.chatDAO.updateChat(message.chat, withLastMessage: newLastMessage)
     }

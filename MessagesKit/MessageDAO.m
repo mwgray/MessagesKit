@@ -124,46 +124,66 @@
   return res;
 }
 
--(Message *) fetchLatestUnviewedMessageForChat:(Chat *)chat
+-(BOOL) fetchLatestUnviewedMessage:(Message **)returnedMessage forChat:(Chat *)chat error:(NSError **)error
 {
-  __block Message *res = nil;
+  __block BOOL valid = NO;
 
   [self.dbManager.pool inReadableDatabase:^(FMDatabase *db) {
 
     FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ? AND sender <> ? AND status < ? ORDER BY sent DESC LIMIT 1",
                               chat.dbId, chat.localAlias, @(MessageStatusViewed)];
 
-    if ([resultSet next]) {
-
-      res = [self load:resultSet error:nil]; //FIXME error handling
-
+    BOOL hasResult = NO;
+    if (![resultSet nextReturning:&hasResult error:error]) {
+      return;
     }
 
+    if (!hasResult) {
+      valid = YES;
+      return;
+    }
+    
+    Message *result = [self load:resultSet error:error];
+    if (result) {
+      *returnedMessage = result;
+      valid = YES;
+    }
+    
     [resultSet close];
   }];
-
-  return res;
+  
+  return valid;
 }
 
--(Message *) fetchLastMessageForChat:(Chat *)chat
+-(BOOL) fetchLastMessage:(Message **)returnedMessage forChat:(Chat *)chat error:(NSError **)error
 {
-  __block Message *res = nil;
+  __block BOOL valid = NO;
 
   [self.dbManager.pool inReadableDatabase:^(FMDatabase *db) {
 
     FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ? ORDER BY sent DESC LIMIT 1",
                               chat.dbId];
 
-    if ([resultSet next]) {
+    BOOL hasResult = NO;
+    if (![resultSet nextReturning:&hasResult error:error]) {
+      return;
+    }
 
-      res = [self load:resultSet error:nil]; //FIXME error handling
-
+    if (!hasResult) {
+      valid = YES;
+      return;
+    }
+    
+    Message *result = [self load:resultSet error:error];
+    if (!result) {
+      *returnedMessage = result;
+      valid = YES;
     }
 
     [resultSet close];
   }];
 
-  return res;
+  return valid;
 }
 
 
@@ -359,6 +379,7 @@
 
 -(BOOL) deleteAllMessagesForChat:(Chat *)chat error:(NSError **)error
 {
+  __block BOOL valid = NO;
   __block NSArray *deleted;
   __block int count = 0;
 
@@ -367,15 +388,19 @@
     FMResultSet *resultSet = [db executeQuery:@"SELECT * FROM message WHERE chat = ?",
                               chat.dbId];
 
-    deleted = [self loadAll:resultSet error:nil]; //FIXME error handling
+    deleted = [self loadAll:resultSet error:error];
+    if (!deleted) {
+      return;
+    }
 
     [resultSet close];
 
-    if ([db executeUpdate:@"DELETE FROM message WHERE chat = ?",
-         chat.dbId])
-    {
-      count = db.changes;
+    if (![db executeUpdate:@"DELETE FROM message WHERE chat = ?" valuesArray:@[chat.dbId] error:error]) {
+      return;
     }
+    
+    valid = YES;
+    count = db.changes;
 
   }];
 
@@ -391,7 +416,7 @@
     [self deletedAll:deleted];
   }
 
-  return count > 0;
+  return valid;
 }
 
 -(int) countOfUnreadMessages

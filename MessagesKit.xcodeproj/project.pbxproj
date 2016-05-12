@@ -38,6 +38,7 @@
 		AA18686E1CE435200017B11B /* ContactDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686D1CE435200017B11B /* ContactDirectory.swift */; };
 		AA1868701CE4377B0017B11B /* EnterMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686F1CE4377B0017B11B /* EnterMessage.swift */; };
 		AA1868721CE43F150017B11B /* ExitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868711CE43F150017B11B /* ExitMessage.swift */; };
+		AA1868741CE443FB0017B11B /* MessageDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868731CE443FB0017B11B /* MessageDAO.swift */; };
 		AA1868761CE44A7D0017B11B /* TitleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868751CE44A7D0017B11B /* TitleGenerator.swift */; };
 		AA490DAD1CCAF1970010FC17 /* APIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* APIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */; };
@@ -297,6 +298,7 @@
 		AA18686D1CE435200017B11B /* ContactDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDirectory.swift; sourceTree = "<group>"; };
 		AA18686F1CE4377B0017B11B /* EnterMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterMessage.swift; sourceTree = "<group>"; };
 		AA1868711CE43F150017B11B /* ExitMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExitMessage.swift; sourceTree = "<group>"; };
+		AA1868731CE443FB0017B11B /* MessageDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDAO.swift; sourceTree = "<group>"; };
 		AA1868751CE44A7D0017B11B /* TitleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleGenerator.swift; sourceTree = "<group>"; };
 		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -689,6 +691,7 @@
 				AA99181C1CC1642300F1A3B0 /* ChatDAO.m */,
 				AA99181D1CC1642300F1A3B0 /* MessageDAO.h */,
 				AA99181E1CC1642300F1A3B0 /* MessageDAO.m */,
+				AA1868731CE443FB0017B11B /* MessageDAO.swift */,
 				AA99181F1CC1642300F1A3B0 /* NotificationDAO.h */,
 				AA9918201CC1642300F1A3B0 /* NotificationDAO.m */,
 				AA9918251CC1642300F1A3B0 /* Model.h */,
@@ -1183,6 +1186,7 @@
 				AAB481F21CCADEC400EBFC5E /* MsgCipher.m in Sources */,
 				AAB481EE1CCADEC400EBFC5E /* OpenSSLCertificate.m in Sources */,
 				AAFDFB721CC5FDA200066707 /* GroupChat.m in Sources */,
+				AA1868741CE443FB0017B11B /* MessageDAO.swift in Sources */,
 				AA05D2431CC8572A0051039E /* UIFont+Utils.m in Sources */,
 				AA490DB31CCAF1B90010FC17 /* URLSessionSSLValidator.m in Sources */,
 				AA5850291CC1D5FC0034C46D /* String.swift in Sources */,
