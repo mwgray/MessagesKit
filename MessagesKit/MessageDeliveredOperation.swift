@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaLumberjack
 
 
 class MessageDeliveredOperation: MessageAPIOperation {
@@ -37,7 +38,7 @@ class MessageDeliveredOperation: MessageAPIOperation {
       
     }
     catch _ {
-      //TODO log error
+      DDLogError("Error marking message delivered: \(msgId)")
     }
     
   }
