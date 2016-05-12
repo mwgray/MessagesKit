@@ -259,7 +259,7 @@ const CGFloat _THUMBNAIL_MAX_PERCENT = 0.5f;
 
       // Check if we want to draw straight from the image
 
-//FIXME
+        //FIXME: Move to UI framework?
 //      CGRect imageBounds = {CGPointZero, imageOrientedSize};
 //      if ([FLAnimatedImage isAnimatedGIF:imageSource] || CGRectContainsRect(maxRect, imageBounds)) {
 //        if (outSize) {

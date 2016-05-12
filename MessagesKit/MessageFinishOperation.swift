@@ -36,17 +36,17 @@ class MessageFinishOperation: Operation {
   
   override func execute() {
     
-    //FIXME
+    //FIXME: sounds should be played by client
     //AppDelegate.playSound(Sound_Message_Send, alert: false);
     
     // Update sent only if the message has never been sent before
-    if (messageContext.message.updated == nil) {
+    if messageContext.message.updated == nil {
       try! dao.updateMessage(messageContext.message, withSent:NSDate(millisecondsSince1970: transmitContext.sentAt!))
     }
     
     // Ensure we don't overwrite "Delivered" or "Viewed"
     // statuses if they were sent very fast
-    if (messageContext.message.status.rawValue <= MessageStatus.Sent.rawValue) {
+    if messageContext.message.status.rawValue <= MessageStatus.Sent.rawValue {
       try! dao.updateMessage(messageContext.message, withStatus:.Sent);
     }
     

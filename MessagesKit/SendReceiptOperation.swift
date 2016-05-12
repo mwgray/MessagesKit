@@ -48,7 +48,7 @@ class SendChatReceiptOperation: MessageAPIOperation {
   
   override func execute() {
     
-    if let message = api.messageDAO.fetchLatestUnviewedMessageForChat(chat) {
+    if let message = try! api.messageDAO.fetchLatestUnviewedMessageForChat(chat) {
       
       try! api.messageDAO.viewAllMessagesForChat(chat, before: message.sent ?? NSDate())
       

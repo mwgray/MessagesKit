@@ -38,7 +38,7 @@ class MessageSendBaseOperation: MessageAPIGroupOperation, MessageContext, Messag
       BlockObserver(
         startHandler: { op in
           
-          if (message.status != .Sending) {
+          if message.status != .Sending {
             try! api.messageDAO.updateMessage(message, withStatus: .Sending)
           }
           

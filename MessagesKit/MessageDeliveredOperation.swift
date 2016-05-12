@@ -28,7 +28,7 @@ class MessageDeliveredOperation: MessageAPIOperation {
       
       if let deliveredMessage = try api.messageDAO.fetchMessageWithId(msgId) {
       
-        if (deliveredMessage.status.rawValue > MessageStatus.Delivered.rawValue) {
+        if deliveredMessage.status.rawValue > MessageStatus.Delivered.rawValue {
           return;
         }
       

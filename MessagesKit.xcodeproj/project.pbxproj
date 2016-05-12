@@ -967,6 +967,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA9C1C831CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesKit" */;
 			buildPhases = (
+				AA18686C1CE3F2FE0017B11B /* Highlight FIXME/TODO/???? */,
 				55858174A78A0E0828493CF6 /* 📦 Check Pods Manifest.lock */,
 				AA9C1C6A1CC028190070FB59 /* Sources */,
 				AA9C1C6B1CC028190070FB59 /* Frameworks */,
@@ -1112,6 +1113,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MessagesKit-MessagesKitTests/Pods-MessagesKit-MessagesKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA18686C1CE3F2FE0017B11B /* Highlight FIXME/TODO/???? */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Highlight FIXME/TODO/????";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "KEYWORDS=\"TODO:|FIXME:|\\?\\?\\?:|\\!\\!\\!:\"\nfind \"${SRCROOT}/MessagesKit\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($KEYWORDS).*\\$\" | perl -p -e \"s/($KEYWORDS)/ warning: \\$1/\"";
 			showEnvVarsInLog = 0;
 		};
 		D6878778E35D90DDEB7587C3 /* 📦 Check Pods Manifest.lock */ = {

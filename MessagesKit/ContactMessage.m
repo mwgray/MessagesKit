@@ -133,7 +133,7 @@
     return NO;
   }
 
-  //FIXME
+  //FIXME: use vcard library
 //  NSArray *createdPeople = (__bridge_transfer NSArray *)ABPersonCreatePeopleInSourceWithVCardRepresentation(NULL, (__bridge CFDataRef)self.vcardData);
 //  ABRecordRef person = (__bridge ABRecordRef)[createdPeople firstObject];
 //

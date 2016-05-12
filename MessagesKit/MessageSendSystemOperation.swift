@@ -51,7 +51,7 @@ class MessageSendSystemOperation: MessageAPIGroupOperation, MessageResolveContex
     super.init(api: api)
 
     let failures : [String: Int?] = [
-      TTransportErrorDomain: Int(THttpTransportError.Authentication.rawValue),  // TODO: FIX THIS
+      TTransportErrorDomain: Int(THttpTransportError.Authentication.rawValue),  //TODO: FIX THIS
       NSURLErrorDomain: NSURLErrorUserAuthenticationRequired
     ]
     

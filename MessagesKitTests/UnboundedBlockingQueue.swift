@@ -46,7 +46,7 @@ public class UnboundedBlockingQueue<T> {
     if let last = last {
       last.next = node
     }
-    if (first == nil) {
+    if first == nil {
       first = node
     }
   

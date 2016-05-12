@@ -62,13 +62,7 @@
     _membersFieldIdx = [tableInfo findField:@"members"];
     _activeMembersFieldIdx = [tableInfo findField:@"activeMembers"];
     _draftFieldIdx = [tableInfo findField:@"draft"];
-
-    //FIXME
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(contactDidUpdate:)
-//                                                 name:AddressBookContactUpdated
-//                                               object:nil];
-
+    
   }
 
   return self;
@@ -306,7 +300,7 @@
   return updated;
 }
 
-//FIXME - Replace
+//FIXME: Replace
 //#pragma mark - Contact updates
 //
 //-(void) contactDidUpdate:(NSNotification *)notification

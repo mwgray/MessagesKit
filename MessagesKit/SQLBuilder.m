@@ -438,7 +438,7 @@ NSDictionary *nullaryFunctions;
   case NSMinusSetExpressionType:
   case NSAnyKeyExpressionType:
   case NSConditionalExpressionType:
-    // TODO
+    //TODO: implement missing expression types
     break;
 
   /* these can't be converted */

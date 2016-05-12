@@ -672,9 +672,9 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
     
     let body : String
     
-    if (Settings.sharedSettings().privacyShowPreviews) {
+    if Settings.sharedSettings().privacyShowPreviews {
       
-      if (message.clarifyFlag) {
+      if message.clarifyFlag {
         
         body = "\(title) doesn't understand your message"
 
@@ -691,7 +691,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
       
     }
     
-    //FIXME allow user provided sounds
+    //FIXME: allow client provided sounds
     
     //let sound = message.clarifyFlag ? Sound_Message_Clarify : (message.updated ? Sound_Message_Update : Sound_Message_Receive)
     let sound = UILocalNotificationDefaultSoundName
@@ -783,11 +783,11 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
   
   @objc public func signOut() {
     
-    if (signedOut) {
-      return;
+    if signedOut {
+      return
     }
     
-    signedOut = true;
+    signedOut = true
     
     deactivate()
 
@@ -1430,7 +1430,7 @@ extension MessageAPI {
   }
   
   @objc public class func selectPreferredAlias(aliases: [String]) -> String {
-    //FIXME prefer phone numbers over anything else
+    //FIXME: prefer phone numbers over anything else
     return aliases.first ?? ""
   }
   
@@ -1527,7 +1527,7 @@ extension MessageAPI : WebSocketDelegate {
   
   public func webSocket(webSocket: WebSocket, didReceiveUserStatus sender: String, recipient: String, status: UserStatus) {
 
-    DDLogDebug("USER STATUS: \(sender), \(recipient), \(status)");
+    DDLogDebug("USER STATUS: \(sender), \(recipient), \(status)")
     
     guard let chat = try? chatDAO.fetchChatForAlias(sender, localAlias: recipient) else {
       return
@@ -1545,7 +1545,7 @@ extension MessageAPI : WebSocketDelegate {
   
   public func webSocket(webSocket: WebSocket, didReceiveGroupStatus sender: String, chatId: Id, status: UserStatus) {
 
-    DDLogDebug("GROUP STATUS: \(sender), \(chatId), \(status)");
+    DDLogDebug("GROUP STATUS: \(sender), \(chatId), \(status)")
     
     guard let chat = try? chatDAO.fetchChatWithId(chatId) else {
       return
