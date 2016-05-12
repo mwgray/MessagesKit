@@ -47,4 +47,46 @@ public extension dispatch_queue_t {
     dispatch_sync(self, block)
   }
   
+  public func sync<T>(block: () throws -> T) rethrows -> T {
+    
+    var res : T?
+    var error : ErrorType?
+    
+    dispatch_sync(self) {
+      do {
+        res = try block()
+      }
+      catch let caught {
+        error = caught
+      }
+    }
+    
+    if let error = error {
+      try { throw error }()
+    }
+    
+    return res!
+  }
+  
+  public func sync<T>(block: () throws -> T?) rethrows -> T? {
+    
+    var res : T??
+    var error : ErrorType?
+    
+    dispatch_sync(self) {
+      do {
+        res = try block()
+      }
+      catch let caught {
+        error = caught
+      }
+    }
+    
+    if let error = error {
+      try { throw error }()
+    }
+    
+    return res!
+  }
+  
 }

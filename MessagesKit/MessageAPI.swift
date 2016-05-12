@@ -666,28 +666,30 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
     DDLogDebug("SHOWING NOTIFICATION: \(message.id)")
     
-    //FIXME title & body should be generatable by end user
-    
-    let title = message.chat.activeRecipients.joinWithSeparator(", ")
-    
     let body : String
     
     if Settings.sharedSettings().privacyShowPreviews {
       
       if message.clarifyFlag {
         
-        body = "\(title) doesn't understand your message"
+        let senderContact = ContactDirectoryManager.sharedInstance.lookupContactWithAlias(message.sender ?? "")
+        
+        body = "\(senderContact.familiarName) doesn't understand your message"
 
       }
       else {
+
+        let title = ChatTitleGenerator.generateForChat(message.chat)
         
-        body = "\(title) \(message.alertText())"
+        body = "\(title): \(message.alertText())"
       }
       
     }
     else {
       
-      body = "\(title) New Message"
+      let title = ChatTitleGenerator.generateForChat(message.chat)
+      
+      body = "\(title): New Message"
       
     }
     
@@ -711,9 +713,7 @@ private let UniqueDeviceIdDebugKey = "io.retxt.debug.UniqueDeviceId"
 
     DDLogDebug("SHOWING FAIL NOTIFICATION: \(message.id)")
     
-    //FIXME title & body should be generatable by end user
-
-    let title = message.chat.activeRecipients.joinWithSeparator(", ");
+    let title = ChatTitleGenerator.generateForChat(message.chat)
     
     let body = "Failed to send message to: \(title)"
     

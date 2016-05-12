@@ -77,28 +77,6 @@
   return copy;
 }
 
--(NSString *) alertText
-{
-  //FIXME
-//  Contact *contact = [AddressBook.sharedInstance findContactWithAlias:self.alias];
-//
-//  NSString *name = contact ? contact.name : [self.alias formattedAliasWithDefaultRegion:nil];
-//
-//  return [NSString stringWithFormat:@"%@ has joined a group chat", name];
-  return nil;
-}
-
--(NSString *) summaryText
-{
-  //FIXME
-//  Contact *contact = [AddressBook.sharedInstance findContactWithAlias:self.alias];
-//
-//  NSString *name = contact ? contact.name : [self.alias formattedAliasWithDefaultRegion:nil];
-//
-//  return [NSString stringWithFormat:@"%@ has joined", name];
-  return nil;
-}
-
 -(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
 {
   *metaData = @{@"member" : self.alias};
