@@ -599,9 +599,100 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		AA0B34251CE92EA200DEFE33 /* Data References */ = {
+			isa = PBXGroup;
+			children = (
+				AA4FD0421CCCADF300C0DE2A /* DataReference.h */,
+				AA5920201CCDFA0C007B7D0D /* DataReference.m */,
+				AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */,
+				AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */,
+				AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */,
+				AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */,
+				AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */,
+				AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */,
+				AA4FD0501CCD350F00C0DE2A /* DataReferences.h */,
+				AA4FD0511CCD350F00C0DE2A /* DataReferences.m */,
+				AA05D2571CC94C5D0051039E /* DataReference.swift */,
+			);
+			name = "Data References";
+			sourceTree = "<group>";
+		};
+		AA0B34261CE92EB700DEFE33 /* Server Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				AA9917B71CC163B400F1A3B0 /* ServerAPI.h */,
+				AA9917B81CC163B400F1A3B0 /* ServerAPI.m */,
+				AA1868681CE1828E0017B11B /* Messages.h */,
+				AA1868691CE1828E0017B11B /* Messages.m */,
+				AA9917AF1CC163B400F1A3B0 /* Messages+Exts.h */,
+				AA9917B01CC163B400F1A3B0 /* Messages+Exts.m */,
+			);
+			name = "Server Bindings";
+			sourceTree = "<group>";
+		};
+		AA0B34271CE92F2100DEFE33 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AA9917BB1CC163B400F1A3B0 /* WebSocket.h */,
+				AA9917BC1CC163B400F1A3B0 /* WebSocket.m */,
+				AA9917C31CC163B400F1A3B0 /* BackgroundSessionOperations.swift */,
+				AA9917C11CC163B400F1A3B0 /* URLSessionSSLValidator.h */,
+				AA9917C21CC163B400F1A3B0 /* URLSessionSSLValidator.m */,
+				AA9917C41CC163B400F1A3B0 /* HTTPSessionTransportFactory.h */,
+				AA9917C51CC163B400F1A3B0 /* HTTPSessionTransportFactory.m */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		AA0B34281CE92F4F00DEFE33 /* Address Book */ = {
+			isa = PBXGroup;
+			children = (
+				AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */,
+				AA0B341B1CE8FE2100DEFE33 /* AddressBook.swift */,
+				AAB535E61CE8F5E100A38281 /* AddressBookPerson.swift */,
+				AA0B341D1CE8FE9C00DEFE33 /* AddressBookSource.swift */,
+				AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */,
+				AAB535EA1CE8F79E00A38281 /* AddressBookTypes.swift */,
+				AAB535E71CE8F5E100A38281 /* AddressBookRecord.swift */,
+				AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */,
+			);
+			name = "Address Book";
+			sourceTree = "<group>";
+		};
+		AA0B34291CE92F6F00DEFE33 /* Alias Display */ = {
+			isa = PBXGroup;
+			children = (
+				AA18686D1CE435200017B11B /* AliasDisplay.swift */,
+				AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */,
+				AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */,
+			);
+			name = "Alias Display";
+			sourceTree = "<group>";
+		};
+		AA0B342A1CE92FDB00DEFE33 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				AA9917BD1CC163B400F1A3B0 /* Credentials.h */,
+				AA9917BE1CC163B400F1A3B0 /* Credentials.m */,
+				AA61CD911CCB36B30029B5F2 /* Settings.h */,
+				AA61CD921CCB36B30029B5F2 /* Settings.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		AA0B342B1CE930BE00DEFE33 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA9C1C741CC028190070FB59 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		AA58500F1CC1C02E0034C46D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				AA9917BF1CC163B400F1A3B0 /* NSURLSessionConfiguration+MessageAPI.h */,
+				AA9917C01CC163B400F1A3B0 /* NSURLSessionConfiguration+MessageAPI.m */,
 				AA05D25B1CCABCB00051039E /* CGSize+Utils.m */,
 				AA05D25C1CCABCB00051039E /* CGSize+Utils.h */,
 				AA05D22D1CC84CA70051039E /* FMResultSet+Utils.h */,
@@ -820,66 +911,31 @@
 			isa = PBXGroup;
 			children = (
 				AA05D2471CC937C00051039E /* MessagesKit.h */,
-				AA4FD0421CCCADF300C0DE2A /* DataReference.h */,
-				AA5920201CCDFA0C007B7D0D /* DataReference.m */,
-				AA4FD0441CCCAF0F00C0DE2A /* BlobDataReference.h */,
-				AA4FD0451CCCAF0F00C0DE2A /* BlobDataReference.m */,
-				AA4FD04C1CCCAF9D00C0DE2A /* FileDataReference.h */,
-				AA4FD04D1CCCAF9D00C0DE2A /* FileDataReference.m */,
-				AA4FD0481CCCAF8C00C0DE2A /* MemoryDataReference.h */,
-				AA4FD0491CCCAF8C00C0DE2A /* MemoryDataReference.m */,
-				AA4FD0501CCD350F00C0DE2A /* DataReferences.h */,
-				AA4FD0511CCD350F00C0DE2A /* DataReferences.m */,
-				AA05D2571CC94C5D0051039E /* DataReference.swift */,
-				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
 				AA4FD0541CCD4E9000C0DE2A /* MessageAPI.swift */,
 				AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */,
 				AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */,
 				AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */,
+				AA9917B51CC163B400F1A3B0 /* APIError.h */,
+				AA9917B61CC163B400F1A3B0 /* APIError.m */,
+				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
+				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
+				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
+				AA9917B91CC163B400F1A3B0 /* UserStatusInfo.h */,
+				AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */,
+				AA18687B1CE555910017B11B /* ChatTitle.swift */,
+				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
+				AA1868811CE6DB490017B11B /* Module.h */,
+				AA0B34251CE92EA200DEFE33 /* Data References */,
 				AA9917DF1CC163C200F1A3B0 /* Operations */,
 				AA9918131CC1641200F1A3B0 /* DB */,
 				AA9918821CC1644A00F1A3B0 /* Security */,
 				AA58500F1CC1C02E0034C46D /* Utils */,
-				AA1868681CE1828E0017B11B /* Messages.h */,
-				AA1868691CE1828E0017B11B /* Messages.m */,
-				AA9917AF1CC163B400F1A3B0 /* Messages+Exts.h */,
-				AA9917B01CC163B400F1A3B0 /* Messages+Exts.m */,
-				AA9917B51CC163B400F1A3B0 /* APIError.h */,
-				AA9917B61CC163B400F1A3B0 /* APIError.m */,
-				AA9917B71CC163B400F1A3B0 /* ServerAPI.h */,
-				AA9917B81CC163B400F1A3B0 /* ServerAPI.m */,
-				AA9917B91CC163B400F1A3B0 /* UserStatusInfo.h */,
-				AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */,
-				AA9917BB1CC163B400F1A3B0 /* WebSocket.h */,
-				AA9917BC1CC163B400F1A3B0 /* WebSocket.m */,
-				AA9917BD1CC163B400F1A3B0 /* Credentials.h */,
-				AA9917BE1CC163B400F1A3B0 /* Credentials.m */,
-				AA9917BF1CC163B400F1A3B0 /* NSURLSessionConfiguration+MessageAPI.h */,
-				AA9917C01CC163B400F1A3B0 /* NSURLSessionConfiguration+MessageAPI.m */,
-				AA9917C11CC163B400F1A3B0 /* URLSessionSSLValidator.h */,
-				AA9917C21CC163B400F1A3B0 /* URLSessionSSLValidator.m */,
-				AA9917C31CC163B400F1A3B0 /* BackgroundSessionOperations.swift */,
-				AA9917C41CC163B400F1A3B0 /* HTTPSessionTransportFactory.h */,
-				AA9917C51CC163B400F1A3B0 /* HTTPSessionTransportFactory.m */,
-				AA61CD911CCB36B30029B5F2 /* Settings.h */,
-				AA61CD921CCB36B30029B5F2 /* Settings.m */,
-				AA9C1C741CC028190070FB59 /* Info.plist */,
-				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
-				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
-				AA18686D1CE435200017B11B /* AliasDisplay.swift */,
-				AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */,
-				AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */,
-				AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */,
-				AA0B341B1CE8FE2100DEFE33 /* AddressBook.swift */,
-				AAB535E61CE8F5E100A38281 /* AddressBookPerson.swift */,
-				AA0B341D1CE8FE9C00DEFE33 /* AddressBookSource.swift */,
-				AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */,
-				AAB535EA1CE8F79E00A38281 /* AddressBookTypes.swift */,
-				AAB535E71CE8F5E100A38281 /* AddressBookRecord.swift */,
-				AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */,
-				AA18687B1CE555910017B11B /* ChatTitle.swift */,
-				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
-				AA1868811CE6DB490017B11B /* Module.h */,
+				AA0B34261CE92EB700DEFE33 /* Server Bindings */,
+				AA0B34271CE92F2100DEFE33 /* Network */,
+				AA0B34291CE92F6F00DEFE33 /* Alias Display */,
+				AA0B34281CE92F4F00DEFE33 /* Address Book */,
+				AA0B342A1CE92FDB00DEFE33 /* Settings */,
+				AA0B342B1CE930BE00DEFE33 /* Resources */,
 			);
 			path = MessagesKit;
 			sourceTree = "<group>";
