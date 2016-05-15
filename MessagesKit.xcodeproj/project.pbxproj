@@ -40,6 +40,7 @@
 		AA1868721CE43F150017B11B /* ExitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868711CE43F150017B11B /* ExitMessage.swift */; };
 		AA1868741CE443FB0017B11B /* MessageDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868731CE443FB0017B11B /* MessageDAO.swift */; };
 		AA1868761CE44A7D0017B11B /* TitleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868751CE44A7D0017B11B /* TitleGenerator.swift */; };
+		AA1868821CE6DEC20017B11B /* Module.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868811CE6DB490017B11B /* Module.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA490DAD1CCAF1970010FC17 /* APIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* APIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */; };
 		AA490DAF1CCAF1A80010FC17 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BC1CC163B400F1A3B0 /* WebSocket.m */; };
@@ -300,6 +301,7 @@
 		AA1868711CE43F150017B11B /* ExitMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExitMessage.swift; sourceTree = "<group>"; };
 		AA1868731CE443FB0017B11B /* MessageDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDAO.swift; sourceTree = "<group>"; };
 		AA1868751CE44A7D0017B11B /* TitleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleGenerator.swift; sourceTree = "<group>"; };
+		AA1868811CE6DB490017B11B /* Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA4FCFF71CCC374F00C0DE2A /* ConnectWebsocketOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ConnectWebsocketOperation.swift; sourceTree = "<group>"; };
@@ -834,6 +836,7 @@
 				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
 				AA18686D1CE435200017B11B /* ContactDirectory.swift */,
 				AA1868751CE44A7D0017B11B /* TitleGenerator.swift */,
+				AA1868811CE6DB490017B11B /* Module.h */,
 			);
 			path = MessagesKit;
 			sourceTree = "<group>";
@@ -963,6 +966,7 @@
 				AA5850321CC1DFCE0034C46D /* NSDate+Utils.h in Headers */,
 				AA4FD05A1CCD918500C0DE2A /* MessageAPI+Compat.h in Headers */,
 				AA4FD0431CCCADF300C0DE2A /* DataReference.h in Headers */,
+				AA1868821CE6DEC20017B11B /* Module.h in Headers */,
 				AAFDFB711CC5FDA200066707 /* GroupChat.h in Headers */,
 				AA61CD931CCB36B30029B5F2 /* Settings.h in Headers */,
 				AA490DB61CCAF1CF0010FC17 /* HTTPSessionTransportFactory.h in Headers */,

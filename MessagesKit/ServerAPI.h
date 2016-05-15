@@ -7,38 +7,40 @@
 //
 
 #import "Messages.h"
+#import "Module.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-extern NSString *UserAgent;
-extern int ServerTimeout;
+MESSAGES_KIT_INTERNAL extern NSString *UserAgent;
+MESSAGES_KIT_INTERNAL extern int ServerTimeout;
 
 
 // Common HTTP header names & values
-extern NSString *ContentTypeHTTPHeader;
-extern NSString *ContentLengthHTTPHeader;
-extern NSString *AcceptHTTPHeader;
-extern NSString *AuthorizationHTTPHeader;
-extern NSString *BearerAuthorizationHTTPHeaderValue;
-extern NSString *BasicAuthorizationHTTPHeaderValue;
-extern NSString *UserAgentHTTPHeader;
-extern NSString *BearerRefreshHTTPHeader;
-extern NSString *VersionHTTPHeader;
-extern NSString *BuildHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *ContentTypeHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *ContentLengthHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *AcceptHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *AuthorizationHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *BearerAuthorizationHTTPHeaderValue;
+MESSAGES_KIT_INTERNAL extern NSString *BasicAuthorizationHTTPHeaderValue;
+MESSAGES_KIT_INTERNAL extern NSString *UserAgentHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *BearerRefreshHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *VersionHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *BuildHTTPHeader;
 
-extern NSString *ThriftContentType;
-extern NSString *JSONContentType;
-extern NSString *OctetStreamContentType;
+MESSAGES_KIT_INTERNAL extern NSString *ThriftContentType;
+MESSAGES_KIT_INTERNAL extern NSString *JSONContentType;
+MESSAGES_KIT_INTERNAL extern NSString *OctetStreamContentType;
 
 // API Header & Param names
-extern NSString *UserAPIFetchMsgIdParam;
+MESSAGES_KIT_INTERNAL extern NSString *UserAPIFetchMsgIdParam;
 
-extern NSString *MsgInfoHTTPHeader;
+MESSAGES_KIT_INTERNAL extern NSString *MsgInfoHTTPHeader;
 
 
 
+MESSAGES_KIT_INTERNAL
 @interface ServerAPI : NSObject
 
 +(NSArray *) pinnedCerts;

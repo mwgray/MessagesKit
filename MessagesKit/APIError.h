@@ -8,11 +8,13 @@
 
 @import Foundation;
 
+#import "Module.h"
 
 static NSString *APIErrorDomain    = @"io.retxt.message-api";
 
 
 // PublicAPI errors
+
 typedef NS_ENUM (int, APIError) {
   APIErrorGeneral                       = 1,
   APIErrorUserNotFound                  = 2,
@@ -39,6 +41,8 @@ typedef NS_ENUM (int, APIError) {
 };
 
 
+
+MESSAGES_KIT_INTERNAL
 @interface APIErrorFactory : NSObject
 
 +(NSError *) generalError;
