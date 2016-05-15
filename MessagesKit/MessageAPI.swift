@@ -64,7 +64,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   private(set) var networkAvailable = true
   
   internal let certificateTrust : OpenSSLCertificateTrust
-
+  
   
   public class func initialize(target target: ServerTarget) {
     assert(self.target == nil, "MessageAPI target already initialized")
@@ -244,7 +244,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     queue.addOperationWithBlock {
       
       self.chatDAO.resetUnreadCountsForChat(chat)
-      
+
       let unreadCount = Int(try! self.messageDAO.readAllMessagesForChat(chat))
       self.adjustUnreadMessageCountWithDelta(-unreadCount)
       
@@ -673,14 +673,14 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
       
       if message.clarifyFlag {
         
-        let senderContact = ContactDirectoryManager.sharedInstance.lookupContactWithAlias(message.sender ?? "")
+        let aliasDisplay = AliasDisplayManager.sharedProvider.displayForAlias(message.sender ?? "")
         
-        body = "\(senderContact.familiarName) doesn't understand your message"
+        body = "\(aliasDisplay.familiarName) doesn't understand your message"
 
       }
       else {
 
-        let title = ChatTitleGenerator.generateForChat(message.chat)
+        let title = generateTitleForChat(message.chat).full(leadingMember: message.sender!)
         
         body = "\(title): \(message.alertText())"
       }
@@ -688,7 +688,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     }
     else {
       
-      let title = ChatTitleGenerator.generateForChat(message.chat)
+      let title = generateTitleForChat(message.chat).full(leadingMember: message.sender!)
       
       body = "\(title): New Message"
       
@@ -711,7 +711,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
 
     DDLogDebug("SHOWING FAIL NOTIFICATION: \(message.id)")
     
-    let title = ChatTitleGenerator.generateForChat(message.chat)
+    let title = generateTitleForChat(message.chat).full(leadingMember: message.sender!)
     
     let body = "Failed to send message to: \(title)"
     
@@ -1687,7 +1687,6 @@ extension MessageAPI {
 }
 
 
-
 extension UserInfo : Persistable {
   
   public static func valueToData(value: UserInfo) throws -> NSData {
@@ -1699,3 +1698,4 @@ extension UserInfo : Persistable {
   }
   
 }
+

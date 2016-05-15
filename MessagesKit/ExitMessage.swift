@@ -13,13 +13,13 @@ extension ExitMessage {
   
   public override func alertText() -> String {
     
-    let contact = ContactDirectoryManager.sharedInstance.lookupContactWithAlias(self.alias)
+    let aliasDisplay = AliasDisplayManager.sharedProvider.displayForAlias(self.alias)
     
-    return "\(contact.fullName) has left" //TODO:
+    return "\(aliasDisplay.fullName) has left"
   }
   
   public override func summaryText() -> String {
-    return alertText()
+    return "Left the chat"
   }
   
 }

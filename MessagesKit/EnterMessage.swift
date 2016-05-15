@@ -13,13 +13,14 @@ extension EnterMessage {
   
   public override func alertText() -> String {
     
-    let contact = ContactDirectoryManager.sharedInstance.lookupContactWithAlias(self.alias)
+    let aliasDisplay = AliasDisplayManager.sharedProvider.displayForAlias(self.alias)
     
-    return "\(contact.fullName) has joined" //TODO:
+    return "\(aliasDisplay.fullName) has joined"
   }
   
   public override func summaryText() -> String {
-    return alertText()
+    
+    return "Joined the chat"
   }
   
 }

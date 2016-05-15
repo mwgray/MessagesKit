@@ -19,6 +19,7 @@ target :MessagesKit do
   pod 'PromiseKit/AssetsLibrary', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
   pod 'PromiseKit/AVFoundation', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
 
+  pod 'SwiftAddressBook'
   pod 'KVOController'
   pod 'DeviceKit'
   pod 'CocoaLumberjack/Swift'
@@ -29,6 +30,8 @@ target :MessagesKit do
   target :MessagesKitTests do
     pod 'OCMock'
     pod 'OMGHTTPURLRQ'
+    pod 'JPSimulatorHacks', :git => 'https://github.com/reTXT/JPSimulatorHacks.git'
+    pod 'PopulateKit', :git => 'https://github.com/reTXT/Populate.git'
   end
-
+  
 end

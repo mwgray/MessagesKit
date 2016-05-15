@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) Id *aliasId;
 
-@property (strong, nonatomic) NSString *customTitle;
+@property (strong, nullable, nonatomic) NSString *customTitle;
 
 @property (strong, nonatomic) NSSet<NSString *> *activeMembers;
 @property (strong, nonatomic) NSSet<NSString *> *members;

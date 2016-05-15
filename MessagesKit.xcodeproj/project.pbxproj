@@ -35,12 +35,14 @@
 		AA09E9B71CD9ABB900566778 /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */; };
 		AA18686A1CE1828E0017B11B /* Messages.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868681CE1828E0017B11B /* Messages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA18686B1CE1828E0017B11B /* Messages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1868691CE1828E0017B11B /* Messages.m */; };
-		AA18686E1CE435200017B11B /* ContactDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686D1CE435200017B11B /* ContactDirectory.swift */; };
+		AA18686E1CE435200017B11B /* AliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686D1CE435200017B11B /* AliasDisplay.swift */; };
 		AA1868701CE4377B0017B11B /* EnterMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686F1CE4377B0017B11B /* EnterMessage.swift */; };
 		AA1868721CE43F150017B11B /* ExitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868711CE43F150017B11B /* ExitMessage.swift */; };
 		AA1868741CE443FB0017B11B /* MessageDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868731CE443FB0017B11B /* MessageDAO.swift */; };
-		AA1868761CE44A7D0017B11B /* TitleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868751CE44A7D0017B11B /* TitleGenerator.swift */; };
 		AA18687A1CE4F7670017B11B /* MessageSoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868791CE4F7670017B11B /* MessageSoundManager.swift */; };
+		AA18687C1CE555910017B11B /* ChatTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18687B1CE555910017B11B /* ChatTitle.swift */; };
+		AA18687E1CE6C6160017B11B /* DefaultAliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */; };
+		AA1868801CE6C6540017B11B /* AddressBookAliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */; };
 		AA1868821CE6DEC20017B11B /* Module.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868811CE6DB490017B11B /* Module.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA490DAD1CCAF1970010FC17 /* APIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* APIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */; };
@@ -127,6 +129,7 @@
 		AA61CD981CCB37930029B5F2 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = AA61CD961CCB37930029B5F2 /* Reachability.h */; };
 		AA61CD991CCB37930029B5F2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD971CCB37930029B5F2 /* Reachability.m */; };
 		AA61CD9B1CCB3D2B0029B5F2 /* Promise+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */; };
+		AA6E2F101CE7D4C10054E614 /* AddressBookIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6E2F0F1CE7D4C10054E614 /* AddressBookIndexTests.swift */; };
 		AA8DE0CF1CDD5F0400056E17 /* RegisterNotificationTokenOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8DE0CE1CDD5F0400056E17 /* RegisterNotificationTokenOperation.swift */; };
 		AA97DA781CDC3FFC00EE4DF2 /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */; };
 		AA97DA791CDC3FFC00EE4DF2 /* MessageAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */; };
@@ -165,6 +168,7 @@
 		AAB481F41CCADEC400EBFC5E /* MsgSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9918941CC1645700F1A3B0 /* MsgSigner.swift */; };
 		AAB481F51CCADEC400EBFC5E /* AsymmetricKeyPairGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918961CC1645700F1A3B0 /* AsymmetricKeyPairGenerator.m */; };
 		AAB481F61CCADEC400EBFC5E /* X509Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918981CC1645700F1A3B0 /* X509Utils.m */; };
+		AAB5359F1CE8D38C00A38281 /* AddressBookIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */; };
 		AAB717FD1CD92CF40041A878 /* RetryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FC1CD92CF40041A878 /* RetryOperation.swift */; };
 		AAB717FF1CD931FE0041A878 /* AlertOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FE1CD931FE0041A878 /* AlertOperation.swift */; };
 		AAB718011CD933470041A878 /* UIKitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718001CD933470041A878 /* UIKitConditions.swift */; };
@@ -297,12 +301,14 @@
 		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
 		AA1868681CE1828E0017B11B /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Messages.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA1868691CE1828E0017B11B /* Messages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messages.m; sourceTree = "<group>"; };
-		AA18686D1CE435200017B11B /* ContactDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDirectory.swift; sourceTree = "<group>"; };
+		AA18686D1CE435200017B11B /* AliasDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AliasDisplay.swift; sourceTree = "<group>"; };
 		AA18686F1CE4377B0017B11B /* EnterMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterMessage.swift; sourceTree = "<group>"; };
 		AA1868711CE43F150017B11B /* ExitMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExitMessage.swift; sourceTree = "<group>"; };
 		AA1868731CE443FB0017B11B /* MessageDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDAO.swift; sourceTree = "<group>"; };
-		AA1868751CE44A7D0017B11B /* TitleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleGenerator.swift; sourceTree = "<group>"; };
 		AA1868791CE4F7670017B11B /* MessageSoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSoundManager.swift; sourceTree = "<group>"; };
+		AA18687B1CE555910017B11B /* ChatTitle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTitle.swift; sourceTree = "<group>"; };
+		AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAliasDisplay.swift; sourceTree = "<group>"; };
+		AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookAliasDisplay.swift; sourceTree = "<group>"; };
 		AA1868811CE6DB490017B11B /* Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -357,6 +363,7 @@
 		AA61CD961CCB37930029B5F2 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AA61CD971CCB37930029B5F2 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		AA61CD9A1CCB3D2B0029B5F2 /* Promise+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "Promise+Utils.swift"; sourceTree = "<group>"; };
+		AA6E2F0F1CE7D4C10054E614 /* AddressBookIndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookIndexTests.swift; sourceTree = "<group>"; };
 		AA8DE0CE1CDD5F0400056E17 /* RegisterNotificationTokenOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterNotificationTokenOperation.swift; sourceTree = "<group>"; };
 		AA9917AF1CC163B400F1A3B0 /* Messages+Exts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "Messages+Exts.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA9917B01CC163B400F1A3B0 /* Messages+Exts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "Messages+Exts.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -495,6 +502,7 @@
 		AAB481CD1CCAC51C00EBFC5E /* DAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DAO.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TestClient.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UnboundedBlockingQueue.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookIndex.swift; sourceTree = "<group>"; };
 		AAB717FC1CD92CF40041A878 /* RetryOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryOperation.swift; sourceTree = "<group>"; };
 		AAB717FE1CD931FE0041A878 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
 		AAB718001CD933470041A878 /* UIKitConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UIKitConditions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -836,8 +844,11 @@
 				AA9C1C741CC028190070FB59 /* Info.plist */,
 				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
 				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
-				AA18686D1CE435200017B11B /* ContactDirectory.swift */,
-				AA1868751CE44A7D0017B11B /* TitleGenerator.swift */,
+				AA18686D1CE435200017B11B /* AliasDisplay.swift */,
+				AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */,
+				AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */,
+				AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */,
+				AA18687B1CE555910017B11B /* ChatTitle.swift */,
 				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
 				AA1868811CE6DB490017B11B /* Module.h */,
 			);
@@ -866,6 +877,7 @@
 				AA9918B51CC1652500F1A3B0 /* MessagesKitTests-Bridging-Header.h */,
 				AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */,
 				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
+				AA6E2F0F1CE7D4C10054E614 /* AddressBookIndexTests.swift */,
 			);
 			path = MessagesKitTests;
 			sourceTree = "<group>";
@@ -1263,6 +1275,7 @@
 				AADCA4261CCBEB6300607C05 /* NSBundle+Utils.m in Sources */,
 				AA490DB91CCAF59E0010FC17 /* MessageContexts.swift in Sources */,
 				AAFDFB6A1CC5FDA200066707 /* ExitMessage.m in Sources */,
+				AA18687E1CE6C6160017B11B /* DefaultAliasDisplay.swift in Sources */,
 				AA4FD0571CCD8AFC00C0DE2A /* SendReceiptOperation.swift in Sources */,
 				AA490DC41CCAF59E0010FC17 /* MessageFinishOperation.swift in Sources */,
 				AAFDFB6E1CC5FDA200066707 /* Chat.m in Sources */,
@@ -1278,12 +1291,14 @@
 				AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */,
 				AA490DB51CCAF1CC0010FC17 /* BackgroundSessionOperations.swift in Sources */,
 				AA61CD991CCB37930029B5F2 /* Reachability.m in Sources */,
+				AA18687C1CE555910017B11B /* ChatTitle.swift in Sources */,
 				AA4FD0551CCD4E9000C0DE2A /* MessageAPI.swift in Sources */,
-				AA18686E1CE435200017B11B /* ContactDirectory.swift in Sources */,
+				AA18686E1CE435200017B11B /* AliasDisplay.swift in Sources */,
 				AAFDFB641CC5FDA200066707 /* ContactMessage.m in Sources */,
 				AAFDFB661CC5FDA200066707 /* ConferenceMessage.m in Sources */,
 				AA61CD941CCB36B30029B5F2 /* Settings.m in Sources */,
 				AA490DD01CCAF5A30010FC17 /* RequireAuthorization.swift in Sources */,
+				AA1868801CE6C6540017B11B /* AddressBookAliasDisplay.swift in Sources */,
 				AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */,
 				AAFDFB431CC5FDA200066707 /* DBManager.m in Sources */,
 				AA1868701CE4377B0017B11B /* EnterMessage.swift in Sources */,
@@ -1308,12 +1323,12 @@
 				AAC62D1F1CD05570006AFEDD /* ServerTarget.swift in Sources */,
 				AA490DCF1CCAF59E0010FC17 /* UpdateAccessTokenOperation.swift in Sources */,
 				AA490DAF1CCAF1A80010FC17 /* WebSocket.m in Sources */,
-				AA1868761CE44A7D0017B11B /* TitleGenerator.swift in Sources */,
 				AA58502B1CC1D6DA0034C46D /* NSString.swift in Sources */,
 				AAFDFB4C1CC5FDA200066707 /* MessageDAO.m in Sources */,
 				AAFDFB5A1CC5FDA200066707 /* TextMessage.m in Sources */,
 				AA58501B1CC1C4510034C46D /* NSValue+Utils.m in Sources */,
 				AAB481CE1CCAC51C00EBFC5E /* DAO.swift in Sources */,
+				AAB5359F1CE8D38C00A38281 /* AddressBookIndex.swift in Sources */,
 				AA61CD9B1CCB3D2B0029B5F2 /* Promise+Utils.swift in Sources */,
 				AA4FCFF81CCC374F00C0DE2A /* ConnectWebsocketOperation.swift in Sources */,
 				AAFDFB7C1CC5FF0200066707 /* Messages+Exts.m in Sources */,
@@ -1338,6 +1353,7 @@
 				AAB481DE1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift in Sources */,
 				AA97DA861CDC3FFC00EE4DF2 /* PersistentCacheTests.swift in Sources */,
 				AA97DA801CDC3FFC00EE4DF2 /* NotificationTests.m in Sources */,
+				AA6E2F101CE7D4C10054E614 /* AddressBookIndexTests.swift in Sources */,
 				AA97DA7F1CDC3FFC00EE4DF2 /* MsgCipherTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
