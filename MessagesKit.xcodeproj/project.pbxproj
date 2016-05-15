@@ -679,9 +679,24 @@
 		AA0B342B1CE930BE00DEFE33 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AA1868811CE6DB490017B11B /* Module.h */,
 				AA9C1C741CC028190070FB59 /* Info.plist */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		AA0B342C1CE931C300DEFE33 /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
+				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
+				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
+				AA9917B91CC163B400F1A3B0 /* UserStatusInfo.h */,
+				AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */,
+				AA18687B1CE555910017B11B /* ChatTitle.swift */,
+				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
+			);
+			name = Miscellaneous;
 			sourceTree = "<group>";
 		};
 		AA58500F1CC1C02E0034C46D /* Utils */ = {
@@ -911,14 +926,7 @@
 				AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */,
 				AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */,
 				AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */,
-				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
-				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
-				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
-				AA9917B91CC163B400F1A3B0 /* UserStatusInfo.h */,
-				AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */,
-				AA18687B1CE555910017B11B /* ChatTitle.swift */,
-				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
-				AA1868811CE6DB490017B11B /* Module.h */,
+				AA0B342C1CE931C300DEFE33 /* Miscellaneous */,
 				AA0B34251CE92EA200DEFE33 /* Data References */,
 				AA9917DF1CC163C200F1A3B0 /* Operations */,
 				AA9918131CC1641200F1A3B0 /* DB */,
