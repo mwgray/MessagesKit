@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSBundle (Utils)
 
-+(instancetype) frameworkBundle;
++(instancetype) mk_frameworkBundle;
 
 @end
 

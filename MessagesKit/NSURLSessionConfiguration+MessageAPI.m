@@ -30,8 +30,8 @@
   sessionConfig.discretionary = NO;
   sessionConfig.TLSMinimumSupportedProtocol = kTLSProtocol11;
   sessionConfig.HTTPAdditionalHeaders =
-    sessionConfig.HTTPAdditionalHeaders.extend(@{VersionHTTPHeader: NSBundle.frameworkBundle.infoDictionary[@"CFBundleShortVersionString"],
-                                                 BuildHTTPHeader: NSBundle.frameworkBundle.infoDictionary[@"CFBundleVersion"]});
+    sessionConfig.HTTPAdditionalHeaders.extend(@{VersionHTTPHeader: NSBundle.mk_frameworkBundle.infoDictionary[@"CFBundleShortVersionString"],
+                                                 BuildHTTPHeader: NSBundle.mk_frameworkBundle.infoDictionary[@"CFBundleVersion"]});
 
   return sessionConfig;
 }

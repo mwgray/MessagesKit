@@ -8,12 +8,14 @@
 
 #import "NSBundle+Utils.h"
 
+#import "Message.h"
+
 
 @implementation NSBundle (Utils)
 
-+(instancetype)frameworkBundle
++(instancetype) mk_frameworkBundle
 {
-  return [NSBundle bundleWithIdentifier:@"com.retxt.MessagesKit"];
+  return [NSBundle bundleForClass:Message.class];
 }
 
 @end

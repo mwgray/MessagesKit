@@ -121,7 +121,7 @@
 
 -(void) testValidationValid
 {
-  NSURL *rootsURL = [NSBundle.frameworkBundle URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
+  NSURL *rootsURL = [NSBundle.mk_frameworkBundle URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
   XCTAssertNotNil(rootsURL, @"Unable to locate root certificates");
   
   NSError *error;
@@ -129,7 +129,7 @@
   OpenSSLCertificateValidator *validator = [[OpenSSLCertificateValidator alloc] initWithRootCertificatesInFile:rootsURL.path error:&error];
   XCTAssertNotNil(validator, @"Error initializing validator: %@", error);
   
-  NSURL *intersURL = [NSBundle.frameworkBundle URLForResource:@"inters" withExtension:@"pem" subdirectory:@"Certificates"];
+  NSURL *intersURL = [NSBundle.mk_frameworkBundle URLForResource:@"inters" withExtension:@"pem" subdirectory:@"Certificates"];
   XCTAssertNotNil(intersURL, @"Unable to locate intermediate certificate authorities");
   
   OpenSSLCertificateSet *inters = [[OpenSSLCertificateSet alloc] initWithPEMEncodedData:[NSData dataWithContentsOfURL:intersURL] error:&error];
@@ -144,7 +144,7 @@
 
 -(void) testValidationInvalid
 {
-  NSURL *rootsURL = [NSBundle.frameworkBundle URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
+  NSURL *rootsURL = [NSBundle.mk_frameworkBundle URLForResource:@"roots" withExtension:@"pem" subdirectory:@"Certificates"];
   XCTAssertNotNil(rootsURL, @"Unable to locate root certificates");
   
   NSError *error;

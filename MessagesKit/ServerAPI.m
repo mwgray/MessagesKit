@@ -104,7 +104,7 @@ NSString *TextContentTypePrefix = @"text/";
 
   BaseURL = baseURLComponents.URL;
 
-  NSString *PinnedCertPath = [NSBundle.frameworkBundle pathForResource:PinnedCertName ofType:@"crt" inDirectory:@"Certificates"];
+  NSString *PinnedCertPath = [NSBundle.mk_frameworkBundle pathForResource:PinnedCertName ofType:@"crt" inDirectory:@"Certificates"];
   NSData *PinnedCertData = [NSData dataWithContentsOfFile:PinnedCertPath];
   SecCertificateRef certificate = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)PinnedCertData);
   PinnedCerts = @[CFBridgingRelease(certificate)];
