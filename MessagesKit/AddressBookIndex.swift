@@ -8,7 +8,6 @@
 
 import Foundation
 import AddressBook
-import SwiftAddressBook
 import CocoaLumberjack
 
 
@@ -16,6 +15,7 @@ public let AddressBookIndexUpdateNotification = "AddressBookIndexUpdate"
 public let AddressBookIndexUpdateNotificationAddedKey = "added"
 public let AddressBookIndexUpdateNotificationUpdatedKey = "updated"
 public let AddressBookIndexUpdateNotificationDeletedKey = "deleted"
+
 
 
 public class AddressBookIndex : NSObject {
@@ -38,7 +38,7 @@ public class AddressBookIndex : NSObject {
   }
   
   
-  private let addressBook : SwiftAddressBook
+  private let addressBook : AddressBook
   private let addressBookQueue = dispatch_queue_create("AddressBookIndex Access", DISPATCH_QUEUE_SERIAL)
   private var entries = [ABRecordID:IndexEntry]()
   private let lockQueue = dispatch_queue_create("AddressBookIndex Lock", DISPATCH_QUEUE_SERIAL)
@@ -46,7 +46,7 @@ public class AddressBookIndex : NSObject {
   
   public init(ready: () -> Void) {
     
-    self.addressBook = SwiftAddressBook()!
+    self.addressBook = AddressBook()
     
     super.init()
     
@@ -63,26 +63,26 @@ public class AddressBookIndex : NSObject {
   deinit {
   }
   
-  public func lookupPeopleWithAliases(aliases: [String]) -> [SwiftAddressBookPerson] {
+  public func lookupPeopleWithAliases(aliases: [String]) -> [AddressBookPerson] {
     
     return lockQueue.sync {
       let matches = self.entries.values.filter { !$0.aliases.intersect(aliases).isEmpty }
       return self.addressBookQueue.sync {
         let mapped = matches.map { self.addressBook.personWithRecordId($0.systemId) }
         let filtered = mapped.filter { $0 != nil }
-        return filtered.map { (person:SwiftAddressBookPerson?) -> SwiftAddressBookPerson in return person! }
+        return filtered.map { (person:AddressBookPerson?) -> AddressBookPerson in return person! }
       }
     }
   }
   
-  public func searchPeopleWithQuery(query: String) -> [SwiftAddressBookPerson] {
+  public func searchPeopleWithQuery(query: String) -> [AddressBookPerson] {
     
     return lockQueue.sync {
       let matches = self.entries.values.filter { $0.data.localizedCaseInsensitiveContainsString(query) }
       return self.addressBookQueue.sync {
         let mapped = matches.map { self.addressBook.personWithRecordId($0.systemId) }
         let filtered = mapped.filter { $0 != nil }
-        return filtered.map { (person:SwiftAddressBookPerson?) -> SwiftAddressBookPerson in return person! }
+        return filtered.map { (person:AddressBookPerson?) -> AddressBookPerson in return person! }
       }
     }
   }
@@ -108,8 +108,8 @@ public class AddressBookIndex : NSObject {
         (person.jobTitle ?? "")
         ])
       
-      let phones = person.phoneNumbers?.map { $0.value } ?? []
-      let emails = person.emails?.map { $0.value } ?? []
+      let phones = person.phoneNumbers?.map { $0.value as! String } ?? []
+      let emails = person.emails?.map { $0.value as! String } ?? []
       
       let aliases = Set(phones + emails)
       

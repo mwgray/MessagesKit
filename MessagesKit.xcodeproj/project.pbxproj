@@ -33,6 +33,10 @@
 		AA05D25D1CCABCB00051039E /* CGSize+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA05D25B1CCABCB00051039E /* CGSize+Utils.m */; };
 		AA05D25E1CCABCB00051039E /* CGSize+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AA05D25C1CCABCB00051039E /* CGSize+Utils.h */; };
 		AA09E9B71CD9ABB900566778 /* NoFailedDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */; };
+		AA0B341C1CE8FE2100DEFE33 /* AddressBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B341B1CE8FE2100DEFE33 /* AddressBook.swift */; };
+		AA0B341E1CE8FE9C00DEFE33 /* AddressBookSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B341D1CE8FE9C00DEFE33 /* AddressBookSource.swift */; };
+		AA0B34201CE904B400DEFE33 /* AddressBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */; };
+		AA0B34221CE9065700DEFE33 /* AddressBookGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */; };
 		AA18686A1CE1828E0017B11B /* Messages.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868681CE1828E0017B11B /* Messages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA18686B1CE1828E0017B11B /* Messages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1868691CE1828E0017B11B /* Messages.m */; };
 		AA18686E1CE435200017B11B /* AliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686D1CE435200017B11B /* AliasDisplay.swift */; };
@@ -169,6 +173,9 @@
 		AAB481F51CCADEC400EBFC5E /* AsymmetricKeyPairGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918961CC1645700F1A3B0 /* AsymmetricKeyPairGenerator.m */; };
 		AAB481F61CCADEC400EBFC5E /* X509Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918981CC1645700F1A3B0 /* X509Utils.m */; };
 		AAB5359F1CE8D38C00A38281 /* AddressBookIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */; };
+		AAB535E81CE8F5E100A38281 /* AddressBookPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB535E61CE8F5E100A38281 /* AddressBookPerson.swift */; };
+		AAB535E91CE8F5E100A38281 /* AddressBookRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB535E71CE8F5E100A38281 /* AddressBookRecord.swift */; };
+		AAB535EB1CE8F79E00A38281 /* AddressBookTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB535EA1CE8F79E00A38281 /* AddressBookTypes.swift */; };
 		AAB717FD1CD92CF40041A878 /* RetryOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FC1CD92CF40041A878 /* RetryOperation.swift */; };
 		AAB717FF1CD931FE0041A878 /* AlertOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB717FE1CD931FE0041A878 /* AlertOperation.swift */; };
 		AAB718011CD933470041A878 /* UIKitConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB718001CD933470041A878 /* UIKitConditions.swift */; };
@@ -301,6 +308,10 @@
 		AA05D25B1CCABCB00051039E /* CGSize+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "CGSize+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA05D25C1CCABCB00051039E /* CGSize+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "CGSize+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA09E9B61CD9ABB900566778 /* NoFailedDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFailedDependencies.swift; sourceTree = "<group>"; };
+		AA0B341B1CE8FE2100DEFE33 /* AddressBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBook.swift; sourceTree = "<group>"; };
+		AA0B341D1CE8FE9C00DEFE33 /* AddressBookSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookSource.swift; sourceTree = "<group>"; };
+		AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookHelpers.swift; sourceTree = "<group>"; };
+		AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookGroup.swift; sourceTree = "<group>"; };
 		AA1868681CE1828E0017B11B /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Messages.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA1868691CE1828E0017B11B /* Messages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messages.m; sourceTree = "<group>"; };
 		AA18686D1CE435200017B11B /* AliasDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AliasDisplay.swift; sourceTree = "<group>"; };
@@ -505,6 +516,9 @@
 		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TestClient.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UnboundedBlockingQueue.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookIndex.swift; sourceTree = "<group>"; };
+		AAB535E61CE8F5E100A38281 /* AddressBookPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookPerson.swift; sourceTree = "<group>"; };
+		AAB535E71CE8F5E100A38281 /* AddressBookRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookRecord.swift; sourceTree = "<group>"; };
+		AAB535EA1CE8F79E00A38281 /* AddressBookTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookTypes.swift; sourceTree = "<group>"; };
 		AAB717FC1CD92CF40041A878 /* RetryOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RetryOperation.swift; sourceTree = "<group>"; };
 		AAB717FE1CD931FE0041A878 /* AlertOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertOperation.swift; sourceTree = "<group>"; };
 		AAB718001CD933470041A878 /* UIKitConditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UIKitConditions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -856,6 +870,13 @@
 				AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */,
 				AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */,
 				AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */,
+				AA0B341B1CE8FE2100DEFE33 /* AddressBook.swift */,
+				AAB535E61CE8F5E100A38281 /* AddressBookPerson.swift */,
+				AA0B341D1CE8FE9C00DEFE33 /* AddressBookSource.swift */,
+				AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */,
+				AAB535EA1CE8F79E00A38281 /* AddressBookTypes.swift */,
+				AAB535E71CE8F5E100A38281 /* AddressBookRecord.swift */,
+				AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */,
 				AA18687B1CE555910017B11B /* ChatTitle.swift */,
 				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
 				AA1868811CE6DB490017B11B /* Module.h */,
@@ -1237,6 +1258,8 @@
 				AA05D2231CC829810051039E /* NSString+PropertyKVC.m in Sources */,
 				AA58503F1CC1E1A20034C46D /* NSData+Encoding.m in Sources */,
 				AA490DBE1CCAF59E0010FC17 /* MessageResolveRecipientsOperation.swift in Sources */,
+				AA0B341C1CE8FE2100DEFE33 /* AddressBook.swift in Sources */,
+				AA0B34221CE9065700DEFE33 /* AddressBookGroup.swift in Sources */,
 				AA5850431CC1E1B10034C46D /* NSData+CommonDigest.m in Sources */,
 				AA5850471CC1E1DF0034C46D /* NSError+Utils.m in Sources */,
 				AA490DC11CCAF59E0010FC17 /* MessageBuildSystemOperation.swift in Sources */,
@@ -1255,9 +1278,11 @@
 				AA18686B1CE1828E0017B11B /* Messages.m in Sources */,
 				AA490DC31CCAF59E0010FC17 /* MessageTransmitAPIOperation.swift in Sources */,
 				AAB481F31CCADEC400EBFC5E /* MsgSigner.m in Sources */,
+				AA0B341E1CE8FE9C00DEFE33 /* AddressBookSource.swift in Sources */,
 				AA5850191CC1C4510034C46D /* NSArray+Utils.m in Sources */,
 				AA05D22C1CC840B30051039E /* NSMutableArray+Utils.m in Sources */,
 				AAB481EC1CCADEC400EBFC5E /* OpenSSLKeyPair.m in Sources */,
+				AAB535E81CE8F5E100A38281 /* AddressBookPerson.swift in Sources */,
 				AA4FCFFA1CCC3C3800C0DE2A /* ResendUnsentMessagesOperation.swift in Sources */,
 				AAB718041CD933920041A878 /* NetworkObserver.swift in Sources */,
 				AA490DC51CCAF59E0010FC17 /* MessageRecvOperation.swift in Sources */,
@@ -1285,6 +1310,7 @@
 				AA490DB91CCAF59E0010FC17 /* MessageContexts.swift in Sources */,
 				AAFDFB6A1CC5FDA200066707 /* ExitMessage.m in Sources */,
 				AA18687E1CE6C6160017B11B /* DefaultAliasDisplay.swift in Sources */,
+				AAB535E91CE8F5E100A38281 /* AddressBookRecord.swift in Sources */,
 				AA4FD0571CCD8AFC00C0DE2A /* SendReceiptOperation.swift in Sources */,
 				AA490DC41CCAF59E0010FC17 /* MessageFinishOperation.swift in Sources */,
 				AAFDFB6E1CC5FDA200066707 /* Chat.m in Sources */,
@@ -1305,9 +1331,11 @@
 				AA18686E1CE435200017B11B /* AliasDisplay.swift in Sources */,
 				AAFDFB641CC5FDA200066707 /* ContactMessage.m in Sources */,
 				AAFDFB661CC5FDA200066707 /* ConferenceMessage.m in Sources */,
+				AAB535EB1CE8F79E00A38281 /* AddressBookTypes.swift in Sources */,
 				AA61CD941CCB36B30029B5F2 /* Settings.m in Sources */,
 				AA490DD01CCAF5A30010FC17 /* RequireAuthorization.swift in Sources */,
 				AA1868801CE6C6540017B11B /* AddressBookAliasDisplay.swift in Sources */,
+				AA0B34201CE904B400DEFE33 /* AddressBookHelpers.swift in Sources */,
 				AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */,
 				AAFDFB431CC5FDA200066707 /* DBManager.m in Sources */,
 				AA1868701CE4377B0017B11B /* EnterMessage.swift in Sources */,

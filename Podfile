@@ -19,7 +19,6 @@ target :MessagesKit do
   pod 'PromiseKit/AssetsLibrary', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
   pod 'PromiseKit/AVFoundation', :git => 'https://github.com/reTXT/PromiseKit.git', :branch => 'master'
 
-  pod 'SwiftAddressBook'
   pod 'KVOController'
   pod 'DeviceKit'
   pod 'CocoaLumberjack/Swift'

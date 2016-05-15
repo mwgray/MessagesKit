@@ -7,16 +7,15 @@
 //
 
 import Foundation
-import SwiftAddressBook
 import CocoaLumberjack
 
 
 
 private class PersonAliasDisplay : NSObject, AliasDisplay {
   
-  let person : SwiftAddressBookPerson
+  let person : AddressBookPerson
   
-  private init(person: SwiftAddressBookPerson) {
+  private init(person: AddressBookPerson) {
     self.person = person
   }
   

@@ -1,17 +1,17 @@
 //
-//  SwiftAddressBookRecord.swift
-//  Pods
+//  AddressBookRecord.swift
+//  MessagesKit
 //
-//  Created by Socialbit - Tassilo Karge on 09.03.15.
-//
+//  Created by Kevin Wooten on 5/15/16.
+//  Copyright © 2016 reTXT Labs LLC. All rights reserved.
 //
 
-import Foundation
 import AddressBook
 
-//MARK: Wrapper for ABAddressBookRecord
 
-public class SwiftAddressBookRecord {
+// Generic ABRecord
+
+public class AddressBookRecord {
 
 	public var internalRecord : ABRecord!
 
@@ -32,12 +32,12 @@ public class SwiftAddressBookRecord {
 		return Int(ABRecordGetRecordID(self.internalRecord))
 	}
 
-	public var recordType: SwiftAddressBookRecordType {
-		return SwiftAddressBookRecordType(abRecordType: ABRecordGetRecordType(self.internalRecord))
+	public var recordType: AddressBookRecordType {
+    return AddressBookRecordType(rawValue: ABRecordGetRecordType(self.internalRecord))!
 	}
 }
 
-extension SwiftAddressBookRecord: Hashable {
+extension AddressBookRecord: Hashable {
 
 	public var hashValue: Int {
 		return recordID.hashValue
@@ -45,6 +45,6 @@ extension SwiftAddressBookRecord: Hashable {
 
 }
 
-public func == (lhs: SwiftAddressBookRecord, rhs: SwiftAddressBookRecord) -> Bool {
+public func == (lhs: AddressBookRecord, rhs: AddressBookRecord) -> Bool {
 	return lhs.recordID == rhs.recordID
 }
