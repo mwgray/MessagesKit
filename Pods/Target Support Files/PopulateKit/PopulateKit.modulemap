@@ -1,0 +1,6 @@
+framework module PopulateKit {
+  umbrella header "PopulateKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

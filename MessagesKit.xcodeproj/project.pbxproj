@@ -261,6 +261,7 @@
 /* Begin PBXFileReference section */
 		065AF905BED421566E598174 /* Pods_MessagesKit_MessagesKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesKit_MessagesKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		238677F9F2FED68F6B33A443 /* Pods_MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B53E4D7FCA0B185652E1D07 /* Pods-MessagesKitTestsHost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKitTestsHost.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKitTestsHost/Pods-MessagesKitTestsHost.release.xcconfig"; sourceTree = "<group>"; };
 		464A6D6D515422AC0F2349C5 /* Pods-Messages-MessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.release.xcconfig"; sourceTree = "<group>"; };
 		477CD8044D99DDC7BFD842DD /* Pods-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesTests/Pods-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Messages_MessagesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +274,7 @@
 		93B1FC57C55C51C335F1789F /* Pods-MessagesKit-MessagesKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKit-MessagesKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKit-MessagesKitTests/Pods-MessagesKit-MessagesKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		97493CACC5E3E4221450C2C4 /* Pods-MessagesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesTests/Pods-MessagesTests.release.xcconfig"; sourceTree = "<group>"; };
 		9C846BB11A4C706E09E20CCE /* Pods-MessagesKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKit/Pods-MessagesKit.debug.xcconfig"; sourceTree = "<group>"; };
+		A4D19DAA32C71E42562E0593 /* Pods_MessagesKit_MessagesKitTestsHost.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesKit_MessagesKitTestsHost.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA05D2181CC827A20051039E /* NSObject+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSObject+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA05D2191CC827A20051039E /* NSObject+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSObject+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA05D21C1CC829810051039E /* NSObject+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Properties.h"; sourceTree = "<group>"; };
@@ -522,7 +524,9 @@
 		AADCA4231CCBEB6300607C05 /* NSBundle+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSBundle+Utils.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AADCA4241CCBEB6300607C05 /* NSBundle+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSBundle+Utils.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CA82DCA6D6825F8D4577CE91 /* Pods_MessagesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D666F473F35D4193A5BDF3D6 /* Pods_MessagesKitTestsHost.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessagesKitTestsHost.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8058D40700DD4C25294B2E6 /* Pods-Messages-MessagesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Messages-MessagesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Messages-MessagesTests/Pods-Messages-MessagesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E2DBE587CC4EE98DE3409BA1 /* Pods-MessagesKitTestsHost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MessagesKitTestsHost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MessagesKitTestsHost/Pods-MessagesKitTestsHost.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -556,6 +560,8 @@
 				47995284021638EC9E8C6532 /* Pods_Messages_MessagesTests.framework */,
 				238677F9F2FED68F6B33A443 /* Pods_MessagesKit.framework */,
 				065AF905BED421566E598174 /* Pods_MessagesKit_MessagesKitTests.framework */,
+				D666F473F35D4193A5BDF3D6 /* Pods_MessagesKitTestsHost.framework */,
+				A4D19DAA32C71E42562E0593 /* Pods_MessagesKit_MessagesKitTestsHost.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -573,6 +579,8 @@
 				47B4709552EED87860268ED9 /* Pods-MessagesKit.release.xcconfig */,
 				786ADFDA483BAE368EDEB04B /* Pods-MessagesKit-MessagesKitTests.debug.xcconfig */,
 				93B1FC57C55C51C335F1789F /* Pods-MessagesKit-MessagesKitTests.release.xcconfig */,
+				E2DBE587CC4EE98DE3409BA1 /* Pods-MessagesKitTestsHost.debug.xcconfig */,
+				3B53E4D7FCA0B185652E1D07 /* Pods-MessagesKitTestsHost.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
