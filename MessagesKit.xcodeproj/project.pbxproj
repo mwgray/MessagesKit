@@ -1009,8 +1009,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA9C1C831CC028190070FB59 /* Build configuration list for PBXNativeTarget "MessagesKit" */;
 			buildPhases = (
-				AA18686C1CE3F2FE0017B11B /* Highlight FIXME/TODO/???? */,
 				55858174A78A0E0828493CF6 /* 📦 Check Pods Manifest.lock */,
+				AA18686C1CE3F2FE0017B11B /* Highlight FIXME/TODO/???? */,
 				AA9C1C6A1CC028190070FB59 /* Sources */,
 				AA9C1C6B1CC028190070FB59 /* Frameworks */,
 				AA9C1C6C1CC028190070FB59 /* Headers */,
@@ -1053,12 +1053,12 @@
 		AA9C1C661CC028190070FB59 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "reTXT Labs LLC";
 				TargetAttributes = {
 					AA9C1C6E1CC028190070FB59 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 7J5T2VZQJW;
 					};
 					AA9C1C781CC028190070FB59 = {
 						CreatedOnToolsVersion = 7.3;
@@ -1071,6 +1071,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = AA9C1C651CC028190070FB59;
 			productRefGroup = AA9C1C651CC028190070FB59;
