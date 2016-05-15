@@ -556,9 +556,8 @@ class MessageProcessOperation: Operation {
       return
     }
 
-    //FIXME: sounds should be played by client
-//    let sound = message.clarifyFlag ? Sound_Message_Clarify : (message.updated != nil ? Sound_Message_Update : Sound_Message_Receive)
-//    AppDelegate.playSound(sound, alert: true)
+    let sound = message.clarifyFlag ? MessageSoundType.Clarified : (message.updated != nil ? MessageSoundType.Updated : MessageSoundType.Received)
+    sound.playAlert()
     
   }
   

@@ -40,6 +40,7 @@
 		AA1868721CE43F150017B11B /* ExitMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868711CE43F150017B11B /* ExitMessage.swift */; };
 		AA1868741CE443FB0017B11B /* MessageDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868731CE443FB0017B11B /* MessageDAO.swift */; };
 		AA1868761CE44A7D0017B11B /* TitleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868751CE44A7D0017B11B /* TitleGenerator.swift */; };
+		AA18687A1CE4F7670017B11B /* MessageSoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1868791CE4F7670017B11B /* MessageSoundManager.swift */; };
 		AA1868821CE6DEC20017B11B /* Module.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868811CE6DB490017B11B /* Module.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA490DAD1CCAF1970010FC17 /* APIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* APIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */; };
@@ -301,6 +302,7 @@
 		AA1868711CE43F150017B11B /* ExitMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExitMessage.swift; sourceTree = "<group>"; };
 		AA1868731CE443FB0017B11B /* MessageDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageDAO.swift; sourceTree = "<group>"; };
 		AA1868751CE44A7D0017B11B /* TitleGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleGenerator.swift; sourceTree = "<group>"; };
+		AA1868791CE4F7670017B11B /* MessageSoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSoundManager.swift; sourceTree = "<group>"; };
 		AA1868811CE6DB490017B11B /* Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
 		AA42D0081CDB8C7A0058B569 /* MessagesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MessagesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA46D66F1CDBE0610030F11C /* MessagesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessagesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -836,6 +838,7 @@
 				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
 				AA18686D1CE435200017B11B /* ContactDirectory.swift */,
 				AA1868751CE44A7D0017B11B /* TitleGenerator.swift */,
+				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
 				AA1868811CE6DB490017B11B /* Module.h */,
 			);
 			path = MessagesKit;
@@ -1220,6 +1223,7 @@
 				AAB481F11CCADEC400EBFC5E /* OpenSSLCertificationRequest.m in Sources */,
 				AA58502F1CC1DF260034C46D /* NSURL+Utils.m in Sources */,
 				AAB481EF1CCADEC400EBFC5E /* OpenSSLCertificateSet.m in Sources */,
+				AA18687A1CE4F7670017B11B /* MessageSoundManager.swift in Sources */,
 				AA490DC61CCAF59E0010FC17 /* MessageFetchAPIOperation.swift in Sources */,
 				AAC62D1D1CD03B0F006AFEDD /* ServerDiscovery.swift in Sources */,
 				AA490DBD1CCAF59E0010FC17 /* MessageSendSystemOperation.swift in Sources */,

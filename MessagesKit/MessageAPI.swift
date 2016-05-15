@@ -694,15 +694,12 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
       
     }
     
-    //FIXME: allow client provided sounds
-    
-    //let sound = message.clarifyFlag ? Sound_Message_Clarify : (message.updated ? Sound_Message_Update : Sound_Message_Receive)
-    let sound = UILocalNotificationDefaultSoundName
+    let sound = message.clarifyFlag ? MessageSoundType.Clarified : (message.updated != nil ? MessageSoundType.Updated : MessageSoundType.Received)
     
     let localNotification = UILocalNotification()
     localNotification.category = "message"
     localNotification.alertBody = body
-    localNotification.soundName = sound
+    localNotification.soundName = sound.notificationName() ?? UILocalNotificationDefaultSoundName
     localNotification.userInfo = ["msgId" : message.id.description]
     localNotification.fireDate = NSDate(timeIntervalSinceNow:0.25)
     localNotification.applicationIconBadgeNumber = NSUserDefaults.standardUserDefaults().integerForKey(UnreadMessageCountKey)

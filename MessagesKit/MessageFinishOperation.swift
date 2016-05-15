@@ -36,8 +36,7 @@ class MessageFinishOperation: Operation {
   
   override func execute() {
     
-    //FIXME: sounds should be played by client
-    //AppDelegate.playSound(Sound_Message_Send, alert: false);
+    MessageSoundType.Sent.play()
     
     // Update sent only if the message has never been sent before
     if messageContext.message.updated == nil {
