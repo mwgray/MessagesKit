@@ -40,11 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL) updateNotification:(Notification *)model error:(NSError **)error;
 -(BOOL) upsertNotification:(Notification *)model error:(NSError **)error;
 -(BOOL) deleteNotification:(Notification *)model error:(NSError **)error;
--(int) deleteAllNotificationsInArray:(NSArray<Notification *> *)models error:(NSError **)error;
--(int) deleteAllNotificationsAndReturnError:(NSError **)error;
--(int) deleteAllNotificationsMatching:(nullable NSString *)where error:(NSError **)error;
--(int) deleteAllNotificationsMatching:(nullable NSString *)where parameters:(nullable NSArray *)parameters error:(NSError **)error;
--(int) deleteAllNotificationsMatching:(nullable NSString *)where parametersNamed:(nullable NSDictionary *)parameters error:(NSError **)error;
+-(BOOL) deleteAllNotificationsInArray:(NSArray<Notification *> *)models error:(NSError **)error;
+-(BOOL) deleteAllNotificationsAndReturnError:(NSError **)error;
+-(BOOL) deleteAllNotificationsMatching:(nullable NSString *)where error:(NSError **)error;
+-(BOOL) deleteAllNotificationsMatching:(nullable NSString *)where parameters:(nullable NSArray *)parameters error:(NSError **)error;
+-(BOOL) deleteAllNotificationsMatching:(nullable NSString *)where parametersNamed:(nullable NSDictionary *)parameters error:(NSError **)error;
 
 @end
 

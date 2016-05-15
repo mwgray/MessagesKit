@@ -44,7 +44,7 @@
   
   self = [super initWithDBManager:dbManager
                         tableInfo:tableInfo
-                        rootClass:[Notification class]
+                        rootClass:Notification.class
                    derivedClasses:@[]];
   if (self) {
 
