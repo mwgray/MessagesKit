@@ -4,7 +4,7 @@ use_frameworks!
 
 target :MessagesKit do
   
-  pod 'OpenSSLCrypto', :git => 'file:///Users/kdubb/Documents/Projects/OpenSSLCrypto'
+  pod 'OpenSSLCrypto', :git => 'https://github.com/reTXT/OpenSSLCrypto.git'
 
   pod 'FMDB/standalone/swift', :git => 'https://github.com/reTXT/fmdb.git', :branch => 'current'
   pod 'FMDBMigrationManager', :git => 'https://github.com/reTXT/FMDBMigrationManager.git', :branch => 'master'
