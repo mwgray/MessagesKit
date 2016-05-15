@@ -48,7 +48,6 @@
 		AA18687E1CE6C6160017B11B /* DefaultAliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18687D1CE6C6160017B11B /* DefaultAliasDisplay.swift */; };
 		AA1868801CE6C6540017B11B /* AddressBookAliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18687F1CE6C6540017B11B /* AddressBookAliasDisplay.swift */; };
 		AA1868821CE6DEC20017B11B /* Module.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868811CE6DB490017B11B /* Module.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA490DAD1CCAF1970010FC17 /* APIError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B61CC163B400F1A3B0 /* APIError.m */; };
 		AA490DAE1CCAF1A20010FC17 /* UserStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BA1CC163B400F1A3B0 /* UserStatusInfo.m */; };
 		AA490DAF1CCAF1A80010FC17 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BC1CC163B400F1A3B0 /* WebSocket.m */; };
 		AA490DB01CCAF1AD0010FC17 /* Credentials.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917BE1CC163B400F1A3B0 /* Credentials.m */; };
@@ -247,7 +246,6 @@
 		AAFDFB7C1CC5FF0200066707 /* Messages+Exts.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B01CC163B400F1A3B0 /* Messages+Exts.m */; };
 		AAFDFB7D1CC5FF0E00066707 /* ServerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B71CC163B400F1A3B0 /* ServerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB7E1CC5FF0E00066707 /* ServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B81CC163B400F1A3B0 /* ServerAPI.m */; };
-		AAFDFB7F1CC5FF1700066707 /* APIError.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B51CC163B400F1A3B0 /* APIError.h */; };
 		AAFDFB801CC5FF2200066707 /* UserStatusInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B91CC163B400F1A3B0 /* UserStatusInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB811CC5FF2200066707 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BB1CC163B400F1A3B0 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB821CC5FF2200066707 /* Credentials.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917BD1CC163B400F1A3B0 /* Credentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -380,8 +378,6 @@
 		AA8DE0CE1CDD5F0400056E17 /* RegisterNotificationTokenOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterNotificationTokenOperation.swift; sourceTree = "<group>"; };
 		AA9917AF1CC163B400F1A3B0 /* Messages+Exts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "Messages+Exts.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA9917B01CC163B400F1A3B0 /* Messages+Exts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "Messages+Exts.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		AA9917B51CC163B400F1A3B0 /* APIError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = APIError.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		AA9917B61CC163B400F1A3B0 /* APIError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APIError.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA9917B71CC163B400F1A3B0 /* ServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ServerAPI.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA9917B81CC163B400F1A3B0 /* ServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ServerAPI.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA9917B91CC163B400F1A3B0 /* UserStatusInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = UserStatusInfo.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -915,8 +911,6 @@
 				AA9917F51CC163CD00F1A3B0 /* MessageAPIError.swift */,
 				AA4FD0581CCD918500C0DE2A /* MessageAPI+Compat.h */,
 				AA4FD0591CCD918500C0DE2A /* MessageAPI+Compat.m */,
-				AA9917B51CC163B400F1A3B0 /* APIError.h */,
-				AA9917B61CC163B400F1A3B0 /* APIError.m */,
 				AA5850501CC1F4FE0034C46D /* PersistentCache.swift */,
 				AAC62D1C1CD03B0F006AFEDD /* ServerDiscovery.swift */,
 				AAC62D1E1CD05570006AFEDD /* ServerTarget.swift */,
@@ -1034,7 +1028,6 @@
 				AA05D21A1CC827A20051039E /* NSObject+Utils.h in Headers */,
 				AAFDFB461CC5FDA200066707 /* DAO.h in Headers */,
 				AAFDFB671CC5FDA200066707 /* EnterMessage.h in Headers */,
-				AAFDFB7F1CC5FF1700066707 /* APIError.h in Headers */,
 				AADCA4251CCBEB6300607C05 /* NSBundle+Utils.h in Headers */,
 				AA05D2331CC84D1C0051039E /* NSMutableDictionary+Utils.h in Headers */,
 				AA5850241CC1CF760034C46D /* NSMutableURLRequest+Utils.h in Headers */,
@@ -1408,7 +1401,6 @@
 				AA5850201CC1CAE40034C46D /* TBase+Utils.m in Sources */,
 				AA490DCB1CCAF59E0010FC17 /* FetchWaitingOperation.swift in Sources */,
 				AA58504B1CC1F18A0034C46D /* WeakReference.m in Sources */,
-				AA490DAD1CCAF1970010FC17 /* APIError.m in Sources */,
 				AA5850331CC1DFCE0034C46D /* NSDate+Utils.m in Sources */,
 				AAFDFB831CC6022200066707 /* PersistentCache.swift in Sources */,
 				AA05D2381CC84E1D0051039E /* HTMLText.m in Sources */,
