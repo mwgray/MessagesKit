@@ -90,6 +90,7 @@ public class AddressBookIndex : NSObject {
   func rebuildIndex() {
     
     DDLogInfo("Rebuilding index")
+    let startTime = CFAbsoluteTimeGetCurrent()
     
     let people = addressBookQueue.sync {
       return self.addressBook.allPeople ?? []
@@ -116,11 +117,17 @@ public class AddressBookIndex : NSObject {
       
     }
     
+    let builtTime = CFAbsoluteTimeGetCurrent()
+    DDLogVerbose("Indexing built: \(builtTime - startTime) secs")
+    
     var entries = [ABRecordID:IndexEntry]()
     for entry in mapped {
       entries[entry.systemId] = entry
     }
     
+    let updateTime = CFAbsoluteTimeGetCurrent()
+    DDLogVerbose("Indexing update: \(updateTime - builtTime) secs")
+
     var oldEntries : [ABRecordID:IndexEntry]!
     lockQueue.sync {
       oldEntries = self.entries
@@ -149,6 +156,9 @@ public class AddressBookIndex : NSObject {
                                                                 AddressBookIndexUpdateNotificationAddedKey: added,
                                                                 AddressBookIndexUpdateNotificationUpdatedKey: updated,
                                                                 AddressBookIndexUpdateNotificationDeletedKey: deleted])
+    
+    let finishTime = CFAbsoluteTimeGetCurrent()
+    DDLogInfo("Indexing finished: \(finishTime - startTime) secs")
   }
   
 }
