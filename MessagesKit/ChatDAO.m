@@ -300,28 +300,6 @@
   return updated;
 }
 
-//FIXME: Replace
-//#pragma mark - Contact updates
-//
-//-(void) contactDidUpdate:(NSNotification *)notification
-//{
-//  Contact *contact = notification.userInfo[@"contact"];
-//
-//  for (ContactAlias *alias in contact.aliases) {
-//
-//    NSArray *chats = [self fetchAllObjectsMatching:@"lower(alias) = :id OR lower(localAlias) = :id OR CONTAINS(members, :id, 1, 1)"
-//                                   parametersNamed:@{@"id":alias.value.lowercaseString}];
-//
-//    for (Chat *chat in chats) {
-//
-//      [chat invalidateCachedData];
-//
-//      [self updated:chat];
-//    }
-//
-//  }
-//}
-//
 @end
 
 
