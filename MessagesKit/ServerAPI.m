@@ -18,58 +18,10 @@
 
 @import Thrift;
 
-#if defined(PUBLIC_BUILD)
-# define RETXT_PROD
-#elif defined(QA_BUILD)
-# define RETXT_STAGE
-#else
-#define RETXT_LOCAL
-#endif
-
-#if defined(RETXT_PROD)
-# define _SERVER_DOMAIN_ENV "prd"
-#elif defined(RETXT_STAGE)
-# define _SERVER_DOMAIN_ENV "stg"
-#elif defined(RETXT_DEV)
-# define _SERVER_DOMAIN_ENV "dev"
-#elif defined(RETXT_LOCAL)
-# define _SERVER_DOMAIN_ENV "lcl"
-#else
-# error NO RETXT SERVER TARGET DEFINED
-#endif
-
-
-NSString *ServerEnvironmentName =
-#if defined(RETXT_PROD)
-  @"Production"
-#elif defined(RETXT_STAGE)
-  @"Staging"
-#elif defined(RETXT_DEV)
-  @"Development"
-#elif defined(RETXT_LOCAL)
-  @"Local"
-#endif
-;
-
-
-#if defined(RETXT_LOCAL)
-NSString *ServerScheme = @"http";
-NSString *ServerHost = @"192.168.100.10";
-NSInteger ServerPort = 8080;
-#else
-NSString *ServerScheme = @"https";
-NSString *ServerHost = @"master." _SERVER_DOMAIN_ENV ".retxt.io";
-NSInteger ServerPort = 0;
-#endif
-
-
 static NSString *PinnedCertName = @"master.retxt.io";
 static NSArray *PinnedCerts;
 
-
-NSURL *BaseURL;
 NSString *UserAgent = @"reTXT (iOS)";
-int ServerTimeout = 15;
 
 NSString *UserAPIFetchMsgIdParam = @"msgId";
 
@@ -97,13 +49,6 @@ NSString *TextContentTypePrefix = @"text/";
 
 +(void) initialize
 {
-  NSURLComponents *baseURLComponents = [NSURLComponents new];
-  baseURLComponents.scheme = ServerScheme;
-  baseURLComponents.host = ServerHost;
-  baseURLComponents.port = ServerPort ? @(ServerPort) : nil;
-
-  BaseURL = baseURLComponents.URL;
-
   NSString *PinnedCertPath = [NSBundle.mk_frameworkBundle pathForResource:PinnedCertName ofType:@"crt" inDirectory:@"Certificates"];
   NSData *PinnedCertData = [NSData dataWithContentsOfFile:PinnedCertPath];
   SecCertificateRef certificate = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)PinnedCertData);
