@@ -11,21 +11,13 @@ import AddressBook
 
 // Generic ABRecord
 
-public class AddressBookRecord {
+@objc public class AddressBookRecord : NSObject {
 
 	public var internalRecord : ABRecord!
 
-	public convenience init?(record : ABRecord?) {
-		if let rec = record {
-			self.init(record: rec)
-		}
-		else {
-			return nil
-		}
-	}
-
 	public init(record : ABRecord) {
 		self.internalRecord = record
+    super.init()
 	}
 
 	public var recordID: Int {
@@ -37,13 +29,6 @@ public class AddressBookRecord {
 	}
 }
 
-extension AddressBookRecord: Hashable {
-
-	public var hashValue: Int {
-		return recordID.hashValue
-	}
-
-}
 
 public func == (lhs: AddressBookRecord, rhs: AddressBookRecord) -> Bool {
 	return lhs.recordID == rhs.recordID

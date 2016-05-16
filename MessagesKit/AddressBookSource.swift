@@ -11,7 +11,7 @@ import AddressBook
 
 // ABSource type of ABARecord
 
-public class AddressBookSource : AddressBookRecord {
+@objc public class AddressBookSource : AddressBookRecord {
   
   public var sourceType : AddressBookSourceType {
     get {

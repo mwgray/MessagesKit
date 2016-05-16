@@ -11,7 +11,7 @@ import AddressBook
 
 // ABGroup type of ABRecord
 
-public class AddressBookGroup : AddressBookRecord {
+@objc public class AddressBookGroup : AddressBookRecord {
   
   public var name : String? {
     get {

@@ -11,7 +11,7 @@ import AddressBook
 
 // ABPerson type of type ABRecord
 
-public class AddressBookPerson : AddressBookRecord {
+@objc public class AddressBookPerson : AddressBookRecord {
 
 	public class func create() -> AddressBookPerson {
 		return AddressBookPerson(record: ABPersonCreate().takeRetainedValue())

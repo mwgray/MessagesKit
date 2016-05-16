@@ -11,7 +11,7 @@ import AddressBook
 
 //MARK: Address Book
 
-public class AddressBook : NSObject {
+@objc public class AddressBook : NSObject {
   
   public var targetAddressBook : ABAddressBook!
   
@@ -67,7 +67,10 @@ public class AddressBook : NSObject {
   }
   
   public func personWithRecordId(recordId : Int32) -> AddressBookPerson? {
-    return AddressBookPerson(record: ABAddressBookGetPersonWithRecordID(targetAddressBook, recordId)?.takeUnretainedValue())
+    guard let record = ABAddressBookGetPersonWithRecordID(targetAddressBook, recordId)?.takeUnretainedValue() else {
+      return nil
+    }
+    return AddressBookPerson(record: record)
   }
   
   public var allPeople : [AddressBookPerson]? {
@@ -142,7 +145,10 @@ public class AddressBook : NSObject {
   //MARK: group records
   
   public func groupWithRecordId(recordId : Int32) -> AddressBookGroup? {
-    return AddressBookGroup(record: ABAddressBookGetGroupWithRecordID(targetAddressBook, recordId)?.takeUnretainedValue())
+    guard let record = ABAddressBookGetGroupWithRecordID(targetAddressBook, recordId)?.takeUnretainedValue() else {
+      return nil
+    }
+    return AddressBookGroup(record: record)
   }
   
   public var groupCount : Int {
@@ -161,14 +167,21 @@ public class AddressBook : NSObject {
   //MARK: sources
   
   public var defaultSource : AddressBookSource? {
-    return AddressBookSource(record: ABAddressBookCopyDefaultSource(targetAddressBook)?.takeRetainedValue())
+    guard let record = ABAddressBookCopyDefaultSource(targetAddressBook)?.takeRetainedValue() else {
+      return nil
+    }
+    return AddressBookSource(record: record)
   }
   
   public func sourceWithRecordId(sourceId : Int32) -> AddressBookSource? {
-    return AddressBookSource(record: ABAddressBookGetSourceWithRecordID(targetAddressBook, sourceId)?.takeUnretainedValue())
+    guard let record = ABAddressBookGetSourceWithRecordID(targetAddressBook, sourceId)?.takeUnretainedValue() else {
+      return nil
+    }
+    return AddressBookSource(record: record)
   }
   
   public var allSources : [AddressBookSource]? {
     return convertRecordsToSources(ABAddressBookCopyArrayOfAllSources(targetAddressBook).takeRetainedValue())
   }
+  
 }
