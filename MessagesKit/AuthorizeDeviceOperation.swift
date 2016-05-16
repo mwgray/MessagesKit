@@ -11,8 +11,8 @@ import PSOperations
 
 
 /*
-  Authorizes a device
-*/
+ * Authorizes a device
+ */
 class AuthorizeDeviceOperation: MessageAPIOperation {
   
   let signer : MsgSigner

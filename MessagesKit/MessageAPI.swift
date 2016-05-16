@@ -915,33 +915,12 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   
   @nonobjc public func resetKeys() -> Promise<Credentials> {
     
-    return firstly {
-      
-      let encryptionIdentityRequest =
-        try AsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Encryption",
-          withKeySize: 2048,
-          usage: [.KeyEncipherment, .NonRepudiation])
-      
-      let signingIdentityRequest =
-        try AsymmetricKeyPairGenerator.generateIdentityRequestNamed("reTXT Signing",
-          withKeySize: 2048,
-          usage: [.DigitalSignature, .NonRepudiation])
-      
-      return userAPI.updateCertificates(encryptionIdentityRequest.certificateSigningRequest.encoded, signingCSR: signingIdentityRequest.certificateSigningRequest.encoded)
-        .toPromise(CertificateSet)
-        .then { certs -> Credentials in
-          
-          let encryptionCert = try OpenSSLCertificate(DEREncodedData: certs.encryptionCert, validatedWithTrust: self.certificateTrust)
-          let encryptionIdent = encryptionIdentityRequest.buildIdentityWithCertificate(encryptionCert)
-          
-          let signingCert = try OpenSSLCertificate(DEREncodedData: certs.signingCert, validatedWithTrust: self.certificateTrust)
-          let signingIdent = signingIdentityRequest.buildIdentityWithCertificate(signingCert)
-        
-          return self.credentials.authorizeWithEncryptionIdentity(encryptionIdent, signingIdentity: signingIdent)
-        }
-      
-    }
+    let resetKeys = ResetKeysOperation(api: self)
+    queue.addOperation(resetKeys)
     
+    return resetKeys.promise().asVoid().then { Void -> Credentials in
+      return self.credentials
+    }
   }
   
   @available(*, unavailable)
