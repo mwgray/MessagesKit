@@ -17,6 +17,8 @@ public class DefaultAliasDisplay : NSObject, AliasDisplay {
   
   public var familiarName : String { return alias }
   
+  public var initials: String? { return nil }
+  
   public var avatar : UIImage? { return nil }
   
   public var updateHandler: AliasDisplayUpdateHandler?

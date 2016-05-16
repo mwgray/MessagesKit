@@ -27,6 +27,14 @@ private class PersonAliasDisplay : NSObject, AliasDisplay {
     return person.nickname ?? person.firstName ?? person.lastName ?? ""
   }
   
+  @objc private var initials: String? {
+    return fullName
+      .componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+      .prefix(2)
+      .map { $0.substringToIndex($0.startIndex.advancedBy(1)) }
+      .joinWithSeparator("")
+  }
+  
   @objc private var avatar : UIImage? {
     return person.image
   }
@@ -52,6 +60,10 @@ public class AddressBookAliasDisplayProxy : NSObject, AliasDisplay {
   
   public var familiarName : String {
     return current.familiarName
+  }
+  
+  public var initials: String? {
+    return current.initials
   }
   
   public var avatar : UIImage? {

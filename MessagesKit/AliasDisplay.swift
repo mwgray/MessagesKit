@@ -18,6 +18,8 @@ public typealias AliasDisplayUpdateHandler = @convention(block) () -> Void
   
   var familiarName : String { get }
   
+  var initials : String? { get }
+  
   var avatar : UIImage? { get }
   
   var updateHandler : AliasDisplayUpdateHandler? { get set }
