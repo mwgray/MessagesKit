@@ -20,7 +20,7 @@ import AudioToolbox
 
 @objc public class MessageSoundManager : NSObject {
   
-  private static let sharedManager = MessageSoundManager()
+  public static let sharedManager = MessageSoundManager()
   
   private var soundSourceURLs = [MessageSoundType: NSURL]()
   private var soundSystemIDs = [MessageSoundType: SystemSoundID]()
