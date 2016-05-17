@@ -38,6 +38,7 @@
 		AA0B34201CE904B400DEFE33 /* AddressBookHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */; };
 		AA0B34221CE9065700DEFE33 /* AddressBookGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */; };
 		AA0B34311CE986FB00DEFE33 /* ResetKeysOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B34301CE986FB00DEFE33 /* ResetKeysOperation.swift */; };
+		AA16636E1CEAC93D00B82531 /* MessagesKitTesting.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AA16636D1CEAC93D00B82531 /* MessagesKitTesting.podspec */; };
 		AA18686A1CE1828E0017B11B /* Messages.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1868681CE1828E0017B11B /* Messages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA18686B1CE1828E0017B11B /* Messages.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1868691CE1828E0017B11B /* Messages.m */; };
 		AA18686E1CE435200017B11B /* AliasDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18686D1CE435200017B11B /* AliasDisplay.swift */; };
@@ -312,6 +313,7 @@
 		AA0B341F1CE904B400DEFE33 /* AddressBookHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookHelpers.swift; sourceTree = "<group>"; };
 		AA0B34211CE9065700DEFE33 /* AddressBookGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookGroup.swift; sourceTree = "<group>"; };
 		AA0B34301CE986FB00DEFE33 /* ResetKeysOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetKeysOperation.swift; sourceTree = "<group>"; };
+		AA16636D1CEAC93D00B82531 /* MessagesKitTesting.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MessagesKitTesting.podspec; sourceTree = SOURCE_ROOT; };
 		AA1868681CE1828E0017B11B /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Messages.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA1868691CE1828E0017B11B /* Messages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messages.m; sourceTree = "<group>"; };
 		AA18686D1CE435200017B11B /* AliasDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AliasDisplay.swift; sourceTree = "<group>"; };
@@ -511,7 +513,7 @@
 		AA9C1C801CC028190070FB59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = MessagesKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		AAB481CD1CCAC51C00EBFC5E /* DAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DAO.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TestClient.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TestClient.swift; sourceTree = "<group>"; };
 		AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = UnboundedBlockingQueue.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAB5359E1CE8D38C00A38281 /* AddressBookIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookIndex.swift; sourceTree = "<group>"; };
 		AAB535E61CE8F5E100A38281 /* AddressBookPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookPerson.swift; sourceTree = "<group>"; };
@@ -699,6 +701,15 @@
 				AA1868791CE4F7670017B11B /* MessageSoundManager.swift */,
 			);
 			name = Miscellaneous;
+			sourceTree = "<group>";
+		};
+		AA1663681CEA9BBE00B82531 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */,
+				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		AA58500F1CC1C02E0034C46D /* Utils */ = {
@@ -909,6 +920,7 @@
 			children = (
 				AAB0029D1CC74B8E00A2C7EB /* MessagesKit.podspec */,
 				AA9C1C711CC028190070FB59 /* MessagesKit */,
+				AA16636D1CEAC93D00B82531 /* MessagesKitTesting.podspec */,
 				AA9C1C7D1CC028190070FB59 /* MessagesKitTests */,
 				AADCA40E1CCB501900607C05 /* Certificates */,
 				AADCA40C1CCB4FF100607C05 /* Migrations */,
@@ -948,8 +960,8 @@
 		AA9C1C7D1CC028190070FB59 /* MessagesKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				AA1663681CEA9BBE00B82531 /* Support */,
 				AADCA4121CCBE66000607C05 /* Resources */,
-				AAB481DB1CCADC8F00EBFC5E /* TestClient.swift */,
 				AA9918B61CC1659100F1A3B0 /* MessageAPITests.swift */,
 				AA9918B71CC1659100F1A3B0 /* ChatTests.m */,
 				AA9918B81CC1659100F1A3B0 /* ContactTests.m */,
@@ -966,7 +978,6 @@
 				AA9C1C801CC028190070FB59 /* Info.plist */,
 				AA9918B51CC1652500F1A3B0 /* MessagesKitTests-Bridging-Header.h */,
 				AA5850561CC2B2030034C46D /* PersistentCacheTests.swift */,
-				AAB481DD1CCADE6E00EBFC5E /* UnboundedBlockingQueue.swift */,
 				AA6E2F0F1CE7D4C10054E614 /* AddressBookIndexTests.swift */,
 			);
 			path = MessagesKitTests;
@@ -1170,6 +1181,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA16636E1CEAC93D00B82531 /* MessagesKitTesting.podspec in Resources */,
 				AAB0029E1CC74B8E00A2C7EB /* MessagesKit.podspec in Resources */,
 				AADCA40F1CCB501900607C05 /* Certificates in Resources */,
 				AADCA40D1CCB4FF100607C05 /* Migrations in Resources */,

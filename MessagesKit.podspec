@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'MessagesKit/*.{h,m,swift}'
-  s.exclude_files = 'src/fmdb.m'
   s.resources = ['Certificates', 'Migrations']
 
   s.dependency 'OpenSSLCrypto'
