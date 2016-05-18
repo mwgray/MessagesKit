@@ -318,17 +318,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   
   @available(*, unavailable)
   @objc public func findMessageWithId(id: Id) -> AnyPromise {
-    
-    let block : @convention(block) () -> AnyObject = {
-      do {
-        return try self.messageDAO.fetchMessageWithId(id)!
-      }
-      catch let error {
-        return error as NSError
-      }
-    }
-    
-    return dispatch_promise(block as! AnyObject)
+    return AnyPromise(bound: findMessageWithId(id))
   }
   
   @nonobjc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> Promise<[Message]> {
@@ -343,17 +333,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   
   @available(*, unavailable)
   @objc public func findMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> AnyPromise {
-    
-    let block : @convention(block) () -> AnyObject = {
-      do {
-        return try self.messageDAO.fetchAllMessagesMatching(predicate, offset: offset, limit: limit, sortedBy: sorts)
-      }
-      catch let error {
-        return error as NSError
-      }
-    }
-    
-    return dispatch_promise(block as! AnyObject)
+    return AnyPromise(bound: findMessagesMatchingPredicate(predicate, offset: offset, limit: limit, sortedBy: sorts))
   }
   
   @objc public func fetchMessagesMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> FetchedResultsController {
@@ -597,18 +577,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   
   @available(*, unavailable)
   @objc public func findChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> AnyPromise {
-    
-    let block : @convention(block) () -> AnyObject = {
-      
-      do {
-        return try self.chatDAO.fetchAllChatsMatching(predicate, offset: offset, limit: limit, sortedBy: sorts)
-      }
-      catch let error {
-        return error as NSError
-      }
-    }
-    
-    return dispatch_promise(block as! AnyObject)
+    return AnyPromise(bound: findChatsMatchingPredicate(predicate, offset: offset, limit: limit, sortedBy: sorts))
   }
   
   @objc public func fetchChatsMatchingPredicate(predicate: NSPredicate, offset: UInt, limit: UInt, sortedBy sorts: [NSSortDescriptor]) -> FetchedResultsController {
