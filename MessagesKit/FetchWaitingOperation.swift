@@ -19,6 +19,7 @@ class FetchWaitingOperation: MessageAPIOperation {
     super.init(api: api)
     
     addCondition(RequireAuthorization(api: api))
+    addCondition(RequireAccessToken(api: api))
   }
   
   override var resolveResult : Any {
