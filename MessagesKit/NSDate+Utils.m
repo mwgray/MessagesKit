@@ -59,7 +59,12 @@
   return NO;
 }
 
--(NSDate *) offsetDays:(NSUInteger)days withCalendar:(NSCalendar *)calendar
+-(NSDate *) offsetDays:(NSInteger)days
+{
+  return [self offsetDays:days withCalendar:NSCalendar.autoupdatingCurrentCalendar];
+}
+
+-(NSDate *) offsetDays:(NSInteger)days withCalendar:(NSCalendar *)calendar
 {
   NSDateComponents *comps = [NSDateComponents new];
   comps.day = days;
@@ -67,7 +72,12 @@
   return [calendar dateByAddingComponents:comps toDate:self options:0];
 }
 
--(NSDate *) offsetMonths:(NSUInteger)months withCalendar:(NSCalendar *)calendar
+-(NSDate *) offsetMonths:(NSInteger)months
+{
+  return [self offsetMonths:months withCalendar:NSCalendar.autoupdatingCurrentCalendar];
+}
+
+-(NSDate *) offsetMonths:(NSInteger)months withCalendar:(NSCalendar *)calendar
 {
   NSDateComponents *comps = [NSDateComponents new];
   comps.month = months;
@@ -75,7 +85,12 @@
   return [calendar dateByAddingComponents:comps toDate:self options:0];
 }
 
--(NSDate *) offsetYears:(NSUInteger)years withCalendar:(NSCalendar *)calendar
+-(NSDate *) offsetYears:(NSInteger)years
+{
+  return [self offsetYears:years withCalendar:NSCalendar.autoupdatingCurrentCalendar];
+}
+
+-(NSDate *) offsetYears:(NSInteger)years withCalendar:(NSCalendar *)calendar
 {
   NSDateComponents *comps = [NSDateComponents new];
   comps.year = years;
