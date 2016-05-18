@@ -38,9 +38,13 @@ class MessageProcessOperation: Operation {
       
       api.userAPI.ack(context.msg!.id, sent: context.msg!.sent)
       
+      finish()
     }
     catch let error {
+      
       DDLogError("Error processing message: \(error)")
+      
+      finishWithError(error as NSError)
     }
     
   }
