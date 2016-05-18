@@ -16,7 +16,7 @@
 @import Thrift;
 
 
-CL_DECLARE_LOG_LEVEL()
+MK_DECLARE_LOG_LEVEL()
 
 
 static const double kReconnectInterval = 1.0;

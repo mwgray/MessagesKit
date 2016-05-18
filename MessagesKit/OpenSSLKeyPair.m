@@ -90,27 +90,27 @@
   
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new(_pointer, NULL);
   if (!ctx) {
-    _RETURN_OPENSSL_ERROR(ContextAllocFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(ContextAllocFailed, nil);
   }
   
   NSData *result = ^NSData *{
     
     if (EVP_PKEY_decrypt_init(ctx) <= 0) {
-      _RETURN_OPENSSL_ERROR(DecryptInitFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(DecryptInitFailed, nil);
     }
     
     if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING) <= 0) {
-      _RETURN_OPENSSL_ERROR(DecryptPaddingFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(DecryptPaddingFailed, nil);
     }
     
     size_t clearTextLen = 0;
     if (EVP_PKEY_decrypt(ctx, NULL, &clearTextLen, cipherText.bytes, cipherText.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(DecryptFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(DecryptFailed, nil);
     }
     
     NSMutableData *clearText = [NSMutableData dataWithLength:clearTextLen];
     if (EVP_PKEY_decrypt(ctx, clearText.mutableBytes, &clearTextLen, cipherText.bytes, cipherText.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(DecryptFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(DecryptFailed, nil);
     }
     
     return [clearText subdataWithRange:NSMakeRange(0, clearTextLen)];
@@ -128,45 +128,45 @@
   
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new(_pointer, NULL);
   if (!ctx) {
-    _RETURN_OPENSSL_ERROR(ContextAllocFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(ContextAllocFailed, nil);
   }
   
   NSData *sig = ^NSData *{
     
     if (EVP_PKEY_sign_init(ctx) <= 0) {
-      _RETURN_OPENSSL_ERROR(SignInitFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(SignInitFailed, nil);
     }
     
     switch (padding) {
       case DigitalSignaturePaddingPKCS1:
         if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) <= 0) {
-          _RETURN_OPENSSL_ERROR(PaddingFailed, nil);
+          MK_RETURN_OPENSSL_ERROR(PaddingFailed, nil);
         }
         break;
         
       case DigitalSignaturePaddingPSS32:
         if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PSS_PADDING) <= 0) {
-          _RETURN_OPENSSL_ERROR(PaddingFailed, nil);
+          MK_RETURN_OPENSSL_ERROR(PaddingFailed, nil);
         }
         
         if (EVP_PKEY_CTX_set_rsa_pss_saltlen(ctx, 32) <= 0) {
-          _RETURN_OPENSSL_ERROR(SaltLengthFailed, nil);
+          MK_RETURN_OPENSSL_ERROR(SaltLengthFailed, nil);
         }
         break;
     }
     
     if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) <= 0) {
-      _RETURN_OPENSSL_ERROR(SignatureFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(SignatureFailed, nil);
     }
     
     size_t sigLen = 0;
     if (EVP_PKEY_sign(ctx, NULL, &sigLen, digest.bytes, digest.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(SignFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(SignFailed, nil);
     }
     
     NSMutableData *sig = [NSMutableData dataWithLength:sigLen];
     if (EVP_PKEY_sign(ctx, sig.mutableBytes, &sigLen, digest.bytes, digest.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(SignFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(SignFailed, nil);
     }
     
     return sig;
@@ -183,7 +183,7 @@
   PKCS12 *pkcs12 = PKCS12_create((char *)[passphrase UTF8String], (char *)name.UTF8String,
                                  _pointer, NULL, NULL, 0, 0, PKCS12_DEFAULT_ITER, PKCS12_DEFAULT_ITER, 0);
   if (pkcs12 == NULL) {
-    _RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
   }
   
   BIO *pkcs12Out = BIO_new(BIO_s_mem());
@@ -191,7 +191,7 @@
   NSData *pkcs12Data = ^NSData *{
     
     if (i2d_PKCS12_bio(pkcs12Out, pkcs12) <= 0) {
-      _RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
     }
     
     char *bufMem;
@@ -288,27 +288,27 @@
   
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new(_pointer, NULL);
   if (!ctx) {
-    _RETURN_OPENSSL_ERROR(ContextAllocFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(ContextAllocFailed, nil);
   }
   
   NSData *result = ^NSData *{
     
     if (EVP_PKEY_encrypt_init(ctx) <= 0) {
-      _RETURN_OPENSSL_ERROR(EncryptInitFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(EncryptInitFailed, nil);
     }
     
     if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING) <= 0) {
-      _RETURN_OPENSSL_ERROR(EncryptPaddingFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(EncryptPaddingFailed, nil);
     }
     
     size_t cipherTextLen = 0;
     if (EVP_PKEY_encrypt(ctx, NULL, &cipherTextLen, clearText.bytes, clearText.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(EncryptFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(EncryptFailed, nil);
     }
     
     NSMutableData *cipherText = [NSMutableData dataWithLength:cipherTextLen];
     if (EVP_PKEY_encrypt(ctx, cipherText.mutableBytes, &cipherTextLen, clearText.bytes, clearText.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(EncryptFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(EncryptFailed, nil);
     }
     
     return [cipherText subdataWithRange:NSMakeRange(0, cipherTextLen)];
@@ -326,35 +326,35 @@
   
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new(_pointer, NULL);
   if (!ctx) {
-    _RETURN_OPENSSL_ERROR(ContextAllocFailed, NO);
+    MK_RETURN_OPENSSL_ERROR(ContextAllocFailed, NO);
   }
   
   BOOL ret = ^BOOL {
     
     if (EVP_PKEY_verify_init(ctx) <= 0) {
-      _RETURN_OPENSSL_ERROR(VerifyInitFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(VerifyInitFailed, NO);
     }
     
     switch (padding) {
       case DigitalSignaturePaddingPKCS1:
         if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING) <= 0) {
-          _RETURN_OPENSSL_ERROR(PaddingFailed, NO);
+          MK_RETURN_OPENSSL_ERROR(PaddingFailed, NO);
         }
         break;
         
       case DigitalSignaturePaddingPSS32:
         if (EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PSS_PADDING) <= 0) {
-          _RETURN_OPENSSL_ERROR(PaddingFailed, NO);
+          MK_RETURN_OPENSSL_ERROR(PaddingFailed, NO);
         }
         
         if (EVP_PKEY_CTX_set_rsa_pss_saltlen(ctx, 32) <= 0) {
-          _RETURN_OPENSSL_ERROR(SaltLengthFailed, NO);
+          MK_RETURN_OPENSSL_ERROR(SaltLengthFailed, NO);
         }
         break;
     }
     
     if (EVP_PKEY_CTX_set_signature_md(ctx, EVP_sha256()) <= 0) {
-      _RETURN_OPENSSL_ERROR(SignatureFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(SignatureFailed, NO);
     }
     
     int ret = EVP_PKEY_verify(ctx, signature.bytes, signature.length, digest.bytes, digest.length);
@@ -401,14 +401,14 @@
   
   PKCS12 *pkcs12 = d2i_PKCS12(NULL, &pkcs12Bytes, pkcs12Data.length);
   if (pkcs12 == NULL) {
-    _RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
+    MK_RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
   }
   
   EVP_PKEY *privateKey = NULL;
   X509 *cert = NULL;
   if (PKCS12_parse(pkcs12, passphrase.UTF8String, &privateKey, &cert, NULL) <= 0) {
     PKCS12_free(pkcs12);
-    _RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
+    MK_RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
   }
   
   X509_free(cert);

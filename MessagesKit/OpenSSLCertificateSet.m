@@ -37,7 +37,7 @@
     STACK_OF(X509_INFO) *certInfoStack = PEM_X509_INFO_read_bio(pemBIO, NULL, NULL, NULL);
     if (!certInfoStack) {
       BIO_free_all(pemBIO);
-      _RETURN_OPENSSL_ERROR(CertificateStoreInvalid, nil);
+      MK_RETURN_OPENSSL_ERROR(CertificateStoreInvalid, nil);
     }
     
     _pointer = sk_X509_new_null();

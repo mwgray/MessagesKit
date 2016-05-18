@@ -166,7 +166,7 @@
   X509 *cert = X509_new();
   if (cert == NULL) {
     EVP_PKEY_free(keyPair);
-    _RETURN_OPENSSL_ERROR(CertBuildFailed, NULL);
+    MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NULL);
   }
   
   BOOL certValid = ^BOOL {
@@ -175,7 +175,7 @@
       X509_NAME* issuerName = [X509Utils nameWithDictionary:@{@"CN":@"reTXT"}];
       if (!X509_set_issuer_name(cert, issuerName)) {
         X509_NAME_free(issuerName);
-        _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
       }
       X509_NAME_free(issuerName);
     }
@@ -184,7 +184,7 @@
       X509_NAME* subjectName = [X509Utils nameWithDictionary:name];
       if (!X509_set_subject_name(cert, subjectName)) {
         X509_NAME_free(subjectName);
-        _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
       }
       X509_NAME_free(subjectName);
     }
@@ -194,7 +194,7 @@
       ASN1_INTEGER_set(serial, CFAbsoluteTimeGetCurrent());
       if (!X509_set_serialNumber(cert, serial)) {
         ASN1_INTEGER_free(serial);
-        _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
       }
       ASN1_INTEGER_free(serial);
     }
@@ -205,7 +205,7 @@
       ASN1_TIME_set(notBefore, (time_t)[yesterday timeIntervalSince1970]);
       if (!X509_set_notBefore(cert, notBefore)) {
         ASN1_TIME_free(notBefore);
-        _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
       }
       ASN1_TIME_free(notBefore);
     }
@@ -216,7 +216,7 @@
       ASN1_TIME_set(notAfter, (time_t)[future timeIntervalSince1970]);
       if (!X509_set_notAfter(cert, notAfter)) {
         ASN1_TIME_free(notAfter);
-        _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
       }
       ASN1_TIME_free(notAfter);
     }
@@ -227,12 +227,12 @@
     
     // Set the Public Key
     if (!X509_set_pubkey(cert, keyPair)) {
-      _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
     }
     
     // Sign the certificate
     if (!X509_sign(cert, keyPair, EVP_sha256())) {
-      _RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(CertBuildFailed, NO);
     }
     
     return YES;
@@ -252,20 +252,20 @@
 {
   PKCS12 *package = PKCS12_create((char *)password.UTF8String, (char *)name.UTF8String, keyPair, cert, NULL, 0, 0, 0, 0, 0);
   if (!package) {
-    _RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
   }
   
   NSData *data = ^NSData *{
     
     BIO *buffer = BIO_new(BIO_s_mem());
     if (!buffer) {
-      _RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
+      MK_RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
     }
     
     NSData *data = ^NSData *{
       
       if (i2d_PKCS12_bio(buffer, package) <= 0) {
-        _RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
+        MK_RETURN_OPENSSL_ERROR(PKCS12ExportFailed, nil);
       }
       
       BIO_flush(buffer);

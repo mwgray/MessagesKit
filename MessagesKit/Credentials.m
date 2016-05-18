@@ -18,7 +18,7 @@
 @import SSKeychain;
 
 
-CL_DECLARE_LOG_LEVEL()
+MK_DECLARE_LOG_LEVEL()
 
 
 static NSString *SecServiceCredentialsName  = @"io.retxt.credentials";

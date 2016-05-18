@@ -144,7 +144,7 @@ static MsgCipher *_s_ciphers[1];
     [fullKey getBytes:iv range:NSMakeRange(32, 16)];
 
     if (EVP_EncryptInit_ex(ctx, _cipher, NULL, key, iv) <= 0) {
-      _RETURN_OPENSSL_ERROR(EncryptInitFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(EncryptInitFailed, NO);
     }
 
     uint8_t inBuffer[BUFFER_SIZE] = {0};
@@ -163,7 +163,7 @@ static MsgCipher *_s_ciphers[1];
 
       int bytesProcessed;
       if (EVP_EncryptUpdate(ctx, outBuffer, &bytesProcessed, inBuffer, (int)bytesRead) <= 0) {
-        _RETURN_OPENSSL_ERROR(EncryptFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(EncryptFailed, NO);
       }
 
       if (bytesProcessed) {
@@ -178,7 +178,7 @@ static MsgCipher *_s_ciphers[1];
 
     int finalLen = 0;
     if (EVP_EncryptFinal_ex(ctx, outBuffer, &finalLen) <= 0) {
-      _RETURN_OPENSSL_ERROR(EncryptFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(EncryptFailed, NO);
     }
 
     if (finalLen) {
@@ -190,7 +190,7 @@ static MsgCipher *_s_ciphers[1];
     if (_tagSize) {
 
       if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _tagSize, outBuffer) <= 0) {
-        _RETURN_OPENSSL_ERROR(EncryptFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(EncryptFailed, NO);
       }
 
       if (![outStream writeBytesFromBuffer:outBuffer length:_tagSize error:error]) {
@@ -240,7 +240,7 @@ static MsgCipher *_s_ciphers[1];
     [fullKey getBytes:iv range:NSMakeRange(32, 16)];
 
     if (EVP_DecryptInit_ex(ctx, _cipher, NULL, key, iv) <= 0) {
-      _RETURN_OPENSSL_ERROR(DecryptInitFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(DecryptInitFailed, NO);
     }
 
     uint8_t inBuffer[BUFFER_SIZE+_tagSize];
@@ -265,7 +265,7 @@ static MsgCipher *_s_ciphers[1];
 
       int bytesProcessed;
       if (EVP_DecryptUpdate(ctx, outBuffer, &bytesProcessed, inBuffer, (int)bytesRead) <= 0) {
-        _RETURN_OPENSSL_ERROR(DecryptFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(DecryptFailed, NO);
       }
 
       if (bytesProcessed) {
@@ -286,14 +286,14 @@ static MsgCipher *_s_ciphers[1];
     if (_tagSize) {
 
       if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, _tagSize, inBuffer) <= 0) {
-        _RETURN_OPENSSL_ERROR(DecryptFailed, NO);
+        MK_RETURN_OPENSSL_ERROR(DecryptFailed, NO);
       }
 
     }
 
     int finalLen = 0;
     if (EVP_DecryptFinal_ex(ctx, outBuffer, &finalLen) <= 0) {
-      _RETURN_OPENSSL_ERROR(DecryptFailed, NO);
+      MK_RETURN_OPENSSL_ERROR(DecryptFailed, NO);
     }
 
     if (![outStream writeBytesFromBuffer:outBuffer length:finalLen error:error]) {

@@ -91,7 +91,7 @@ static NSCache *certificateCache;
     _pointer = PEM_read_bio_X509(pemBIO, NULL, NULL, NULL);
     if (_pointer == NULL) {
       BIO_free_all(pemBIO);
-      _RETURN_OPENSSL_ERROR(CertificateInvalid, nil);
+      MK_RETURN_OPENSSL_ERROR(CertificateInvalid, nil);
     }
     
     BIO_free_all(pemBIO);
@@ -106,7 +106,7 @@ static NSCache *certificateCache;
     
     const unsigned char *derDataBytes = derData.bytes;
     if (d2i_X509(&_pointer, &derDataBytes, derData.length) <= 0) {
-      _RETURN_OPENSSL_ERROR(CertificateInvalid, nil);
+      MK_RETURN_OPENSSL_ERROR(CertificateInvalid, nil);
     }
     
   }

@@ -66,7 +66,7 @@
   if (self) {
     _pointer = X509_STORE_new();
     if (X509_STORE_load_locations(_pointer, rootCertsFile.UTF8String, NULL) <= 0) {
-      _RETURN_OPENSSL_ERROR(CertificateStoreInvalid, nil);
+      MK_RETURN_OPENSSL_ERROR(CertificateStoreInvalid, nil);
     }
   }
   return self;
@@ -79,7 +79,7 @@
     _pointer = X509_STORE_new();
     for (OpenSSLCertificate *cert in rootCerts) {
       if (X509_STORE_add_cert(_pointer, cert.pointer) <= 0) {
-        _RETURN_OPENSSL_ERROR(CertificateStoreInvalid, nil);
+        MK_RETURN_OPENSSL_ERROR(CertificateStoreInvalid, nil);
       }
     }
   }

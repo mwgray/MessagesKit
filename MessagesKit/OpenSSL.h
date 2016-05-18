@@ -61,7 +61,7 @@ typedef NS_ENUM (int, OpenSSLError) {
 };
 
 
-#define _RETURN_OPENSSL_ERROR(errorenum, value) \
+#define MK_RETURN_OPENSSL_ERROR(errorenum, value) \
   if (error) { \
     char msg[256]; \
     ERR_error_string_n(ERR_get_error(), msg, 256); \

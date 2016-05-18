@@ -45,22 +45,22 @@ NSString *translateUsage(AsymmetricKeyPairUsage usage)
 {
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
   if (ctx == NULL) {
-    _RETURN_OPENSSL_ERROR(ContextAllocFailed, NULL);
+    MK_RETURN_OPENSSL_ERROR(ContextAllocFailed, NULL);
   }
   
   EVP_PKEY *keyPair = ^EVP_PKEY *{
 
     if (EVP_PKEY_keygen_init(ctx) <= 0) {
-      _RETURN_OPENSSL_ERROR(KeyGenInitFailed, NULL);
+      MK_RETURN_OPENSSL_ERROR(KeyGenInitFailed, NULL);
     }
     
     if (EVP_PKEY_CTX_set_rsa_keygen_bits(ctx, (int)keySize) <= 0) {
-      _RETURN_OPENSSL_ERROR(KeyGenBitsFailed, NULL);
+      MK_RETURN_OPENSSL_ERROR(KeyGenBitsFailed, NULL);
     }
     
     EVP_PKEY *keyPair = NULL;
     if (EVP_PKEY_keygen(ctx, &keyPair) <= 0) {
-      _RETURN_OPENSSL_ERROR(KeyGenFailed, NULL);
+      MK_RETURN_OPENSSL_ERROR(KeyGenFailed, NULL);
     }
     
     return keyPair;
@@ -76,18 +76,18 @@ NSString *translateUsage(AsymmetricKeyPairUsage usage)
 {
   EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, NULL);
   if (ctx == NULL) {
-    _RETURN_OPENSSL_ERROR(ContextAllocFailed, NULL);
+    MK_RETURN_OPENSSL_ERROR(ContextAllocFailed, NULL);
   }
   
   EVP_PKEY *keyPair = ^EVP_PKEY *{
     
     if (EVP_PKEY_keygen_init(ctx) <= 0) {
-      _RETURN_OPENSSL_ERROR(KeyGenInitFailed, NULL);
+      MK_RETURN_OPENSSL_ERROR(KeyGenInitFailed, NULL);
     }
     
     EVP_PKEY *keyPair = NULL;
     if (EVP_PKEY_keygen(ctx, &keyPair) <= 0) {
-      _RETURN_OPENSSL_ERROR(KeyGenFailed, NULL);
+      MK_RETURN_OPENSSL_ERROR(KeyGenFailed, NULL);
     }
     
     return keyPair;
@@ -119,36 +119,36 @@ NSString *translateUsage(AsymmetricKeyPairUsage usage)
   
   X509_REQ *req = X509_REQ_new();
   if (!req) {
-    _RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
   }
 
   // Add subject name
   X509_NAME *subjectName = [X509Utils nameWithDictionary:@{@"CN":name}];
   if (!subjectName) {
-    _RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
   }
 
   if (!X509_REQ_set_subject_name(req, subjectName)) {
-    _RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
   }
   
   X509_NAME_free(subjectName);
   
   // Add public key
   if (!X509_REQ_set_pubkey(req, keyPair)) {
-    _RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
   }
   
   // Add key usage extension
   if (![X509Utils addExtenstionNamed:SN_key_usage
                         withValue:translateUsage(usage)
                         toRequest:req]) {
-    _RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
   }
   
   // Sign request
   if (!X509_REQ_sign(req, keyPair, EVP_sha1())) {
-    _RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateRequestEncodeFailed, nil);
   }
   
   ident.certificateSigningRequest = [[OpenSSLCertificationRequest alloc] initWithRequestPointer:req];
@@ -168,7 +168,7 @@ NSString *translateUsage(AsymmetricKeyPairUsage usage)
   
   EVP_PKEY *keyPair = [self generateRSAKeyPairWithKeySize:keySize error:error];
   if (!keyPair) {
-    _RETURN_OPENSSL_ERROR(PrivateKeyEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(PrivateKeyEncodeFailed, nil);
   }
 
   // Generate self signed certificate
@@ -179,7 +179,7 @@ NSString *translateUsage(AsymmetricKeyPairUsage usage)
                                                          error:error];
   if (!cert) {
     EVP_PKEY_free(keyPair);
-    _RETURN_OPENSSL_ERROR(CertificateEncodeFailed, nil);
+    MK_RETURN_OPENSSL_ERROR(CertificateEncodeFailed, nil);
   }
   
   
@@ -257,14 +257,14 @@ NSString *translateUsage(AsymmetricKeyPairUsage usage)
   
   PKCS12 *pkcs12 = d2i_PKCS12(NULL, &pkcs12Bytes, pkcs12Data.length);
   if (pkcs12 == NULL) {
-    _RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
+    MK_RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
   }
   
   EVP_PKEY *privateKey = NULL;
   X509 *cert = NULL;
   if (PKCS12_parse(pkcs12, passphrase.UTF8String, &privateKey, &cert, NULL) <= 0) {
     PKCS12_free(pkcs12);
-    _RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
+    MK_RETURN_OPENSSL_ERROR(PKCS12ImportFailed, FALSE);
   }
   
   AsymmetricIdentity *ident = [[AsymmetricIdentity alloc] initWithCertificate:[[OpenSSLCertificate alloc] initWithCertPointer:cert]

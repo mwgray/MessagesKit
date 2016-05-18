@@ -14,7 +14,7 @@
 #import "Log.h"
 
 
-CL_DECLARE_LOG_LEVEL()
+MK_DECLARE_LOG_LEVEL()
 
 
 @interface DAO () {
