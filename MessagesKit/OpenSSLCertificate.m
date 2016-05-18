@@ -61,12 +61,17 @@ static NSCache *certificateCache;
     return nil;
   }
   
-  BOOL valid = NO;
-  if (![validator validate:certificate chain:trust.intermediates result:&valid error:error]) {
+  if (![validator validate:certificate chain:trust.intermediates error:error]) {
+    if (error) {
+      *error = [NSError errorWithDomain:OpenSSLErrorDomain
+                                   code:OpenSSLErrorCertificateInvalid
+                               userInfo:@{NSLocalizedDescriptionKey: @"Certificate failed to validate",
+                                          NSUnderlyingErrorKey: *error ? *error : NSNull.null}];
+    }
     return nil;
   }
   
-  return valid ? certificate : nil;
+  return certificate;
 }
 
 -(instancetype) initWithCertPointer:(X509 *)cert

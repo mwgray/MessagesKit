@@ -92,16 +92,27 @@
   _pointer = NULL;
 }
 
--(BOOL)validate:(OpenSSLCertificate *)certificate chain:(OpenSSLCertificateSet *)chain result:(BOOL *)result error:(NSError **)error
+-(BOOL)validate:(OpenSSLCertificate *)certificate chain:(OpenSSLCertificateSet *)chain error:(NSError **)error
 {
   X509_STORE_CTX *ctx = X509_STORE_CTX_new();
   X509_STORE_CTX_init(ctx, _pointer, certificate.pointer, chain.pointer);
   
-  *result = X509_verify_cert(ctx) == 1;
+  BOOL valid = X509_verify_cert(ctx) == 1;
+  
+  if (!valid) {
+    if (error) {
+      int errorCode = X509_STORE_CTX_get_error(ctx);
+      *error = [NSError errorWithDomain:OpenSSLErrorDomain
+                                   code:OpenSSLErrorCertificateInvalid
+                               userInfo:@{@"OpenSSLErrorCode": @(errorCode),
+                                          @"OpenSSLError":[NSString stringWithCString:X509_verify_cert_error_string(errorCode)
+                                                                             encoding:NSUTF8StringEncoding]}];
+    }
+  }
 
   X509_STORE_CTX_free(ctx);
   
-  return YES;
+  return valid;
 }
 
 @end

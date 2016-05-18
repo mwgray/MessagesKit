@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(nullable instancetype) initWithRootCertificates:(OpenSSLCertificateSet *)rootCerts error:(NSError **)error;
 -(nullable instancetype) initWithRootCertificatesInFile:(NSString *)rootCertsFile error:(NSError **)error;
 
--(BOOL) validate:(OpenSSLCertificate *)certificate chain:(nullable OpenSSLCertificateSet *)chain result:(BOOL *)result error:(NSError **)error;
+-(BOOL) validate:(OpenSSLCertificate *)certificate chain:(nullable OpenSSLCertificateSet *)chain error:(NSError **)error;
 
 @end
 
