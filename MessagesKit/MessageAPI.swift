@@ -1197,7 +1197,7 @@ extension MessageAPI {
   
   @nonobjc public class func requestAuthenticationForAlias(alias: String) -> Promise<Void> {
     
-    return publicAPI.requestAliasAuthentication(alias).toPromise(Void.self)
+    return publicAPI.requestAliasAuthentication(alias).toPromise(Bool.self).asVoid()
       .recover { error -> Void in
         throw translateError(error as NSError)
     }
