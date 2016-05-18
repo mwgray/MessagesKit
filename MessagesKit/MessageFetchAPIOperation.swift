@@ -37,6 +37,7 @@ class MessageFetchAPIOperation: Operation {
       response: { msg in
         
         self.context.msg = msg
+        self.context.encryptedData = msg.dataIsSet ? MemoryDataReference(data: msg.data) : nil
         
         self.finish()
       },
