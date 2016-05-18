@@ -529,19 +529,19 @@ class MessageProcessOperation: Operation {
     
     if let signingCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
       
-      let signingKey = try OpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey
-      
-      if try MsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg) {
-        return true
+      if let signingKey = try? OpenSSLCertificate(DEREncodedData: signingCertData, validatedWithTrust: api.certificateTrust).publicKey {
+        if try MsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg) {
+          return true
+        }
       }
       
       api.invalidateUserInfoWithAlias(msg.sender)
         
       if let refreshedSigningCertData = try api.resolveUserInfoWithAlias(msg.sender)?.signingCert {
 
-        let signingKey = try OpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey
-        
-        return try MsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg)
+        if let signingKey = try? OpenSSLCertificate(DEREncodedData: refreshedSigningCertData, validatedWithTrust: api.certificateTrust).publicKey {
+          return try MsgSigner(publicKey: signingKey, signature: msg.signature).verifyMsg(msg)
+        }
         
       }
       
