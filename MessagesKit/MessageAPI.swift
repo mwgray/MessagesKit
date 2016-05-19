@@ -210,7 +210,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     return activeChatId != nil && !isChatActive(chat)
   }
     
-  public func didBecomeAuthorized() {
+  func didBecomeAuthorized() {
     queue.addOperation(FetchWaitingOperation(api: self))
     queue.addOperation(ResendUnsentMessagesOperation(api: self))
   }
