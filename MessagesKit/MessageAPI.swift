@@ -209,6 +209,11 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   public func isOtherChatActive(chat: Chat) -> Bool {
     return activeChatId != nil && !isChatActive(chat)
   }
+    
+  public func didBecomeAuthorized() {
+    queue.addOperation(FetchWaitingOperation(api: self))
+    queue.addOperation(ResendUnsentMessagesOperation(api: self))
+  }
   
   public func activate() {
   
@@ -219,8 +224,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     queue.addOperation(ConnectWebSocketOperation(api: self))
 
     if credentials.authorized {
-      queue.addOperation(FetchWaitingOperation(api: self))
-      queue.addOperation(ResendUnsentMessagesOperation(api: self))
+      didBecomeAuthorized()
     }
     
     if let suspendedChatId = suspendedChatId {
@@ -889,6 +893,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     queue.addOperation(resetKeys)
     
     return resetKeys.promise().asVoid().then { Void -> Credentials in
+      self.didBecomeAuthorized()
       return self.credentials
     }
   }
