@@ -23,7 +23,7 @@
 @import ImageIO;
 
 
-const CGFloat _THUMBNAIL_MAX_PERCENT = 0.5f;
+const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
 
 
 @implementation ImageMessage
@@ -223,7 +223,7 @@ const CGFloat _THUMBNAIL_MAX_PERCENT = 0.5f;
 
 +(id<DataReference>) generateThumbnailWithData:(id<DataReference>)imageData size:(CGSize *)outSize error:(NSError **)error
 {
-  CGSize maxSize = CGSizeScale(UIScreen.mainScreen.bounds.size, _THUMBNAIL_MAX_PERCENT);
+  CGSize maxSize = CGSizeScale(UIScreen.mainScreen.bounds.size, MK_THUMBNAIL_MAX_PERCENT);
   CGRect maxRect = {CGPointZero, maxSize};
 
   NSData *imageSourceData = [DataReferences readAllDataFromReference:imageData error:error];
