@@ -57,11 +57,12 @@
 
 -(BOOL) isEquivalentToContactMessage:(ContactMessage *)contactMessage
 {
-  return [super isEquivalentToMessage:contactMessage] &&
-         isEqual(self.vcardData, contactMessage.vcardData) &&
-         isEqual(self.firstName, contactMessage.firstName) &&
-         isEqual(self.lastName, contactMessage.lastName) &&
-         isEqual(self.extraLabel, contactMessage.extraLabel);
+  return
+  [super isEquivalentToMessage:contactMessage] &&
+  isEqual(self.vcardData, contactMessage.vcardData) &&
+  isEqual(self.firstName, contactMessage.firstName) &&
+  isEqual(self.lastName, contactMessage.lastName) &&
+  isEqual(self.extraLabel, contactMessage.extraLabel);
 }
 
 -(NSString *) alertText

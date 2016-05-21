@@ -51,8 +51,9 @@
 
 -(BOOL) isEquivalentToEnterMessage:(EnterMessage *)enterMessage
 {
-  return [super isEquivalentToMessage:enterMessage] &&
-         isEqual(self.alias, enterMessage.alias);
+  return
+  [super isEquivalentToMessage:enterMessage] &&
+  isEqual(self.alias, enterMessage.alias);
 }
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error

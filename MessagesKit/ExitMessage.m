@@ -50,8 +50,9 @@
 
 -(BOOL) isEquivalentToExitMessage:(ExitMessage *)exitMessage
 {
-  return [super isEquivalentToMessage:exitMessage] &&
-         isEqual(self.alias, exitMessage.alias);
+  return
+  [super isEquivalentToMessage:exitMessage] &&
+  isEqual(self.alias, exitMessage.alias);
 }
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error

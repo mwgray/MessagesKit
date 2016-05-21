@@ -62,10 +62,11 @@
 
 -(BOOL) isEquivalentToConferenceMessage:(ConferenceMessage *)conferenceMessage
 {
-  return [super isEquivalentToMessage:conferenceMessage] &&
-         (self.conferenceStatus == conferenceMessage.conferenceStatus) &&
-         isEqual(self.message, conferenceMessage.message) &&
-         (self.localAction == conferenceMessage.localAction);
+  return
+  [super isEquivalentToMessage:conferenceMessage] &&
+  (self.conferenceStatus == conferenceMessage.conferenceStatus) &&
+  isEqual(self.message, conferenceMessage.message) &&
+  (self.localAction == conferenceMessage.localAction);
 }
 
 -(void) setUpdated:(NSDate *)updated
