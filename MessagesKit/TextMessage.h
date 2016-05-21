@@ -20,8 +20,8 @@ typedef NS_ENUM (int, TextMessageType) {
 
 @interface TextMessage : Message
 
-@property (readonly, nonatomic) TextMessageType type;
-@property (readonly, nonatomic) id data;
+@property (assign, nonatomic) TextMessageType type;
+@property (copy, nonatomic) id data;
 
 @property (nonatomic) NSString *text;
 @property (nonatomic) NSData *html;

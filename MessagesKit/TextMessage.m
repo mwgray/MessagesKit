@@ -20,9 +20,6 @@
 
 @interface TextMessage ()
 
-@property (assign, nonatomic) TextMessageType type;
-@property (strong, nonatomic) id data;
-
 @property (strong, nonatomic) NSString *cachedText;
 
 @end
@@ -54,7 +51,8 @@
 
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat html:(NSString *)html
 {
-  MemoryDataReference *data = [MemoryDataReference.alloc initWithData:[html dataUsingEncoding:NSUTF8StringEncoding]];
+  MemoryDataReference *data = [MemoryDataReference.alloc initWithData:[html dataUsingEncoding:NSUTF8StringEncoding]
+                                                           ofMIMEType:@"text/html"];
   return [self initWithId:id chat:chat data:data type:TextMessageType_Html];
 }
 
@@ -63,7 +61,7 @@
   return [self initWithId:[Id generate] chat:chat html:html];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
 {
   if (![super load:resultSet dao:dao error:error]) {
     return NO;
@@ -84,7 +82,7 @@
   return YES;
 }
 
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
 {
   if (![super save:values dao:dao error:error]) {
     return NO;
@@ -182,24 +180,24 @@
   return self.text;
 }
 
--(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
 {
   switch (_type) {
   case TextMessageType_Simple:
     *metaData = @{@"type":@"text/plain"};
-    *payloadData = [MemoryDataReference.alloc initWithData:[self.data dataUsingEncoding:NSUTF8StringEncoding]];
+    *payloadData = [MemoryDataReference.alloc initWithData:[self.data dataUsingEncoding:NSUTF8StringEncoding] ofMIMEType:@"text/plain"];
     break;
 
   case TextMessageType_Html:
     *metaData = @{@"type":@"text/html"};
-    *payloadData = [MemoryDataReference.alloc initWithData:self.data];
+    *payloadData = [MemoryDataReference.alloc initWithData:self.data ofMIMEType:@"text/html"];
     break;
   }
   
   return YES;
 }
 
--(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
 {
   TextMessageType type = [metaData[@"type"] isEqualToStringCI:@"text/html"] ? TextMessageType_Html : TextMessageType_Simple;
   

@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) double latitude;
 @property (assign, nonatomic) double longitude;
-@property (retain, nullable, nonatomic) NSString *title;
-@property (retain, nullable, nonatomic) NSData *thumbnailData;
+@property (copy, nullable, nonatomic) NSString *title;
+@property (copy, nullable, nonatomic) NSData *thumbnailData;
 
 -(instancetype) init NS_UNAVAILABLE;
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat NS_UNAVAILABLE;

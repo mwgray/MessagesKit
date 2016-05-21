@@ -14,10 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ContactMessage : Message
 
-@property (retain, nonatomic) NSData *vcardData;
-@property (retain, nullable, nonatomic) NSString *firstName;
-@property (retain, nullable, nonatomic) NSString *lastName;
-@property (retain, nullable, nonatomic) NSString *extraLabel;
+@property (copy, nonatomic) NSData *vcardData;
+@property (copy, nullable, nonatomic) NSString *firstName;
+@property (copy, nullable, nonatomic) NSString *lastName;
+@property (copy, nullable, nonatomic) NSString *extraLabel;
 
 @property (readonly, nullable, nonatomic) NSString *fullName;
 

@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(nullable instancetype) initWithString:(NSString *)string;
 -(instancetype) initWithUUID:(NSUUID *)uuid;
 
--(BOOL) isNull;
+@property(readonly) BOOL isNull;
+@property(readonly) NSString *UUIDString;
 
--(NSString *) UUIDString;
 -(NSComparisonResult) compare:(Id *)other;
 
 @end

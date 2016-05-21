@@ -9,11 +9,12 @@
 #import "ImageMessage.h"
 
 #import "MessageDAO.h"
-#import "MemoryDataReference.h"
+#import "ExternalFileDataReference.h"
 #import "DataReferences.h"
 #import "NSObject+Utils.h"
 #import "Messages+Exts.h"
 #import "NSMutableDictionary+Utils.h"
+#import "NSURL+Utils.h"
 #import "FMResultSet+Utils.h"
 #import "CGSize+Utils.h"
 #import "Log.h"
@@ -26,48 +27,51 @@
 const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
 
 
+@interface ImageMessage ()
+
+@end
+
+
 @implementation ImageMessage
 
 -(id) debugQuickLookObject
 {
-  UIImage *image = [UIImage imageWithData:[DataReferences readAllDataFromReference:self.thumbnailOrImageData error:nil]];
+  UIImage *image = [UIImage imageWithData:self.thumbnailOrImageData];
   return image ? image : [@"Unable to load image for message " stringByAppendingString:self.id.description];
 }
 
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(id<DataReference>)thumbnailData
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data thumbnailData:(nullable NSData *)thumbnailData
 {
   self = [super initWithId:id chat:chat];
   if (self) {
     
     self.data = data;
-    self.dataMimeType = mimeType;
     self.thumbnailData = thumbnailData;
     
   }
   return self;
 }
 
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data
 {
-  return [self initWithId:id chat:chat data:data mimeType:mimeType thumbnailData:nil];
+  return [self initWithId:id chat:chat data:data thumbnailData:nil];
 }
 
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(nullable id<DataReference>)thumbnailData
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data thumbnailData:(nullable NSData *)thumbnailData
 {
-  return [self initWithId:[Id generate] chat:chat data:data mimeType:mimeType thumbnailData:nil];
+  return [self initWithId:[Id generate] chat:chat data:data thumbnailData:thumbnailData];
 }
 
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data
 {
-  return [self initWithId:[Id generate] chat:chat data:data mimeType:mimeType];
+  return [self initWithId:[Id generate] chat:chat data:data];
 }
 
 -(id) copy
 {
   ImageMessage *copy = [super copy];
-  copy.data = self.data;
-  copy.dataMimeType = self.dataMimeType;
-  copy.thumbnailData = self.thumbnailData;
+  copy.data = [self.data copyWithZone:nil];;
+  copy.thumbnailData = [self.thumbnailData copyWithZone:nil];
   copy.thumbnailSize = self.thumbnailSize;
   return copy;
 }
@@ -83,111 +87,24 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
 
 -(BOOL) isEquivalentToImageMessage:(ImageMessage *)imageMessage
 {
-  return [super isEquivalentToMessage:imageMessage] &&
-    [DataReferences isDataReference:_data equivalentToDataReference:imageMessage.data] &&
-    isEqual(_dataMimeType, imageMessage.dataMimeType) &&
-    [DataReferences isDataReference:_thumbnailData equivalentToDataReference:imageMessage.thumbnailData] &&
-    CGSizeEqualToSize(_thumbnailSize, imageMessage.thumbnailSize);
+  return
+  [super isEquivalentToMessage:imageMessage] &&
+  [DataReferences isDataReference:_data equivalentToDataReference:imageMessage.data] &&
+  isEqual(_thumbnailData, imageMessage.thumbnailData) &&
+  CGSizeEqualToSize(_thumbnailSize, imageMessage.thumbnailSize);
 }
 
 -(void) setData:(id<DataReference>)data
 {
-  if (_data == data) {
-    return;
+  if ([self.data isKindOfClass:ExternalFileDataReference.class]) {
+    [NSFileManager.defaultManager removeItemAtURL:[(id)self.data URL] error:nil];
   }
-  
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = [data temporaryDuplicateFilteredBy:nil error:nil];
+  _data = data;
 }
 
--(void) setOwnedData:(id<DataReference>)ownedData
+-(NSData *) thumbnailOrImageData
 {
-  if (_data == ownedData) {
-    return;
-  }
-  
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = ownedData;
-}
-
--(void) setThumbnailData:(id<DataReference>)thumbnailData
-{
-  if (_thumbnailData == thumbnailData) {
-    return;
-  }
-  
-  if (_thumbnailData) {
-    [_thumbnailData deleteAndReturnError:nil];
-  }
-  
-  _thumbnailData = [thumbnailData temporaryDuplicateFilteredBy:nil error:nil];
-}
-
--(void) setOwnedThumbnailData:(id<DataReference>)ownedThumbnailData
-{
-  self.thumbnailData = nil;
-  _thumbnailData = ownedThumbnailData;
-}
-
--(id<DataReference>) thumbnailOrImageData
-{
-  return self.thumbnailData ? self.thumbnailData : self.data;
-}
-
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.thumbnailData = [resultSet dataReferenceForColumnIndex:dao.data1FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
-  self.data = [resultSet dataReferenceForColumnIndex:dao.data2FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
-  self.thumbnailSize = [resultSet sizeForColumnIndex:dao.data3FieldIdx];
-  self.dataMimeType = [resultSet stringForColumnIndex:dao.data4FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-
-  // Internalize data references
-  if (_data && !(self.ownedData = [self internalizeData:_data dbManager:dao.dbManager error:error])) {
-    return NO;
-  }
-  
-  if (_thumbnailData && !(self.ownedThumbnailData = [self internalizeData:_thumbnailData dbManager:dao.dbManager error:error])) {
-    return NO;
-  }
-  
-  [values setNillableObject:self.thumbnailData forKey:@"data1"];
-  [values setNillableObject:self.data forKey:@"data2"];
-  [values setObject:NSStringFromCGSize(self.thumbnailSize) forKey:@"data3"];
-  [values setNillableObject:self.dataMimeType forKey:@"data4"];
-  
-  return YES;
-}
-
--(BOOL) deleteWithDAO:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (_data && ![_data deleteAndReturnError:error]) {
-    return NO;
-  }
-  
-  if (_thumbnailData && ![_thumbnailData deleteAndReturnError:error]) {
-    return NO;
-  }
-  
-  return YES;
+  return self.thumbnailData ?: [DataReferences readAllDataFromReference:self.data error:nil];
 }
 
 -(NSString *) alertText
@@ -200,41 +117,106 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
   return @"New image";
 }
 
--(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL)internalizeDataReferenceWithDAO:(DAO *)dao error:(NSError **)error
 {
-  *metaData = @{MetaDataKey_MimeType : self.dataMimeType ?: @""};
+  NSString *fileName = [NSUUID.UUID.UUIDString stringByAppendingPathExtension:[NSURL extensionForMimeType:self.data.MIMEType]];
+  ExternalFileDataReference *externalFileRef = [ExternalFileDataReference.alloc initWithDBManager:dao.dbManager fileName:fileName];
+  if (![self.data writeToURL:externalFileRef.URL error:error]) {
+    return NO;
+  }
+  self.data = externalFileRef;
+  return YES;
+}
+
+-(BOOL)willInsertIntoDAO:(DAO *)dao error:(NSError **)error
+{
+  return [self internalizeDataReferenceWithDAO:dao error:error];
+}
+
+-(BOOL)willUpdateInDAO:(DAO *)dao error:(NSError **)error
+{
+  return [self internalizeDataReferenceWithDAO:dao error:error];
+}
+
+-(BOOL)didDeleteFromDAO:(DAO *)dao error:(NSError **)error
+{
+  if ([self.data isKindOfClass:ExternalFileDataReference.class]) {
+    ExternalFileDataReference *externalFileRef = self.data;
+    return [NSFileManager.defaultManager removeItemAtURL:externalFileRef.URL error:error];
+  }
+  return YES;
+}
+
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+{
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+
+  self.thumbnailData = [resultSet dataForColumnIndex:dao.data1FieldIdx];
+  self.data = [resultSet dataReferenceForColumnIndex:dao.data2FieldIdx usingDBManager:dao.dbManager];
+  self.thumbnailSize = [resultSet sizeForColumnIndex:dao.data3FieldIdx];
+  
+  return YES;
+}
+
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
+{
+  if (![super save:values dao:dao error:error]) {
+    return NO;
+  }
+  
+  [values setNillableObject:self.thumbnailData forKey:@"data1"];
+  [values setNillableObject:[NSKeyedArchiver archivedDataWithRootObject:self.data] forKey:@"data2"];
+  [values setObject:NSStringFromCGSize(self.thumbnailSize) forKey:@"data3"];
+  
+  return YES;
+}
+
+-(MsgType) payloadType
+{
+  return MsgTypeImage;
+}
+
+-(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
+{
+  *metaData = @{MetaDataKey_MimeType : self.data.MIMEType ?: @""};
   *payloadData = self.data;
   
   return YES;
 }
 
--(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
 {
-  self.dataMimeType = metaData[MetaDataKey_MimeType];
-  self.data = payloadData;
-
-  _thumbnailData = [ImageMessage generateThumbnailWithData:payloadData size:&_thumbnailSize error:error];
-  if (!_thumbnailData) {
+  NSString *MIMEType = metaData[MetaDataKey_MimeType];
+  
+  id<DataReference> data = [payloadData temporaryDuplicateFilteredBy:nil withMIMEType:MIMEType error:error];
+  if (!data) {
     return NO;
   }
+  
+  self.data = data;
+  
+  NSData *thumbnailData = [ImageMessage generateThumbnailWithImageData:self.data size:&_thumbnailSize error:error];
+  if (!thumbnailData) {
+    return NO;
+  }
+  
+  self.thumbnailData = thumbnailData;
   
   return YES;
 }
 
-+(id<DataReference>) generateThumbnailWithData:(id<DataReference>)imageData size:(CGSize *)outSize error:(NSError **)error
++(NSData *) generateThumbnailWithImageData:(id<DataReference>)imageData size:(CGSize *)outSize error:(NSError **)error
 {
   CGSize maxSize = CGSizeScale(UIScreen.mainScreen.bounds.size, MK_THUMBNAIL_MAX_PERCENT);
   CGRect maxRect = {CGPointZero, maxSize};
-
-  NSData *imageSourceData = [DataReferences readAllDataFromReference:imageData error:error];
-  if (!imageSourceData) {
-    return nil;
-  }
   
-  CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)[DataReferences readAllDataFromReference:imageData error:nil], NULL);
+  CGImageSourceRef imageSource = [imageData openImageSourceAndReturnError:error];
   if (!imageSource) {
     return nil;
   }
+  
   @try {
 
     NSDictionary *imageProps = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL));
@@ -250,32 +232,34 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
     CGSize imageOrientedSize;
 
     switch (imageOrientation.intValue) {
-    case kCGImagePropertyOrientationUp:
-    case kCGImagePropertyOrientationUpMirrored:
-    case kCGImagePropertyOrientationDown:
-    case kCGImagePropertyOrientationDownMirrored:
+      case kCGImagePropertyOrientationUp:
+      case kCGImagePropertyOrientationUpMirrored:
+      case kCGImagePropertyOrientationDown:
+      case kCGImagePropertyOrientationDownMirrored:
+        
+        imageOrientedSize = CGSizeMake(imageSize.width, imageSize.height);
+        
+        // Check if we want to draw straight from the image (for GIFs & small images)
 
-      imageOrientedSize = CGSizeMake(imageSize.width, imageSize.height);
+        CGRect imageBounds = {CGPointZero, imageOrientedSize};
+        CFStringRef imageSourceContainerType = CGImageSourceGetType(imageSource);
+        BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
+        
+        if (isGIFData || CGRectContainsRect(maxRect, imageBounds)) {
+          if (outSize) {
+            *outSize = imageSize;
+          }
+          return nil;
+        }
+        
+        break;
 
-      // Check if we want to draw straight from the image
-
-        //FIXME: Move to UI framework?
-//      CGRect imageBounds = {CGPointZero, imageOrientedSize};
-//      if ([FLAnimatedImage isAnimatedGIF:imageSource] || CGRectContainsRect(maxRect, imageBounds)) {
-//        if (outSize) {
-//          *outSize = imageSize;
-//        }
-//        return nil;
-//      }
-
-      break;
-
-    case kCGImagePropertyOrientationLeftMirrored:
-    case kCGImagePropertyOrientationRight:
-    case kCGImagePropertyOrientationRightMirrored:
-    case kCGImagePropertyOrientationLeft:
-      imageOrientedSize = CGSizeMake(imageSize.height, imageSize.width);
-      break;
+      case kCGImagePropertyOrientationLeftMirrored:
+      case kCGImagePropertyOrientationRight:
+      case kCGImagePropertyOrientationRightMirrored:
+      case kCGImagePropertyOrientationLeft:
+        imageOrientedSize = CGSizeMake(imageSize.height, imageSize.width);
+        break;
     }
 
     CGSize imageSizeTarget = AVMakeRectWithAspectRatioInsideRect(imageOrientedSize, maxRect).size;
@@ -313,7 +297,7 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
           return nil;
         }
 
-        return [[MemoryDataReference alloc] initWithData:thumbnailData];
+        return thumbnailData;
       }
       @finally {
         CFRelease(thumbnailDest);
@@ -328,11 +312,6 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
     CFRelease(imageSource);
   }
 
-}
-
--(MsgType) payloadType
-{
-  return MsgTypeImage;
 }
 
 @end

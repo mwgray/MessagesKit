@@ -77,7 +77,7 @@ class MessageFetchHTTPOperation: Operation {
   
   func initiateDownload() -> Bool {
     
-    let fetchURL = MessageAPI.target.userFetchURL.URLByAppendingQueryParameters(["id": context.msgHdr!.id.UUIDString()])
+    let fetchURL = MessageAPI.target.userFetchURL.URLByAppendingQueryParameters(["id": context.msgHdr!.id.UUIDString])
     
     let request = NSMutableURLRequest(URL: fetchURL)
     request.HTTPMethod = "GET";
@@ -122,7 +122,7 @@ extension MessageFetchHTTPOperation: BackgroundSessionDownloadOperation {
       
       // Copy data to safe location & store it
       
-      context.encryptedData = try FileDataReference(path: downloadURL.path!).temporaryDuplicate()
+      context.encryptedData = try URLDataReference(URL: downloadURL).temporaryDuplicate()
       
       finish()
       

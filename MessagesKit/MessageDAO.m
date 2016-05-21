@@ -296,6 +296,10 @@
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
+    if (![message willUpdateInDAO:self error:error]) {
+      return;
+    }
+    
     message.status = status;
     message.statusTimestamp = timestamp;
 
@@ -326,6 +330,10 @@
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
+    if (![message willUpdateInDAO:self error:error]) {
+      return;
+    }
+    
     message.sent = sent;
 
     valid = [db executeUpdate:@"UPDATE message SET sent = ? WHERE id = ?"
@@ -354,6 +362,10 @@
   __block BOOL updated = NO;
 
   [self.dbManager.pool inWritableDatabase:^(FMDatabase *db) {
+    
+    if (![message willUpdateInDAO:self error:error]) {
+      return;
+    }
 
     message.flags = flags;
 
@@ -402,13 +414,15 @@
     valid = YES;
     count = db.changes;
 
+    for (Model *model in deleted) {
+      [model didDeleteFromDAO:self error:nil];
+    }
+    
   }];
 
   if (count && deleted) {
 
     for (Model *del in deleted) {
-
-      [del deleteWithDAO:self error:nil];
 
       [self.objectCache removeObjectForKey:[del dbId]];
     }

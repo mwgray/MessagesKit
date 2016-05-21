@@ -55,7 +55,7 @@ class MessageRecvOperation: MessageAPIGroupOperation, MessageFetchContext {
   
   init(msg: Msg, api: MessageAPI) {
     
-    self.encryptedData = msg.data != nil ? MemoryDataReference(data: msg.data) : nil
+    self.encryptedData = msg.data != nil ? MemoryDataReference(data: msg.data, ofMIMEType: "application/octet-stream") : nil
     
     self.msg = msg
     

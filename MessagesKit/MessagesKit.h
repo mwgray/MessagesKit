@@ -31,9 +31,9 @@ FOUNDATION_EXPORT const unsigned char MessagesKitVersionString[];
 
 #import "DataReference.h"
 #import "DataReferences.h"
-#import "BlobDataReference.h"
-#import "FileDataReference.h"
+#import "URLDataReference.h"
 #import "MemoryDataReference.h"
+#import "ExternalFileDataReference.h"
 
 #import "Model.h"
 #import "Message.h"

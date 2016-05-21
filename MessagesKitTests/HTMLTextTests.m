@@ -14,7 +14,7 @@
 @import CocoaLumberjack;
 
 
-CL_DECLARE_LOG_LEVEL()
+MK_DECLARE_LOG_LEVEL()
 
 
 @interface HTMLTextTests : XCTestCase

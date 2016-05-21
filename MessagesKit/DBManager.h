@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DBManager : NSObject
 
+@property (readonly, nonatomic) NSURL *URL;
+
 @property (readonly, nonatomic) FMDatabaseReadWritePool *pool;
 @property (readonly, nonatomic) NSDictionary<NSString *, NSString *> *classTableNames;
 

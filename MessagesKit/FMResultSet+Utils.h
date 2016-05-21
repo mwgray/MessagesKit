@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(CGSize) sizeForColumn:(NSString *)columnName;
 -(CGSize) sizeForColumnIndex:(int)columnIdx;
 
--(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(DBManager *)db;
--(id<DataReference>) dataReferenceForColumnIndex:(int)columnIdx forOwner:(NSString *)owner usingDB:(DBManager *)db;
+-(id<DataReference>) dataReferenceForColumn:(NSString *)columnName usingDBManager:(DBManager *)db;
+-(id<DataReference>) dataReferenceForColumnIndex:(int)columnIdx usingDBManager:(DBManager *)db;
 
 -(id) nillableObjectForColumnIndex:(int)columnIndex;
 

@@ -65,7 +65,7 @@ typedef NS_ENUM (int32_t, MessageSoundAlert) {
 
 @property (readonly, nonatomic) MessageSoundAlert soundAlert;
 
--(instancetype) init NS_DESIGNATED_INITIALIZER;
+-(instancetype) init NS_UNAVAILABLE;
 -(instancetype) initWithChat:(Chat *)chat;
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat NS_DESIGNATED_INITIALIZER;
 
@@ -81,9 +81,6 @@ typedef NS_ENUM (int32_t, MessageSoundAlert) {
 -(BOOL) importPayloadFromData:(nullable id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error;
 
 -(NSString *) statusString;
-
-+(NSNumber *) shouldConvertDataToBlob:(id<DataReference>)data error:(NSError **)error;
--(id<DataReference>)internalizeData:(id<DataReference>)data dbManager:(DBManager *)dbManager error:(NSError **)error;
 
 @end
 

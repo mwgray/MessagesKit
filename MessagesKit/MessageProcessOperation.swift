@@ -145,8 +145,7 @@ class MessageProcessOperation: Operation {
         message = prevMessage!
       }
       else {
-        message = messageClass.init()
-        message.id = msg.id
+        message = messageClass.init(id: msg.id, chat: chat)
         message.sender = msg.sender
         message.sent = NSDate(millisecondsSince1970:msg.sent)
         message.status = .Delivered
@@ -202,7 +201,7 @@ class MessageProcessOperation: Operation {
           break
         }
         
-        DDLogError("MessageProcessOperation: Deleting message: \(msgId.UUIDString())")
+        DDLogError("MessageProcessOperation: Deleting message: \(msgId.UUIDString)")
         
         api.messageDAO.markMessageDeletedWithId(msgId)
         
@@ -330,10 +329,6 @@ class MessageProcessOperation: Operation {
         try cipher.decryptFromStream(inStream, toStream: outStream, withKey: key)
       }
       
-      defer {
-        let _ = try? data.delete()
-      }
-      
       // Deserialize request data
       guard let request = try TBaseUtils.deserialize(AuthorizeRequest(), fromData: try DataReferences.readAllDataFromReference(data)) as? AuthorizeRequest else {
         DDLogError("MessageProcessOperation: Authorize: unable to deserialize request")
@@ -400,10 +395,6 @@ class MessageProcessOperation: Operation {
         data = nil
       }
       
-      defer {
-        let _ = try? data?.delete()
-      }
-    
       guard let chat = try lookupChatWithMsg(msg) else {
         DDLogError("MessageProcessOperation: Unable to find chat for message")
         break
@@ -411,7 +402,7 @@ class MessageProcessOperation: Operation {
       
       // If message was previously deleted, ignore it now
       if api.messageDAO.isMessageDeletedWithId(msg.id) {
-        DDLogError("MessageProcessOperation: Ignoring deleted message \(msg.id.UUIDString())")
+        DDLogError("MessageProcessOperation: Ignoring deleted message \(msg.id.UUIDString)")
         break
       }
       

@@ -9,8 +9,8 @@
 #import "VideoMessage.h"
 
 #import "MessageDAO.h"
+#import "ExternalFileDataReference.h"
 #import "DataReferences.h"
-#import "MemoryDataReference.h"
 #import "TBase+Utils.h"
 #import "NSURL+Utils.h"
 #import "NSObject+Utils.h"
@@ -32,39 +32,37 @@
 
 @implementation VideoMessage
 
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(id<DataReference>)thumbnailData
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data thumbnailData:(NSData *)thumbnailData
 {
   self = [super initWithId:id chat:chat];
   if (self) {
     
     self.data = data;
-    self.dataMimeType = mimeType;
     self.thumbnailData = thumbnailData;
     
   }
   return self;
 }
 
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data
 {
-  return [self initWithId:id chat:chat data:data mimeType:mimeType thumbnailData:nil];
+  return [self initWithId:id chat:chat data:data thumbnailData:nil];
 }
 
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(nullable id<DataReference>)thumbnailData
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data thumbnailData:(NSData *)thumbnailData
 {
-  return [self initWithId:[Id generate] chat:chat data:data mimeType:mimeType thumbnailData:nil];
+  return [self initWithId:[Id generate] chat:chat data:data thumbnailData:thumbnailData];
 }
 
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data
 {
-  return [self initWithId:[Id generate] chat:chat data:data mimeType:mimeType];
+  return [self initWithId:[Id generate] chat:chat data:data];
 }
 
 -(id) copy
 {
   VideoMessage *copy = [super copy];
   copy.data = self.data;
-  copy.dataMimeType = self.dataMimeType;
   copy.thumbnailData = self.thumbnailData;
   copy.thumbnailSize = self.thumbnailSize;
   return copy;
@@ -81,106 +79,11 @@
 
 -(BOOL) isEquivalentToVideoMessage:(VideoMessage *)videoMessage
 {
-  return [super isEquivalentToMessage:videoMessage] &&
-    [DataReferences isDataReference:_data equivalentToDataReference:videoMessage.data] &&
-    isEqual(_dataMimeType, videoMessage.dataMimeType) &&
-    [DataReferences isDataReference:_thumbnailData equivalentToDataReference:videoMessage.thumbnailData] &&
-    CGSizeEqualToSize(self.thumbnailSize, videoMessage.thumbnailSize);
-}
-
--(void) setData:(id<DataReference>)data
-{
-  if (_data == data) {
-    return;
-  }
-  
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = [data temporaryDuplicateFilteredBy:nil error:nil];
-}
-
--(void) setOwnedData:(id<DataReference>)ownedData
-{
-  if (_data == ownedData) {
-    return;
-  }
-  
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = ownedData;
-}
-
--(void) setThumbnailData:(id<DataReference>)thumbnailData
-{
-  if (_thumbnailData == thumbnailData) {
-    return;
-  }
-  
-  if (_thumbnailData) {
-    [_thumbnailData deleteAndReturnError:nil];
-  }
-  
-  _thumbnailData = [thumbnailData temporaryDuplicateFilteredBy:nil error:nil];
-}
-
--(void) setOwnedThumbnailData:(id<DataReference>)ownedThumbnailData
-{
-  self.thumbnailData = nil;
-  _thumbnailData = ownedThumbnailData;
-}
-
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.thumbnailData = [resultSet dataReferenceForColumnIndex:dao.data1FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
-  self.data = [resultSet dataReferenceForColumnIndex:dao.data2FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
-  self.thumbnailSize = [resultSet sizeForColumnIndex:dao.data3FieldIdx];
-  self.dataMimeType = [resultSet stringForColumnIndex:dao.data4FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-  
-  // Internalize data references
-  if (_data && !(self.ownedData = [self internalizeData:_data dbManager:dao.dbManager error:error])) {
-    return NO;
-  }
-  
-  if (_thumbnailData && !(self.ownedThumbnailData = [self internalizeData:_thumbnailData dbManager:dao.dbManager error:error])) {
-    return NO;
-  }
-  
-  [values setNillableObject:self.thumbnailData forKey:@"data1"];
-  [values setNillableObject:self.data forKey:@"data2"];
-  [values setObject:NSStringFromCGSize(self.thumbnailSize) forKey:@"data3"];
-  [values setNillableObject:self.dataMimeType forKey:@"data4"];
-  
-  return YES;
-}
-
--(BOOL) deleteWithDAO:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (_data && ![_data deleteAndReturnError:error]) {
-    return NO;
-  }
-  
-  if (_thumbnailData && ![_thumbnailData deleteAndReturnError:error]) {
-    return NO;
-  }
-  
-  return YES;
+  return
+  [super isEquivalentToMessage:videoMessage] &&
+  [DataReferences isDataReference:self.data equivalentToDataReference:videoMessage.data] &&
+  isEqual(self.thumbnailData, videoMessage.thumbnailData) &&
+  CGSizeEqualToSize(self.thumbnailSize, videoMessage.thumbnailSize);
 }
 
 -(NSString *) alertText
@@ -193,41 +96,66 @@
   return @"New video";
 }
 
--(BOOL)exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(void) setData:(id<DataReference>)data
 {
-  //FIXME: move to AVAssetDataReference
-//  NSURL *srcVideoURL = self.dataURL;
-//  NSURL *dstVideoURL = [NSURL URLForTemporaryFile];
-//
-//  AVURLAsset *videoAsset = [AVURLAsset URLAssetWithURL:srcVideoURL options:nil];
-//
-//  AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
-//  exportSession.outputURL = dstVideoURL;
-//  exportSession.outputFileType = AVFileTypeMPEG4;
-//
-//  [exportSession exportSynchronously];
-//
-  
-  *metaData = @{MetaDataKey_MimeType: self.dataMimeType ?: @"",
-                MetaDataKey_ThumbnailFrameTime: @"0"};
-  *payloadData = self.data;
+  if ([self.data isKindOfClass:ExternalFileDataReference.class]) {
+    [NSFileManager.defaultManager removeItemAtURL:[(id)self.data URL] error:nil];
+  }
+  _data = data;
+}
+
+-(BOOL)internalizeDataReferenceWithDAO:(DAO *)dao error:(NSError **)error
+{
+  NSString *fileName = [NSUUID.UUID.UUIDString stringByAppendingPathExtension:[NSURL extensionForMimeType:self.data.MIMEType]];
+  ExternalFileDataReference *externalFileRef = [ExternalFileDataReference.alloc initWithDBManager:dao.dbManager fileName:fileName];
+  if (![self.data writeToURL:externalFileRef.URL error:error]) {
+    return NO;
+  }
+  self.data = externalFileRef;
+  return YES;
+}
+
+-(BOOL)willInsertIntoDAO:(DAO *)dao error:(NSError **)error
+{
+  return [self internalizeDataReferenceWithDAO:dao error:error];
+}
+
+-(BOOL)willUpdateInDAO:(DAO *)dao error:(NSError **)error
+{
+  return [self internalizeDataReferenceWithDAO:dao error:error];
+}
+
+-(BOOL)didDeleteFromDAO:(DAO *)dao error:(NSError **)error
+{
+  if ([self.data isKindOfClass:ExternalFileDataReference.class]) {
+    ExternalFileDataReference *externalFileRef = self.data;
+    return [NSFileManager.defaultManager removeItemAtURL:externalFileRef.URL error:error];
+  }
+  return YES;
+}
+
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+{
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+
+  self.thumbnailData = [resultSet dataForColumnIndex:dao.data1FieldIdx];
+  self.data = [resultSet dataReferenceForColumnIndex:dao.data2FieldIdx usingDBManager:dao.dbManager];
+  self.thumbnailSize = [resultSet sizeForColumnIndex:dao.data3FieldIdx];
   
   return YES;
 }
 
--(BOOL)importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
 {
-  self.dataMimeType = metaData[MetaDataKey_MimeType];
-
-  NSString *thumbnailFrameTime = metaData[MetaDataKey_ThumbnailFrameTime];
-
-  self.data = payloadData;
-  self.thumbnailData = [VideoMessage generateThumbnailWithData:payloadData
-                                                     atFrameTime:thumbnailFrameTime
-                                                            size:&_thumbnailSize error:error];
-  if (!self.thumbnailData) {
+  if (![super save:values dao:dao error:error]) {
     return NO;
   }
+  
+  [values setNillableObject:self.thumbnailData forKey:@"data1"];
+  [values setNillableObject:[NSKeyedArchiver archivedDataWithRootObject:self.data] forKey:@"data2"];
+  [values setObject:NSStringFromCGSize(self.thumbnailSize) forKey:@"data3"];
   
   return YES;
 }
@@ -237,50 +165,99 @@
   return MsgTypeVideo;
 }
 
-+(nullable id<DataReference>) generateThumbnailWithData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size error:(NSError * _Nullable __autoreleasing * _Nullable)error
+-(BOOL)exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
 {
-  FileDataReference *tempRef = [DataReferences duplicateDataReferenceToTemporaryFile:videoData withExtension:@"mp4" error:error];
-  if (!tempRef) {
+  NSURL *srcVideoURL = [NSURL URLForTemporaryFileWithExtension:[NSURL extensionForMimeType:self.data.MIMEType]];
+  if (![self.data writeToURL:srcVideoURL error:error]) {
+    return NO;
+  }
+  
+  URLDataReference *srcVideoDataRef = [URLDataReference.alloc initWithURL:srcVideoURL];
+  
+  NSURL *dstVideoURL = [NSURL URLForTemporaryFile];
+
+  [AVURLAsset URLAssetWithURL:srcVideoURL options:nil];
+  AVURLAsset *videoAsset = [AVURLAsset URLAssetWithURL:srcVideoURL options:nil];
+
+  AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
+  exportSession.outputURL = dstVideoURL;
+  exportSession.outputFileType = AVFileTypeMPEG4;
+
+  //FIXME: [exportSession exportSynchronously];
+  
+  *metaData = @{MetaDataKey_MimeType: self.data.MIMEType,
+                MetaDataKey_ThumbnailFrameTime: @"0"};
+  *payloadData = self.data;
+  
+  [srcVideoDataRef self]; // Extend reference lifetime until here
+  
+  return YES;
+}
+
+-(BOOL)importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+{
+  NSString *MIMEType = metaData[MetaDataKey_MimeType];
+
+  NSString *thumbnailFrameTime = metaData[MetaDataKey_ThumbnailFrameTime];
+
+  id<DataReference> data = [payloadData temporaryDuplicateFilteredBy:nil withMIMEType:MIMEType error:error];
+  if (!data) {
+    return NO;
+  }
+  
+  self.data = data;
+
+  NSData *thumbnailData = [VideoMessage generateThumbnailWithVideoData:self.data
+                                                           atFrameTime:thumbnailFrameTime
+                                                                  size:&_thumbnailSize
+                                                                 error:error];
+  if (!thumbnailData) {
+    return NO;
+  }
+  
+  return YES;
+}
+
++(NSData *) generateThumbnailWithVideoData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size error:(NSError **)error
+{
+  NSURL *tmpVideoURL = [NSURL URLForTemporaryFileWithExtension:[NSURL extensionForMimeType:videoData.MIMEType]];
+  if (![videoData writeToURL:tmpVideoURL error:error]) {
     return nil;
   }
   
-  @try {
+  URLDataReference *tmpVideoDataRef = [URLDataReference.alloc initWithURL:tmpVideoURL];
   
-    AVURLAsset *as = [[AVURLAsset alloc] initWithURL:tempRef.URL options:nil];
-    AVAssetImageGenerator *ima = [[AVAssetImageGenerator alloc] initWithAsset:as];
-    ima.appliesPreferredTrackTransform = YES;
+  AVURLAsset *as = [AVURLAsset.alloc initWithURL:tmpVideoURL options:nil];
+  AVAssetImageGenerator *ima = [AVAssetImageGenerator.alloc initWithAsset:as];
+  ima.appliesPreferredTrackTransform = YES;
 
-    CMTime time = frameTime ? CMTimeMake([frameTime doubleValue] * 1000, 1000) : kCMTimeZero;
+  CMTime time = frameTime ? CMTimeMake([frameTime doubleValue] * 1000, 1000) : kCMTimeZero;
 
-    CGImageRef imgRef = [ima copyCGImageAtTime:time actualTime:NULL error:error];
-    if (!imgRef) {
+  CGImageRef imgRef = [ima copyCGImageAtTime:time actualTime:NULL error:error];
+  if (!imgRef) {
+    return nil;
+  }
+
+  size->width = CGImageGetWidth(imgRef);
+  size->height = CGImageGetHeight(imgRef);
+
+  NSMutableData *imgData = [NSMutableData data];
+  CGImageDestinationRef imgDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)(imgData), kUTTypeJPEG, 1, NULL);
+  @try {
+
+    CGImageDestinationAddImage(imgDest, imgRef, NULL);
+    if (!CGImageDestinationFinalize(imgDest)) {
       return nil;
     }
 
-    size->width = CGImageGetWidth(imgRef);
-    size->height = CGImageGetHeight(imgRef);
-
-    NSMutableData *imgData = [NSMutableData data];
-    CGImageDestinationRef imgDest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)(imgData), kUTTypeJPEG, 1, NULL);
-    @try {
-
-      CGImageDestinationAddImage(imgDest, imgRef, NULL);
-      if (!CGImageDestinationFinalize(imgDest)) {
-        return nil;
-      }
-
-      return [MemoryDataReference.alloc initWithData:imgData.copy];
-    }
-    @finally {
-      CFRelease(imgDest);
-      CFRelease(imgRef);
-    }
-    
+    return imgData.copy;
   }
   @finally {
-    [tempRef deleteAndReturnError:nil];
+    CFRelease(imgDest);
+    CFRelease(imgRef);
   }
-  
+
+  [tmpVideoDataRef self]; // Extend reference lifetime until here
 }
 
 @end

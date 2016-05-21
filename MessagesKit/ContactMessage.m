@@ -36,32 +36,14 @@
   return [self initWithId:[Id generate] chat:chat vcardData:vcardData];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+-(id) copy
 {
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.vcardData = [resultSet dataForColumnIndex:dao.data1FieldIdx];
-  self.firstName = [resultSet stringForColumnIndex:dao.data2FieldIdx];
-  self.lastName = [resultSet stringForColumnIndex:dao.data3FieldIdx];
-  self.extraLabel = [resultSet stringForColumnIndex:dao.data4FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-
-  [values setNillableObject:self.vcardData forKey:@"data1"];
-  [values setNillableObject:self.firstName forKey:@"data2"];
-  [values setNillableObject:self.lastName forKey:@"data3"];
-  [values setNillableObject:self.extraLabel forKey:@"data4"];
-  
-  return YES;
+  ContactMessage *copy = [super copy];
+  copy.vcardData = self.vcardData;
+  copy.firstName = self.firstName;
+  copy.lastName = self.lastName;
+  copy.extraLabel = self.extraLabel;
+  return copy;
 }
 
 -(BOOL) isEquivalent:(id)object
@@ -82,16 +64,6 @@
          isEqual(self.extraLabel, contactMessage.extraLabel);
 }
 
--(id) copy
-{
-  ContactMessage *copy = [super copy];
-  copy.vcardData = self.vcardData;
-  copy.firstName = self.firstName;
-  copy.lastName = self.lastName;
-  copy.extraLabel = self.extraLabel;
-  return copy;
-}
-
 -(NSString *) alertText
 {
   return [NSString stringWithFormat:@"Sent you a contact for %@", self.fullName];
@@ -100,15 +72,15 @@
 -(NSString *) fullName
 {
   NSMutableArray *names = [NSMutableArray array];
-
+  
   if (self.firstName) {
     [names addObject:self.firstName];
   }
-
+  
   if (self.lastName) {
     [names addObject:self.lastName];
   }
-
+  
   return [names componentsJoinedByString:@" "];
 }
 
@@ -117,38 +89,31 @@
   return [NSString stringWithFormat:@"Contact: %@", self.fullName];
 }
 
--(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
 {
-  *metaData = @{};
-  *payloadData = [[MemoryDataReference alloc] initWithData:self.vcardData];
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+  
+  self.vcardData = [resultSet dataForColumnIndex:dao.data1FieldIdx];
+  self.firstName = [resultSet stringForColumnIndex:dao.data2FieldIdx];
+  self.lastName = [resultSet stringForColumnIndex:dao.data3FieldIdx];
+  self.extraLabel = [resultSet stringForColumnIndex:dao.data4FieldIdx];
   
   return YES;
 }
 
--(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
 {
-
-  self.vcardData = [DataReferences readAllDataFromReference:payloadData error:error];
-  if (!self.vcardData) {
+  if (![super save:values dao:dao error:error]) {
     return NO;
   }
-
-  //FIXME: use vcard library
-//  NSArray *createdPeople = (__bridge_transfer NSArray *)ABPersonCreatePeopleInSourceWithVCardRepresentation(NULL, (__bridge CFDataRef)self.vcardData);
-//  ABRecordRef person = (__bridge ABRecordRef)[createdPeople firstObject];
-//
-//  self.firstName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-//  self.lastName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-//
-//  // Try company, job title, then nickname
-//  self.extraLabel = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
-//  if (!self.extraLabel) {
-//    self.extraLabel = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonJobTitleProperty);
-//  }
-//  if (!self.extraLabel) {
-//    self.extraLabel = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonNicknameProperty);
-//  }
-
+  
+  [values setNillableObject:self.vcardData forKey:@"data1"];
+  [values setNillableObject:self.firstName forKey:@"data2"];
+  [values setNillableObject:self.lastName forKey:@"data3"];
+  [values setNillableObject:self.extraLabel forKey:@"data4"];
+  
   return YES;
 }
 
@@ -157,5 +122,38 @@
   return MsgTypeContact;
 }
 
+-(BOOL) exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
+{
+  *metaData = @{};
+  *payloadData = [MemoryDataReference.alloc initWithData:self.vcardData ofMIMEType:@"text/vcard"];
+  
+  return YES;
+}
+
+-(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
+{
+
+  self.vcardData = [DataReferences readAllDataFromReference:payloadData error:error];
+  if (!self.vcardData) {
+    return NO;
+  }
+
+  NSArray *createdPeople = (__bridge_transfer NSArray *)ABPersonCreatePeopleInSourceWithVCardRepresentation(NULL, (__bridge CFDataRef)self.vcardData);
+  ABRecordRef person = (__bridge ABRecordRef)[createdPeople firstObject];
+
+  self.firstName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+  self.lastName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+
+  // Try company, job title, then nickname
+  self.extraLabel = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
+  if (!self.extraLabel) {
+    self.extraLabel = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonJobTitleProperty);
+  }
+  if (!self.extraLabel) {
+    self.extraLabel = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonNicknameProperty);
+  }
+
+  return YES;
+}
 
 @end

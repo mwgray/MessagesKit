@@ -87,7 +87,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     
     assert(docsDirURL.fileURL)
     
-    let dbName = credentials.userId.UUIDString() + ".sqlite"
+    let dbName = credentials.userId.UUIDString + ".sqlite"
     let dbURL = docsDirURL.URLByAppendingPathComponent(dbName)
     
     let clearData = NSUserDefaults.standardUserDefaults().boolForKey(ClearDataDebugKey)
@@ -216,8 +216,9 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     
     active = true
     
+    queue.addOperation(ConnectWebSocketOperation(api: self))
+
     if credentials.authorized {
-      queue.addOperation(ConnectWebSocketOperation(api: self))
       queue.addOperation(FetchWaitingOperation(api: self))
       queue.addOperation(ResendUnsentMessagesOperation(api: self))
     }
@@ -432,7 +433,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
 
       let clarify = MessageSendSystemOperation(msgType: .Clarify,
                                                chat: message.chat,
-                                               metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString()],
+                                               metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString],
                                                target: .Standard,
                                                api: self)
       self.queue.addOperation(clarify)
@@ -468,7 +469,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
 
       let delete = MessageSendSystemOperation(msgType: .Delete,
                                               chat: message.chat,
-                                              metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString(),
+                                              metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString,
                                                          "type": "message"],
                                               target: .Standard,
                                               api: self)
@@ -520,13 +521,13 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
   
   @objc public func loadGroupChatForId(chatId: Id, members: Set<String>, localAlias: String) throws -> GroupChat {
     
-    if let chat = try chatDAO.fetchChatForAlias(chatId.UUIDString(), localAlias: localAlias) as? GroupChat {
+    if let chat = try chatDAO.fetchChatForAlias(chatId.UUIDString, localAlias: localAlias) as? GroupChat {
       return chat
     }
     
     let chat = GroupChat()
     chat.id = chatId
-    chat.alias = chatId.UUIDString()
+    chat.alias = chatId.UUIDString
     chat.localAlias = localAlias
     chat.members = members
     chat.activeMembers = members
@@ -1132,12 +1133,12 @@ extension MessageAPI {
           //
           
           encryptionIdentity = try AsymmetricKeyPairGenerator
-            .generateSelfSignedIdentityNamed(["UID":profile.id.UUIDString(),"CN":"reTXT Encryption"],
+            .generateSelfSignedIdentityNamed(["UID":profile.id.UUIDString,"CN":"reTXT Encryption"],
               withKeySize: 2048,
               usage: [.KeyEncipherment,.NonRepudiation])
           
           signingIdentity = try AsymmetricKeyPairGenerator
-            .generateSelfSignedIdentityNamed(["UID":profile.id.UUIDString(),"CN":"reTXT Signing"],
+            .generateSelfSignedIdentityNamed(["UID":profile.id.UUIDString,"CN":"reTXT Signing"],
               withKeySize: 2048,
               usage: [.DigitalSignature, .NonRepudiation])
           
@@ -1259,7 +1260,7 @@ extension MessageAPI {
     return publicAPI.requestTemporaryPassword(alias).toPromise(Id)
       .then { foundId -> Id? in
         
-        if foundId.isNull() {
+        if foundId.isNull {
           return nil
         }
         

@@ -12,6 +12,9 @@
 #import "DBManager.h"
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 @interface Model : NSObject
 
 @property (strong, nonatomic) id dbId;
@@ -20,9 +23,14 @@
 
 -(BOOL) load:(FMResultSet *)resultSet dao:(DAO *)dao error:(NSError **)error;
 -(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error;
--(BOOL) deleteWithDAO:(DAO *)dao error:(NSError **)error;
+
+-(BOOL) willInsertIntoDAO:(DAO *)dao error:(NSError **)error;
+-(BOOL) willUpdateInDAO:(DAO *)dao error:(NSError **)error;
+-(BOOL) didDeleteFromDAO:(DAO *)dao error:(NSError **)error;
 
 -(void) invalidateCachedData;
 
 @end
 
+
+NS_ASSUME_NONNULL_END

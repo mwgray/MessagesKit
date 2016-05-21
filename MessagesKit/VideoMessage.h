@@ -14,23 +14,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoMessage : Message
 
-@property (retain, nullable, nonatomic) id<DataReference> thumbnailData;
+@property (copy, nullable, nonatomic) NSData *thumbnailData;
 @property (assign, nonatomic) CGSize thumbnailSize;
 
-@property (retain, nonatomic) id<DataReference> data;
-@property (copy, nonatomic) NSString *dataMimeType;
+@property (copy, nonatomic) id<DataReference> data;
 
 -(instancetype) init NS_UNAVAILABLE;
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat NS_UNAVAILABLE;
 
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(nullable id<DataReference>)thumbnailData NS_DESIGNATED_INITIALIZER;
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType;
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType thumbnailData:(nullable id<DataReference>)thumbnailData;
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType;
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data thumbnailData:(nullable NSData *)thumbnailData NS_DESIGNATED_INITIALIZER;
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data;
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data thumbnailData:(nullable NSData *)thumbnailData;
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data;
 
 -(BOOL) isEquivalentToVideoMessage:(VideoMessage *)videoMessage;
 
-+(nullable id<DataReference>) generateThumbnailWithData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size error:(NSError **)error;
++(nullable NSData *) generateThumbnailWithVideoData:(id<DataReference>)videoData atFrameTime:(NSString *)frameTime size:(CGSize *)size error:(NSError **)error;
 
 @end
 

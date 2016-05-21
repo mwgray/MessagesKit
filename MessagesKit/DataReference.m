@@ -9,6 +9,9 @@
 #import "DataReference.h"
 
 
+NSString * const DataReferenceErrorDomain = @"DataReferenceErrorDomain";
+
+
 @implementation NSInputStream (DataReference)
 
 -(NSUInteger) availableBytes

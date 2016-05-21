@@ -135,9 +135,8 @@
   OpenSSLCertificateSet *inters = [[OpenSSLCertificateSet alloc] initWithPEMEncodedData:[NSData dataWithContentsOfURL:intersURL] error:&error];
   XCTAssertNotNil(inters, @"Unable to load intermediate certificate authorities: %@", error);
   
-  BOOL valid = NO;
-  BOOL result = [validator validate:_cert chain:inters result:&valid error:&error];
-  XCTAssertTrue(result, @"Error validating certificate: %@", error);
+  BOOL valid = [validator validate:_cert chain:inters error:&error];
+  XCTAssertTrue(valid, @"Error validating certificate: %@", error);
   
   XCTAssertTrue(valid, @"Certificate not valid");
 }
@@ -158,10 +157,7 @@
   OpenSSLCertificateSet *inters = [[OpenSSLCertificateSet alloc] initWithPEMEncodedData:[NSData dataWithContentsOfURL:intersURL] error:&error];
   XCTAssertNotNil(inters, @"Unable to load intermediate certificate authorities: %@", error);
   
-  BOOL valid = YES;
-  BOOL result = [validator validate:_cert chain:inters result:&valid error:&error];
-  XCTAssertTrue(result, @"Error validating certificate: %@", error);
-  
+  BOOL valid = [validator validate:_cert chain:inters error:&error];  
   XCTAssertFalse(valid, @"Certificate should not be valid");
 }
 

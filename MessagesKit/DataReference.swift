@@ -16,13 +16,13 @@ public typealias DataReferenceFilter = (DataInputStream, DataOutputStream) throw
 
 extension DataReference {
   
-  public func temporaryDuplicate(filteredBy filter: DataReferenceFilter? = nil) throws -> DataReference {
+  public func temporaryDuplicate(MIMEType: String? = nil, filteredBy filter: DataReferenceFilter? = nil) throws -> DataReference {
     
     guard let filter = filter else {
-      return try self.__temporaryDuplicateFilteredBy(nil)
+      return try self.__temporaryDuplicateFilteredBy(nil, withMIMEType: MIMEType)
     }
     
-    return try self.__temporaryDuplicateFilteredBy { ins, outs, error in
+    return try self.__temporaryDuplicateFilteredBy({ ins, outs, error in
       do {
         try filter(ins, outs)
         return true
@@ -31,7 +31,7 @@ extension DataReference {
         error.memory = caughtError as NSError
         return false
       }
-    }
+    }, withMIMEType: MIMEType)
   }
   
 }

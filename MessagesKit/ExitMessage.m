@@ -32,26 +32,11 @@
   return [self initWithId:[Id generate] chat:chat alias:alias];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+-(id) copy
 {
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.alias = [resultSet stringForColumnIndex:dao.data1FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-  
-  [values setNillableObject:self.alias forKey:@"data1"];
-  
-  return YES;
+  ExitMessage *copy = [super copy];
+  copy.alias = self.alias;
+  return copy;
 }
 
 -(BOOL) isEquivalent:(id)object
@@ -69,11 +54,31 @@
          isEqual(self.alias, exitMessage.alias);
 }
 
--(id) copy
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
 {
-  ExitMessage *copy = [super copy];
-  copy.alias = self.alias;
-  return copy;
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+  
+  self.alias = [resultSet stringForColumnIndex:dao.data1FieldIdx];
+  
+  return YES;
+}
+
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
+{
+  if (![super save:values dao:dao error:error]) {
+    return NO;
+  }
+  
+  [values setNillableObject:self.alias forKey:@"data1"];
+  
+  return YES;
+}
+
+-(enum MsgType) payloadType
+{
+  return MsgTypeExit;
 }
 
 -(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
@@ -89,11 +94,6 @@
   self.alias = metaData[@"member"];
   
   return YES;
-}
-
--(enum MsgType) payloadType
-{
-  return MsgTypeExit;
 }
 
 @end

@@ -13,39 +13,41 @@
 
 @interface MemoryDataReference ()
 
-@property(retain, nonatomic) NSData *data;
+@property(copy, nonatomic) NSData *data;
+@property(copy, nonatomic) NSString *MIMEType;
 
 @end
 
 
 @implementation MemoryDataReference
 
-+(BOOL) supportsSecureCoding
+-(instancetype) initWithData:(NSData *)data ofMIMEType:(NSString *)MIMEType
 {
-  return YES;
-}
-
--(instancetype) initWithData:(NSData *)data
-{
-  self = [self init];
+  self = [super init];
   if (self) {
     self.data = data;
+    self.MIMEType = MIMEType;
   }
   return self;
 }
 
 -(instancetype) initWithCoder:(NSCoder *)aDecoder
 {
-  self = [self init];
-  if (self) {
-    _data = [aDecoder decodeObjectOfClass:NSString.class forKey:@"data"];
-  }
-  return self;
+  return [self initWithData:[aDecoder decodeObjectOfClass:NSData.class forKey:@"data"]
+                 ofMIMEType:[aDecoder decodeObjectOfClass:NSString.class forKey:@"MIMEType"]];
 }
 
--(void) encodeWithCoder:(NSCoder *)aCoder
+-(void)encodeWithCoder:(NSCoder *)aCoder
 {
-  [aCoder encodeObject:_data forKey:@"data"];
+  [aCoder encodeObject:self.data forKey:@"data"];
+  [aCoder encodeObject:self.MIMEType forKey:@"MIMEType"];
+}
+
+-(id) copyWithZone:(NSZone *)zone
+{
+  MemoryDataReference *copy = [MemoryDataReference new];
+  copy.data = self.data;
+  return copy;
 }
 
 -(NSNumber *)dataSizeAndReturnError:(NSError **)error
@@ -53,38 +55,50 @@
   return @(_data.length);
 }
 
-+(nullable instancetype) copyFrom:(id<DataReference>)source filteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error
-{
-  
-  // Detect simple duplication and share the immutable data
-  if ([source isKindOfClass:MemoryDataReference.class] && filter == nil) {
-    MemoryDataReference *sourceMem = (id)source;
-    return [MemoryDataReference.alloc initWithData:sourceMem.data.copy];
-  }
-  
-  NSData *data = [DataReferences filterReference:source intoMemoryUsingFilter:filter error:error];
-  if (!data) {
-    return nil;
-  }
-  
-  return [MemoryDataReference.alloc initWithData:data];
-}
-
--(id<DataInputStream>) openInputStreamAndReturnError:(NSError * _Nullable __autoreleasing *)error
+-(id<DataInputStream>) openInputStreamAndReturnError:(NSError **)error
 {
   NSInputStream *ins = [NSInputStream inputStreamWithData:_data];
   [ins open];
   return ins;
 }
 
--(BOOL) deleteAndReturnError:(NSError * _Nullable __autoreleasing *)error
+-(CGImageSourceRef) openImageSourceAndReturnError:(NSError **)error
 {
-  return YES;
+  return CGImageSourceCreateWithData((__bridge CFDataRef)self.data, NULL);
 }
 
--(id<DataReference>)temporaryDuplicateFilteredBy:(DataReferenceFilter)filter error:(NSError * _Nullable __autoreleasing *)error
+-(id<DataReference>)temporaryDuplicateFilteredBy:(DataReferenceFilter)filter withMIMEType:(NSString *)MIMEType error:(NSError **)error
 {
-  return [MemoryDataReference copyFrom:self filteredBy:filter error:error];
+  if (filter == nil) {
+    return [MemoryDataReference.alloc initWithData:self.data ofMIMEType:MIMEType ?: self.MIMEType];
+  }
+  
+  id<DataInputStream> inStream = [self openInputStreamAndReturnError:error];
+  if (!inStream) {
+    return nil;
+  }
+  
+  NSOutputStream *outStream = [NSOutputStream outputStreamToMemory];
+  if (!outStream) {
+    return nil;
+  }
+  [outStream open];
+  
+  BOOL res = [DataReferences filterStreamsWithInput:inStream output:outStream usingFilter:filter error:error];
+  [outStream close];
+  
+  if (!res) {
+    return nil;
+  }
+  
+  NSData *filteredData = [outStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+
+  return [MemoryDataReference.alloc initWithData:filteredData ofMIMEType:MIMEType ?: self.MIMEType];
+}
+
+-(BOOL)writeToURL:(NSURL *)url error:(NSError * _Nullable __autoreleasing *)error
+{
+  return [_data writeToURL:url options:0 error:error];
 }
 
 @end

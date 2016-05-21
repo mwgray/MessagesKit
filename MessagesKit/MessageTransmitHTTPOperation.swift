@@ -17,18 +17,6 @@ import Thrift
 class MessageTransmitHTTPOperation: Operation {
   
   
-  class func temporaryDirectory() throws -> NSURL {
-    
-    let sendTempDir = NSURL(fileURLWithPath: NSTemporaryDirectory() + "/Send")
-  
-    if !sendTempDir.checkResourceIsReachableAndReturnError(nil) {
-      try NSFileManager.defaultManager().createDirectoryAtURL(sendTempDir, withIntermediateDirectories: true, attributes: nil)
-    }
-    
-    return sendTempDir
-  }
-  
-  
   var context : MessageTransmitContext
   
   var task : NSURLSessionUploadTask?
@@ -105,20 +93,17 @@ class MessageTransmitHTTPOperation: Operation {
     // Generate file for uploading
     //
     
-    let sendTempDir = try MessageTransmitHTTPOperation.temporaryDirectory()
     
-    let sendTempFile = sendTempDir.URLByAppendingPathComponent(context.msgPack!.id.UUIDString())
-    do {
-      try NSFileManager.defaultManager().removeItemAtURL(sendTempFile)
-    }
-    catch _ {
-    }
+    let sendTempURL = NSURL(fileURLWithPath: NSTemporaryDirectory())
+      .URLByAppendingPathComponent(context.msgPack!.id.UUIDString)
+      .URLByAppendingPathExtension("send")
+    let _ = try? NSFileManager.defaultManager().removeItemAtURL(sendTempURL)
     
-    let sendTempRef = try FileDataReference.copyFrom(context.encryptedData!, toPath: sendTempFile.path!, filteredBy: nil)
+    try context.encryptedData?.writeToURL(sendTempURL)
     
     // Initiate upload task
     //
-    task = api.backgroundURLSession.uploadTaskWithRequest(request, fromFile: sendTempRef.URL)
+    task = api.backgroundURLSession.uploadTaskWithRequest(request, fromFile: sendTempURL)
     
     task!.resume()
   }
@@ -126,17 +111,10 @@ class MessageTransmitHTTPOperation: Operation {
   func cleanup() {
     
     // Remove temporary file
-    do {
-
-      let sendTempDir = try MessageTransmitHTTPOperation.temporaryDirectory()
-      
-      let sendTempFile = sendTempDir.URLByAppendingPathComponent(context.msgPack!.id.UUIDString())
-      
-      try NSFileManager.defaultManager().removeItemAtURL(sendTempFile)
-      
-    }
-    catch _ {
-    }
+    let sendTempURL = NSURL(fileURLWithPath: NSTemporaryDirectory())
+      .URLByAppendingPathComponent(context.msgPack!.id.UUIDString)
+      .URLByAppendingPathExtension("send")
+    let _ = try? NSFileManager.defaultManager().removeItemAtURL(sendTempURL)
     
   }
   

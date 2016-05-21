@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ExitMessage : Message
 
-@property (retain, nonatomic) NSString *alias;
+@property (copy, nonatomic) NSString *alias;
 
 -(instancetype) init NS_UNAVAILABLE;
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat NS_UNAVAILABLE;

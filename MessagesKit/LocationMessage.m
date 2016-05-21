@@ -29,7 +29,7 @@ const CGFloat kLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 0.
 
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat longitude:(double)longitude latitude:(double)latitude
 {
-  self = [super init];
+  self = [super initWithId:id chat:chat];
   if (self) {
     
     self.longitude = longitude;
@@ -44,32 +44,14 @@ const CGFloat kLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 0.
   return [self initWithId:[Id generate] chat:chat longitude:longitude latitude:latitude];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+-(id) copy
 {
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.latitude = [resultSet doubleForColumnIndex:dao.data1FieldIdx];
-  self.longitude = [resultSet doubleForColumnIndex:dao.data2FieldIdx];
-  self.thumbnailData = [resultSet dataForColumnIndex:dao.data3FieldIdx];
-  self.title = [resultSet stringForColumnIndex:dao.data4FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-
-  [values setNillableObject:@(self.latitude) forKey:@"data1"];
-  [values setNillableObject:@(self.longitude) forKey:@"data2"];
-  [values setNillableObject:self.thumbnailData forKey:@"data3"];
-  [values setNillableObject:self.title forKey:@"data4"];
-  
-  return YES;
+  LocationMessage *copy = [super copy];
+  copy.latitude = self.latitude;
+  copy.longitude = self.longitude;
+  copy.thumbnailData = self.thumbnailData;
+  copy.title = self.title;
+  return copy;
 }
 
 -(BOOL) isEquivalent:(id)object
@@ -90,16 +72,6 @@ const CGFloat kLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 0.
          isEqual(self.title, locationMessage.title);
 }
 
--(id) copy
-{
-  LocationMessage *copy = [super copy];
-  copy.latitude = self.latitude;
-  copy.longitude = self.longitude;
-  copy.thumbnailData = self.thumbnailData;
-  copy.title = self.title;
-  return copy;
-}
-
 -(NSString *) alertText
 {
   return @"Sent you a location";
@@ -110,7 +82,40 @@ const CGFloat kLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 0.
   return @"New location";
 }
 
--(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(enum MsgType) payloadType
+{
+  return MsgTypeLocation;
+}
+
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
+{
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+  
+  self.latitude = [resultSet doubleForColumnIndex:dao.data1FieldIdx];
+  self.longitude = [resultSet doubleForColumnIndex:dao.data2FieldIdx];
+  self.thumbnailData = [resultSet dataForColumnIndex:dao.data3FieldIdx];
+  self.title = [resultSet stringForColumnIndex:dao.data4FieldIdx];
+  
+  return YES;
+}
+
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
+{
+  if (![super save:values dao:dao error:error]) {
+    return NO;
+  }
+  
+  [values setNillableObject:@(self.latitude) forKey:@"data1"];
+  [values setNillableObject:@(self.longitude) forKey:@"data2"];
+  [values setNillableObject:self.thumbnailData forKey:@"data3"];
+  [values setNillableObject:self.title forKey:@"data4"];
+  
+  return YES;
+}
+
+-(BOOL) exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
 {
 
   *metaData = nil;
@@ -125,12 +130,12 @@ const CGFloat kLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 0.
     return NO;
   }
   
-  *payloadData = [[MemoryDataReference alloc] initWithData:data];
+  *payloadData = [MemoryDataReference.alloc initWithData:data ofMIMEType:@"application/x-thrift"];
   
   return YES;
 }
 
--(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
 {
   NSData *data = [DataReferences readAllDataFromReference:payloadData error:error];
   if (!data) {
@@ -150,11 +155,6 @@ const CGFloat kLocationMessageThumbnailCompressionQuality = 1.0f; // 1.0 max, 0.
   self.thumbnailData = nil;
   
   return YES;
-}
-
--(enum MsgType) payloadType
-{
-  return MsgTypeLocation;
 }
 
 +(void) generateThumbnailData:(LocationMessage *)msg completion:(void (^)(NSData *data, NSError *error))completionBlock

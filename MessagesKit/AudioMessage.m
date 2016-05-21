@@ -8,9 +8,11 @@
 
 #import "AudioMessage.h"
 
-#import "DataReferences.h"
 #import "MessageDAO.h"
+#import "DataReferences.h"
+#import "ExternalFileDataReference.h"
 #import "NSObject+Utils.h"
+#import "NSURL+Utils.h"
 #import "TBase+Utils.h"
 #import "Messages+Exts.h"
 #import "NSMutableDictionary+Utils.h"
@@ -25,34 +27,32 @@
 
 @implementation AudioMessage
 
--(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+-(instancetype) initWithId:(Id *)id chat:(Chat *)chat data:(id<DataReference>)data
 {
   self = [super initWithId:id chat:chat];
   if (self) {
     
     self.data = data;
-    self.dataMimeType = mimeType;
     
   }
   return self;
 }
 
--(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data mimeType:(NSString *)mimeType
+-(instancetype) initWithChat:(Chat *)chat data:(id<DataReference>)data
 {
-  return [self initWithId:[Id generate] chat:chat data:data mimeType:mimeType];
+  return [self initWithId:[Id generate] chat:chat data:data];
 }
 
 -(id) copy
 {
   AudioMessage *copy = [super copy];
   copy.data = self.data;
-  copy.dataMimeType = self.dataMimeType;
   return copy;
 }
 
 -(BOOL) isEquivalent:(id)object
 {
-  if (![object isKindOfClass:[AudioMessage class]]) {
+  if (![object isKindOfClass:AudioMessage.class]) {
     return NO;
   }
   
@@ -61,72 +61,9 @@
 
 -(BOOL) isEquivalentToAudioMessage:(AudioMessage *)audioMessage
 {
-  return [super isEquivalentToMessage:audioMessage] &&
-    [DataReferences isDataReference:_data equivalentToDataReference:audioMessage.data];
-}
-
--(void) setData:(id<DataReference>)data
-{
-  if (_data == data) {
-    return;
-  }
-  
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = [data temporaryDuplicateFilteredBy:nil error:nil];
-}
-
--(void) setOwnedData:(id<DataReference>)ownedData
-{
-  if (_data == ownedData) {
-    return;
-  }
-  
-  if (_data) {
-    [_data deleteAndReturnError:nil];
-  }
-  
-  _data = ownedData;
-}
-
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
-{
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-  
-  self.data = [resultSet dataReferenceForColumnIndex:dao.data1FieldIdx forOwner:self.id.description usingDB:dao.dbManager];
-  self.dataMimeType = [resultSet stringForColumnIndex:dao.data2FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(MessageDAO *)dao error:(NSError **)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-  
-  // Internalize data references
-  if (_data && !(self.ownedData = [self internalizeData:_data dbManager:dao.dbManager error:error])) {
-    return NO;
-  }
-  
-  [values setNillableObject:self.data forKey:@"data1"];
-  [values setNillableObject:self.dataMimeType forKey:@"data2"];
-  
-  return YES;
-}
-
--(BOOL) deleteWithDAO:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (_data && ![_data deleteAndReturnError:error]) {
-    return NO;
-  }
-  
-  return YES;
+  return
+  [super isEquivalentToMessage:audioMessage] &&
+  [DataReferences isDataReference:_data equivalentToDataReference:audioMessage.data];
 }
 
 -(NSString *) alertText
@@ -139,19 +76,62 @@
   return @"New audio";
 }
 
--(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
-
+-(void) setData:(id<DataReference>)data
 {
-  *metaData = @{MetaDataKey_MimeType: self.dataMimeType ?: @""};
-  *payloadData = self.data;
+  if ([self.data isKindOfClass:ExternalFileDataReference.class]) {
+    [NSFileManager.defaultManager removeItemAtURL:[(id)self.data URL] error:nil];
+  }
+  _data = data;
+}
+
+-(BOOL)internalizeDataReferenceWithDAO:(DAO *)dao error:(NSError **)error
+{
+  NSString *fileName = [NSUUID.UUID.UUIDString stringByAppendingPathExtension:[NSURL extensionForMimeType:self.data.MIMEType]];
+  ExternalFileDataReference *externalFileRef = [ExternalFileDataReference.alloc initWithDBManager:dao.dbManager fileName:fileName];
+  if (![self.data writeToURL:externalFileRef.URL error:error]) {
+    return NO;
+  }
+  self.data = externalFileRef;
+  return YES;
+}
+
+-(BOOL)willInsertIntoDAO:(DAO *)dao error:(NSError **)error
+{
+  return [self internalizeDataReferenceWithDAO:dao error:error];
+}
+
+-(BOOL)willUpdateInDAO:(DAO *)dao error:(NSError **)error
+{
+  return [self internalizeDataReferenceWithDAO:dao error:error];
+}
+
+-(BOOL)didDeleteFromDAO:(DAO *)dao error:(NSError **)error
+{
+  if ([self.data isKindOfClass:ExternalFileDataReference.class]) {
+    ExternalFileDataReference *externalFileRef = self.data;
+    return [NSFileManager.defaultManager removeItemAtURL:externalFileRef.URL error:error];
+  }
+  return YES;
+}
+
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
+{
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+  
+  self.data = [resultSet dataReferenceForColumnIndex:dao.data1FieldIdx usingDBManager:dao.dbManager];
   
   return YES;
 }
 
--(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) save:(NSMutableDictionary *)values dao:(MessageDAO *)dao error:(NSError **)error
 {
-  self.dataMimeType = metaData[MetaDataKey_MimeType];
-  self.data = payloadData;
+  if (![super save:values dao:dao error:error]) {
+    return NO;
+  }
+  
+  [values setNillableObject:[NSKeyedArchiver archivedDataWithRootObject:self.data] forKey:@"data1"];
   
   return YES;
 }
@@ -159,6 +139,28 @@
 -(enum MsgType) payloadType
 {
   return MsgTypeAudio;
+}
+
+-(BOOL) exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
+{
+  *metaData = @{MetaDataKey_MimeType: self.data.MIMEType};
+  *payloadData = self.data;
+  
+  return YES;
+}
+
+-(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
+{
+  NSString *MIMEType = metaData[MetaDataKey_MimeType];
+  
+  id<DataReference> data = [payloadData temporaryDuplicateFilteredBy:nil withMIMEType:MIMEType error:error];
+  if (!data) {
+    return NO;
+  }
+  
+  self.data = data;
+  
+  return YES;
 }
 
 @end

@@ -28,7 +28,7 @@ class SendMessageReceiptOperation: MessageAPIOperation {
     
     let receipt = MessageSendSystemOperation(msgType: .View,
                                              chat: message.chat,
-                                             metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString()],
+                                             metaData: [MetaDataKey_TargetMessageId: message.id.UUIDString],
                                              target: .Standard,
                                              api: api)
     produceOperation(receipt)

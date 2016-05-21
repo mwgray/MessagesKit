@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+@import ImageIO;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,32 +19,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL) readBytesOfMaxLength:(NSUInteger)maxLength intoBuffer:(UInt8 *)buffer bytesRead:(NSUInteger *)bytesRead error:(NSError **)error;
 
+-(void) close;
+
 @end
+
 
 
 @protocol DataOutputStream <NSObject>
 
 -(BOOL) writeBytesFromBuffer:(const UInt8 *)buffer length:(NSUInteger)length error:(NSError **)error;
 
+-(void) close;
+
 @end
+
 
 
 typedef BOOL (^DataReferenceFilter)(id<DataInputStream>, id<DataOutputStream>, NSError **);
 
 
-@protocol DataReference <NSObject, NSSecureCoding>
+
+@protocol DataReference <NSObject, NSCopying, NSCoding>
+
+@property(readonly, nonatomic) NSString *MIMEType;
 
 -(nullable NSNumber *) dataSizeAndReturnError:(NSError **)error;
 
 -(nullable id<DataInputStream>) openInputStreamAndReturnError:(NSError **)error;
+-(CGImageSourceRef) openImageSourceAndReturnError:(NSError **)error;
 
--(BOOL) deleteAndReturnError:(NSError **)error;
+-(nullable id<DataReference>) temporaryDuplicateFilteredBy:(nullable DataReferenceFilter)filter withMIMEType:(nullable NSString *)MIMEType error:(NSError **)error NS_REFINED_FOR_SWIFT;
 
--(nullable id<DataReference>) temporaryDuplicateFilteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error NS_REFINED_FOR_SWIFT;
+-(BOOL) writeToURL:(NSURL *)url error:(NSError **)error;
 
 @end
 
 
+extern NSString * const DataReferenceErrorDomain;
 
 
 @interface NSInputStream (DataReference) <DataInputStream>

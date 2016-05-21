@@ -22,8 +22,8 @@ typedef NS_ENUM (int, ConferenceMessageLocalAction) {
 @interface ConferenceMessage : Message
 
 @property (assign, nonatomic) ConferenceStatus conferenceStatus;
-@property (retain, nonatomic) Id *callingDeviceId;
-@property (retain, nonatomic) NSString *message;
+@property (copy, nonatomic) Id *callingDeviceId;
+@property (copy, nonatomic) NSString *message;
 @property (assign, nonatomic) ConferenceMessageLocalAction localAction;
 
 -(instancetype) init NS_UNAVAILABLE;

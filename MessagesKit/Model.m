@@ -63,7 +63,17 @@
   return YES;
 }
 
--(BOOL) deleteWithDAO:(DAO *)dao error:(NSError *__autoreleasing *)error
+-(BOOL) willInsertIntoDAO:(DAO *)dao error:(NSError **)error
+{
+  return YES;
+}
+
+-(BOOL) willUpdateInDAO:(DAO *)dao error:(NSError **)error
+{
+  return YES;
+}
+
+-(BOOL) didDeleteFromDAO:(DAO *)dao error:(NSError **)error
 {
   return YES;
 }

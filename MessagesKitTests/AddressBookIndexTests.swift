@@ -8,7 +8,6 @@
 
 @testable import MessagesKit
 import XCTest
-import SwiftAddressBook
 import JPSimulatorHacks
 import PopulateKit
 

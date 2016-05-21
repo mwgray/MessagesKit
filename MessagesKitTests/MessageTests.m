@@ -85,9 +85,12 @@
   return msg;
 }
 
--(NSString *) pathForResourceNamed:(NSString *)name ofType:(NSString *)type
+-(URLDataReference *) URLDataForResourceNamed:(NSString *)name ofType:(NSString *)type
 {
-  return [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:type];
+  NSURL *URL = [[NSBundle bundleForClass:[self class]] URLForResource:name withExtension:type];
+  NSURL *tempURL = [NSURL URLForTemporaryFileWithExtension:type];
+  link(URL.fileSystemRepresentation, tempURL.fileSystemRepresentation);
+  return [URLDataReference.alloc initWithURL:tempURL];
 }
 
 -(TextMessage *) newTextMessage
@@ -100,11 +103,10 @@
 -(ImageMessage *) newImageMessage
 {
   ImageMessage *msg = [self fill:[ImageMessage new]];
-  msg.data = [[FileDataReference alloc] initWithPath:[self pathForResourceNamed:@"test" ofType:@"png"]];
-  msg.dataMimeType = ImageType_PNG;
+  msg.data = [self URLDataForResourceNamed:@"test" ofType:@"png"];
 
   CGSize size;
-  msg.thumbnailData = [ImageMessage generateThumbnailWithData:msg.data size:&size error:nil];
+  msg.thumbnailData = [ImageMessage generateThumbnailWithImageData:msg.data size:&size error:nil];
   msg.thumbnailSize = size;
 
   return msg;
@@ -113,19 +115,17 @@
 -(AudioMessage *) newAudioMessage
 {
   AudioMessage *msg = [self fill:[AudioMessage new]];
-  msg.data = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp3"]];
-  msg.dataMimeType = AudioType_MP3;
+  msg.data = [self URLDataForResourceNamed:@"test" ofType:@"mp3"];
   return msg;
 }
 
 -(VideoMessage *) newVideoMessage
 {
   VideoMessage *msg = [self fill:[VideoMessage new]];
-  msg.data = [FileDataReference.alloc initWithPath:[self pathForResourceNamed:@"test" ofType:@"mp4"]];
-  msg.dataMimeType = VideoType_MP4;
+  msg.data = [self URLDataForResourceNamed:@"test" ofType:@"mp4"];
   
   CGSize size;
-  msg.thumbnailData = [VideoMessage generateThumbnailWithData:msg.data atFrameTime:@"0" size:&size error:nil];
+  msg.thumbnailData = [VideoMessage generateThumbnailWithVideoData:msg.data atFrameTime:@"0" size:&size error:nil];
   msg.thumbnailSize = size;
 
   return msg;
@@ -145,7 +145,7 @@
 -(ContactMessage *) newContactMessage
 {
   ContactMessage *msg = [self fill:[ContactMessage new]];
-  msg.vcardData = [NSData dataWithContentsOfFile:[self pathForResourceNamed:@"test" ofType:@"vcf"]];
+  msg.vcardData = [NSData dataWithContentsOfURL:[[NSBundle bundleForClass:[self class]] URLForResource:@"test" withExtension:@"vcf"]];
   msg.firstName = @"Test";
   msg.lastName = @"Guy";
   return msg;
@@ -241,8 +241,7 @@
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Image message failed DB roundtrip");
   
-  XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
-  XCTAssertTrue([msg.thumbnailData isKindOfClass:BlobDataReference.class]);
+  XCTAssertTrue([msg.data isKindOfClass:ExternalFileDataReference.class]);
   
   XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
@@ -253,7 +252,7 @@
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Audio message failed DB roundtrip");
   
-  XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
+  XCTAssertTrue([msg.data isKindOfClass:ExternalFileDataReference.class]);
   
   XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
@@ -264,8 +263,7 @@
 
   XCTAssertTrue([self dbRoundtripForMessage:msg dao:self.dbManager[@"Message"]], @"Video message failed DB roundtrip");
   
-  XCTAssertTrue([msg.data isKindOfClass:BlobDataReference.class]);
-  XCTAssertTrue([msg.thumbnailData isKindOfClass:BlobDataReference.class]);
+  XCTAssertTrue([msg.data isKindOfClass:ExternalFileDataReference.class]);
   
   XCTAssertTrue([self.dbManager[@"Message"] deleteObject:msg error:nil]);
 }
@@ -501,6 +499,35 @@
   XCTAssertTrue([self payloadRoundtripForMessage:msg], @"Image message failed Payload roundtrip");
 }
 
+-(void) testImageMessageDataDeletion
+{
+  ImageMessage *msg = [self newImageMessage];
+  NSURL *tmpURL = [(id)msg.data URL];
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg = [self newImageMessage];
+  [self.dbManager[@"Message"] insertMessage:msg error:nil];
+  tmpURL = [(id)msg.data URL];
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+
+  msg = [self newImageMessage];
+  [self.dbManager[@"Message"] insertMessage:msg error:nil];
+  [self.dbManager[@"Message"] clearCache];
+  msg = [self.dbManager[@"Message"] fetchMessageWithId:msg.id];
+  
+  XCTAssertNotNil(msg.data);
+  
+  tmpURL = [(id)msg.data URL];
+  XCTAssertTrue([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+}
+
 -(void) testAudioMessagePayload
 {
   AudioMessage *msg = [self newAudioMessage];
@@ -508,11 +535,69 @@
   XCTAssertTrue([self payloadRoundtripForMessage:msg], @"Audio message failed Payload roundtrip");
 }
 
+-(void) testAudioMessageDataDeletion
+{
+  AudioMessage *msg = [self newAudioMessage];
+  NSURL *tmpURL = [(id)msg.data URL];
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg = [self newAudioMessage];
+  [self.dbManager[@"Message"] insertMessage:msg error:nil];
+  tmpURL = [(id)msg.data URL];
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg = [self newAudioMessage];
+  [self.dbManager[@"Message"] insertMessage:msg error:nil];
+  [self.dbManager[@"Message"] clearCache];
+  msg = [self.dbManager[@"Message"] fetchMessageWithId:msg.id];
+  
+  XCTAssertNotNil(msg.data);
+  
+  tmpURL = [(id)msg.data URL];
+  XCTAssertTrue([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+}
+
 -(void) testVideoMessagePayload
 {
   VideoMessage *msg = [self newVideoMessage];
 
   XCTAssertTrue([self payloadRoundtripForMessage:msg], @"Video message failed Payload roundtrip");
+}
+
+-(void) testVideoMessageDataDeletion
+{
+  AudioMessage *msg = [self newAudioMessage];
+  NSURL *tmpURL = [(id)msg.data URL];
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg = [self newAudioMessage];
+  [self.dbManager[@"Message"] insertMessage:msg error:nil];
+  tmpURL = [(id)msg.data URL];
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg = [self newAudioMessage];
+  [self.dbManager[@"Message"] insertMessage:msg error:nil];
+  [self.dbManager[@"Message"] clearCache];
+  msg = [self.dbManager[@"Message"] fetchMessageWithId:msg.id];
+  
+  XCTAssertNotNil(msg.data);
+  
+  tmpURL = [(id)msg.data URL];
+  XCTAssertTrue([tmpURL checkResourceIsReachableAndReturnError:nil]);
+  
+  msg.data = [MemoryDataReference.alloc initWithData:NSData.data ofMIMEType:@""];
+  XCTAssertFalse([tmpURL checkResourceIsReachableAndReturnError:nil]);
 }
 
 -(void) testLocationMessagePayload

@@ -305,19 +305,23 @@ MK_DECLARE_LOG_LEVEL()
 
 -(BOOL) insertObject:(Model *)model error:(NSError **)error
 {
-  NSMutableDictionary *values = [self save:model error:error];
-  if (!values) {
-    return NO;
-  }
-  
-  if (self.tableInfo.generatedId) {
-    [values removeObjectForKey:@"id"];
-  }
-
   __block BOOL inserted = NO;
 
   [_dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
+    if (![model willInsertIntoDAO:self error:error]) {
+      return;
+    }
+    
+    NSMutableDictionary *values = [self save:model error:error];
+    if (!values) {
+      return;
+    }
+    
+    if (self.tableInfo.generatedId) {
+      [values removeObjectForKey:@"id"];
+    }
+    
     if ([db executeUpdate:_tableInfo.insertSQL withParameterDictionary:values]) {
 
       if ((inserted = db.changes > 0)) {
@@ -346,17 +350,21 @@ MK_DECLARE_LOG_LEVEL()
 
 -(BOOL) updateObject:(Model *)model error:(NSError **)error
 {
-  NSMutableDictionary *values = [self save:model error:error];
-  if (!values) {
-    return NO;
-  }
-  
-  [values removeObjectForKey:@"_type"];
-
   __block BOOL updated = NO;
 
   [_dbManager.pool inWritableDatabase:^(FMDatabase *db) {
 
+    if (![model willUpdateInDAO:self error:error]) {
+      return;
+    }
+    
+    NSMutableDictionary *values = [self save:model error:error];
+    if (!values) {
+      return;
+    }
+    
+    [values removeObjectForKey:@"_type"];
+    
     if ([db executeUpdate:_tableInfo.updateSQL withParameterDictionary:values]) {
 
       updated = db.changes > 0;
@@ -376,15 +384,19 @@ MK_DECLARE_LOG_LEVEL()
 
 -(BOOL) upsertObject:(Model *)model error:(NSError **)error
 {
-  NSMutableDictionary *allValues = [self save:model error:error];
-  if (!allValues) {
-    return NO;
-  }
-
   __block BOOL updated = NO, inserted = NO;
 
   [_dbManager.pool inTransaction:^(FMDatabase *db, BOOL *rollback) {
 
+    if (![model willUpdateInDAO:self error:error]) {
+      return;
+    }
+    
+    NSMutableDictionary *allValues = [self save:model error:error];
+    if (!allValues) {
+      return;
+    }
+    
     NSMutableDictionary *updateValues = [allValues mutableCopy];
     [updateValues removeObjectForKey:@"_type"];
 
@@ -438,7 +450,7 @@ MK_DECLARE_LOG_LEVEL()
 
     if ([db executeUpdate:_tableInfo.deleteSQL, model.dbId]) {
 
-      if (![model deleteWithDAO:self error:error]) {
+      if (![model didDeleteFromDAO:self error:error]) {
         return;
       }
 
@@ -536,9 +548,7 @@ MK_DECLARE_LOG_LEVEL()
     }
 
     for (id del in deleted) {
-      
-      [del deleteWithDAO:self error:nil];
-      
+      [del didDeleteFromDAO:self error:nil];
     }
     
   }];
@@ -556,7 +566,7 @@ MK_DECLARE_LOG_LEVEL()
   return count > 0;
 }
 
--(BOOL) deleteAllObjectsMatching:(NSString *)where parametersNamed:(NSDictionary *)parameters error:(NSError * _Nullable __autoreleasing * _Nullable)error
+-(BOOL) deleteAllObjectsMatching:(NSString *)where parametersNamed:(NSDictionary *)parameters error:(NSError **)error
 {
   __block int count = 0;
   __block NSArray *deleted;
@@ -586,6 +596,10 @@ MK_DECLARE_LOG_LEVEL()
       count = db.changes;
     }
 
+    for (id del in deleted) {
+      [del didDeleteFromDAO:self error:nil];
+    }
+    
   }];
 
   for (id del in deleted) {

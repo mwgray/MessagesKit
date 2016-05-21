@@ -17,8 +17,7 @@
 #import "TBase+Utils.h"
 
 
-@interface ConferenceMessage () {
-}
+@interface ConferenceMessage ()
 
 @end
 
@@ -42,32 +41,14 @@
   return [self initWithId:[Id generate] chat:chat callingDeviceId:callingDeviceId message:message];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+-(id) copy
 {
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.callingDeviceId = [Id idWithData:[resultSet dataForColumnIndex:dao.data1FieldIdx]];
-  self.conferenceStatus =  [resultSet intForColumnIndex:dao.data2FieldIdx];
-  self.message = [resultSet stringForColumnIndex:dao.data3FieldIdx];
-  self.localAction = [resultSet intForColumnIndex:dao.data4FieldIdx];
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-
-  [values setNillableObject:_callingDeviceId forKey:@"data1"];
-  [values setNillableObject:@(_conferenceStatus) forKey:@"data2"];
-  [values setNillableObject:_message forKey:@"data3"];
-  [values setNillableObject:@(_localAction) forKey:@"data4"];
-  
-  return YES;
+  ConferenceMessage *copy = [super copy];
+  copy.callingDeviceId = _callingDeviceId;
+  copy.conferenceStatus = _conferenceStatus;
+  copy.message = _message;
+  copy.localAction = _localAction;
+  return copy;
 }
 
 -(BOOL) isEquivalent:(id)object
@@ -87,16 +68,6 @@
          (self.localAction == conferenceMessage.localAction);
 }
 
--(id) copy
-{
-  ConferenceMessage *copy = [super copy];
-  copy.callingDeviceId = _callingDeviceId;
-  copy.conferenceStatus = _conferenceStatus;
-  copy.message = _message;
-  copy.localAction = _localAction;
-  return copy;
-}
-
 -(void) setUpdated:(NSDate *)updated
 {
   // never mark conferences as updated
@@ -106,25 +77,25 @@
 -(NSString *) alertText
 {
   NSString *text;
-
+  
   switch (_conferenceStatus) {
-  case ConferenceStatusWaiting:
-    text = @"Let's talk!";
-    break;
-
-  case ConferenceStatusInProgress:
-    text = @"We're talking...";
-    break;
-
-  case ConferenceStatusCompleted:
-    text = @"Thanks for the chat";
-    break;
-
-  case ConferenceStatusMissed:
-    text = @"You missed my call, call me when you can.";
-    break;
+    case ConferenceStatusWaiting:
+      text = @"Let's talk!";
+      break;
+      
+    case ConferenceStatusInProgress:
+      text = @"We're talking...";
+      break;
+      
+    case ConferenceStatusCompleted:
+      text = @"Thanks for the chat";
+      break;
+      
+    case ConferenceStatusMissed:
+      text = @"You missed my call, call me when you can.";
+      break;
   }
-
+  
   return text;
 }
 
@@ -136,17 +107,50 @@
 -(MessageSoundAlert) soundAlert
 {
   switch (_conferenceStatus) {
-  case ConferenceStatusCompleted:
-  case ConferenceStatusInProgress:
-  case ConferenceStatusMissed:
-    return MessageSoundAlertNone;
-
-  default:
-    return [super soundAlert];
+    case ConferenceStatusCompleted:
+    case ConferenceStatusInProgress:
+    case ConferenceStatusMissed:
+      return MessageSoundAlertNone;
+      
+    default:
+      return [super soundAlert];
   }
 }
 
--(BOOL) exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
+{
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+  
+  self.callingDeviceId = [Id idWithData:[resultSet dataForColumnIndex:dao.data1FieldIdx]];
+  self.conferenceStatus =  [resultSet intForColumnIndex:dao.data2FieldIdx];
+  self.message = [resultSet stringForColumnIndex:dao.data3FieldIdx];
+  self.localAction = [resultSet intForColumnIndex:dao.data4FieldIdx];
+  
+  return YES;
+}
+
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
+{
+  if (![super save:values dao:dao error:error]) {
+    return NO;
+  }
+  
+  [values setNillableObject:_callingDeviceId forKey:@"data1"];
+  [values setNillableObject:@(_conferenceStatus) forKey:@"data2"];
+  [values setNillableObject:_message forKey:@"data3"];
+  [values setNillableObject:@(_localAction) forKey:@"data4"];
+  
+  return YES;
+}
+
+-(enum MsgType) payloadType
+{
+  return MsgTypeConference;
+}
+
+-(BOOL) exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
 {
   Conference *conference = [[Conference alloc] initWithCallingDeviceId:_callingDeviceId
                                                                     status:_conferenceStatus
@@ -158,12 +162,12 @@
   }
 
   *metaData = nil;
-  *payloadData = [[MemoryDataReference alloc] initWithData:data];
+  *payloadData = [MemoryDataReference.alloc initWithData:data ofMIMEType:@"application/x-thrift"];
   
   return YES;
 }
 
--(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL) importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
 {
   NSData *data = [DataReferences readAllDataFromReference:payloadData error:error];
   if (!data) {
@@ -182,11 +186,6 @@
   _message = conference.message;
   
   return YES;
-}
-
--(enum MsgType) payloadType
-{
-  return MsgTypeConference;
 }
 
 @end

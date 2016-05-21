@@ -12,8 +12,7 @@
 #import "ChatDAO.h"
 #import "MessageDAO.h"
 #import "MemoryDataReference.h"
-#import "FileDataReference.h"
-#import "BlobDataReference.h"
+#import "URLDataReference.h"
 #import "Messages+Exts.h"
 #import "NSObject+Utils.h"
 #import "NSDate+Utils.h"
@@ -24,11 +23,6 @@
 @implementation Message
 
 @synthesize id=_id;
-
--(instancetype) init
-{
-  return [super init];
-}
 
 -(instancetype) initWithChat:(Chat *)chat
 {
@@ -55,7 +49,7 @@
   self.id = [Id idWithData:dbId];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError *__autoreleasing *)error
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
 {
   if (![super load:resultSet dao:dao error:error]) {
     return NO;
@@ -81,7 +75,7 @@
   return YES;
 }
 
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError *__autoreleasing *)error
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
 {
   if (![super save:values dao:dao error:error]) {
     return NO;
@@ -192,12 +186,12 @@
   return -1;
 }
 
--(BOOL)exportPayloadIntoData:(id<DataReference>  _Nonnull __autoreleasing *)payloadData withMetaData:(NSDictionary *__autoreleasing  _Nonnull *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL)exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
 {
   return NO;
 }
 
--(BOOL)importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError * _Nullable __autoreleasing *)error
+-(BOOL)importPayloadFromData:(id<DataReference>)payloadData withMetaData:(NSDictionary *)metaData error:(NSError **)error
 {
   return NO;
 }
@@ -232,47 +226,6 @@
   default:
     break;
   }
-}
-
-+(NSNumber *)shouldConvertDataToBlob:(id<DataReference>)data error:(NSError **)error
-{
-  NSObject<DataReference> *anyData = (id)data;
-  
-  if ([anyData isKindOfClass:MemoryDataReference.class]) {
-    // Memory - Convert if larger than 64kb
-    NSNumber *size = [anyData dataSizeAndReturnError:error];
-    if (!size) {
-      return nil;
-    }
-    return [NSNumber numberWithBool:size.unsignedLongLongValue > 1024];
-  }
-  else if ([anyData isKindOfClass:FileDataReference.class]) {
-    // Files - Convert all of them
-    return [NSNumber numberWithBool:YES];
-  }
-  
-  return [NSNumber numberWithBool:NO];
-}
-
--(id<DataReference>)internalizeData:(id<DataReference>)data dbManager:(DBManager *)dbManager error:(NSError **)error
-{
-  // Check and convert data if necessary
-  NSNumber *shouldConvert = [Message shouldConvertDataToBlob:data error:error];
-  if (!shouldConvert) {
-    return nil;
-  }
-  
-  if (!shouldConvert.boolValue) {
-    return data;
-  }
-  
-  return [BlobDataReference copyFrom:data
-                             toOwner:self.id.description
-                            forTable:@"blob"
-                          inDatabase:@"main"
-                               using:dbManager
-                          filteredBy:nil
-                               error:error];
 }
 
 @end

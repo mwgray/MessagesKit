@@ -9,26 +9,25 @@
 #import "FMResultSet+Utils.h"
 
 #import "Messages+Exts.h"
-#import "BlobDataReference.h"
+#import "ExternalFileDataReference.h"
 #import "DataReferences.h"
 
 
 
 @interface DataReferenceInflater : NSObject <NSKeyedUnarchiverDelegate>
 
-@property(nonatomic, retain) DBManager *db;
-@property(nonatomic, copy) NSString *owner;
+@property(nonatomic, retain) DBManager *dbManager;
 
--(instancetype) initWithDB:(DBManager *)db owner:(NSString *)owner;
+-(instancetype) initWithDBManager:(DBManager *)dbManager;
 
 @end
 
 
 @interface DataReferenceDeflater : NSObject <NSKeyedArchiverDelegate>
 
-@property(nonatomic, retain) DBManager *db;
+@property(nonatomic, retain) DBManager *dbManager;
 
--(instancetype) initWithDB:(DBManager *)db;
+-(instancetype) initWithDBManager:(DBManager *)dbManager;
 
 @end
 
@@ -73,29 +72,29 @@
   return val ? CGSizeFromString(val) : CGSizeZero;
 }
 
--(id<DataReference>) dataReferenceForColumn:(NSString *)columnName forOwner:(NSString *)owner usingDB:(DBManager *)db
+-(id<DataReference>) dataReferenceForColumn:(NSString *)columnName usingDBManager:(DBManager *)dbManager
 {
   NSData *data = [self dataForColumn:columnName];
   if (!data) {
     return nil;
   }
   
-  id<NSKeyedUnarchiverDelegate> uaDelegate = [[DataReferenceInflater alloc] initWithDB:db owner:owner];
-  NSKeyedUnarchiver *ua = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+  id<NSKeyedUnarchiverDelegate> uaDelegate = [DataReferenceInflater.alloc initWithDBManager:dbManager];
+  NSKeyedUnarchiver *ua = [NSKeyedUnarchiver.alloc initForReadingWithData:data];
   ua.delegate = uaDelegate;
   
   return [ua decodeObjectForKey:NSKeyedArchiveRootObjectKey];
 }
 
--(id<DataReference>) dataReferenceForColumnIndex:(int)columnIndex forOwner:(NSString *)owner usingDB:(DBManager *)db
+-(id<DataReference>) dataReferenceForColumnIndex:(int)columnIndex usingDBManager:(DBManager *)dbManager
 {
   NSData *data = [self dataForColumnIndex:columnIndex];
   if (!data) {
     return nil;
   }
   
-  id<NSKeyedUnarchiverDelegate> uaDelegate = [[DataReferenceInflater alloc] initWithDB:db owner:owner];
-  NSKeyedUnarchiver *ua = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+  id<NSKeyedUnarchiverDelegate> uaDelegate = [DataReferenceInflater.alloc initWithDBManager:dbManager];
+  NSKeyedUnarchiver *ua = [NSKeyedUnarchiver.alloc initForReadingWithData:data];
   ua.delegate = uaDelegate;
   
   return [ua decodeObjectForKey:NSKeyedArchiveRootObjectKey];
@@ -117,21 +116,21 @@
 
 @implementation DataReferenceInflater
 
--(instancetype) initWithDB:(DBManager *)db owner:(NSString *)owner
+-(instancetype) initWithDBManager:(DBManager *)dbManager
 {
   self = [self init];
   if (self) {
-    self.db = db;
-    self.owner = owner;
+    self.dbManager = dbManager;
   }
   return self;
 }
 
 -(id)unarchiver:(NSKeyedUnarchiver *)unarchiver didDecodeObject:(id)object
 {
-  if ([object isKindOfClass:BlobDataReference.class]) {
-    BlobDataReference *blobRef = (id)object;
-    blobRef.db = self.db;
+  if ([object isKindOfClass:ExternalFileDataReference.class]) {
+    ExternalFileDataReference *externalFileRef = (id)object;
+    return [ExternalFileDataReference.alloc initWithDBManager:self.dbManager
+                                                     fileName:externalFileRef.fileName];
   }
   return object;
 }
@@ -141,11 +140,11 @@
 
 @implementation DataReferenceDeflater
 
--(instancetype) initWithDB:(DBManager *)db
+-(instancetype) initWithDBManager:(DBManager *)dbManager
 {
   self = [self init];
   if (self) {
-    self.db = db;
+    self.dbManager = dbManager;
   }
   return self;
 }

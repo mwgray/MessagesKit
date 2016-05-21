@@ -19,11 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MemoryDataReference : NSObject <DataReference>
 
-@property(readonly, nonatomic) NSData *data;
+@property(readonly) NSData *data;
 
--(instancetype) initWithData:(NSData *)data;
-
-+(nullable instancetype) copyFrom:(id<DataReference>)source filteredBy:(nullable DataReferenceFilter)filter error:(NSError **)error;
+-(instancetype) init NS_UNAVAILABLE;
+-(instancetype) initWithData:(NSData *)data ofMIMEType:(NSString *)MIMEType NS_DESIGNATED_INITIALIZER;
 
 @end
 

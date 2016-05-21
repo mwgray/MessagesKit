@@ -8,8 +8,9 @@
 
 #import "DBManager.h"
 
-#import "DAO+Internal.h"
+#import "MessagesKit-Swift.h"
 #import "WeakReference.h"
+#import "DAO+Internal.h"
 #import "NSMutableArray+Utils.h"
 #import "NSString+Utils.h"
 #import "Log.h"
@@ -165,6 +166,11 @@ static NSString *DBManagerMigrationsFolder = @"Migrations";
 {
   [_pool close];
   _pool = nil;
+}
+
+-(NSURL *) URL
+{
+  return [NSURL fileURLWithPath:_pool.path];
 }
 
 -(NSDictionary *) classTableNames
