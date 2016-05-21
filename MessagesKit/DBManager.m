@@ -8,7 +8,6 @@
 
 #import "DBManager.h"
 
-#import "MessagesKit-Swift.h"
 #import "WeakReference.h"
 #import "DAO+Internal.h"
 #import "NSMutableArray+Utils.h"
