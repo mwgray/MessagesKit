@@ -99,7 +99,7 @@ MK_DECLARE_LOG_LEVEL()
   return ins;
 }
 
--(CGImageSourceRef) openImageSourceAndReturnError:(NSError **)error
+-(CGImageSourceRef) createImageSourceAndReturnError:(NSError **)error
 {
   return CGImageSourceCreateWithURL((__bridge CFURLRef)self.URL, NULL);
 }

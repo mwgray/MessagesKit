@@ -46,7 +46,7 @@ typedef BOOL (^DataReferenceFilter)(id<DataInputStream>, id<DataOutputStream>, N
 -(nullable NSNumber *) dataSizeAndReturnError:(NSError **)error;
 
 -(nullable id<DataInputStream>) openInputStreamAndReturnError:(NSError **)error;
--(CGImageSourceRef) openImageSourceAndReturnError:(NSError **)error;
+-(nullable CGImageSourceRef) createImageSourceAndReturnError:(NSError **)error;
 
 -(nullable id<DataReference>) temporaryDuplicateFilteredBy:(nullable DataReferenceFilter)filter withMIMEType:(nullable NSString *)MIMEType error:(NSError **)error NS_REFINED_FOR_SWIFT;
 

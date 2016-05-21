@@ -212,7 +212,7 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
   CGSize maxSize = CGSizeScale(UIScreen.mainScreen.bounds.size, MK_THUMBNAIL_MAX_PERCENT);
   CGRect maxRect = {CGPointZero, maxSize};
   
-  CGImageSourceRef imageSource = [imageData openImageSourceAndReturnError:error];
+  CGImageSourceRef imageSource = [imageData createImageSourceAndReturnError:error];
   if (!imageSource) {
     return nil;
   }

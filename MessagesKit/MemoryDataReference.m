@@ -62,7 +62,7 @@
   return ins;
 }
 
--(CGImageSourceRef) openImageSourceAndReturnError:(NSError **)error
+-(CGImageSourceRef) createImageSourceAndReturnError:(NSError **)error
 {
   return CGImageSourceCreateWithData((__bridge CFDataRef)self.data, NULL);
 }
