@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) id<DataReference> data;
 
-@property (readonly) NSData *thumbnailOrImageData;
+@property (readonly) id<DataReference> thumbnailOrImageData;
 
 -(instancetype) init NS_UNAVAILABLE;
 -(instancetype) initWithId:(Id *)id chat:(Chat *)chat NS_UNAVAILABLE;

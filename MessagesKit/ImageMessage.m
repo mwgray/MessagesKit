@@ -10,6 +10,7 @@
 
 #import "MessageDAO.h"
 #import "ExternalFileDataReference.h"
+#import "MemoryDataReference.h"
 #import "DataReferences.h"
 #import "NSObject+Utils.h"
 #import "Messages+Exts.h"
@@ -102,9 +103,11 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
   _data = data;
 }
 
--(NSData *) thumbnailOrImageData
+-(id<DataReference>) thumbnailOrImageData
 {
-  return self.thumbnailData ?: [DataReferences readAllDataFromReference:self.data error:nil];
+  return self.thumbnailData ?
+    [MemoryDataReference.alloc initWithData:self.thumbnailData ofMIMEType:@"image/png"] :
+    [DataReferences readAllDataFromReference:self.data error:nil];
 }
 
 -(NSString *) alertText

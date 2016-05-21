@@ -33,5 +33,13 @@ extension DataReference {
       }
     }, withMIMEType: MIMEType)
   }
+
+  public func readAllData() throws -> NSData {
+    return try DataReferences.readAllDataFromReference(self)
+  }
+  
+  public func saveToTemporaryURL() throws -> NSURL {
+    return try DataReferences.saveDataReferenceToTemporaryURL(self)
+  }
   
 }
