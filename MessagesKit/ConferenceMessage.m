@@ -44,10 +44,10 @@
 -(id) copy
 {
   ConferenceMessage *copy = [super copy];
-  copy.callingDeviceId = _callingDeviceId;
-  copy.conferenceStatus = _conferenceStatus;
-  copy.message = _message;
-  copy.localAction = _localAction;
+  copy.callingDeviceId = self.callingDeviceId;
+  copy.conferenceStatus = self.conferenceStatus;
+  copy.message = self.message;
+  copy.localAction = self.localAction;
   return copy;
 }
 

@@ -70,8 +70,8 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
 -(id) copy
 {
   ImageMessage *copy = [super copy];
-  copy.data = [self.data copyWithZone:nil];;
-  copy.thumbnailData = [self.thumbnailData copyWithZone:nil];
+  copy.data = self.data;
+  copy.thumbnailData = self.thumbnailData;
   copy.thumbnailSize = self.thumbnailSize;
   return copy;
 }

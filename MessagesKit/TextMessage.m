@@ -61,37 +61,12 @@
   return [self initWithId:[Id generate] chat:chat html:html];
 }
 
--(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
+-(id) copy
 {
-  if (![super load:resultSet dao:dao error:error]) {
-    return NO;
-  }
-
-  self.type = [resultSet intForColumnIndex:dao.data2FieldIdx];
-
-  switch (self.type) {
-  case TextMessageType_Simple:
-    self.data = [resultSet stringForColumnIndex:dao.data1FieldIdx];
-    break;
-
-  case TextMessageType_Html:
-    self.data = [resultSet dataForColumnIndex:dao.data1FieldIdx];
-    break;
-  }
-  
-  return YES;
-}
-
--(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
-{
-  if (![super save:values dao:dao error:error]) {
-    return NO;
-  }
-
-  [values setNillableObject:self.data forKey:@"data1"];
-  [values setObject:@(self.type) forKey:@"data2"];
-  
-  return YES;
+  TextMessage *copy = [super copy];
+  copy.data = self.data;
+  copy.type = self.type;
+  return copy;
 }
 
 -(BOOL) isEquivalent:(id)object
@@ -108,14 +83,6 @@
   return [super isEquivalentToMessage:textMessage] &&
          isEqual(self.data, textMessage.data) &&
          self.type == textMessage.type;
-}
-
--(id) copy
-{
-  TextMessage *copy = [super copy];
-  copy.data = [self.data copy];
-  copy.type = self.type;
-  return copy;
 }
 
 -(void) setData:(id)data
@@ -180,6 +147,44 @@
   return self.text;
 }
 
+-(BOOL) load:(FMResultSet *)resultSet dao:(MessageDAO *)dao error:(NSError **)error
+{
+  if (![super load:resultSet dao:dao error:error]) {
+    return NO;
+  }
+  
+  self.type = [resultSet intForColumnIndex:dao.data2FieldIdx];
+  
+  switch (self.type) {
+    case TextMessageType_Simple:
+      self.data = [resultSet stringForColumnIndex:dao.data1FieldIdx];
+      break;
+      
+    case TextMessageType_Html:
+      self.data = [resultSet dataForColumnIndex:dao.data1FieldIdx];
+      break;
+  }
+  
+  return YES;
+}
+
+-(BOOL) save:(NSMutableDictionary *)values dao:(DAO *)dao error:(NSError **)error
+{
+  if (![super save:values dao:dao error:error]) {
+    return NO;
+  }
+  
+  [values setNillableObject:self.data forKey:@"data1"];
+  [values setObject:@(self.type) forKey:@"data2"];
+  
+  return YES;
+}
+
+-(MsgType) payloadType
+{
+  return MsgTypeText;
+}
+
 -(BOOL) exportPayloadIntoData:(id<DataReference> *)payloadData withMetaData:(NSDictionary **)metaData error:(NSError **)error
 {
   switch (_type) {
@@ -217,11 +222,6 @@
   }
   
   return YES;
-}
-
--(MsgType) payloadType
-{
-  return MsgTypeText;
 }
 
 @end
