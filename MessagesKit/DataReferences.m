@@ -8,6 +8,8 @@
 
 #import "DataReferences.h"
 
+#import "NSURL+Utils.h"
+
 
 @implementation DataReferences
 
@@ -78,6 +80,15 @@
   }
   
   return [self filterReference:source intoMemoryUsingFilter:self.copyFilter error:error];
+}
+
++(NSURL *) saveDataReferenceToTemporaryURL:(id<DataReference>)source error:(NSError **)error
+{
+  NSURL *tempURL = [NSURL URLForTemporaryFileWithExtension:[NSURL extensionForMimeType:source.MIMEType]];
+  if (![source writeToURL:tempURL error:error]) {
+    return nil;
+  }
+  return tempURL;
 }
 
 +(BOOL) isDataReference:(id<DataReference>)aref equivalentToDataReference:(id<DataReference>)bref

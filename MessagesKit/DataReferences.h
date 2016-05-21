@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(BOOL) filterStreamsWithInput:(id<DataInputStream>)inputStream output:(id<DataOutputStream>)outputStream usingFilter:(nullable DataReferenceFilter)filter error:(NSError **)error;
 +(nullable NSData *) readAllDataFromReference:(nullable id<DataReference>)source error:(NSError **)error;
++(nullable NSURL *) saveDataReferenceToTemporaryURL:(id<DataReference>)source error:(NSError **)error;
 
 +(BOOL) isDataReference:(id<DataReference>)aref equivalentToDataReference:(id<DataReference>)bref;
 
