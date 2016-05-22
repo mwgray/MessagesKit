@@ -43,6 +43,10 @@ public extension dispatch_queue_t {
     dispatch_async(self, block)
   }
   
+  public func after(delay: Float, block: dispatch_block_t) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(Float(NSEC_PER_SEC) * delay)), self, block)
+  }
+  
   public func sync(block: dispatch_block_t) {
     dispatch_sync(self, block)
   }
