@@ -7,6 +7,7 @@ Pod::Spec.new do |s|
   s.author = { 'Kevin Wooten' => 'kevin@retxt.com' }
   s.source = { :git => 'https://github.com/reTXT/MessagesKit.git', :tag => "#{s.version}" }
   s.requires_arc = true
+  s.ios.deployment_target = '8.0'
 
   s.source_files = 'MessagesKit/*.{h,m,swift}'
   s.resources = ['Certificates', 'Migrations']
