@@ -322,7 +322,7 @@ MK_DECLARE_LOG_LEVEL()
       [values removeObjectForKey:@"id"];
     }
     
-    if ([db executeUpdate:_tableInfo.insertSQL withParameterDictionary:values]) {
+    if ([db executeUpdate:_tableInfo.insertSQL valuesDictionary:values error:error]) {
 
       if ((inserted = db.changes > 0)) {
 
@@ -365,7 +365,7 @@ MK_DECLARE_LOG_LEVEL()
     
     [values removeObjectForKey:@"_type"];
     
-    if ([db executeUpdate:_tableInfo.updateSQL withParameterDictionary:values]) {
+    if ([db executeUpdate:_tableInfo.updateSQL valuesDictionary:values error:error]) {
 
       updated = db.changes > 0;
     }
