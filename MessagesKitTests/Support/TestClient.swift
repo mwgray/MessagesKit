@@ -234,6 +234,18 @@ public class TestClient: NSObject {
         method: self.sendViaAPI)
     }
     
+    public func updateTextMsg(msg:Msg, newText:String, interceptor: SenderInterceptor? = nil) throws -> Msg {
+        return try self.send(
+                             id: msg.id,
+                             from: msg.sender,
+                             to: msg.recipient,
+                             type: MsgType.Text,
+                             data: newText.dataUsingEncoding(NSUTF8StringEncoding)!,
+                             metaData: [MetaDataKey_MimeType:"text/plain"],
+                             interceptor: interceptor,
+                             method: self.sendViaAPI)
+    }
+    
     public func sendViaAPI(msg: MsgPack) throws -> TimeStamp {
       return try userAPI.send(msg).longLongValue
     }
@@ -287,15 +299,15 @@ public class TestClient: NSObject {
       throw NSError(domain: TApplicationErrorDomain, code: Int(TApplicationError.Unknown.rawValue), userInfo: nil)
     }
     
-    public func send(from sender: String, to recipient: String, type: MsgType, data: NSData, metaData: [String:String], interceptor: SenderInterceptor?, method: SendMethod) throws -> Msg {
-      
+    public func send(id id:Id = Id.generate(), from sender: String, to recipient: String, type: MsgType, data: NSData, metaData: [String:String], interceptor: SenderInterceptor?, method: SendMethod) throws -> Msg {
+        
       let cipher = MsgCipher.defaultCipher()
       let msgKey = try cipher.randomKey()
       
       let recipientInfo = try client.publicAPI.findUserWithAlias(recipient)
       
       let msg = MsgPack()
-      msg.id = Id.generate()
+      msg.id = id
       msg.type = type
       msg.sender = sender
       msg.metaData = (metaData as NSDictionary).mutableCopy() as! NSMutableDictionary
