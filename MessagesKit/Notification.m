@@ -15,7 +15,7 @@
 #import "FMResultSet+Utils.h"
 
 
-@implementation Notification
+@implementation SavedNotification
 
 -(id) id
 {
@@ -56,7 +56,7 @@
   return YES;
 }
 
--(BOOL) isEquivalent:(Notification *)notification
+-(BOOL) isEquivalent:(SavedNotification *)notification
 {
   return isEqual(self.msgId, notification.msgId) &&
          isEqual(self.chatId, notification.chatId) &&
