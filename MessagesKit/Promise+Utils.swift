@@ -18,6 +18,25 @@ public enum PromiseError : ErrorType {
 
 extension Promise where T : AnyObject {
 
+  func wait(time: dispatch_time_t = DISPATCH_TIME_FOREVER) throws -> T {
+    
+    let sema = dispatch_semaphore_create(0)
+    
+    always(on: GCD.backgroundQueue) {
+      dispatch_semaphore_signal(sema)
+    }
+    
+    if dispatch_semaphore_wait(sema, time) != 0 {
+      throw PromiseError.WaitTimeExpired
+    }
+    
+    if let error = error {
+      throw error
+    }
+    
+    return self.value!
+  }
+  
   func wait(time: dispatch_time_t = DISPATCH_TIME_FOREVER) throws -> T? {
     let sema = dispatch_semaphore_create(0)
     always {
