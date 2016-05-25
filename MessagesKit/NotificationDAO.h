@@ -19,28 +19,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) int chatIdFieldIdx;
 @property (nonatomic, assign) int dataFieldIdx;
 
--(nullable NSArray<__kindof Notification *> *) fetchAllNotificationsForChat:(Chat *)chat error:(NSError **)error;
+-(nullable NSArray<__kindof SavedNotification *> *) fetchAllNotificationsForChat:(Chat *)chat error:(NSError **)error;
 
 @end
 
 
 @interface NotificationDAO (Generics)
 
--(nullable __kindof Notification *) fetchNotificationWithId:(Id *)id NS_REFINED_FOR_SWIFT;
--(BOOL) fetchNotificationWithId:(Id *)id returning:(Notification *__nullable *__nonnull)msg error:(NSError **)error;
--(nullable NSArray<__kindof Notification *> *) fetchAllNotificationsMatching:(nullable NSString *)where error:(NSError **)error;
--(nullable NSArray<__kindof Notification *> *) fetchAllNotificationsMatching:(nullable NSString *)where parameters:(nullable NSArray *)parameters error:(NSError **)error;
--(nullable NSArray<__kindof Notification *> *) fetchAllNotificationsMatching:(nullable NSString *)where parametersNamed:(nullable NSDictionary *)parameters error:(NSError **)error;
--(nullable NSArray<__kindof Notification *> *) fetchAllNotificationsMatching:(NSPredicate *)predicate
+-(nullable __kindof SavedNotification *) fetchNotificationWithId:(Id *)id NS_REFINED_FOR_SWIFT;
+-(BOOL) fetchNotificationWithId:(Id *)id returning:(SavedNotification *__nullable *__nonnull)msg error:(NSError **)error;
+-(nullable NSArray<__kindof SavedNotification *> *) fetchAllNotificationsMatching:(nullable NSString *)where error:(NSError **)error;
+-(nullable NSArray<__kindof SavedNotification *> *) fetchAllNotificationsMatching:(nullable NSString *)where parameters:(nullable NSArray *)parameters error:(NSError **)error;
+-(nullable NSArray<__kindof SavedNotification *> *) fetchAllNotificationsMatching:(nullable NSString *)where parametersNamed:(nullable NSDictionary *)parameters error:(NSError **)error;
+-(nullable NSArray<__kindof SavedNotification *> *) fetchAllNotificationsMatching:(NSPredicate *)predicate
                                                                         offset:(NSUInteger)offset limit:(NSUInteger)limit
                                                                       sortedBy:(nullable NSArray<NSSortDescriptor *> *)sortDescriptors
                                                                          error:(NSError **)error;
 
--(BOOL) insertNotification:(Notification *)model error:(NSError **)error;
--(BOOL) updateNotification:(Notification *)model error:(NSError **)error;
--(BOOL) upsertNotification:(Notification *)model error:(NSError **)error;
--(BOOL) deleteNotification:(Notification *)model error:(NSError **)error;
--(BOOL) deleteAllNotificationsInArray:(NSArray<Notification *> *)models error:(NSError **)error;
+-(BOOL) insertNotification:(SavedNotification *)model error:(NSError **)error;
+-(BOOL) updateNotification:(SavedNotification *)model error:(NSError **)error;
+-(BOOL) upsertNotification:(SavedNotification *)model error:(NSError **)error;
+-(BOOL) deleteNotification:(SavedNotification *)model error:(NSError **)error;
+-(BOOL) deleteAllNotificationsInArray:(NSArray<SavedNotification *> *)models error:(NSError **)error;
 -(BOOL) deleteAllNotificationsAndReturnError:(NSError **)error;
 -(BOOL) deleteAllNotificationsMatching:(nullable NSString *)where error:(NSError **)error;
 -(BOOL) deleteAllNotificationsMatching:(nullable NSString *)where parameters:(nullable NSArray *)parameters error:(NSError **)error;

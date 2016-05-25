@@ -703,7 +703,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
       try deleteAndCancelNotification(notification, ifOnOrBefore: NSDate())
     }
     else {
-      notification = Notification()
+      notification = SavedNotification()
       notification!.msgId = message.id
       notification!.chatId = message.chat.id
     }
@@ -733,7 +733,7 @@ private let InjectedUniqueDeviceIdDebugKey = "io.retxt.debug.InjectedUniqueDevic
     
   }
   
-  internal func deleteAndCancelNotification(notification: Notification, ifOnOrBefore sent: NSDate) throws {
+  internal func deleteAndCancelNotification(notification: SavedNotification, ifOnOrBefore sent: NSDate) throws {
     
     if let localNotification = NSKeyedUnarchiver.unarchiveObjectWithData(notification.data) as? UILocalNotification {
       

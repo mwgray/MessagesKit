@@ -9,12 +9,12 @@
 #import "Model.h"
 
 
-@interface Notification : Model
+@interface SavedNotification : Model
 
 @property (nonatomic, retain) Id *msgId;
 @property (nonatomic, retain) Id *chatId;
 @property (nonatomic, retain) NSData *data;
 
--(BOOL) isEquivalent:(Notification *)notification;
+-(BOOL) isEquivalent:(SavedNotification *)notification;
 
 @end

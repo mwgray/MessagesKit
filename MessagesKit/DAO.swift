@@ -50,8 +50,8 @@ extension ChatDAO {
 
 extension NotificationDAO {
   
-  public func fetchNotificationWithId(id: Id) throws -> Notification? {
-    var obj : Notification?
+  public func fetchNotificationWithId(id: Id) throws -> SavedNotification? {
+    var obj : SavedNotification?
     try fetchNotificationWithId(id, returning: &obj)
     return obj
   }
