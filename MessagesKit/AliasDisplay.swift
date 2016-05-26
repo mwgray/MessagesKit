@@ -34,16 +34,18 @@ public typealias AliasDisplayUpdateHandler = @convention(block) () -> Void
 }
 
 
+public typealias AliasDisplayInitializer = @convention(block) (String) -> AliasDisplay
+
 @objc public class AliasDisplayManager : NSObject {
   
   private static var _sharedProvider : AliasDisplayProvider = DefaultAliasDisplayProvider()
   private static var _defaultDisplayInitializer = { alias -> AliasDisplay in return DefaultAliasDisplay(alias: alias) }
   
-  public static func initialize(sharedInstance: AliasDisplayProvider) {
+  public static func initialize(provider provider: AliasDisplayProvider) {
     _sharedProvider = sharedProvider
   }
   
-  public static func initialize(sharedInstance: AliasDisplayProvider, defaultDisplayInitializer: ((String) -> AliasDisplay)?) {
+  public static func initialize(provider provider: AliasDisplayProvider, defaultDisplayInitializer: AliasDisplayInitializer?) {
     _sharedProvider = sharedProvider
     _defaultDisplayInitializer = defaultDisplayInitializer ?? _defaultDisplayInitializer
   }

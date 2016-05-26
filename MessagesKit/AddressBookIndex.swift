@@ -44,7 +44,7 @@ public class AddressBookIndex : NSObject {
   private let lockQueue = dispatch_queue_create("AddressBookIndex Lock", DISPATCH_QUEUE_SERIAL)
   
   
-  public init(ready: () -> Void) {
+  public init(ready: (() -> Void)?) {
     
     self.addressBook = AddressBook()
     
@@ -56,7 +56,7 @@ public class AddressBookIndex : NSObject {
     
     GCD.backgroundQueue.async {
       self.rebuildIndex()
-      ready()
+      ready?()
     }
   }
   
@@ -90,6 +90,7 @@ public class AddressBookIndex : NSObject {
   func rebuildIndex() {
     
     DDLogInfo("Rebuilding index")
+    
     let startTime = CFAbsoluteTimeGetCurrent()
     
     let people = addressBookQueue.sync {

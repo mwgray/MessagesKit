@@ -9,6 +9,17 @@
 import Foundation
 
 
+/* Transforms */
+extension String {
+  
+  func extractInitials() -> String? {
+    return self.componentsSeparatedByString(" ")
+      .map { $0.substringToIndex($0.startIndex.advancedBy(1)) }
+      .joinWithSeparator("")
+  }
+  
+}
+
 /* Random */
 extension String {
   

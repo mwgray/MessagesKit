@@ -11,35 +11,27 @@ import CocoaLumberjack
 
 
 
-private class PersonAliasDisplay : NSObject, AliasDisplay {
+@objc public class PersonAliasDisplay : NSObject, AliasDisplay {
   
-  let person : AddressBookPerson
+  public let person : AddressBookPerson
   
-  private init(person: AddressBookPerson) {
+  public init(person: AddressBookPerson) {
     self.person = person
   }
   
-  @objc private var fullName : String {
+  public var fullName : String {
     return person.compositeName ?? ""
   }
   
-  @objc private var familiarName : String {
+  public var familiarName : String {
     return person.nickname ?? person.firstName ?? person.lastName ?? ""
   }
   
-  @objc private var initials: String? {
-    return fullName
-      .componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-      .prefix(2)
-      .map { $0.substringToIndex($0.startIndex.advancedBy(1)) }
-      .joinWithSeparator("")
-  }
+  public var initials: String? { return fullName.extractInitials() }
+    
+  public var avatar : UIImage? { return person.image }
   
-  @objc private var avatar : UIImage? {
-    return person.image
-  }
-  
-  @objc private var updateHandler: AliasDisplayUpdateHandler?
+  public var updateHandler: AliasDisplayUpdateHandler?
   
 }
 
@@ -49,12 +41,12 @@ public class AddressBookAliasDisplayProxy : NSObject, AliasDisplay {
   private var targetAlias : String
   public var current : AliasDisplay
   
-  public init(targetAlias:String, current: AliasDisplay) {
+  public init(targetAlias: String, current: AliasDisplay) {
     self.targetAlias = targetAlias
     self.current = current
   }
   
-  public var fullName : String {
+  public var fullName: String {
     return current.fullName
   }
   
@@ -66,7 +58,7 @@ public class AddressBookAliasDisplayProxy : NSObject, AliasDisplay {
     return current.initials
   }
   
-  public var avatar : UIImage? {
+  public var avatar: UIImage? {
     return current.avatar
   }
   
@@ -87,7 +79,7 @@ public class AddressBookAliasDisplayProxy : NSObject, AliasDisplay {
 
 public class AddressBookAliasDisplayProvider : NSObject, AliasDisplayProvider {
   
-  private let index : AddressBookIndex
+  public let index : AddressBookIndex
   private let cache = NSMapTable.strongToWeakObjectsMapTable()
   private var observer : AnyObject!
   
