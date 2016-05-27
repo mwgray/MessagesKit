@@ -47,7 +47,6 @@ class AlertOperation: Operation {
     super.init()
         
     addCondition(ModalCondition())
-    addCondition(ViewHierarchyCondition())
   }
     
   func addAction(title: String, style: UIAlertActionStyle = .Default, handler: AlertOperation -> Void = { _ in }) {
