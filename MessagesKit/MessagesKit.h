@@ -52,8 +52,6 @@ FOUNDATION_EXPORT const unsigned char MessagesKitVersionString[];
 #import "UserChat.h"
 #import "GroupChat.h"
 
-#import "Recipient.h"
-
 #import "ServerAPI.h"
 
 #import "Credentials.h"

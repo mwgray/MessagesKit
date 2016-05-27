@@ -243,8 +243,6 @@
 		AAFDFB741CC5FDA200066707 /* SQLBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918461CC1642300F1A3B0 /* SQLBuilder.m */; };
 		AAFDFB751CC5FDA200066707 /* DBCodeMigrations.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918471CC1642300F1A3B0 /* DBCodeMigrations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB761CC5FDA200066707 /* DBCodeMigrations.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9918481CC1642300F1A3B0 /* DBCodeMigrations.m */; };
-		AAFDFB771CC5FDA200066707 /* Recipient.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9918491CC1642300F1A3B0 /* Recipient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAFDFB781CC5FDA200066707 /* Recipient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA99184A1CC1642300F1A3B0 /* Recipient.m */; };
 		AAFDFB7B1CC5FF0200066707 /* Messages+Exts.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917AF1CC163B400F1A3B0 /* Messages+Exts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAFDFB7C1CC5FF0200066707 /* Messages+Exts.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9917B01CC163B400F1A3B0 /* Messages+Exts.m */; };
 		AAFDFB7D1CC5FF0E00066707 /* ServerAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9917B71CC163B400F1A3B0 /* ServerAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -468,8 +466,6 @@
 		AA9918461CC1642300F1A3B0 /* SQLBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SQLBuilder.m; sourceTree = "<group>"; };
 		AA9918471CC1642300F1A3B0 /* DBCodeMigrations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DBCodeMigrations.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA9918481CC1642300F1A3B0 /* DBCodeMigrations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DBCodeMigrations.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		AA9918491CC1642300F1A3B0 /* Recipient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Recipient.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		AA99184A1CC1642300F1A3B0 /* Recipient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Recipient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AA9918831CC1645700F1A3B0 /* OpenSSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OpenSSL.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA9918841CC1645700F1A3B0 /* OpenSSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OpenSSL.m; sourceTree = "<group>"; };
 		AA9918851CC1645700F1A3B0 /* OpenSSLKeyPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OpenSSLKeyPair.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -881,8 +877,6 @@
 				AA9918461CC1642300F1A3B0 /* SQLBuilder.m */,
 				AA9918471CC1642300F1A3B0 /* DBCodeMigrations.h */,
 				AA9918481CC1642300F1A3B0 /* DBCodeMigrations.m */,
-				AA9918491CC1642300F1A3B0 /* Recipient.h */,
-				AA99184A1CC1642300F1A3B0 /* Recipient.m */,
 			);
 			name = DB;
 			sourceTree = "<group>";
@@ -1075,7 +1069,6 @@
 				AAFDFB591CC5FDA200066707 /* TextMessage.h in Headers */,
 				AAB481D01CCAD81000EBFC5E /* OpenSSL.h in Headers */,
 				AA5850421CC1E1B10034C46D /* NSData+CommonDigest.h in Headers */,
-				AAFDFB771CC5FDA200066707 /* Recipient.h in Headers */,
 				AAFDFB421CC5FDA200066707 /* DBManager.h in Headers */,
 				AAFDFB691CC5FDA200066707 /* ExitMessage.h in Headers */,
 				AAB481D81CCAD81000EBFC5E /* X509Utils.h in Headers */,
@@ -1323,7 +1316,6 @@
 				AA490DBB1CCAF59E0010FC17 /* MessageSendOperations.swift in Sources */,
 				AA490DC81CCAF59E0010FC17 /* MessageProcessOperation.swift in Sources */,
 				AA5920211CCDFA0C007B7D0D /* DataReference.m in Sources */,
-				AAFDFB781CC5FDA200066707 /* Recipient.m in Sources */,
 				AA05D21B1CC827A20051039E /* NSObject+Utils.m in Sources */,
 				AA490DCE1CCAF59E0010FC17 /* MessageAPIError.swift in Sources */,
 				AAB481F01CCADEC400EBFC5E /* OpenSSLCertificateValidator.m in Sources */,
