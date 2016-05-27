@@ -37,7 +37,7 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
 
 -(id) debugQuickLookObject
 {
-  UIImage *image = [UIImage imageWithData:self.thumbnailOrImageData];
+  UIImage *image = [UIImage imageWithData:[DataReferences readAllDataFromReference:self.thumbnailOrImageData error:nil]];
   return image ? image : [@"Unable to load image for message " stringByAppendingString:self.id.description];
 }
 
@@ -106,8 +106,7 @@ const CGFloat MK_THUMBNAIL_MAX_PERCENT = 0.5f;
 -(id<DataReference>) thumbnailOrImageData
 {
   return self.thumbnailData ?
-    [MemoryDataReference.alloc initWithData:self.thumbnailData ofMIMEType:@"image/png"] :
-    [DataReferences readAllDataFromReference:self.data error:nil];
+    [MemoryDataReference.alloc initWithData:self.thumbnailData ofMIMEType:@"image/png"] : self.data;
 }
 
 -(NSString *) alertText
